@@ -7,14 +7,19 @@
   
   
   
-  <title>Archives: 2017 | Tony&#39;s blog</title>
+  <title>Network Down Notification | Tony&#39;s blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Tony&#39;s blog">
-<meta property="og:url" content="http://yoursite.com/archives/2017/index.html">
+  <meta name="description" content="get role interfacesget interfaces">
+<meta name="keywords" content="Ceph">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Network Down Notification">
+<meta property="og:url" content="http://yoursite.com/2017/09/10/network-down-notification/index.html">
 <meta property="og:site_name" content="Tony&#39;s blog">
+<meta property="og:description" content="get role interfacesget interfaces">
+<meta property="og:updated_time" content="2017-09-11T16:57:50.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Tony&#39;s blog">
+<meta name="twitter:title" content="Network Down Notification">
+<meta name="twitter:description" content="get role interfacesget interfaces">
   
     <link rel="alternative" href="/atom.xml" title="Tony&#39;s blog" type="application/atom+xml">
   
@@ -39,8 +44,8 @@
           fancybox: true,
           animate: true,
           isHome: false,
-          isPost: false,
-          isArchive: true,
+          isPost: true,
+          isArchive: false,
           isTag: false,
           isCategory: false,
           open_in_new: false
@@ -261,320 +266,240 @@
         </header>                
     </div>
 </nav>
-      <div class="body-wrap">
+      <div class="body-wrap"><article id="post-network-down-notification" class="article article-type-post" itemscope itemprop="blogPost">
   
+    <div class="article-meta">
+      <a  href="/2017/09/10/network-down-notification/" class="article-date">
+      <time datetime="2017-09-09T18:14:34.000Z" itemprop="datePublished">2017-09-10</time>
+</a>
+
+    </div>
   
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
     
     
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Network Down Notification
+    </h1>
+  
+
+
+      </header>
       
+      <div class="article-info article-info-post">
+        
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Ceph/">Ceph</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a  href="/archives/2017" class="archive-year">2017</a>
-        </div>
-        <div class="archives">
     
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-          <div class="article-meta">
-              <a  href="/2017/09/10/Disk-pull-and-plug-record/" class="archive-article-date">
-      <time datetime="2017-09-09T18:21:45.000Z" itemprop="datePublished">09-10</time>
-</a>
-
-        </div>
-         
-  
-    <h1 itemprop="name">
-      <a  class="archive-article-title" href="/2017/09/10/Disk-pull-and-plug-record/">Disk pull and plug record</a>
-    </h1>
-  
-
-
-        <div class="article-info info-on-archive">
+    <div class="article-entry" itemprop="articleBody">
+      
           
+        <h3 id="get-role-interfaces"><a href="#get-role-interfaces" class="headerlink" title="get role interfaces"></a>get role interfaces</h3><h3 id="get-interfaces"><a href="#get-interfaces" class="headerlink" title="get interfaces"></a>get interfaces</h3><a id="more"></a>
+<h3 id="get-interface-info"><a href="#get-interface-info" class="headerlink" title="get interface info"></a>get interface info</h3><ol>
+<li>获取<code>MAC</code>和<code>busid</code><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">syspath = os.path.join(&quot;/sys/class/net/&quot;, interface)  // interface such as &apos;eth0&apos;</div><div class="line">mac = linecache.getline(os.path.join(syspath, &quot;address&quot;), 1)[:-1].upper()</div><div class="line">buspath = os.path.realpath(syspath)</div><div class="line">bus_id = os.path.basename(os.path.dirname(os.path.dirname(buspath)))</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<ul>
+<li>MAC: 直接在<code>syspath</code>目录下读取<code>address</code>文件</li>
+<li>假设为<code>eth0</code>,查看<code>eth0</code>目录可见该目录被建立了软连接，并不是真实地址，所以需要取出它的真实地址，这个需要使用<code>python</code>中的<code>os.path.realpath()</code>处理获得<code>0000:03:00.0</code>,作为下一步<code>lspci</code>的参数</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">root@ceph133:/sys/class/net# ll eth0</div><div class="line">lrwxrwxrwx 1 root root 0  8月  8 01:26 eth0 -&gt; ../../devices/pci0000:00/0000:00:15.0/0000:03:00.0/net/eth0/</div></pre></td></tr></table></figure>
+<ol>
+<li>获取网卡信息<br><code>lspci -s</code>后面的参数为<code>pci</code>设备的地址，也叫<code>pci寻址</code>，这个地址由总线编号、插槽编号和功能块编号信息组成<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">lspci -m -s xxx // 这边的参数就是上面的bus_id</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<blockquote>
+<p>具体<code>lspci</code>信息请参照：<br><a href="http://coolnull.com/2246.html" target="_blank" rel="external">lspci命令详解</a><br><a href="http://blog.csdn.net/xiadidi/article/details/18408169" target="_blank" rel="external">LSPCI命令详解分析</a></p>
+</blockquote>
+<ol>
+<li>获取网卡状态<br>通过<code>ethtool</code>工具获取网卡状态，就是看<code>Link detected</code>是否为<code>yes</code>，<code>yes</code>表示已激活<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">/sbin/ethtool eth0 | grep &apos;Link detected: yes&apos; | wc -l</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<h3 id="bond-filter"><a href="#bond-filter" class="headerlink" title="bond filter"></a>bond filter</h3><h3 id="Network-down-notification"><a href="#Network-down-notification" class="headerlink" title="Network down notification"></a>Network down notification</h3><ol>
+<li>目前无论是<code>storage</code>还是<code>public</code>网卡只要<code>down</code>其中一个都无法发送<code>email</code>:</li>
+</ol>
+<ul>
+<li>public: <code>visit foreign network and connect smtp server</code></li>
+<li>storage: <code>connect ceph rados to get notification info, such as send account and smtp server etc</code><br>所以只能<code>monitor</code>除这两个以外的网卡</li>
+</ul>
+<ol>
+<li>Python</li>
+</ol>
+<ul>
+<li><code>log</code>打印的文件取决于当前文件进程的初始化<code>log level</code></li>
+<li>logger: <code>handler, formatter, filter</code></li>
+<li><code>dictdefault</code></li>
+</ul>
 
-          
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Ceph/">Ceph</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Disk/">Disk</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Udev/">Udev</a></li></ul>
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a  href="/2017/09/10/network-down-notification/">Network Down Notification</a></p>
+        <p><span>文章作者:</span><a  href="/" title="访问 Tony 的个人博客">Tony</a></p>
+        <p><span>发布时间:</span>2017年09月10日 - 02时14分</p>
+        <p><span>最后更新:</span>2017年09月12日 - 00时57分</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2017/09/10/network-down-notification/" title="Network Down Notification">http://yoursite.com/2017/09/10/network-down-notification/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://yoursite.com/2017/09/10/network-down-notification/　　作者: Tony" title=""></span>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/cn/" title="中国大陆 (CC BY-NC-SA 3.0 CN)" target = "_blank">"署名-非商用-相同方式共享 3.0"</a> 转载请保留原文链接及作者。
+        </p>
     </div>
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
+
+
+<nav id="article-nav">
+  
+    <a  href="/2017/09/10/Disk-Mon-Deamon/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption"><</strong>
+      <div class="article-nav-title">
+        
+          Disk Mon Deamon
+        
+      </div>
+    </a>
+  
+  
+    <a  href="/2017/09/10/Python-Oracle/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Python Oracle</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+
+  
 </article>
-  
+
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#get-role-interfaces"><span class="toc-number">1.</span> <span class="toc-text">get role interfaces</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#get-interfaces"><span class="toc-number">2.</span> <span class="toc-text">get interfaces</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#get-interface-info"><span class="toc-number">3.</span> <span class="toc-text">get interface info</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#bond-filter"><span class="toc-number">4.</span> <span class="toc-text">bond filter</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Network-down-notification"><span class="toc-number">5.</span> <span class="toc-text">Network down notification</span></a></li></ol>
+</div>
+<style>
+    .left-col .switch-btn {
+        display: none;
+    }
+    .left-col .switch-area {
+        display: none;
+    }
+</style>
+<input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+<script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script>
+    var valueHide = "隐藏目录";
+    var valueShow = "显示目录";
+    if ($(".left-col").is(":hidden")) {
+        $("#tocButton").attr("value", valueShow);
+    }
+    $("#tocButton").click(function() {
+        if ($("#toc").is(":hidden")) {
+            $("#tocButton").attr("value", valueHide);
+            $("#toc").slideDown(320);
+            $(".switch-btn, .switch-area").fadeOut(300);
+        }
+        else {
+            $("#tocButton").attr("value", valueShow);
+            $("#toc").slideUp(350);
+            $(".switch-btn, .switch-area").fadeIn(500);
+        }
+    })
+    if ($(".toc").length < 1) {
+        $("#toc, #tocButton").hide();
+        $(".switch-btn, .switch-area").show();
+    }
+</script>
+
+
+
+
+<div class="bdsharebuttonbox">
+	<a href="#" class="fx fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+	<a href="#" class="fx fa-weixin bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+	<a href="#" class="fx fa-qq bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a>
+	<a href="#" class="fx fa-facebook-official bds_fbook" data-cmd="fbook" title="分享到Facebook"></a>
+	<a href="#" class="fx fa-twitter bds_twi" data-cmd="twi" title="分享到Twitter"></a>
+	<a href="#" class="fx fa-linkedin bds_linkedin" data-cmd="linkedin" title="分享到linkedin"></a>
+	<a href="#" class="fx fa-files-o bds_copy" data-cmd="copy" title="分享到复制网址"></a>
+</div>
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"2","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
+
+
+
+
     
+        <section class="changyan" id="comments">
+  <!--<div id="uyan_frame"></div>-->
+  <div id="SOHUCS"></div>
+  <script charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/changyan.js"></script>
+  <script type="text/javascript">
+    window.changyan.api.config({
+      appid: 'xxxx',
+      conf: 'xxxxxxxxx'
+    });
+  </script>
+</section>
     
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-          <div class="article-meta">
-              <a  href="/2017/09/10/Linux-Udev/" class="archive-article-date">
-      <time datetime="2017-09-09T18:20:27.000Z" itemprop="datePublished">09-10</time>
-</a>
-
-        </div>
-         
-  
-    <h1 itemprop="name">
-      <a  class="archive-article-title" href="/2017/09/10/Linux-Udev/">Linux Udev</a>
-    </h1>
-  
 
 
-        <div class="article-info info-on-archive">
-          
 
-          
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Ceph/">Ceph</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/">Linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Udev/">Udev</a></li></ul>
+    <div class="scroll" id="post-nav-button">
+        
+            <a  href="/2017/09/10/Disk-Mon-Deamon/" title="上一篇: Disk Mon Deamon">
+                <i class="fa fa-angle-left"></i>
+            </a>
+        
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+        
+            <a  href="/2017/09/10/Python-Oracle/" title="下一篇: Python Oracle">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
     </div>
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-          <div class="article-meta">
-              <a  href="/2017/09/10/Magicloud-Route/" class="archive-article-date">
-      <time datetime="2017-09-09T18:19:35.000Z" itemprop="datePublished">09-10</time>
-</a>
-
-        </div>
-         
-  
-    <h1 itemprop="name">
-      <a  class="archive-article-title" href="/2017/09/10/Magicloud-Route/">Magicloud Route</a>
-    </h1>
-  
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2017/09/10/Disk-pull-and-plug-record/">Disk pull and plug record</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/10/Linux-Udev/">Linux Udev</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/10/Magicloud-Route/">Magicloud Route</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/10/Osd-Enable-and-Disable/">Osd Enable and Disable</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/10/Disk-Mon-Deamon/">Disk Mon Deamon</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/10/network-down-notification/">Network Down Notification</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/10/Python-Oracle/">Python Oracle</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/10/oracle_install/">Oracle Linux And Oracle Database 11g R2 Intsallation</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/09/Moodle-Local-Plugin/">Moodle Local Plugin</a></li></ul>
+    <script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+    <script>
+        $(".post-list").addClass("toc-article");
+        // $(".post-list-item a").attr("target","_blank");
+        $("#post-nav-button > a:nth-child(2)").click(function() {
+            $(".fa-bars, .fa-times").toggle();
+            $(".post-list").toggle(300);
+            if ($(".toc").length > 0) {
+                $("#toc, #tocButton").toggle(200, function() {
+                    if ($(".switch-area").is(":visible")) {
+                        $("#toc, .switch-btn, .switch-area").toggle();
+                        $("#tocButton").attr("value", valueHide);
+                        }
+                    })
+            }
+            else {
+                $(".switch-btn, .switch-area").fadeToggle(300);
+            }
+        })
+    </script>
 
 
-        <div class="article-info info-on-archive">
-          
-
-          
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Magicloud/">Magicloud</a></li></ul>
-    </div>
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-          <div class="article-meta">
-              <a  href="/2017/09/10/Osd-Enable-and-Disable/" class="archive-article-date">
-      <time datetime="2017-09-09T18:18:33.000Z" itemprop="datePublished">09-10</time>
-</a>
-
-        </div>
-         
-  
-    <h1 itemprop="name">
-      <a  class="archive-article-title" href="/2017/09/10/Osd-Enable-and-Disable/">Osd Enable and Disable</a>
-    </h1>
-  
 
 
-        <div class="article-info info-on-archive">
-          
-
-          
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Ceph/">Ceph</a></li></ul>
-    </div>
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-          <div class="article-meta">
-              <a  href="/2017/09/10/Disk-Mon-Deamon/" class="archive-article-date">
-      <time datetime="2017-09-09T18:17:19.000Z" itemprop="datePublished">09-10</time>
-</a>
-
-        </div>
-         
-  
-    <h1 itemprop="name">
-      <a  class="archive-article-title" href="/2017/09/10/Disk-Mon-Deamon/">Disk Mon Deamon</a>
-    </h1>
-  
-
-
-        <div class="article-info info-on-archive">
-          
-
-          
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Ceph/">Ceph</a></li></ul>
-    </div>
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-          <div class="article-meta">
-              <a  href="/2017/09/10/network-down-notification/" class="archive-article-date">
-      <time datetime="2017-09-09T18:14:34.000Z" itemprop="datePublished">09-10</time>
-</a>
-
-        </div>
-         
-  
-    <h1 itemprop="name">
-      <a  class="archive-article-title" href="/2017/09/10/network-down-notification/">Network Down Notification</a>
-    </h1>
-  
-
-
-        <div class="article-info info-on-archive">
-          
-
-          
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Ceph/">Ceph</a></li></ul>
-    </div>
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-          <div class="article-meta">
-              <a  href="/2017/09/10/Python-Oracle/" class="archive-article-date">
-      <time datetime="2017-09-09T17:02:41.000Z" itemprop="datePublished">09-10</time>
-</a>
-
-        </div>
-         
-  
-    <h1 itemprop="name">
-      <a  class="archive-article-title" href="/2017/09/10/Python-Oracle/">Python Oracle</a>
-    </h1>
-  
-
-
-        <div class="article-info info-on-archive">
-          
-
-          
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Oracle/">Oracle</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Python/">Python</a></li></ul>
-    </div>
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-          <div class="article-meta">
-              <a  href="/2017/09/10/oracle_install/" class="archive-article-date">
-      <time datetime="2017-09-09T16:53:06.000Z" itemprop="datePublished">09-10</time>
-</a>
-
-        </div>
-         
-  
-    <h1 itemprop="name">
-      <a  class="archive-article-title" href="/2017/09/10/oracle_install/">Oracle Linux And Oracle Database 11g R2 Intsallation</a>
-    </h1>
-  
-
-
-        <div class="article-info info-on-archive">
-          
-
-          
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Oracle/">Oracle</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Oracle-11g-R2/">Oracle 11g R2</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Oracle-Linux/">Oracle Linux</a></li></ul>
-    </div>
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-          <div class="article-meta">
-              <a  href="/2017/09/09/Moodle-Local-Plugin/" class="archive-article-date">
-      <time datetime="2017-09-09T15:05:05.000Z" itemprop="datePublished">09-09</time>
-</a>
-
-        </div>
-         
-  
-    <h1 itemprop="name">
-      <a  class="archive-article-title" href="/2017/09/09/Moodle-Local-Plugin/">Moodle Local Plugin</a>
-    </h1>
-  
-
-
-        <div class="article-info info-on-archive">
-          
-
-          
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Moodle/">Moodle</a></li></ul>
-    </div>
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
-
+    <script>
+        
+    </script>
 
 </div>
       <footer id="footer">
@@ -664,17 +589,6 @@ ga('send', 'pageview');
         };
     })
 </script>
-
-    <button class="hide-labels">TAG 开关</button>
-    <script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js">
-    </script>
-    <script>
-        $(document).ready(function() {
-            $("button").click(function() {
-                $(".article-info").toggle(200);
-            });
-        });
-    </script>
 
 <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
 </script>

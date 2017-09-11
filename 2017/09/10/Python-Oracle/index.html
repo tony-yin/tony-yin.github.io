@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="baidu-site-verification" content="L6Lm9d5Crl"/>
+  
+  
+  
+  
+  <title>Python Oracle | Tony&#39;s blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="当前环境：Linux Centos 7">
+<meta name="keywords" content="Python,Oracle">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python Oracle">
+<meta property="og:url" content="http://yoursite.com/2017/09/10/Python-Oracle/index.html">
+<meta property="og:site_name" content="Tony&#39;s blog">
+<meta property="og:description" content="当前环境：Linux Centos 7">
+<meta property="og:updated_time" content="2017-09-11T16:57:50.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Python Oracle">
+<meta name="twitter:description" content="当前环境：Linux Centos 7">
+  
+    <link rel="alternative" href="/atom.xml" title="Tony&#39;s blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/img/favicon.png">
+  
+  
+  <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  
+  
+      <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  
+  <!-- 加载特效 -->
+    <script src="/js/pace.js"></script>
+    <link href="/css/pace/pace-theme-flash.css" rel="stylesheet" />
+  <script>
+      var yiliaConfig = {
+          fancybox: true,
+          animate: true,
+          isHome: false,
+          isPost: true,
+          isArchive: false,
+          isTag: false,
+          isCategory: false,
+          open_in_new: false
+      }
+  </script>
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+        <a href="/" class="profilepic">
+            
+            <img lazy-src="http://ow0mgad6r.bkt.clouddn.com/tony.jpg" class="js-avatar">
+            
+        </a>
+        <hgroup>
+          <h1 class="header-author"><a href="/">Tony</a></h1>
+        </hgroup>
+        
+        
+            <form>
+                <input type="text" class="st-default-search-input search" id="local-search-input" placeholder=" Search...">
+            </form>
+            <div id="local-search-result"></div>
+        
+        
+            <script type="text/javascript">
+                (function() {
+                    'use strict';
+                    function getMatchData(keyword, data) {
+                        var matchData = [];
+                        for(var i =0;i<data.length;i++){
+                            if(data[i].title.toLowerCase().indexOf(keyword)>=0) 
+                                matchData.push(data[i])
+                        }
+                        return matchData;
+                    }
+                    var $input = $('#local-search-input');
+                    var $resultContent = $('#local-search-result');
+                    $input.keyup(function(){
+                        $.ajax({
+                            url: '/search.json',
+                            dataType: "json",
+                            success: function( json ) {
+                                var str='<ul class=\"search-result-list\">';                
+                                var keyword = $input.val().trim().toLowerCase();
+                                $resultContent.innerHTML = "";
+                                if ($input.val().trim().length <= 0) {
+                                    $resultContent.empty();
+                                    $('#switch-area').show();
+                                    return;
+                                }
+                                var results = getMatchData(keyword, json);
+                                if(results.length === 0){
+                                    $resultContent.empty();
+                                    $('#switch-area').show();
+                                    return;
+                                } 
+                                for(var i =0; i<results.length; i++){
+                                    str += "<li><a href='"+ results[i].url +"' class='search-result-title'>"+ results[i].title +"</a></li>";
+                                }
+                                str += "</ul>";
+                                $resultContent.empty();
+                                $resultContent.append(str);
+                                $('#switch-area').hide();
+                            }
+                        });
+                    });
+                })();
+            </script>
+        
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                        <div class="icon-wrap icon-me hide" data-idx="3">
+                            <div class="user"></div>
+                            <div class="shoulder"></div>
+                        </div>
+                        
+                    </div>
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                        <li>关于我</li>
+                        
+                    </ul>
+                </div>
+            </div>
+        
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a  href="/archives/">所有文章</a></li>
+                        
+                            <li><a  href="/categories/tech">技术文章</a></li>
+                        
+                            <li><a  href="/categories/life">生活随笔</a></li>
+                        
+                            <li><a  href="/categories/read">阅读翻译</a></li>
+                        
+                            <li><a  href="/about/">关于我</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fl github"  target="_blank" href="https://github.com/tony-yin" title="github">github</a>
+                            
+                                <a class="fl weibo"  target="_blank" href="https://weibo.com/3832044210/profile?rightmod=1&wvr=6&mod=personinfo" title="weibo">weibo</a>
+                            
+                                <a class="fl segmentfault"  target="_blank" href="https://segmentfault.com/u/qzuser_57fb1d5db527e" title="segmentfault">segmentfault</a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <a href="/tags/Ceph/" style="font-size: 20px;">Ceph</a> <a href="/tags/Disk/" style="font-size: 10px;">Disk</a> <a href="/tags/Linux/" style="font-size: 10px;">Linux</a> <a href="/tags/Magicloud/" style="font-size: 10px;">Magicloud</a> <a href="/tags/Moodle/" style="font-size: 10px;">Moodle</a> <a href="/tags/Oracle/" style="font-size: 15px;">Oracle</a> <a href="/tags/Oracle-11g-R2/" style="font-size: 10px;">Oracle 11g R2</a> <a href="/tags/Oracle-Linux/" style="font-size: 10px;">Oracle Linux</a> <a href="/tags/Python/" style="font-size: 10px;">Python</a> <a href="/tags/Udev/" style="font-size: 15px;">Udev</a>
+                    </div>
+                </section>
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a target="_blank"  class="main-nav-link switch-friends-link" href="https://segmentfault.com/blog/tony_output">segmentfault</a>
+                    
+                    </div>
+                </section>
+                
+                
+                
+                <section class="switch-part switch-part4">
+                
+                    <div id="js-aboutme">江苏南京，熟悉Python/PHP，目前研究Ceph分布式存储</div>
+                </section>
+                
+            </div>
+        </div>
+    </header>
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">Tony</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                
+                    <img lazy-src="http://ow0mgad6r.bkt.clouddn.com/tony.jpg" class="js-avatar">
+                
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">Tony</a></h1>
+            </hgroup>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/archives/">所有文章</a></li>
+                
+                    <li><a href="/categories/tech">技术文章</a></li>
+                
+                    <li><a href="/categories/life">生活随笔</a></li>
+                
+                    <li><a href="/categories/read">阅读翻译</a></li>
+                
+                    <li><a href="/about/">关于我</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a class="github" target="_blank" href="https://github.com/tony-yin" title="github">github</a>
+                    
+                        <a class="weibo" target="_blank" href="https://weibo.com/3832044210/profile?rightmod=1&wvr=6&mod=personinfo" title="weibo">weibo</a>
+                    
+                        <a class="segmentfault" target="_blank" href="https://segmentfault.com/u/qzuser_57fb1d5db527e" title="segmentfault">segmentfault</a>
+                    
+                </div>
+            </nav>
+        </header>                
+    </div>
+</nav>
+      <div class="body-wrap"><article id="post-Python-Oracle" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a  href="/2017/09/10/Python-Oracle/" class="article-date">
+      <time datetime="2017-09-09T17:02:41.000Z" itemprop="datePublished">2017-09-10</time>
+</a>
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Python Oracle
+    </h1>
+  
+
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Oracle/">Oracle</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Python/">Python</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <blockquote>
+<p>当前环境：Linux Centos 7</p>
+</blockquote>
+<a id="more"></a>
+<h3 id="1-下载安装包cx-Oracle"><a href="#1-下载安装包cx-Oracle" class="headerlink" title="1. 下载安装包cx_Oracle"></a>1. 下载安装包cx_Oracle</h3><p>由于我本地<code>Python</code>版本是<code>2.7</code>,所以选择是<code>2.7</code>版本<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">wget https://pypi.python.org/packages/e1/18/00987c6a9af9568ee87d1fcba877407684a3f1b87515e5eb82d5d5acb9ff/cx_Oracle-6.0rc1-py27-1.x86_64.rpm#md5=ff8f5cce07bd5ec8ed3ce5c79d451474</div></pre></td></tr></table></figure></p>
+<p>参考:</p>
+<blockquote>
+<ul>
+<li><a href="https://oracle.github.io/python-cx_Oracle/" target="_blank" rel="external">python-cx_Oracle</a></li>
+<li><a href="https://pypi.python.org/pypi/cx_Oracle/5.3" target="_blank" rel="external">安装包列表</a></li>
+</ul>
+</blockquote>
+<h3 id="2-安装cx-Oracle"><a href="#2-安装cx-Oracle" class="headerlink" title="2. 安装cx_Oracle"></a>2. 安装cx_Oracle</h3><ul>
+<li><p>安装：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">rpm -ivh cx_Oracle-6.0rc1-py27-1.x86_64.rpm</div></pre></td></tr></table></figure>
+</li>
+<li><p>查看当前<code>python</code>引入模块库的路径</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">[root ~]# python</div><div class="line">Python 2.7.5 (default, Nov  6 2016, 00:28:07) </div><div class="line">[GCC 4.8.5 20150623 (Red Hat 4.8.5-11)] on linux2</div><div class="line">Type &quot;help&quot;, &quot;copyright&quot;, &quot;credits&quot; or &quot;license&quot; for more information.</div><div class="line">&gt;&gt;&gt; import sys</div><div class="line">&gt;&gt;&gt; print sys.path</div><div class="line">[&apos;&apos;, &apos;/usr/lib/python2.7/site-packages/AliyunUtil-0.0.1-py2.7.egg&apos;, &apos;/usr/lib/python2.7/site-packages/cloud_init-0.7.6-py2.7.egg&apos;, &apos;/usr/lib64/python27.zip&apos;, &apos;/usr/lib64/python2.7&apos;, &apos;/usr/lib64/python2.7/plat-linux2&apos;, &apos;/usr/lib64/python2.7/lib-tk&apos;, &apos;/usr/lib64/python2.7/lib-old&apos;, &apos;/usr/lib64/python2.7/lib-dynload&apos;, &apos;/usr/lib64/python2.7/site-packages&apos;, &apos;/usr/lib/python2.7/site-packages&apos;]</div></pre></td></tr></table></figure>
+</li>
+<li><p>检查安装路径，如果<code>cx_Oracle.so</code>文件不在以上<code>python</code>引入路径内需要将该文件拷贝到以上<code>python</code>引入路径,所以我这里不需要进行拷贝操作</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">[root ~]# rpm -qa | grep cx_Oracle | xargs rpm -ql</div><div class="line">/usr/lib64/python2.7/site-packages/cx_Oracle-6.0rc1-py2.7.egg-info</div><div class="line">/usr/lib64/python2.7/site-packages/cx_Oracle-6.0rc1-py2.7.egg-info/PKG-INFO</div><div class="line">/usr/lib64/python2.7/site-packages/cx_Oracle-6.0rc1-py2.7.egg-info/SOURCES.txt</div><div class="line">/usr/lib64/python2.7/site-packages/cx_Oracle-6.0rc1-py2.7.egg-info/dependency_links.txt</div><div class="line">/usr/lib64/python2.7/site-packages/cx_Oracle-6.0rc1-py2.7.egg-info/top_level.txt</div><div class="line">/usr/lib64/python2.7/site-packages/cx_Oracle.so</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="3-下载-Oracle-Library"><a href="#3-下载-Oracle-Library" class="headerlink" title="3. 下载 Oracle Library"></a>3. 下载 Oracle Library</h3><p>由于<code>Oracle</code>官网下载东西存在<code>Auth</code>认证，所以简单点就点击选中的<code>rpm</code>包保存在<code>windows</code>上，然后上传到<code>linux</code>上即可<br><strong>注意：</strong></p>
+<blockquote>
+<ul>
+<li>下载的版本要和连接的<code>Oracle</code>基本一致，我需要连接的Oracle版本是11.2，所以我下载的是<code>oracle-instantclient11.2-basic-11.2.0.3.0-1.x86_64.rpm</code></li>
+<li><strong>操作系统要和之前下载的<code>cx_Oracle</code>要一致</strong>，这很重要！！！我在这个上面栽了跟头，花了比较多的时间。。。所以我需要下载<code>64</code>位的</li>
+<li>在<code>Oracle</code>官网下载东西你得先勾选<code>Accept License Agreement</code>，否则你下载不了</li>
+<li>其次你得有<code>Oracle</code>的账号</li>
+</ul>
+</blockquote>
+<h3 id="4-安装-Oracle-Library"><a href="#4-安装-Oracle-Library" class="headerlink" title="4. 安装 Oracle Library"></a>4. 安装 Oracle Library</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">rpm -ivh oracle-instantclient11.2-basic-11.2.0.3.0-1.x86_64.rpm</div></pre></td></tr></table></figure>
+<h3 id="5-配置环境变量"><a href="#5-配置环境变量" class="headerlink" title="5. 配置环境变量"></a>5. 配置环境变量</h3><ul>
+<li><p><strong>修改<code>Oracle</code>安装路径</strong><br>将<code>client64</code>改为<code>client</code>，至于为什么要改暂时还不清楚，只知道不改的话会报错<code>Oracle Client library cannot be loaded: libclntsh.so: cannot open shared object file: No such file or directory</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">cd /usr/lib/oracle/11.2/</div><div class="line">mv client64 client</div></pre></td></tr></table></figure>
+</li>
+<li><p>打开<code>/etc/profile</code>,追加环境变量路径</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">vim /etc/profile</div></pre></td></tr></table></figure>
+</li>
+<li><p>配置环境变量</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">// 查看Oracle安装路径</div><div class="line">[root@iZbp180vortqapb7yf8217Z ~]# rpm -qa | grep oracle | xargs rpm -ql</div><div class="line">/usr/lib/oracle/11.2/client64/bin/adrci</div><div class="line">/usr/lib/oracle/11.2/client64/bin/genezi</div><div class="line">/usr/lib/oracle/11.2/client64/lib/libclntsh.so.11.1</div><div class="line">/usr/lib/oracle/11.2/client64/lib/libnnz11.so</div><div class="line">/usr/lib/oracle/11.2/client64/lib/libocci.so.11.1</div><div class="line">/usr/lib/oracle/11.2/client64/lib/libociei.so</div><div class="line">/usr/lib/oracle/11.2/client64/lib/libocijdbc11.so</div><div class="line">/usr/lib/oracle/11.2/client64/lib/ojdbc5.jar</div><div class="line">/usr/lib/oracle/11.2/client64/lib/ojdbc6.jar</div><div class="line">/usr/lib/oracle/11.2/client64/lib/xstreams.jar</div><div class="line">// 追加ORACLE_HOME环境变量路径</div><div class="line">export ORACLE_HOME=/usr/lib/oracle/11.2/client64</div><div class="line">export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$ORACLE_HOME/lib</div></pre></td></tr></table></figure>
+</li>
+<li><p>生效配置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">source ~/.bashrc</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="6-检查是否可以引入cx-Oracle"><a href="#6-检查是否可以引入cx-Oracle" class="headerlink" title="6. 检查是否可以引入cx_Oracle"></a>6. 检查是否可以引入<code>cx_Oracle</code></h3><p><code>import</code>没有报错，说明之前的辛苦没有白费<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">[root client64]# python</div><div class="line">Python 2.7.5 (default, Nov  6 2016, 00:28:07) </div><div class="line">[GCC 4.8.5 20150623 (Red Hat 4.8.5-11)] on linux2</div><div class="line">Type &quot;help&quot;, &quot;copyright&quot;, &quot;credits&quot; or &quot;license&quot; for more information.</div><div class="line">&gt;&gt;&gt; import cx_Oracle</div><div class="line">&gt;&gt;&gt;</div></pre></td></tr></table></figure></p>
+<h3 id="7-连接-Oracle"><a href="#7-连接-Oracle" class="headerlink" title="7. 连接 Oracle"></a>7. 连接 Oracle</h3><p>一个插入10条数据的Python脚本demo：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">#!/usr/bin/python</div><div class="line"># -*- coding: UTF-8 -*-</div><div class="line">import cx_Oracle</div><div class="line">con = cx_Oracle.connect(&apos;test/test@xxx.xxx.xxx.xxx/xe&apos;)</div><div class="line">cur = con.cursor()</div><div class="line">for n in range(1, 10):</div><div class="line">    cur.execute(&apos;insert into test(id, name) values (1, n);&apos;)</div><div class="line">cur.close()</div><div class="line">con.close()</div></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a  href="/2017/09/10/Python-Oracle/">Python Oracle</a></p>
+        <p><span>文章作者:</span><a  href="/" title="访问 Tony 的个人博客">Tony</a></p>
+        <p><span>发布时间:</span>2017年09月10日 - 01时02分</p>
+        <p><span>最后更新:</span>2017年09月12日 - 00时57分</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2017/09/10/Python-Oracle/" title="Python Oracle">http://yoursite.com/2017/09/10/Python-Oracle/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://yoursite.com/2017/09/10/Python-Oracle/　　作者: Tony" title=""></span>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/cn/" title="中国大陆 (CC BY-NC-SA 3.0 CN)" target = "_blank">"署名-非商用-相同方式共享 3.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+<nav id="article-nav">
+  
+    <a  href="/2017/09/10/network-down-notification/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption"><</strong>
+      <div class="article-nav-title">
+        
+          Network Down Notification
+        
+      </div>
+    </a>
+  
+  
+    <a  href="/2017/09/10/oracle_install/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Oracle Linux And Oracle Database 11g R2 Intsallation</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-下载安装包cx-Oracle"><span class="toc-number">1.</span> <span class="toc-text">1. 下载安装包cx_Oracle</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-安装cx-Oracle"><span class="toc-number">2.</span> <span class="toc-text">2. 安装cx_Oracle</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-下载-Oracle-Library"><span class="toc-number">3.</span> <span class="toc-text">3. 下载 Oracle Library</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-安装-Oracle-Library"><span class="toc-number">4.</span> <span class="toc-text">4. 安装 Oracle Library</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-配置环境变量"><span class="toc-number">5.</span> <span class="toc-text">5. 配置环境变量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-检查是否可以引入cx-Oracle"><span class="toc-number">6.</span> <span class="toc-text">6. 检查是否可以引入cx_Oracle</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-连接-Oracle"><span class="toc-number">7.</span> <span class="toc-text">7. 连接 Oracle</span></a></li></ol>
+</div>
+<style>
+    .left-col .switch-btn {
+        display: none;
+    }
+    .left-col .switch-area {
+        display: none;
+    }
+</style>
+<input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+<script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script>
+    var valueHide = "隐藏目录";
+    var valueShow = "显示目录";
+    if ($(".left-col").is(":hidden")) {
+        $("#tocButton").attr("value", valueShow);
+    }
+    $("#tocButton").click(function() {
+        if ($("#toc").is(":hidden")) {
+            $("#tocButton").attr("value", valueHide);
+            $("#toc").slideDown(320);
+            $(".switch-btn, .switch-area").fadeOut(300);
+        }
+        else {
+            $("#tocButton").attr("value", valueShow);
+            $("#toc").slideUp(350);
+            $(".switch-btn, .switch-area").fadeIn(500);
+        }
+    })
+    if ($(".toc").length < 1) {
+        $("#toc, #tocButton").hide();
+        $(".switch-btn, .switch-area").show();
+    }
+</script>
+
+
+
+
+<div class="bdsharebuttonbox">
+	<a href="#" class="fx fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+	<a href="#" class="fx fa-weixin bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+	<a href="#" class="fx fa-qq bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a>
+	<a href="#" class="fx fa-facebook-official bds_fbook" data-cmd="fbook" title="分享到Facebook"></a>
+	<a href="#" class="fx fa-twitter bds_twi" data-cmd="twi" title="分享到Twitter"></a>
+	<a href="#" class="fx fa-linkedin bds_linkedin" data-cmd="linkedin" title="分享到linkedin"></a>
+	<a href="#" class="fx fa-files-o bds_copy" data-cmd="copy" title="分享到复制网址"></a>
+</div>
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"2","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
+
+
+
+
+    
+        <section class="changyan" id="comments">
+  <!--<div id="uyan_frame"></div>-->
+  <div id="SOHUCS"></div>
+  <script charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/changyan.js"></script>
+  <script type="text/javascript">
+    window.changyan.api.config({
+      appid: 'xxxx',
+      conf: 'xxxxxxxxx'
+    });
+  </script>
+</section>
+    
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a  href="/2017/09/10/network-down-notification/" title="上一篇: Network Down Notification">
+                <i class="fa fa-angle-left"></i>
+            </a>
+        
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+        
+            <a  href="/2017/09/10/oracle_install/" title="下一篇: Oracle Linux And Oracle Database 11g R2 Intsallation">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2017/09/10/Disk-pull-and-plug-record/">Disk pull and plug record</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/10/Linux-Udev/">Linux Udev</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/10/Magicloud-Route/">Magicloud Route</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/10/Osd-Enable-and-Disable/">Osd Enable and Disable</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/10/Disk-Mon-Deamon/">Disk Mon Deamon</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/10/network-down-notification/">Network Down Notification</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/10/Python-Oracle/">Python Oracle</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/10/oracle_install/">Oracle Linux And Oracle Database 11g R2 Intsallation</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/09/Moodle-Local-Plugin/">Moodle Local Plugin</a></li></ul>
+    <script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+    <script>
+        $(".post-list").addClass("toc-article");
+        // $(".post-list-item a").attr("target","_blank");
+        $("#post-nav-button > a:nth-child(2)").click(function() {
+            $(".fa-bars, .fa-times").toggle();
+            $(".post-list").toggle(300);
+            if ($(".toc").length > 0) {
+                $("#toc, #tocButton").toggle(200, function() {
+                    if ($(".switch-area").is(":visible")) {
+                        $("#toc, .switch-btn, .switch-area").toggle();
+                        $("#tocButton").attr("value", valueHide);
+                        }
+                    })
+            }
+            else {
+                $(".switch-btn, .switch-area").fadeToggle(300);
+            }
+        })
+    </script>
+
+
+
+
+    <script>
+        
+    </script>
+
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                &copy; 2017 Tony
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank">Hexo</a><a href="https://github.com/maochunguang" target="_blank">Blog</a> by tommy
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" >极客到访数: 
+                            <span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>, </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit">本页阅读量: 
+                            <span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+
+    </div>
+    <script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script src="/js/main.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var backgroundnum = 4;
+            var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+            $("#mobile-nav").css({"background-image": backgroundimg,"background-size": "cover","background-position": "center"});
+            $(".left-col").css({"background-image": backgroundimg,"background-size": "cover","background-position": "center"});
+        })
+    </script>
+
+
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'xxxxx', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+
+	<script>
+	var _hmt = _hmt || [];
+	(function() {
+	  var hm = document.createElement("script");
+	  hm.src = "//hm.baidu.com/hm.js?xxxxxx";
+	  var s = document.getElementsByTagName("script")[0]; 
+	  s.parentNode.insertBefore(hm, s);
+	})();
+	</script>
+
+
+
+<div class="scroll" id="scroll">
+    <a href="#"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    $(document).ready(function() {
+        if ($("#comments").length < 1) {
+            $("#scroll > a:nth-child(2)").hide();
+        };
+    })
+</script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+  <script language="javascript">
+    $(function() {
+        $("a[title]").each(function() {
+            var a = $(this);
+            var title = a.attr('title');
+            if (title == undefined || title == "") return;
+            a.data('title', title).removeAttr('title').hover(
+            function() {
+                var offset = a.offset();
+                $("<div id=\"anchortitlecontainer\"></div>").appendTo($("body")).html(title).css({
+                    top: offset.top - a.outerHeight() - 15,
+                    left: offset.left + a.outerWidth()/2 + 1
+                }).fadeIn(function() {
+                    var pop = $(this);
+                    setTimeout(function() {
+                        pop.remove();
+                    }, pop.text().length * 800);
+                });
+            }, function() {
+                $("#anchortitlecontainer").remove();
+            });
+        });
+    });
+</script>
+
+
+  </div>
+</body>
+</html>
