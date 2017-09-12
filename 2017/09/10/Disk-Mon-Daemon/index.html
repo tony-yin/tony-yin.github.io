@@ -7,21 +7,21 @@
   
   
   
-  <title>Python Oracle | Tony&#39;s blog</title>
+  <title>Disk Mon Daemon | Tony&#39;s blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="近期在做Intel的测试，需要监测各种故障情况下的热恢复或者热迁移等功能，比如拔线测试，拔盘测试，断电测试等，来检验分布式的稳定性和灵活性，以Oracle为例，需要一直向数据库中写数据，然后在发生故障时，通过观察插入数据的情况来判断是否能够处理异常情况，所以我需要写一个脚本，能够做到通过python自动连接oracle数据库并自动插入数据。">
-<meta name="keywords" content="Python,Oracle">
+  <meta name="description" content="最近在做监控SSD磁盘健康状态这个需求的时候，发现项目中专门针对磁盘写了一个daemon，之前对daemon只是表面上的了解，所以这次正好深入学习下,了解一下这样做的原因和好处以及如何在以后的工作中熟练运用daemon">
+<meta name="keywords" content="Ceph,Linux,Magicloud,Daemon">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Python Oracle">
-<meta property="og:url" content="http://yoursite.com/2017/09/10/Python-Oracle/index.html">
+<meta property="og:title" content="Disk Mon Daemon">
+<meta property="og:url" content="http://yoursite.com/2017/09/10/Disk-Mon-Daemon/index.html">
 <meta property="og:site_name" content="Tony&#39;s blog">
-<meta property="og:description" content="近期在做Intel的测试，需要监测各种故障情况下的热恢复或者热迁移等功能，比如拔线测试，拔盘测试，断电测试等，来检验分布式的稳定性和灵活性，以Oracle为例，需要一直向数据库中写数据，然后在发生故障时，通过观察插入数据的情况来判断是否能够处理异常情况，所以我需要写一个脚本，能够做到通过python自动连接oracle数据库并自动插入数据。">
-<meta property="og:image" content="http://ow0mgad6r.bkt.clouddn.com/oracle_2.png">
-<meta property="og:updated_time" content="2017-09-12T10:59:06.123Z">
+<meta property="og:description" content="最近在做监控SSD磁盘健康状态这个需求的时候，发现项目中专门针对磁盘写了一个daemon，之前对daemon只是表面上的了解，所以这次正好深入学习下,了解一下这样做的原因和好处以及如何在以后的工作中熟练运用daemon">
+<meta property="og:image" content="http://ow0mgad6r.bkt.clouddn.com/demonabel.gif">
+<meta property="og:updated_time" content="2017-09-12T05:56:08.950Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Python Oracle">
-<meta name="twitter:description" content="近期在做Intel的测试，需要监测各种故障情况下的热恢复或者热迁移等功能，比如拔线测试，拔盘测试，断电测试等，来检验分布式的稳定性和灵活性，以Oracle为例，需要一直向数据库中写数据，然后在发生故障时，通过观察插入数据的情况来判断是否能够处理异常情况，所以我需要写一个脚本，能够做到通过python自动连接oracle数据库并自动插入数据。">
-<meta name="twitter:image" content="http://ow0mgad6r.bkt.clouddn.com/oracle_2.png">
+<meta name="twitter:title" content="Disk Mon Daemon">
+<meta name="twitter:description" content="最近在做监控SSD磁盘健康状态这个需求的时候，发现项目中专门针对磁盘写了一个daemon，之前对daemon只是表面上的了解，所以这次正好深入学习下,了解一下这样做的原因和好处以及如何在以后的工作中熟练运用daemon">
+<meta name="twitter:image" content="http://ow0mgad6r.bkt.clouddn.com/demonabel.gif">
   
     <link rel="alternative" href="/atom.xml" title="Tony&#39;s blog" type="application/atom+xml">
   
@@ -268,11 +268,11 @@
         </header>                
     </div>
 </nav>
-      <div class="body-wrap"><article id="post-Python-Oracle" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-Disk-Mon-Daemon" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a  href="/2017/09/10/Python-Oracle/" class="article-date">
-      <time datetime="2017-09-09T17:02:41.000Z" itemprop="datePublished">2017-09-10</time>
+      <a  href="/2017/09/10/Disk-Mon-Daemon/" class="article-date">
+      <time datetime="2017-09-09T18:17:19.000Z" itemprop="datePublished">2017-09-10</time>
 </a>
 
     </div>
@@ -286,7 +286,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      Python Oracle
+      Disk Mon Daemon
     </h1>
   
 
@@ -296,13 +296,13 @@
       <div class="article-info article-info-post">
         
     <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/teach/">teach</a>
+    <a class="article-category-link" href="/categories/tech/">tech</a>
     </div>
 
 
         
     <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Oracle/">Oracle</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Python/">Python</a></li></ul>
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Ceph/">Ceph</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Daemon/">Daemon</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/">Linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Magicloud/">Magicloud</a></li></ul>
     </div>
 
         <div class="clearfix"></div>
@@ -312,66 +312,52 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <center><img src="http://ow0mgad6r.bkt.clouddn.com/oracle_2.png" alt="oracle"></center>
+        <center><img src="http://ow0mgad6r.bkt.clouddn.com/demonabel.gif" alt="daemon"></center>
 
-<p>近期在做<code>Intel</code>的测试，需要监测各种故障情况下的热恢复或者热迁移等功能，比如拔线测试，拔盘测试，断电测试等，来检验分布式的稳定性和灵活性，以<code>Oracle</code>为例，需要一直向数据库中写数据，然后在发生故障时，通过观察插入数据的情况来判断是否能够处理异常情况，所以我需要写一个脚本，能够做到通过<code>python</code>自动连接<code>oracle</code>数据库并自动插入数据。</p>
-<a id="more"></a>
+
+<p>最近在做监控<code>SSD</code>磁盘健康状态这个需求的时候，发现项目中专门针对磁盘写了一个<code>daemon</code>，之前对<code>daemon</code>只是表面上的了解，所以这次正好深入学习下,了解一下这样做的原因和好处以及如何在以后的工作中熟练运用<code>daemon</code><br><a id="more"></a></p>
+<h2 id="Daemon相关知识了解"><a href="#Daemon相关知识了解" class="headerlink" title="Daemon相关知识了解"></a>Daemon相关知识了解</h2><ul>
+<li><a href="http://www.linfo.org/daemon.html" target="_blank" rel="external">Daemon Definition</a></li>
+<li><a href="https://stackoverflow.com/questions/17954432/creating-a-daemon-in-linux" target="_blank" rel="external">Creating a daemon in Linux</a></li>
+<li><a href="http://www.enderunix.org/docs/eng/daemon.php" target="_blank" rel="external">Unix Daemon Server Programming</a></li>
+<li><a href="http://www.netzmafia.de/skripten/unix/linux-daemon-howto.html" target="_blank" rel="external">Linux Daemon Writing HOWTO</a></li>
+<li><a href="http://www.cnblogs.com/mickole/p/3188321.html" target="_blank" rel="external">守护进程详解及创建，daemon()使用</a></li>
+</ul>
+<h2 id="MCS3DiskMonitor-Daemon使用"><a href="#MCS3DiskMonitor-Daemon使用" class="headerlink" title="MCS3DiskMonitor Daemon使用"></a>MCS3DiskMonitor Daemon使用</h2><ol>
+<li><code>pid</code>文件路径： <code>/var/run/mcs3-smart-monitor.pid</code></li>
+<li><code>daemon</code>所在位置: <code>/etc/init.d/</code></li>
+<li><code>log</code>打印位置：<code>/var/log/mccloudstor/mcs3-disk-mon.log</code></li>
+<li>操作方式：</li>
+</ol>
+<ul>
+<li><code>service mcs3-smart-monitor start</code></li>
+<li><code>service mcs3-smart-monitor stop</code></li>
+<li><code>service mcs3-smart-monitor restart</code></li>
+</ul>
 <blockquote>
-<p>当前环境：Linux Centos 7</p>
+<p>改动<code>daemon</code>相关代码，需<code>restart daemon</code>才可以生效</p>
 </blockquote>
-<h3 id="1-下载安装包cx-Oracle"><a href="#1-下载安装包cx-Oracle" class="headerlink" title="1. 下载安装包cx_Oracle"></a>1. 下载安装包cx_Oracle</h3><p>由于我本地<code>Python</code>版本是<code>2.7</code>,所以选择是<code>2.7</code>版本</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">wget https://pypi.python.org/packages/e1/18/00987c6a9af9568ee87d1fcba877407684a3f1b87515e5eb82d5d5acb9ff/cx_Oracle-6.0rc1-py27-1.x86_64.rpm#md5=ff8f5cce07bd5ec8ed3ce5c79d451474</div></pre></td></tr></table></figure>
-<p>参考:</p>
+<h2 id="MCS3DiskMonitor-Daemon-process"><a href="#MCS3DiskMonitor-Daemon-process" class="headerlink" title="MCS3DiskMonitor Daemon process"></a>MCS3DiskMonitor Daemon process</h2><p><strong>1.</strong> 单位时间避免邮件重复发送： 通过声明一个全局变量<code>send_email_time</code>, 记录当前时间的一个小时的时间，一旦发送邮件立即更新该变量为当前时间</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">sent_mail_time = datetime.datetime.now() - datetime.timedelta(0,3600) # 1 hour</div><div class="line"></div><div class="line">def send_disk_status_notification(disk_status):</div><div class="line">    global sent_mail_time</div><div class="line">    now = datetime.datetime.now()</div><div class="line">    if now &lt; sent_mail_time + datetime.timedelta(0,3600):</div><div class="line">        logger.info(&quot;Notification sent within one hour before. System will not send again.&quot;)</div><div class="line">        return</div><div class="line">            host = socket.gethostname()</div><div class="line">    title = &quot;Host &#123;&#125; Disk Health Status Warning!&quot;.format(host)</div><div class="line">    message = disk_status</div><div class="line">    try:</div><div class="line">        utils.send_notification(title, message)</div><div class="line">        sent_mail_time = datetime.datetime.now()</div><div class="line">    except Exception as e:</div><div class="line">        logger.error(str(e))</div></pre></td></tr></table></figure>
+<p><strong>2.</strong> 执行命令报错影响其他代码的执行，有以下几处命令执行：</p>
+<p><code>line48</code>:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">output = utils.do_cmd(&quot;zpool status|grep state&quot;, force=True)</div></pre></td></tr></table></figure></p>
+<p><code>line71~75</code><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">VDSTATE1 = do_cmd(MEGACLI_BIN + &quot; -cfgdsply -aALL -NoLog | grep State&quot;) </div><div class="line">VDSTATE2 = do_cmd(MEGACLI_BIN + &quot; -AdpAllInfo -aALL -NoLog | grep Degraded&quot;)</div><div class="line">VDSTATE3 = do_cmd(MEGACLI_BIN + &quot; -AdpAllInfo -aALL -NoLog | grep Offline&quot;)</div><div class="line">PDSTATE1 = do_cmd(MEGACLI_BIN + &quot; -AdpAllInfo -aALL -NoLog | grep \&quot;Critical Disks\&quot;&quot;)</div><div class="line">PDSTATE2 = do_cmd(MEGACLI_BIN + &quot; -AdpAllInfo -aALL -NoLog | grep \&quot;Failed Disks\&quot;&quot;)</div></pre></td></tr></table></figure></p>
 <blockquote>
-<ul>
-<li><a href="https://oracle.github.io/python-cx_Oracle/" target="_blank" rel="external">python-cx_Oracle</a></li>
-<li><a href="https://pypi.python.org/pypi/cx_Oracle/5.3" target="_blank" rel="external">安装包列表</a></li>
-</ul>
+<p>暂时处理方法：在这些方法的外面单独包一层<code>try catch</code></p>
 </blockquote>
-<h3 id="2-安装cx-Oracle"><a href="#2-安装cx-Oracle" class="headerlink" title="2. 安装cx_Oracle"></a>2. 安装cx_Oracle</h3><ul>
-<li>安装：</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">rpm -ivh cx_Oracle-6.0rc1-py27-1.x86_64.rpm</div></pre></td></tr></table></figure>
+<p><strong>3.</strong> <code>SSD Disk</code>信息获取</p>
 <ul>
-<li>查看当前<code>python</code>引入模块库的路径</li>
+<li>获取健康寿命</li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">[root ~]# python</div><div class="line">Python 2.7.5 (default, Nov  6 2016, 00:28:07) </div><div class="line">[GCC 4.8.5 20150623 (Red Hat 4.8.5-11)] on linux2</div><div class="line">Type &quot;help&quot;, &quot;copyright&quot;, &quot;credits&quot; or &quot;license&quot; for more information.</div><div class="line">&gt;&gt;&gt; import sys</div><div class="line">&gt;&gt;&gt; print sys.path</div><div class="line">[&apos;&apos;, &apos;/usr/lib/python2.7/site-packages/AliyunUtil-0.0.1-py2.7.egg&apos;, &apos;/usr/lib/python2.7/site-packages/cloud_init-0.7.6-py2.7.egg&apos;, &apos;/usr/lib64/python27.zip&apos;, &apos;/usr/lib64/python2.7&apos;, &apos;/usr/lib64/python2.7/plat-linux2&apos;, &apos;/usr/lib64/python2.7/lib-tk&apos;, &apos;/usr/lib64/python2.7/lib-old&apos;, &apos;/usr/lib64/python2.7/lib-dynload&apos;, &apos;/usr/lib64/python2.7/site-packages&apos;, &apos;/usr/lib/python2.7/site-packages&apos;]</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">smartctl -a -d megaraid,&#123;&#125; &#123;&#125;|grep &apos;Media_Wearout_Indicator&apos;</div></pre></td></tr></table></figure>
 <ul>
-<li>检查安装路径，如果<code>cx_Oracle.so</code>文件不在以上<code>python</code>引入路径内需要将该文件拷贝到以上<code>python</code>引入路径,所以我这里不需要进行拷贝操作</li>
+<li>获取磁盘序列号</li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">[root ~]# rpm -qa | grep cx_Oracle | xargs rpm -ql</div><div class="line">/usr/lib64/python2.7/site-packages/cx_Oracle-6.0rc1-py2.7.egg-info</div><div class="line">/usr/lib64/python2.7/site-packages/cx_Oracle-6.0rc1-py2.7.egg-info/PKG-INFO</div><div class="line">/usr/lib64/python2.7/site-packages/cx_Oracle-6.0rc1-py2.7.egg-info/SOURCES.txt</div><div class="line">/usr/lib64/python2.7/site-packages/cx_Oracle-6.0rc1-py2.7.egg-info/dependency_links.txt</div><div class="line">/usr/lib64/python2.7/site-packages/cx_Oracle-6.0rc1-py2.7.egg-info/top_level.txt</div><div class="line">/usr/lib64/python2.7/site-packages/cx_Oracle.so</div></pre></td></tr></table></figure>
-<h3 id="3-下载-Oracle-Library"><a href="#3-下载-Oracle-Library" class="headerlink" title="3. 下载 Oracle Library"></a>3. 下载 Oracle Library</h3><p>由于<code>Oracle</code>官网下载东西存在<code>Auth</code>认证，所以简单点就点击选中的<code>rpm</code>包保存在<code>windows</code>上，然后上传到<code>linux</code>上即可</p>
-<p><strong>注意：</strong></p>
-<blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">smartctl -a -d megaraid,&#123;&#125; &#123;&#125;|grep &apos;Serial Number&apos;</div></pre></td></tr></table></figure>
 <ul>
-<li>下载的版本要和连接的<code>Oracle</code>基本一致，我需要连接的<code>oracle</code>版本是<code>11.2</code>，所以我下载的是<code>oracle-instantclient11.2-basic-11.2.0.3.0-1.x86_64.rpm</code></li>
-<li><strong>操作系统要和之前下载的<code>cx_Oracle</code>要一致</strong>，这很重要！！！我在这个上面栽了跟头，花了比较多的时间。。。所以我需要下载<code>64</code>位的</li>
-<li>在<code>Oracle</code>官网下载东西你得先勾选<code>Accept License Agreement</code>，否则你下载不了</li>
-<li>其次你得有<code>Oracle</code>的账号</li>
+<li>判断是否为SSD Disk：如果为<code>1</code>则为机械硬盘，如果为<code>0</code>则为<code>SSD Disk</code></li>
 </ul>
-</blockquote>
-<h3 id="4-安装-Oracle-Library"><a href="#4-安装-Oracle-Library" class="headerlink" title="4. 安装 Oracle Library"></a>4. 安装 Oracle Library</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">rpm -ivh oracle-instantclient11.2-basic-11.2.0.3.0-1.x86_64.rpm</div></pre></td></tr></table></figure>
-<h3 id="5-配置环境变量"><a href="#5-配置环境变量" class="headerlink" title="5. 配置环境变量"></a>5. 配置环境变量</h3><ul>
-<li><strong>修改<code>Oracle</code>安装路径</strong></li>
-</ul>
-<p>将<code>client64</code>改为<code>client</code>，至于为什么要改暂时还不清楚，只知道不改的话会报错<code>Oracle Client library cannot be loaded: libclntsh.so: cannot open shared object file: No such file or directory</code></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">cd /usr/lib/oracle/11.2/</div><div class="line">mv client64 client</div></pre></td></tr></table></figure>
-<ul>
-<li>打开<code>/etc/profile</code>,追加环境变量路径</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">vim /etc/profile</div></pre></td></tr></table></figure>
-<ul>
-<li>配置环境变量</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">// 查看Oracle安装路径</div><div class="line">[root@iZbp180vortqapb7yf8217Z ~]# rpm -qa | grep oracle | xargs rpm -ql</div><div class="line">/usr/lib/oracle/11.2/client64/bin/adrci</div><div class="line">/usr/lib/oracle/11.2/client64/bin/genezi</div><div class="line">/usr/lib/oracle/11.2/client64/lib/libclntsh.so.11.1</div><div class="line">/usr/lib/oracle/11.2/client64/lib/libnnz11.so</div><div class="line">/usr/lib/oracle/11.2/client64/lib/libocci.so.11.1</div><div class="line">/usr/lib/oracle/11.2/client64/lib/libociei.so</div><div class="line">/usr/lib/oracle/11.2/client64/lib/libocijdbc11.so</div><div class="line">/usr/lib/oracle/11.2/client64/lib/ojdbc5.jar</div><div class="line">/usr/lib/oracle/11.2/client64/lib/ojdbc6.jar</div><div class="line">/usr/lib/oracle/11.2/client64/lib/xstreams.jar</div><div class="line">// 追加ORACLE_HOME环境变量路径</div><div class="line">export ORACLE_HOME=/usr/lib/oracle/11.2/client64</div><div class="line">export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$ORACLE_HOME/lib</div></pre></td></tr></table></figure>
-<ul>
-<li>生效配置</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">source ~/.bashrc</div></pre></td></tr></table></figure>
-<h3 id="6-检查是否可以引入cx-Oracle"><a href="#6-检查是否可以引入cx-Oracle" class="headerlink" title="6. 检查是否可以引入cx_Oracle"></a>6. 检查是否可以引入<code>cx_Oracle</code></h3><p><code>import</code>没有报错，说明之前的辛苦没有白费</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">[root client64]# python</div><div class="line">Python 2.7.5 (default, Nov  6 2016, 00:28:07) </div><div class="line">[GCC 4.8.5 20150623 (Red Hat 4.8.5-11)] on linux2</div><div class="line">Type &quot;help&quot;, &quot;copyright&quot;, &quot;credits&quot; or &quot;license&quot; for more information.</div><div class="line">&gt;&gt;&gt; import cx_Oracle</div><div class="line">&gt;&gt;&gt;</div></pre></td></tr></table></figure>
-<h3 id="7-连接-Oracle"><a href="#7-连接-Oracle" class="headerlink" title="7. 连接 Oracle"></a>7. 连接 Oracle</h3><p>一个插入10条数据的Python脚本demo：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">#!/usr/bin/python</div><div class="line"># -*- coding: UTF-8 -*-</div><div class="line">import cx_Oracle</div><div class="line">con = cx_Oracle.connect(&apos;test/test@xxx.xxx.xxx.xxx/xe&apos;)</div><div class="line">cur = con.cursor()</div><div class="line">for n in range(1, 10):</div><div class="line">    cur.execute(&apos;insert into test(id, name) values (1, n);&apos;)</div><div class="line">cur.close()</div><div class="line">con.close()</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">cat /sys/block/&#123;&#125;/queue/rotational  // param such as sda or sdb etc</div></pre></td></tr></table></figure>
 
       
     </div>
@@ -380,13 +366,13 @@
   
     
     <div class="copyright">
-        <p><span>本文标题:</span><a  href="/2017/09/10/Python-Oracle/">Python Oracle</a></p>
+        <p><span>本文标题:</span><a  href="/2017/09/10/Disk-Mon-Daemon/">Disk Mon Daemon</a></p>
         <p><span>文章作者:</span><a  href="/" title="访问 Tony 的个人博客">Tony</a></p>
-        <p><span>发布时间:</span>2017年09月10日 - 01时02分</p>
-        <p><span>最后更新:</span>2017年09月12日 - 18时59分</p>
+        <p><span>发布时间:</span>2017年09月10日 - 02时17分</p>
+        <p><span>最后更新:</span>2017年09月12日 - 13时56分</p>
         <p>
-            <span>原始链接:</span><a class="post-url" href="/2017/09/10/Python-Oracle/" title="Python Oracle">http://yoursite.com/2017/09/10/Python-Oracle/</a>
-            <span class="copy-path" data-clipboard-text="原文: http://yoursite.com/2017/09/10/Python-Oracle/　　作者: Tony" title=""></span>
+            <span>原始链接:</span><a class="post-url" href="/2017/09/10/Disk-Mon-Daemon/" title="Disk Mon Daemon">http://yoursite.com/2017/09/10/Disk-Mon-Daemon/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://yoursite.com/2017/09/10/Disk-Mon-Daemon/　　作者: Tony" title=""></span>
         </p>
         <p>
             <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/cn/" title="中国大陆 (CC BY-NC-SA 3.0 CN)" target = "_blank">"署名-非商用-相同方式共享 3.0"</a> 转载请保留原文链接及作者。
@@ -397,18 +383,18 @@
 
 <nav id="article-nav">
   
-    <a  href="/2017/09/10/network-down-notification/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a  href="/2017/09/10/Osd-Enable-and-Disable/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption"><</strong>
       <div class="article-nav-title">
         
-          Network Down Notification
+          Osd Enable and Disable
         
       </div>
     </a>
   
   
-    <a  href="/2017/09/10/oracle_install/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">Oracle Linux And Oracle Database 11g R2 Intsallation</div>
+    <a  href="/2017/09/10/network-down-notification/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Network Down Notification</div>
       <strong class="article-nav-caption">></strong>
     </a>
   
@@ -420,7 +406,7 @@
 
     <div id="toc" class="toc-article">
     <strong class="toc-title">文章目录</strong>
-    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-下载安装包cx-Oracle"><span class="toc-number">1.</span> <span class="toc-text">1. 下载安装包cx_Oracle</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-安装cx-Oracle"><span class="toc-number">2.</span> <span class="toc-text">2. 安装cx_Oracle</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-下载-Oracle-Library"><span class="toc-number">3.</span> <span class="toc-text">3. 下载 Oracle Library</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-安装-Oracle-Library"><span class="toc-number">4.</span> <span class="toc-text">4. 安装 Oracle Library</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-配置环境变量"><span class="toc-number">5.</span> <span class="toc-text">5. 配置环境变量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-检查是否可以引入cx-Oracle"><span class="toc-number">6.</span> <span class="toc-text">6. 检查是否可以引入cx_Oracle</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-连接-Oracle"><span class="toc-number">7.</span> <span class="toc-text">7. 连接 Oracle</span></a></li></ol>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Daemon相关知识了解"><span class="toc-number">1.</span> <span class="toc-text">Daemon相关知识了解</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#MCS3DiskMonitor-Daemon使用"><span class="toc-number">2.</span> <span class="toc-text">MCS3DiskMonitor Daemon使用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#MCS3DiskMonitor-Daemon-process"><span class="toc-number">3.</span> <span class="toc-text">MCS3DiskMonitor Daemon process</span></a></li></ol>
 </div>
 <style>
     .left-col .switch-btn {
@@ -479,13 +465,13 @@
 
     <div class="scroll" id="post-nav-button">
         
-            <a  href="/2017/09/10/network-down-notification/" title="上一篇: Network Down Notification">
+            <a  href="/2017/09/10/Osd-Enable-and-Disable/" title="上一篇: Osd Enable and Disable">
                 <i class="fa fa-angle-left"></i>
             </a>
         
         <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
         
-            <a  href="/2017/09/10/oracle_install/" title="下一篇: Oracle Linux And Oracle Database 11g R2 Intsallation">
+            <a  href="/2017/09/10/network-down-notification/" title="下一篇: Network Down Notification">
                 <i class="fa fa-angle-right"></i>
             </a>
         

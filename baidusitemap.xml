@@ -4,101 +4,8 @@
 
     
   <url>
-    <loc>http://yoursite.com/2017/09/10/Disk-Mon-Deamon/</loc>
-    <lastmod>2017-09-11T16:57:50.000Z</lastmod>
-    <data>
-        <display>
-        <title>Disk Mon Deamon</title>
-        <pubTime>2017-09-09T18:17:19.000Z</pubTime>
-        
-        <tag>Ceph</tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://yoursite.com/2017/09/10/Disk-pull-and-plug-record/</loc>
-    <lastmod>2017-09-11T16:57:50.000Z</lastmod>
-    <data>
-        <display>
-        <title>Disk pull and plug record</title>
-        <pubTime>2017-09-09T18:21:45.000Z</pubTime>
-        
-        <tag>Ceph</tag>
-         
-        <tag>Disk</tag>
-         
-        <tag>Udev</tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://yoursite.com/2017/09/10/Linux-Udev/</loc>
-    <lastmod>2017-09-11T16:57:50.000Z</lastmod>
-    <data>
-        <display>
-        <title>Linux Udev</title>
-        <pubTime>2017-09-09T18:20:27.000Z</pubTime>
-        
-        <tag>Ceph</tag>
-         
-        <tag>Udev</tag>
-         
-        <tag>Linux</tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://yoursite.com/2017/09/10/Magicloud-Route/</loc>
-    <lastmod>2017-09-11T16:57:50.000Z</lastmod>
-    <data>
-        <display>
-        <title>Magicloud Route</title>
-        <pubTime>2017-09-09T18:19:35.000Z</pubTime>
-        
-        <tag>Magicloud</tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://yoursite.com/2017/09/09/Moodle-Local-Plugin/</loc>
-    <lastmod>2017-09-11T16:57:50.000Z</lastmod>
-    <data>
-        <display>
-        <title>Moodle Local Plugin</title>
-        <pubTime>2017-09-09T15:05:05.000Z</pubTime>
-        
-        <tag>Moodle</tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
     <loc>http://yoursite.com/2017/09/10/Osd-Enable-and-Disable/</loc>
-    <lastmod>2017-09-11T16:57:50.000Z</lastmod>
+    <lastmod>2017-09-12T12:30:41.184Z</lastmod>
     <data>
         <display>
         <title>Osd Enable and Disable</title>
@@ -106,8 +13,93 @@
         
         <tag>Ceph</tag>
          
+        <tag>Magicloud</tag>
+         
+        <tag>Osd</tag>
+         
          
            
+             
+              <breadCrumb title="tech" url="http://yoursite.com/categories/tech/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://yoursite.com/2017/09/10/network-down-notification/</loc>
+    <lastmod>2017-09-12T11:58:13.285Z</lastmod>
+    <data>
+        <display>
+        <title>Network Down Notification</title>
+        <pubTime>2017-09-09T18:14:34.000Z</pubTime>
+        
+        <tag>Ceph</tag>
+         
+        <tag>Magicloud</tag>
+         
+        <tag>Network</tag>
+         
+        <tag>Notification</tag>
+         
+         
+           
+             
+              <breadCrumb title="tech" url="http://yoursite.com/categories/tech/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://yoursite.com/2017/09/10/Magicloud-Route/</loc>
+    <lastmod>2017-09-12T11:30:20.002Z</lastmod>
+    <data>
+        <display>
+        <title>Magicloud Route</title>
+        <pubTime>2017-09-09T18:19:35.000Z</pubTime>
+        
+        <tag>Magicloud</tag>
+         
+        <tag>Route</tag>
+         
+         
+           
+             
+              <breadCrumb title="tech" url="http://yoursite.com/categories/tech/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://yoursite.com/2017/09/10/Disk-pull-and-plug-record/</loc>
+    <lastmod>2017-09-12T11:16:28.572Z</lastmod>
+    <data>
+        <display>
+        <title>Disk pull and plug record</title>
+        <pubTime>2017-09-09T18:21:45.000Z</pubTime>
+        
+        <tag>Ceph</tag>
+         
+        <tag>Linux</tag>
+         
+        <tag>Udev</tag>
+         
+        <tag>Magicloud</tag>
+         
+        <tag>Disk</tag>
+         
+        <tag>Osd</tag>
+         
+         
+           
+             
+              <breadCrumb title="tech" url="http://yoursite.com/categories/tech/"/>
+          
         </display>
     </data>
     </url>
@@ -115,7 +107,7 @@
     
   <url>
     <loc>http://yoursite.com/2017/09/10/Python-Oracle/</loc>
-    <lastmod>2017-09-11T16:57:50.000Z</lastmod>
+    <lastmod>2017-09-12T10:59:06.123Z</lastmod>
     <data>
         <display>
         <title>Python Oracle</title>
@@ -127,23 +119,9 @@
          
          
            
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://yoursite.com/2017/09/10/network-down-notification/</loc>
-    <lastmod>2017-09-11T16:57:50.000Z</lastmod>
-    <data>
-        <display>
-        <title>Network Down Notification</title>
-        <pubTime>2017-09-09T18:14:34.000Z</pubTime>
-        
-        <tag>Ceph</tag>
-         
-         
-           
+             
+              <breadCrumb title="teach" url="http://yoursite.com/categories/teach/"/>
+          
         </display>
     </data>
     </url>
@@ -151,7 +129,7 @@
     
   <url>
     <loc>http://yoursite.com/2017/09/10/oracle_install/</loc>
-    <lastmod>2017-09-11T16:57:50.000Z</lastmod>
+    <lastmod>2017-09-12T10:36:11.363Z</lastmod>
     <data>
         <display>
         <title>Oracle Linux And Oracle Database 11g R2 Intsallation</title>
@@ -165,6 +143,83 @@
          
          
            
+             
+              <breadCrumb title="tech" url="http://yoursite.com/categories/tech/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://yoursite.com/2017/09/09/Moodle-Local-Plugin/</loc>
+    <lastmod>2017-09-12T07:11:46.151Z</lastmod>
+    <data>
+        <display>
+        <title>Moodle Local Plugin</title>
+        <pubTime>2017-09-09T15:05:05.000Z</pubTime>
+        
+        <tag>Moodle</tag>
+         
+        <tag>PHP</tag>
+         
+         
+           
+             
+              <breadCrumb title="tech" url="http://yoursite.com/categories/tech/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://yoursite.com/2017/09/10/Linux-Udev/</loc>
+    <lastmod>2017-09-12T06:04:17.161Z</lastmod>
+    <data>
+        <display>
+        <title>Linux Udev</title>
+        <pubTime>2017-09-09T18:20:27.000Z</pubTime>
+        
+        <tag>Ceph</tag>
+         
+        <tag>Linux</tag>
+         
+        <tag>Udev</tag>
+         
+        <tag>Magicloud</tag>
+         
+         
+           
+             
+              <breadCrumb title="tech" url="http://yoursite.com/categories/tech/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://yoursite.com/2017/09/10/Disk-Mon-Daemon/</loc>
+    <lastmod>2017-09-12T05:56:08.950Z</lastmod>
+    <data>
+        <display>
+        <title>Disk Mon Daemon</title>
+        <pubTime>2017-09-09T18:17:19.000Z</pubTime>
+        
+        <tag>Ceph</tag>
+         
+        <tag>Linux</tag>
+         
+        <tag>Magicloud</tag>
+         
+        <tag>Daemon</tag>
+         
+         
+           
+             
+              <breadCrumb title="tech" url="http://yoursite.com/categories/tech/"/>
+          
         </display>
     </data>
     </url>

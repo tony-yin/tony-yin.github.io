@@ -9,17 +9,19 @@
   
   <title>Linux Udev | Tony&#39;s blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="在我入门udev的时候，看着各种各样的资料觉得这个东西很高深的时候，突然瞄到一篇文章里面说道： 要树立一个信念：udev很简单，当时不以为然，现在能够理解，其实稍作研究就能理解了，看起来很高端很遥远的Title，比如Linux Kernel，比如软硬件交互，比如热插拔等等，其实掌握几个rules，然后再动手实践实践，对比着讲解，就能知道七七八八了，想要再深入，就多看看文档实现和内核源码，其实很多">
-<meta name="keywords" content="Ceph,Udev,Linux">
+  <meta name="description" content="在我入门udev，看着各种各样的资料觉得这个东西很高深的时候，突然瞄到一篇文章里面说道： 要树立一个信念：udev很简单，当时不以为然，现在深表赞同。看起来很高端很遥远的Title，比如Linux Kernel，比如软硬件交互，比如热插拔等等，其实掌握几个rules，然后再动手实践实践，对比着讲解，就能知道七七八八了，想要再深入，就多看看文档实现和内核源码，其实很多东西都是这样，了解了就很简单">
+<meta name="keywords" content="Ceph,Linux,Udev,Magicloud">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Linux Udev">
 <meta property="og:url" content="http://yoursite.com/2017/09/10/Linux-Udev/index.html">
 <meta property="og:site_name" content="Tony&#39;s blog">
-<meta property="og:description" content="在我入门udev的时候，看着各种各样的资料觉得这个东西很高深的时候，突然瞄到一篇文章里面说道： 要树立一个信念：udev很简单，当时不以为然，现在能够理解，其实稍作研究就能理解了，看起来很高端很遥远的Title，比如Linux Kernel，比如软硬件交互，比如热插拔等等，其实掌握几个rules，然后再动手实践实践，对比着讲解，就能知道七七八八了，想要再深入，就多看看文档实现和内核源码，其实很多">
-<meta property="og:updated_time" content="2017-09-11T16:57:50.000Z">
+<meta property="og:description" content="在我入门udev，看着各种各样的资料觉得这个东西很高深的时候，突然瞄到一篇文章里面说道： 要树立一个信念：udev很简单，当时不以为然，现在深表赞同。看起来很高端很遥远的Title，比如Linux Kernel，比如软硬件交互，比如热插拔等等，其实掌握几个rules，然后再动手实践实践，对比着讲解，就能知道七七八八了，想要再深入，就多看看文档实现和内核源码，其实很多东西都是这样，了解了就很简单">
+<meta property="og:image" content="http://ow0mgad6r.bkt.clouddn.com/night_king800x600_1x.jpg">
+<meta property="og:updated_time" content="2017-09-12T06:04:17.161Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Linux Udev">
-<meta name="twitter:description" content="在我入门udev的时候，看着各种各样的资料觉得这个东西很高深的时候，突然瞄到一篇文章里面说道： 要树立一个信念：udev很简单，当时不以为然，现在能够理解，其实稍作研究就能理解了，看起来很高端很遥远的Title，比如Linux Kernel，比如软硬件交互，比如热插拔等等，其实掌握几个rules，然后再动手实践实践，对比着讲解，就能知道七七八八了，想要再深入，就多看看文档实现和内核源码，其实很多">
+<meta name="twitter:description" content="在我入门udev，看着各种各样的资料觉得这个东西很高深的时候，突然瞄到一篇文章里面说道： 要树立一个信念：udev很简单，当时不以为然，现在深表赞同。看起来很高端很遥远的Title，比如Linux Kernel，比如软硬件交互，比如热插拔等等，其实掌握几个rules，然后再动手实践实践，对比着讲解，就能知道七七八八了，想要再深入，就多看看文档实现和内核源码，其实很多东西都是这样，了解了就很简单">
+<meta name="twitter:image" content="http://ow0mgad6r.bkt.clouddn.com/night_king800x600_1x.jpg">
   
     <link rel="alternative" href="/atom.xml" title="Tony&#39;s blog" type="application/atom+xml">
   
@@ -193,7 +195,7 @@
                 
                 <section class="switch-part switch-part2">
                     <div class="widget tagcloud" id="js-tagcloud">
-                        <a href="/tags/Ceph/" style="font-size: 20px;">Ceph</a> <a href="/tags/Disk/" style="font-size: 10px;">Disk</a> <a href="/tags/Linux/" style="font-size: 10px;">Linux</a> <a href="/tags/Magicloud/" style="font-size: 10px;">Magicloud</a> <a href="/tags/Moodle/" style="font-size: 10px;">Moodle</a> <a href="/tags/Oracle/" style="font-size: 15px;">Oracle</a> <a href="/tags/Oracle-11g-R2/" style="font-size: 10px;">Oracle 11g R2</a> <a href="/tags/Oracle-Linux/" style="font-size: 10px;">Oracle Linux</a> <a href="/tags/Python/" style="font-size: 10px;">Python</a> <a href="/tags/Udev/" style="font-size: 15px;">Udev</a>
+                        <a href="/tags/Ceph/" style="font-size: 17.5px;">Ceph</a> <a href="/tags/Daemon/" style="font-size: 10px;">Daemon</a> <a href="/tags/Disk/" style="font-size: 10px;">Disk</a> <a href="/tags/Linux/" style="font-size: 15px;">Linux</a> <a href="/tags/Magicloud/" style="font-size: 20px;">Magicloud</a> <a href="/tags/Moodle/" style="font-size: 10px;">Moodle</a> <a href="/tags/Network/" style="font-size: 10px;">Network</a> <a href="/tags/Notification/" style="font-size: 10px;">Notification</a> <a href="/tags/Oracle/" style="font-size: 12.5px;">Oracle</a> <a href="/tags/Oracle-11g-R2/" style="font-size: 10px;">Oracle 11g R2</a> <a href="/tags/Oracle-Linux/" style="font-size: 10px;">Oracle Linux</a> <a href="/tags/Osd/" style="font-size: 12.5px;">Osd</a> <a href="/tags/PHP/" style="font-size: 10px;">PHP</a> <a href="/tags/Python/" style="font-size: 10px;">Python</a> <a href="/tags/Route/" style="font-size: 10px;">Route</a> <a href="/tags/Udev/" style="font-size: 12.5px;">Udev</a>
                     </div>
                 </section>
                 
@@ -293,10 +295,14 @@
       
       <div class="article-info article-info-post">
         
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/tech/">tech</a>
+    </div>
+
 
         
     <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Ceph/">Ceph</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/">Linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Udev/">Udev</a></li></ul>
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Ceph/">Ceph</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/">Linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Magicloud/">Magicloud</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Udev/">Udev</a></li></ul>
     </div>
 
         <div class="clearfix"></div>
@@ -306,9 +312,9 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <blockquote>
-<p>在我入门<code>udev</code>的时候，看着各种各样的资料觉得这个东西很高深的时候，突然瞄到一篇文章里面说道： 要树立一个信念：<code>udev</code>很简单，当时不以为然，现在能够理解，其实稍作研究就能理解了，看起来很高端很遥远的<code>Title</code>，比如<code>Linux Kernel</code>，比如软硬件交互，比如热插拔等等，其实掌握几个<code>rules</code>，然后再动手实践实践，对比着讲解，就能知道七七八八了，想要再深入，就多看看文档实现和内核源码，其实很多东西都是这样，了解了就很简单，没事了解一点就比别人多知道一些，共勉 </p>
-</blockquote>
+        <center><img src="http://ow0mgad6r.bkt.clouddn.com/night_king800x600_1x.jpg" alt="udev"></center>
+
+<p>在我入门<code>udev</code>，看着各种各样的资料觉得这个东西很高深的时候，突然瞄到一篇文章里面说道： 要树立一个信念：<code>udev</code>很简单，当时不以为然，现在深表赞同。看起来很高端很遥远的<code>Title</code>，比如<code>Linux Kernel</code>，比如软硬件交互，比如热插拔等等，其实掌握几个<code>rules</code>，然后再动手实践实践，对比着讲解，就能知道七七八八了，想要再深入，就多看看文档实现和内核源码，其实很多东西都是这样，了解了就很简单，没事了解一点就比别人多知道一些，共勉 </p>
 <a id="more"></a>
 <h2 id="Udev-是什么"><a href="#Udev-是什么" class="headerlink" title="Udev 是什么"></a>Udev 是什么</h2><p><code>udev</code>是<code>linux kernel</code>的设备管理器，处理硬件的添加和删除，但它的功能远远不仅于此。比如<code>U</code>盘插入，电脑是如何即时的做出响应？耳机插入又是如何做到自动关闭外部音量？这些都跟<code>udev</code>有关。虽然<code>udev</code>很强大，功能很多，本来就针对<code>SCSI</code>硬盘设备的插拔做一些经验的分享。至于为什么我会研究到这个东西，是因为最近在做<code>ceph</code>相关的项目，需要实现一个类似热插拔的<code>feature</code>，懂的人应该很清楚，就是拔插硬盘后，<code>osd</code>自动恢复，主要应用于硬盘寿命即将到期，替换新盘的场景，不明白的同学也不要紧，因为本文主要讨论的是<code>udev</code></p>
 <h2 id="Udev-Rules"><a href="#Udev-Rules" class="headerlink" title="Udev Rules"></a>Udev Rules</h2><p><code>udev</code>管理各种各样的设备，比如<code>usb</code>,<code>scsi</code>,<code>cd</code>等等，为了区别设备类型，精确匹配，<code>udev</code>制定了一套特色的<code>rules</code>，为什么说特色呢？因为我觉得它用最简洁的语法满足了方方面面的需求</p>
@@ -382,7 +388,7 @@
         <p><span>本文标题:</span><a  href="/2017/09/10/Linux-Udev/">Linux Udev</a></p>
         <p><span>文章作者:</span><a  href="/" title="访问 Tony 的个人博客">Tony</a></p>
         <p><span>发布时间:</span>2017年09月10日 - 02时20分</p>
-        <p><span>最后更新:</span>2017年09月12日 - 00时57分</p>
+        <p><span>最后更新:</span>2017年09月12日 - 14时04分</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2017/09/10/Linux-Udev/" title="Linux Udev">http://yoursite.com/2017/09/10/Linux-Udev/</a>
             <span class="copy-path" data-clipboard-text="原文: http://yoursite.com/2017/09/10/Linux-Udev/　　作者: Tony" title=""></span>
@@ -473,18 +479,6 @@
 
 
     
-        <section class="changyan" id="comments">
-  <!--<div id="uyan_frame"></div>-->
-  <div id="SOHUCS"></div>
-  <script charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/changyan.js"></script>
-  <script type="text/javascript">
-    window.changyan.api.config({
-      appid: 'xxxx',
-      conf: 'xxxxxxxxx'
-    });
-  </script>
-</section>
-    
 
 
 
@@ -501,7 +495,7 @@
             </a>
         
     </div>
-    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2017/09/10/Disk-pull-and-plug-record/">Disk pull and plug record</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/10/Linux-Udev/">Linux Udev</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/10/Magicloud-Route/">Magicloud Route</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/10/Osd-Enable-and-Disable/">Osd Enable and Disable</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/10/Disk-Mon-Deamon/">Disk Mon Deamon</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/10/network-down-notification/">Network Down Notification</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/10/Python-Oracle/">Python Oracle</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/10/oracle_install/">Oracle Linux And Oracle Database 11g R2 Intsallation</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/09/Moodle-Local-Plugin/">Moodle Local Plugin</a></li></ul>
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2017/09/10/Disk-pull-and-plug-record/">Disk pull and plug record</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/10/Linux-Udev/">Linux Udev</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/10/Magicloud-Route/">Magicloud Route</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/10/Osd-Enable-and-Disable/">Osd Enable and Disable</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/10/Disk-Mon-Daemon/">Disk Mon Daemon</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/10/network-down-notification/">Network Down Notification</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/10/Python-Oracle/">Python Oracle</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/10/oracle_install/">Oracle Linux And Oracle Database 11g R2 Intsallation</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/09/Moodle-Local-Plugin/">Moodle Local Plugin</a></li></ul>
     <script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
     <script>
         $(".post-list").addClass("toc-article");
