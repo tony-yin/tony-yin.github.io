@@ -5,9 +5,9 @@
   
   <link href="/atom.xml" rel="self"/>
   
-  <link href="http://yoursite.com/"/>
+  <link href="https://tony-yin.github.io/"/>
   <updated>2017-09-12T11:16:28.572Z</updated>
-  <id>http://yoursite.com/</id>
+  <id>https://tony-yin.github.io/</id>
   
   <author>
     <name>Tony</name>
@@ -18,8 +18,8 @@
   
   <entry>
     <title>Disk pull and plug record</title>
-    <link href="http://yoursite.com/2017/09/10/Disk-pull-and-plug-record/"/>
-    <id>http://yoursite.com/2017/09/10/Disk-pull-and-plug-record/</id>
+    <link href="https://tony-yin.github.io/2017/09/10/Disk-pull-and-plug-record/"/>
+    <id>https://tony-yin.github.io/2017/09/10/Disk-pull-and-plug-record/</id>
     <published>2017-09-09T18:21:45.000Z</published>
     <updated>2017-09-12T11:16:28.572Z</updated>
     
@@ -33,27 +33,27 @@
     
     </summary>
     
-      <category term="tech" scheme="http://yoursite.com/categories/tech/"/>
+      <category term="tech" scheme="https://tony-yin.github.io/categories/tech/"/>
     
     
-      <category term="Ceph" scheme="http://yoursite.com/tags/Ceph/"/>
+      <category term="Ceph" scheme="https://tony-yin.github.io/tags/Ceph/"/>
     
-      <category term="Linux" scheme="http://yoursite.com/tags/Linux/"/>
+      <category term="Magicloud" scheme="https://tony-yin.github.io/tags/Magicloud/"/>
     
-      <category term="Udev" scheme="http://yoursite.com/tags/Udev/"/>
+      <category term="Linux" scheme="https://tony-yin.github.io/tags/Linux/"/>
     
-      <category term="Magicloud" scheme="http://yoursite.com/tags/Magicloud/"/>
+      <category term="Osd" scheme="https://tony-yin.github.io/tags/Osd/"/>
     
-      <category term="Disk" scheme="http://yoursite.com/tags/Disk/"/>
+      <category term="Disk" scheme="https://tony-yin.github.io/tags/Disk/"/>
     
-      <category term="Osd" scheme="http://yoursite.com/tags/Osd/"/>
+      <category term="Udev" scheme="https://tony-yin.github.io/tags/Udev/"/>
     
   </entry>
   
   <entry>
     <title>Linux Udev</title>
-    <link href="http://yoursite.com/2017/09/10/Linux-Udev/"/>
-    <id>http://yoursite.com/2017/09/10/Linux-Udev/</id>
+    <link href="https://tony-yin.github.io/2017/09/10/Linux-Udev/"/>
+    <id>https://tony-yin.github.io/2017/09/10/Linux-Udev/</id>
     <published>2017-09-09T18:20:27.000Z</published>
     <updated>2017-09-12T06:04:17.161Z</updated>
     
@@ -67,23 +67,23 @@
     
     </summary>
     
-      <category term="tech" scheme="http://yoursite.com/categories/tech/"/>
+      <category term="tech" scheme="https://tony-yin.github.io/categories/tech/"/>
     
     
-      <category term="Ceph" scheme="http://yoursite.com/tags/Ceph/"/>
+      <category term="Ceph" scheme="https://tony-yin.github.io/tags/Ceph/"/>
     
-      <category term="Linux" scheme="http://yoursite.com/tags/Linux/"/>
+      <category term="Magicloud" scheme="https://tony-yin.github.io/tags/Magicloud/"/>
     
-      <category term="Udev" scheme="http://yoursite.com/tags/Udev/"/>
+      <category term="Linux" scheme="https://tony-yin.github.io/tags/Linux/"/>
     
-      <category term="Magicloud" scheme="http://yoursite.com/tags/Magicloud/"/>
+      <category term="Udev" scheme="https://tony-yin.github.io/tags/Udev/"/>
     
   </entry>
   
   <entry>
     <title>Magicloud Route</title>
-    <link href="http://yoursite.com/2017/09/10/Magicloud-Route/"/>
-    <id>http://yoursite.com/2017/09/10/Magicloud-Route/</id>
+    <link href="https://tony-yin.github.io/2017/09/10/Magicloud-Route/"/>
+    <id>https://tony-yin.github.io/2017/09/10/Magicloud-Route/</id>
     <published>2017-09-09T18:19:35.000Z</published>
     <updated>2017-09-12T11:30:20.002Z</updated>
     
@@ -97,19 +97,19 @@
     
     </summary>
     
-      <category term="tech" scheme="http://yoursite.com/categories/tech/"/>
+      <category term="tech" scheme="https://tony-yin.github.io/categories/tech/"/>
     
     
-      <category term="Magicloud" scheme="http://yoursite.com/tags/Magicloud/"/>
+      <category term="Magicloud" scheme="https://tony-yin.github.io/tags/Magicloud/"/>
     
-      <category term="Route" scheme="http://yoursite.com/tags/Route/"/>
+      <category term="Route" scheme="https://tony-yin.github.io/tags/Route/"/>
     
   </entry>
   
   <entry>
     <title>Osd Enable and Disable</title>
-    <link href="http://yoursite.com/2017/09/10/Osd-Enable-and-Disable/"/>
-    <id>http://yoursite.com/2017/09/10/Osd-Enable-and-Disable/</id>
+    <link href="https://tony-yin.github.io/2017/09/10/Osd-Enable-and-Disable/"/>
+    <id>https://tony-yin.github.io/2017/09/10/Osd-Enable-and-Disable/</id>
     <published>2017-09-09T18:18:33.000Z</published>
     <updated>2017-09-12T12:30:41.184Z</updated>
     
@@ -123,21 +123,21 @@
     
     </summary>
     
-      <category term="tech" scheme="http://yoursite.com/categories/tech/"/>
+      <category term="tech" scheme="https://tony-yin.github.io/categories/tech/"/>
     
     
-      <category term="Ceph" scheme="http://yoursite.com/tags/Ceph/"/>
+      <category term="Ceph" scheme="https://tony-yin.github.io/tags/Ceph/"/>
     
-      <category term="Magicloud" scheme="http://yoursite.com/tags/Magicloud/"/>
+      <category term="Magicloud" scheme="https://tony-yin.github.io/tags/Magicloud/"/>
     
-      <category term="Osd" scheme="http://yoursite.com/tags/Osd/"/>
+      <category term="Osd" scheme="https://tony-yin.github.io/tags/Osd/"/>
     
   </entry>
   
   <entry>
     <title>Disk Mon Daemon</title>
-    <link href="http://yoursite.com/2017/09/10/Disk-Mon-Daemon/"/>
-    <id>http://yoursite.com/2017/09/10/Disk-Mon-Daemon/</id>
+    <link href="https://tony-yin.github.io/2017/09/10/Disk-Mon-Daemon/"/>
+    <id>https://tony-yin.github.io/2017/09/10/Disk-Mon-Daemon/</id>
     <published>2017-09-09T18:17:19.000Z</published>
     <updated>2017-09-12T05:56:08.950Z</updated>
     
@@ -152,23 +152,23 @@
     
     </summary>
     
-      <category term="tech" scheme="http://yoursite.com/categories/tech/"/>
+      <category term="tech" scheme="https://tony-yin.github.io/categories/tech/"/>
     
     
-      <category term="Ceph" scheme="http://yoursite.com/tags/Ceph/"/>
+      <category term="Ceph" scheme="https://tony-yin.github.io/tags/Ceph/"/>
     
-      <category term="Linux" scheme="http://yoursite.com/tags/Linux/"/>
+      <category term="Magicloud" scheme="https://tony-yin.github.io/tags/Magicloud/"/>
     
-      <category term="Magicloud" scheme="http://yoursite.com/tags/Magicloud/"/>
+      <category term="Linux" scheme="https://tony-yin.github.io/tags/Linux/"/>
     
-      <category term="Daemon" scheme="http://yoursite.com/tags/Daemon/"/>
+      <category term="Daemon" scheme="https://tony-yin.github.io/tags/Daemon/"/>
     
   </entry>
   
   <entry>
     <title>Network Down Notification</title>
-    <link href="http://yoursite.com/2017/09/10/network-down-notification/"/>
-    <id>http://yoursite.com/2017/09/10/network-down-notification/</id>
+    <link href="https://tony-yin.github.io/2017/09/10/network-down-notification/"/>
+    <id>https://tony-yin.github.io/2017/09/10/network-down-notification/</id>
     <published>2017-09-09T18:14:34.000Z</published>
     <updated>2017-09-12T11:58:13.285Z</updated>
     
@@ -187,23 +187,23 @@
     
     </summary>
     
-      <category term="tech" scheme="http://yoursite.com/categories/tech/"/>
+      <category term="tech" scheme="https://tony-yin.github.io/categories/tech/"/>
     
     
-      <category term="Ceph" scheme="http://yoursite.com/tags/Ceph/"/>
+      <category term="Ceph" scheme="https://tony-yin.github.io/tags/Ceph/"/>
     
-      <category term="Magicloud" scheme="http://yoursite.com/tags/Magicloud/"/>
+      <category term="Magicloud" scheme="https://tony-yin.github.io/tags/Magicloud/"/>
     
-      <category term="Network" scheme="http://yoursite.com/tags/Network/"/>
+      <category term="Network" scheme="https://tony-yin.github.io/tags/Network/"/>
     
-      <category term="Notification" scheme="http://yoursite.com/tags/Notification/"/>
+      <category term="Notification" scheme="https://tony-yin.github.io/tags/Notification/"/>
     
   </entry>
   
   <entry>
     <title>Python Oracle</title>
-    <link href="http://yoursite.com/2017/09/10/Python-Oracle/"/>
-    <id>http://yoursite.com/2017/09/10/Python-Oracle/</id>
+    <link href="https://tony-yin.github.io/2017/09/10/Python-Oracle/"/>
+    <id>https://tony-yin.github.io/2017/09/10/Python-Oracle/</id>
     <published>2017-09-09T17:02:41.000Z</published>
     <updated>2017-09-12T10:59:06.123Z</updated>
     
@@ -217,19 +217,19 @@
     
     </summary>
     
-      <category term="teach" scheme="http://yoursite.com/categories/teach/"/>
+      <category term="teach" scheme="https://tony-yin.github.io/categories/teach/"/>
     
     
-      <category term="Python" scheme="http://yoursite.com/tags/Python/"/>
+      <category term="Python" scheme="https://tony-yin.github.io/tags/Python/"/>
     
-      <category term="Oracle" scheme="http://yoursite.com/tags/Oracle/"/>
+      <category term="Oracle" scheme="https://tony-yin.github.io/tags/Oracle/"/>
     
   </entry>
   
   <entry>
     <title>Oracle Linux And Oracle Database 11g R2 Intsallation</title>
-    <link href="http://yoursite.com/2017/09/10/oracle_install/"/>
-    <id>http://yoursite.com/2017/09/10/oracle_install/</id>
+    <link href="https://tony-yin.github.io/2017/09/10/oracle_install/"/>
+    <id>https://tony-yin.github.io/2017/09/10/oracle_install/</id>
     <published>2017-09-09T16:53:06.000Z</published>
     <updated>2017-09-12T10:36:11.363Z</updated>
     
@@ -243,21 +243,21 @@
     
     </summary>
     
-      <category term="tech" scheme="http://yoursite.com/categories/tech/"/>
+      <category term="tech" scheme="https://tony-yin.github.io/categories/tech/"/>
     
     
-      <category term="Oracle" scheme="http://yoursite.com/tags/Oracle/"/>
+      <category term="Oracle" scheme="https://tony-yin.github.io/tags/Oracle/"/>
     
-      <category term="Oracle Linux" scheme="http://yoursite.com/tags/Oracle-Linux/"/>
+      <category term="Oracle Linux" scheme="https://tony-yin.github.io/tags/Oracle-Linux/"/>
     
-      <category term="Oracle 11g R2" scheme="http://yoursite.com/tags/Oracle-11g-R2/"/>
+      <category term="Oracle 11g R2" scheme="https://tony-yin.github.io/tags/Oracle-11g-R2/"/>
     
   </entry>
   
   <entry>
     <title>Moodle Local Plugin</title>
-    <link href="http://yoursite.com/2017/09/09/Moodle-Local-Plugin/"/>
-    <id>http://yoursite.com/2017/09/09/Moodle-Local-Plugin/</id>
+    <link href="https://tony-yin.github.io/2017/09/09/Moodle-Local-Plugin/"/>
+    <id>https://tony-yin.github.io/2017/09/09/Moodle-Local-Plugin/</id>
     <published>2017-09-09T15:05:05.000Z</published>
     <updated>2017-09-12T07:11:46.151Z</updated>
     
@@ -271,12 +271,12 @@
     
     </summary>
     
-      <category term="tech" scheme="http://yoursite.com/categories/tech/"/>
+      <category term="tech" scheme="https://tony-yin.github.io/categories/tech/"/>
     
     
-      <category term="Moodle" scheme="http://yoursite.com/tags/Moodle/"/>
+      <category term="Moodle" scheme="https://tony-yin.github.io/tags/Moodle/"/>
     
-      <category term="PHP" scheme="http://yoursite.com/tags/PHP/"/>
+      <category term="PHP" scheme="https://tony-yin.github.io/tags/PHP/"/>
     
   </entry>
   
