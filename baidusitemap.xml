@@ -89,11 +89,11 @@
          
         <tag>Linux</tag>
          
+        <tag>Udev</tag>
+         
         <tag>Osd</tag>
          
         <tag>Disk</tag>
-         
-        <tag>Udev</tag>
          
          
            
@@ -113,9 +113,9 @@
         <title>Python Oracle</title>
         <pubTime>2017-09-09T17:02:41.000Z</pubTime>
         
-        <tag>Python</tag>
-         
         <tag>Oracle</tag>
+         
+        <tag>Python</tag>
          
          
            

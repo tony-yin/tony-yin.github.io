@@ -42,11 +42,11 @@
     
       <category term="Linux" scheme="https://tony-yin.github.io/tags/Linux/"/>
     
+      <category term="Udev" scheme="https://tony-yin.github.io/tags/Udev/"/>
+    
       <category term="Osd" scheme="https://tony-yin.github.io/tags/Osd/"/>
     
       <category term="Disk" scheme="https://tony-yin.github.io/tags/Disk/"/>
-    
-      <category term="Udev" scheme="https://tony-yin.github.io/tags/Udev/"/>
     
   </entry>
   
@@ -220,9 +220,9 @@
       <category term="teach" scheme="https://tony-yin.github.io/categories/teach/"/>
     
     
-      <category term="Python" scheme="https://tony-yin.github.io/tags/Python/"/>
-    
       <category term="Oracle" scheme="https://tony-yin.github.io/tags/Oracle/"/>
+    
+      <category term="Python" scheme="https://tony-yin.github.io/tags/Python/"/>
     
   </entry>
   
