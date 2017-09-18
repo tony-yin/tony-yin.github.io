@@ -4,6 +4,28 @@
 
     
   <url>
+    <loc>https://tony-yin.github.io/2017/09/18/PHP-Excel/</loc>
+    <lastmod>2017-09-18T11:06:03.432Z</lastmod>
+    <data>
+        <display>
+        <title>PHP-Excel 开发解决方案</title>
+        <pubTime>2017-09-18T10:37:28.000Z</pubTime>
+        
+        <tag>PHP</tag>
+         
+        <tag>PHPExcel</tag>
+         
+         
+           
+             
+              <breadCrumb title="tech" url="https://tony-yin.github.io/categories/tech/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>https://tony-yin.github.io/2017/09/10/Osd-Enable-and-Disable/</loc>
     <lastmod>2017-09-12T12:30:41.184Z</lastmod>
     <data>
@@ -113,9 +135,9 @@
         <title>Python Oracle</title>
         <pubTime>2017-09-09T17:02:41.000Z</pubTime>
         
-        <tag>Python</tag>
-         
         <tag>Oracle</tag>
+         
+        <tag>Python</tag>
          
          
            
@@ -159,9 +181,9 @@
         <title>Moodle Local Plugin</title>
         <pubTime>2017-09-09T15:05:05.000Z</pubTime>
         
-        <tag>Moodle</tag>
-         
         <tag>PHP</tag>
+         
+        <tag>Moodle</tag>
          
          
            
