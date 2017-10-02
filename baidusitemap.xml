@@ -4,8 +4,115 @@
 
     
   <url>
+    <loc>https://tony-yin.github.io/2017/10/02/Batch-Create-And-Delete-Disk-Partition-Script/</loc>
+    <lastmod>2017-10-02T05:15:39.000Z</lastmod>
+    <data>
+        <display>
+        <title>批量创建和删除磁盘分区脚本</title>
+        <pubTime>2017-10-02T05:07:06.000Z</pubTime>
+        
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://tony-yin.github.io/2017/09/10/Disk-Mon-Daemon/</loc>
+    <lastmod>2017-10-02T05:05:29.000Z</lastmod>
+    <data>
+        <display>
+        <title>Disk Mon Daemon</title>
+        <pubTime>2017-09-09T18:17:19.000Z</pubTime>
+        
+        <tag>Ceph</tag>
+         
+        <tag>Magicloud</tag>
+         
+        <tag>Linux</tag>
+         
+        <tag>Daemon</tag>
+         
+         
+           
+             
+              <breadCrumb title="tech" url="https://tony-yin.github.io/categories/tech/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://tony-yin.github.io/2017/09/21/How-To-Forge-Product/</loc>
+    <lastmod>2017-10-02T05:01:31.000Z</lastmod>
+    <data>
+        <display>
+        <title>How-To-Forge-Product</title>
+        <pubTime>2017-09-21T05:57:34.000Z</pubTime>
+        
+        <tag>产品</tag>
+         
+         
+           
+             
+              <breadCrumb title="summary" url="https://tony-yin.github.io/categories/summary/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://tony-yin.github.io/2017/09/10/Osd-Enable-and-Disable/</loc>
+    <lastmod>2017-10-02T05:01:09.000Z</lastmod>
+    <data>
+        <display>
+        <title>Osd Enable and Disable</title>
+        <pubTime>2017-09-09T18:18:33.000Z</pubTime>
+        
+        <tag>Ceph</tag>
+         
+        <tag>Magicloud</tag>
+         
+        <tag>Osd</tag>
+         
+         
+           
+             
+              <breadCrumb title="tech" url="https://tony-yin.github.io/categories/tech/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://tony-yin.github.io/2017/09/10/Python-Oracle/</loc>
+    <lastmod>2017-10-02T05:00:17.000Z</lastmod>
+    <data>
+        <display>
+        <title>Python Oracle</title>
+        <pubTime>2017-09-09T17:02:41.000Z</pubTime>
+        
+        <tag>Python</tag>
+         
+        <tag>Oracle</tag>
+         
+         
+           
+             
+              <breadCrumb title="teach" url="https://tony-yin.github.io/categories/teach/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>https://tony-yin.github.io/2017/09/27/OSD-Create-And-Delete/</loc>
-    <lastmod>2017-09-28T06:05:56.148Z</lastmod>
+    <lastmod>2017-10-02T04:59:25.000Z</lastmod>
     <data>
         <display>
         <title>OSD创建和删除全过程</title>
@@ -27,7 +134,7 @@
     
   <url>
     <loc>https://tony-yin.github.io/2017/09/28/JS-Object-Null/</loc>
-    <lastmod>2017-09-28T06:04:25.270Z</lastmod>
+    <lastmod>2017-10-02T04:55:29.000Z</lastmod>
     <data>
         <display>
         <title>JS判断对象是否为空</title>
@@ -48,28 +155,8 @@
 
     
   <url>
-    <loc>https://tony-yin.github.io/2017/09/21/How-To-Forge-Product/</loc>
-    <lastmod>2017-09-21T06:26:40.504Z</lastmod>
-    <data>
-        <display>
-        <title>How-To-Forge-Product</title>
-        <pubTime>2017-09-21T05:57:34.000Z</pubTime>
-        
-        <tag>产品</tag>
-         
-         
-           
-             
-              <breadCrumb title="summary" url="https://tony-yin.github.io/categories/summary/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
     <loc>https://tony-yin.github.io/2017/09/10/Disk-pull-and-plug-record/</loc>
-    <lastmod>2017-09-20T13:48:28.521Z</lastmod>
+    <lastmod>2017-09-20T13:48:28.000Z</lastmod>
     <data>
         <display>
         <title>Disk pull and plug record</title>
@@ -99,7 +186,7 @@
     
   <url>
     <loc>https://tony-yin.github.io/2017/09/09/Moodle-Local-Plugin/</loc>
-    <lastmod>2017-09-20T13:43:26.323Z</lastmod>
+    <lastmod>2017-09-20T13:43:26.000Z</lastmod>
     <data>
         <display>
         <title>Moodle Local Plugin</title>
@@ -120,54 +207,8 @@
 
     
   <url>
-    <loc>https://tony-yin.github.io/2017/09/10/Python-Oracle/</loc>
-    <lastmod>2017-09-20T13:41:03.575Z</lastmod>
-    <data>
-        <display>
-        <title>Python Oracle</title>
-        <pubTime>2017-09-09T17:02:41.000Z</pubTime>
-        
-        <tag>Python</tag>
-         
-        <tag>Oracle</tag>
-         
-         
-           
-             
-              <breadCrumb title="teach" url="https://tony-yin.github.io/categories/teach/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>https://tony-yin.github.io/2017/09/10/Osd-Enable-and-Disable/</loc>
-    <lastmod>2017-09-20T13:40:23.815Z</lastmod>
-    <data>
-        <display>
-        <title>Osd Enable and Disable</title>
-        <pubTime>2017-09-09T18:18:33.000Z</pubTime>
-        
-        <tag>Ceph</tag>
-         
-        <tag>Magicloud</tag>
-         
-        <tag>Osd</tag>
-         
-         
-           
-             
-              <breadCrumb title="tech" url="https://tony-yin.github.io/categories/tech/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
     <loc>https://tony-yin.github.io/2017/09/10/network-down-notification/</loc>
-    <lastmod>2017-09-20T13:40:00.985Z</lastmod>
+    <lastmod>2017-09-20T13:40:00.000Z</lastmod>
     <data>
         <display>
         <title>Network Down Notification</title>
@@ -193,7 +234,7 @@
     
   <url>
     <loc>https://tony-yin.github.io/2017/09/10/Magicloud-Route/</loc>
-    <lastmod>2017-09-20T13:39:28.092Z</lastmod>
+    <lastmod>2017-09-20T13:39:28.000Z</lastmod>
     <data>
         <display>
         <title>Magicloud Route</title>
@@ -215,7 +256,7 @@
     
   <url>
     <loc>https://tony-yin.github.io/2017/09/10/oracle_install/</loc>
-    <lastmod>2017-09-20T13:38:36.267Z</lastmod>
+    <lastmod>2017-09-20T13:38:36.000Z</lastmod>
     <data>
         <display>
         <title>Oracle Linux And Oracle Database 11g R2 Intsallation</title>
@@ -238,34 +279,8 @@
 
     
   <url>
-    <loc>https://tony-yin.github.io/2017/09/10/Disk-Mon-Daemon/</loc>
-    <lastmod>2017-09-20T13:37:18.765Z</lastmod>
-    <data>
-        <display>
-        <title>Disk Mon Daemon</title>
-        <pubTime>2017-09-09T18:17:19.000Z</pubTime>
-        
-        <tag>Ceph</tag>
-         
-        <tag>Magicloud</tag>
-         
-        <tag>Linux</tag>
-         
-        <tag>Daemon</tag>
-         
-         
-           
-             
-              <breadCrumb title="tech" url="https://tony-yin.github.io/categories/tech/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
     <loc>https://tony-yin.github.io/2017/09/10/Linux-Udev/</loc>
-    <lastmod>2017-09-20T12:17:41.944Z</lastmod>
+    <lastmod>2017-09-20T12:17:41.000Z</lastmod>
     <data>
         <display>
         <title>Linux Udev</title>
@@ -291,7 +306,7 @@
     
   <url>
     <loc>https://tony-yin.github.io/2017/09/18/PHP-Excel/</loc>
-    <lastmod>2017-09-20T11:50:15.758Z</lastmod>
+    <lastmod>2017-09-20T11:50:15.000Z</lastmod>
     <data>
         <display>
         <title>PHP-Excel 开发解决方案</title>

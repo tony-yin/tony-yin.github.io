@@ -2,93 +2,100 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>https://tony-yin.github.io/2017/09/27/OSD-Create-And-Delete/</loc>
+    <loc>https://tony-yin.github.io/2017/10/02/Batch-Create-And-Delete-Disk-Partition-Script/</loc>
     
-    <lastmod>2017-09-28T06:05:56.148Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://tony-yin.github.io/2017/09/28/JS-Object-Null/</loc>
-    
-    <lastmod>2017-09-28T06:04:25.270Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://tony-yin.github.io/2017/09/21/How-To-Forge-Product/</loc>
-    
-    <lastmod>2017-09-21T06:26:40.504Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://tony-yin.github.io/2017/09/10/Disk-pull-and-plug-record/</loc>
-    
-    <lastmod>2017-09-20T13:48:28.521Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://tony-yin.github.io/2017/09/09/Moodle-Local-Plugin/</loc>
-    
-    <lastmod>2017-09-20T13:43:26.323Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://tony-yin.github.io/2017/09/10/Python-Oracle/</loc>
-    
-    <lastmod>2017-09-20T13:41:03.575Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://tony-yin.github.io/2017/09/10/Osd-Enable-and-Disable/</loc>
-    
-    <lastmod>2017-09-20T13:40:23.815Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://tony-yin.github.io/2017/09/10/network-down-notification/</loc>
-    
-    <lastmod>2017-09-20T13:40:00.985Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://tony-yin.github.io/2017/09/10/Magicloud-Route/</loc>
-    
-    <lastmod>2017-09-20T13:39:28.092Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://tony-yin.github.io/2017/09/10/oracle_install/</loc>
-    
-    <lastmod>2017-09-20T13:38:36.267Z</lastmod>
+    <lastmod>2017-10-02T05:15:39.000Z</lastmod>
     
   </url>
   
   <url>
     <loc>https://tony-yin.github.io/2017/09/10/Disk-Mon-Daemon/</loc>
     
-    <lastmod>2017-09-20T13:37:18.765Z</lastmod>
+    <lastmod>2017-10-02T05:05:29.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://tony-yin.github.io/2017/09/21/How-To-Forge-Product/</loc>
+    
+    <lastmod>2017-10-02T05:01:31.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://tony-yin.github.io/2017/09/10/Osd-Enable-and-Disable/</loc>
+    
+    <lastmod>2017-10-02T05:01:09.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://tony-yin.github.io/2017/09/10/Python-Oracle/</loc>
+    
+    <lastmod>2017-10-02T05:00:17.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://tony-yin.github.io/2017/09/27/OSD-Create-And-Delete/</loc>
+    
+    <lastmod>2017-10-02T04:59:25.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://tony-yin.github.io/2017/09/28/JS-Object-Null/</loc>
+    
+    <lastmod>2017-10-02T04:55:29.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://tony-yin.github.io/2017/09/10/Disk-pull-and-plug-record/</loc>
+    
+    <lastmod>2017-09-20T13:48:28.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://tony-yin.github.io/2017/09/09/Moodle-Local-Plugin/</loc>
+    
+    <lastmod>2017-09-20T13:43:26.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://tony-yin.github.io/2017/09/10/network-down-notification/</loc>
+    
+    <lastmod>2017-09-20T13:40:00.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://tony-yin.github.io/2017/09/10/Magicloud-Route/</loc>
+    
+    <lastmod>2017-09-20T13:39:28.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://tony-yin.github.io/2017/09/10/oracle_install/</loc>
+    
+    <lastmod>2017-09-20T13:38:36.000Z</lastmod>
     
   </url>
   
   <url>
     <loc>https://tony-yin.github.io/2017/09/10/Linux-Udev/</loc>
     
-    <lastmod>2017-09-20T12:17:41.944Z</lastmod>
+    <lastmod>2017-09-20T12:17:41.000Z</lastmod>
     
   </url>
   
   <url>
     <loc>https://tony-yin.github.io/2017/09/18/PHP-Excel/</loc>
     
-    <lastmod>2017-09-20T11:50:15.758Z</lastmod>
+    <lastmod>2017-09-20T11:50:15.000Z</lastmod>
     
   </url>
   

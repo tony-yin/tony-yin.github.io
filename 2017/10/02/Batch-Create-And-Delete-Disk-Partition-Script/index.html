@@ -7,21 +7,20 @@
   
   
   
-  <title>Linux Udev | Tony&#39;s blog</title>
+  <title>批量创建和删除磁盘分区脚本 | Tony&#39;s blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="在我入门udev，看着各种各样的资料觉得这个东西很高深的时候，突然瞄到一篇文章里面说道： 要树立一个信念：udev很简单，当时不以为然，现在深表赞同。看起来很高端很遥远的Title，比如Linux Kernel，比如软硬件交互，比如热插拔等等，其实掌握几个rules，然后再动手实践实践，对比着讲解，就能知道七七八八了，想要再深入，就多看看文档实现和内核源码，其实很多东西都是这样，了解了就很简单">
-<meta name="keywords" content="Ceph,Magicloud,Linux,Udev">
+  <meta name="description" content="最近在做批量启用OSD的性能优化，需要反复的删除磁盘分区，以保证彻底的删除数据，然后就要批量创建分区，保证足够量的分区数量创建足够多的OSD，由于数量较多，每次手动搞都要二十几次，所以针对创建和删除写了两个脚本，支持单一、批量和选择大小等功能">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Linux Udev">
-<meta property="og:url" content="https://tony-yin.github.io/2017/09/10/Linux-Udev/index.html">
+<meta property="og:title" content="批量创建和删除磁盘分区脚本">
+<meta property="og:url" content="https://tony-yin.github.io/2017/10/02/Batch-Create-And-Delete-Disk-Partition-Script/index.html">
 <meta property="og:site_name" content="Tony&#39;s blog">
-<meta property="og:description" content="在我入门udev，看着各种各样的资料觉得这个东西很高深的时候，突然瞄到一篇文章里面说道： 要树立一个信念：udev很简单，当时不以为然，现在深表赞同。看起来很高端很遥远的Title，比如Linux Kernel，比如软硬件交互，比如热插拔等等，其实掌握几个rules，然后再动手实践实践，对比着讲解，就能知道七七八八了，想要再深入，就多看看文档实现和内核源码，其实很多东西都是这样，了解了就很简单">
-<meta property="og:image" content="http://ow0mgad6r.bkt.clouddn.com/pingu.png">
-<meta property="og:updated_time" content="2017-09-20T12:17:41.000Z">
+<meta property="og:description" content="最近在做批量启用OSD的性能优化，需要反复的删除磁盘分区，以保证彻底的删除数据，然后就要批量创建分区，保证足够量的分区数量创建足够多的OSD，由于数量较多，每次手动搞都要二十几次，所以针对创建和删除写了两个脚本，支持单一、批量和选择大小等功能">
+<meta property="og:image" content="http://ow0mgad6r.bkt.clouddn.com/floppy_disk_600-450.png">
+<meta property="og:updated_time" content="2017-10-02T05:15:39.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Linux Udev">
-<meta name="twitter:description" content="在我入门udev，看着各种各样的资料觉得这个东西很高深的时候，突然瞄到一篇文章里面说道： 要树立一个信念：udev很简单，当时不以为然，现在深表赞同。看起来很高端很遥远的Title，比如Linux Kernel，比如软硬件交互，比如热插拔等等，其实掌握几个rules，然后再动手实践实践，对比着讲解，就能知道七七八八了，想要再深入，就多看看文档实现和内核源码，其实很多东西都是这样，了解了就很简单">
-<meta name="twitter:image" content="http://ow0mgad6r.bkt.clouddn.com/pingu.png">
+<meta name="twitter:title" content="批量创建和删除磁盘分区脚本">
+<meta name="twitter:description" content="最近在做批量启用OSD的性能优化，需要反复的删除磁盘分区，以保证彻底的删除数据，然后就要批量创建分区，保证足够量的分区数量创建足够多的OSD，由于数量较多，每次手动搞都要二十几次，所以针对创建和删除写了两个脚本，支持单一、批量和选择大小等功能">
+<meta name="twitter:image" content="http://ow0mgad6r.bkt.clouddn.com/floppy_disk_600-450.png">
   
     <link rel="alternative" href="/atom.xml" title="Tony&#39;s blog" type="application/atom+xml">
   
@@ -276,11 +275,11 @@
         </header>                
     </div>
 </nav>
-      <div class="body-wrap"><article id="post-Linux-Udev" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-Batch-Create-And-Delete-Disk-Partition-Script" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a  href="/2017/09/10/Linux-Udev/" class="article-date">
-      <time datetime="2017-09-09T18:20:27.000Z" itemprop="datePublished">2017-09-10</time>
+      <a  href="/2017/10/02/Batch-Create-And-Delete-Disk-Partition-Script/" class="article-date">
+      <time datetime="2017-10-02T05:07:06.000Z" itemprop="datePublished">2017-10-02</time>
 </a>
 
     </div>
@@ -294,7 +293,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      Linux Udev
+      批量创建和删除磁盘分区脚本
     </h1>
   
 
@@ -303,16 +302,8 @@
       
       <div class="article-info article-info-post">
         
-    <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/tech/">tech</a>
-    </div>
-
 
         
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Ceph/">Ceph</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/">Linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Magicloud/">Magicloud</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Udev/">Udev</a></li></ul>
-    </div>
-
         <div class="clearfix"></div>
       </div>
       
@@ -320,71 +311,50 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <center><img src="http://ow0mgad6r.bkt.clouddn.com/pingu.png" alt="udev"></center>
+        <center><img src="http://ow0mgad6r.bkt.clouddn.com/floppy_disk_600-450.png" alt="Disk Partition"></center>
 
-<p>在我入门<code>udev</code>，看着各种各样的资料觉得这个东西很高深的时候，突然瞄到一篇文章里面说道： 要树立一个信念：<code>udev</code>很简单，当时不以为然，现在深表赞同。看起来很高端很遥远的<code>Title</code>，比如<code>Linux Kernel</code>，比如软硬件交互，比如热插拔等等，其实掌握几个<code>rules</code>，然后再动手实践实践，对比着讲解，就能知道七七八八了，想要再深入，就多看看文档实现和内核源码，其实很多东西都是这样，了解了就很简单，没事了解一点就比别人多知道一些，共勉 </p>
+<p>最近在做批量启用<code>OSD</code>的性能优化，需要反复的删除磁盘分区，以保证彻底的删除数据，然后就要批量创建分区，保证足够量的分区数量创建足够多的<code>OSD</code>，由于数量较多，每次手动搞都要二十几次，所以针对创建和删除写了两个脚本，支持单一、批量和选择大小等功能</p>
 <a id="more"></a>
-<h2 id="Udev-是什么"><a href="#Udev-是什么" class="headerlink" title="Udev 是什么"></a>Udev 是什么</h2><p><code>udev</code>是<code>linux kernel</code>的设备管理器，处理硬件的添加和删除，但它的功能远远不仅于此。比如<code>U</code>盘插入，电脑是如何即时的做出响应？耳机插入又是如何做到自动关闭外部音量？这些都跟<code>udev</code>有关。虽然<code>udev</code>很强大，功能很多，本来就针对<code>SCSI</code>硬盘设备的插拔做一些经验的分享。至于为什么我会研究到这个东西，是因为最近在做<code>ceph</code>相关的项目，需要实现一个类似热插拔的<code>feature</code>，懂的人应该很清楚，就是拔插硬盘后，<code>osd</code>自动恢复，主要应用于硬盘寿命即将到期，替换新盘的场景，不明白的同学也不要紧，因为本文主要讨论的是<code>udev</code></p>
-<h2 id="Udev-Rules"><a href="#Udev-Rules" class="headerlink" title="Udev Rules"></a>Udev Rules</h2><p><code>udev</code>管理各种各样的设备，比如<code>usb</code>,<code>scsi</code>,<code>cd</code>等等，为了区别设备类型，精确匹配，<code>udev</code>制定了一套特色的<code>rules</code>，为什么说特色呢？因为我觉得它用最简洁的语法满足了方方面面的需求</p>
-<p>这里推荐一些有用的<code>link</code>：</p>
+<h2 id="清空分区"><a href="#清空分区" class="headerlink" title="清空分区"></a>清空分区</h2><h3 id="脚本名称"><a href="#脚本名称" class="headerlink" title="脚本名称"></a>脚本名称</h3><p><code>clean_disks.py</code></p>
+<h3 id="使用说明"><a href="#使用说明" class="headerlink" title="使用说明"></a>使用说明</h3><ul>
+<li><code>python clean_disks.py [disk_name1, disk_name2 ...]</code> </li>
+<li>支持单磁盘和多磁盘清空</li>
+<li>支持脚本参数，如果没有参数，默认清空所有磁盘分区，加磁盘参数则可清空指定磁盘分区, 多磁盘则累加多位磁盘参数</li>
+<li>为了保证安全，脚本不会清空系统磁盘，脚本会做过滤工作</li>
+</ul>
+<h3 id="使用范例"><a href="#使用范例" class="headerlink" title="使用范例"></a>使用范例</h3><ul>
+<li>清空所有磁盘分区</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">python clean_disks.py</div></pre></td></tr></table></figure>
 <ul>
-<li><a href="http://webpages.charter.net/decibelshelp/LinuxHelp_UDEVPrimer.html" target="_blank" rel="external">UDEV Primer</a>  <code>udev</code>入门必读，可以快速将<code>udev</code>了解一番</li>
-<li><a href="http://www.reactivated.net/writing_udev_rules.html" target="_blank" rel="external">Writing udev rules</a>  经典文章，看完这个基本就能掌握<code>udev rules</code></li>
-<li><a href="http://www.lai18.com/content/1612267.html" target="_blank" rel="external">Writing udev rules 修订版</a>  国内论坛对格式样式做了一些修改，有洁癖的可以看看</li>
-<li><a href="http://blog.csdn.net/nhczp/article/details/4099647" target="_blank" rel="external">Writing udev rules 译</a>  翻译版本，英文不好的可以中英文对比着看</li>
-<li><a href="http://www.jinbuguo.com/systemd/udev.html#" target="_blank" rel="external">udev 中文手册</a>  这位金步国先生为开源事业做出了杰出的贡献，早前就看过他翻译的<code>Apache</code>的手册</li>
-<li><a href="http://wiki.dreamrunner.org/public_html/Embedded-System/kernel/udev-rules.html" target="_blank" rel="external">Writing udev rules and kernel examples</a>  看够了上面各种规则，来看看具体的例子吧</li>
-<li><a href="http://blog.csdn.net/lqrensn/article/details/8097288" target="_blank" rel="external">Udev 详解</a>  文章如名，真的很详细</li>
-<li><a href="http://www.cnblogs.com/qigaohua/p/6673930.html" target="_blank" rel="external">Udev 使用方法</a>  一些特殊的技巧  </li>
+<li>清空<code>sdb</code>的分区</li>
 </ul>
-<p>大家看完上面的文章应该知道<code>rules</code>文件的位置和规则,下面我贴一些我实践中的代码和例子</p>
-<h3 id="Rules-Example"><a href="#Rules-Example" class="headerlink" title="Rules Example"></a>Rules Example</h3><p>这是两条分别针对<code>SCSI</code>硬盘设备的添加和删除的<code>rules</code>，设备事件分别会触发相应的脚本：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">KERNEL==&quot;sd[a-z]&quot;, ACTION==&quot;add&quot;, SUBSYSTEM==&quot;block&quot;, RUN+=&quot;/usr/bin/python /root/test.py %k add&quot;</div><div class="line">KERNEL==&quot;sd[a-z]&quot;, ACTION==&quot;remove&quot;, SUBSYSTEM==&quot;block&quot;, RUN+=&quot;/usr/bin/python /root/test.py %k remove&quot;</div></pre></td></tr></table></figure></p>
-<h3 id="Notice"><a href="#Notice" class="headerlink" title="Notice"></a>Notice</h3><ul>
-<li>执行外部命令必须加上环境变量路径, 上面的这个也可以不加<code>/usr/bin/python</code>，但是必须在<code>py</code>脚本头部加上<code>shebang</code>：<code>#! /usr/bin/python</code></li>
-<li><code>RUN</code>可以运行程序外的程序，而<code>PROGRAM</code>不是做这个事情的，而是为了生成之后需要的变量</li>
-</ul>
-<h3 id="Link"><a href="#Link" class="headerlink" title="Link"></a>Link</h3><ul>
-<li><a href="http://www.cnblogs.com/daishuguang/p/4192703.html" target="_blank" rel="external">hashtag and shebang</a></li>
-<li><a href="http://smilejay.com/2012/03/linux_shebang/" target="_blank" rel="external">shebang</a></li>
-</ul>
-<h2 id="Udevadm"><a href="#Udevadm" class="headerlink" title="Udevadm"></a>Udevadm</h2><p><code>udevadm</code>是一个<code>udev</code>的管理工具，可以用来获取设备信息(<code>info</code>)，监视和控制udev运行时的行为(<code>control</code>)，请求内核事件(<code>trigger</code>)，管理事件队列(<code>settle</code>)，以及提供简单的调试机制(<code>test</code>)。很实用，很好用！！！</p>
-<h3 id="推荐-Link"><a href="#推荐-Link" class="headerlink" title="推荐 Link"></a>推荐 Link</h3><ul>
-<li><a href="http://www.jinbuguo.com/systemd/udevadm.html" target="_blank" rel="external">udevadm 中文手册</a>  很全，很基础 ~~</li>
-<li><a href="http://fibrevillage.com/sysadmin/93-udevadm-usage-examples" target="_blank" rel="external">udevadm command examples</a>  很多<code>udevadm</code>的命令可以借鉴，说不定以后可以用到呢？</li>
-</ul>
-<p>介绍几个我具体使用过的例子：</p>
-<h3 id="udevadm-info"><a href="#udevadm-info" class="headerlink" title="udevadm info"></a>udevadm info</h3><p>可以从<code>udev</code>数据库中提取设备信息,此外，还可以从<code>sysfs</code>中提取设备的属性， 以帮助创建与此设备匹配的<code>udev</code>规则</p>
-<p>获取<code>/dev/sdb</code>的<code>path</code>信息<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">udevadm info -q path -n /dev/sdb</div></pre></td></tr></table></figure></p>
-<h3 id="udevadm-test"><a href="#udevadm-test" class="headerlink" title="udevadm test"></a>udevadm test</h3><p>模拟向<code>udev</code>发送设备信息，并不会真的触发，<strong>而是将触发后的过程信息打印出来</strong>，对调试很有帮助</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">udevadm test --action=&apos;add&apos; `udevadm info -q path -n /dev/sdb`</div></pre></td></tr></table></figure>
-<p><strong>注意：</strong> <code>test</code>不会真正触发事件，而<code>trigger</code>可以</p>
-<h3 id="udevadm-trigger"><a href="#udevadm-trigger" class="headerlink" title="udevadm trigger"></a>udevadm trigger</h3><p>可以真正触发<code>udev</code>事件，但是不会真正改变硬件，只是触发<code>kernel</code>和<code>udev</code>的事件，会触发<code>udev rules</code></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">udevadm trigger -v --action=add --sysname-match=sda</div></pre></td></tr></table></figure>
-<p><strong>注意：</strong> </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">python clean_disks.py sdb</div></pre></td></tr></table></figure>
 <ul>
-<li>不加<code>sysname-match</code>那么会触发所有设备，如果是<code>action=remove</code>，那么则会移除很多设备，甚至导致<code>sshd</code>服务停掉</li>
-<li>后面是<code>sda</code>而不是<code>/dev/sda</code>因为它是根据<code>pci</code>路径来定位<code>name</code>的，比如<code>sda</code>的路径是：<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">/sys/devices/pci0000:00/0000:00:10.0/host2/target2:0:0/2:0:0:0/block/sda</div></pre></td></tr></table></figure>
-</li>
+<li>清空<code>sdb</code>和<code>sdc</code>的分区</li>
 </ul>
-<h3 id="udevadm-control"><a href="#udevadm-control" class="headerlink" title="udevadm control"></a>udevadm control</h3><ul>
-<li><p>重载<code>udev rules</code>，对之后触发的新设备有效，对之前已经触发的无效</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">udevadm control --relaod-rules</div></pre></td></tr></table></figure>
-</li>
-<li><p>更改<code>udev</code>日志等级为<code>info</code>，<code>udev</code>默认等级为<code>err</code>，可以在<code>/etc/udev/udev.conf</code>中查看，日志具体信息可以在<code>syslog</code>中查看</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">udevadm control --log-priority=info</div></pre></td></tr></table></figure>
-</li>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">python clean_disks.py sdb sdc</div></pre></td></tr></table></figure>
+<h3 id="脚本代码"><a href="#脚本代码" class="headerlink" title="脚本代码"></a>脚本代码</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line">import sys</div><div class="line">from mcs3.command import do_cmd</div><div class="line"></div><div class="line">def clean_disk(disk_name):</div><div class="line">    print &apos;disk: &#123;&#125; clean start ...&apos;.format(disk_name)</div><div class="line">    do_cmd(&apos;sgdisk -Zog /dev/&#123;&#125;&apos;.format(disk_name))</div><div class="line">    print &apos;disk: &#123;&#125; clean done ...&apos;.format(disk_name)</div><div class="line"></div><div class="line">mount_info = do_cmd(&apos;mount&apos;)</div><div class="line">sys_disk_name = mount_info[5:8]</div><div class="line"></div><div class="line">if len(sys.argv) &gt; 1:</div><div class="line">    disks = sys.argv[1:]</div><div class="line">    for disk_name in disks:</div><div class="line">        if disk_name == sys_disk_name:</div><div class="line">            print &apos;&#123;&#125; is system disk, can\&apos;t be clean!&apos;.format(disk_name)</div><div class="line">        else:</div><div class="line">            clean_disk(disk_name)</div><div class="line">else:</div><div class="line">    all_disks = do_cmd(&apos;lsblk&apos;).splitlines()</div><div class="line">    for disk in all_disks:</div><div class="line">        if (disk.startswith(&apos;sd&apos;)):</div><div class="line">            disk_name = disk.split()[0]</div><div class="line">            if disk_name != sys_disk_name:</div><div class="line">                clean_disk(disk_name)</div></pre></td></tr></table></figure>
+<h2 id="创建分区"><a href="#创建分区" class="headerlink" title="创建分区"></a>创建分区</h2><h3 id="脚本名称-1"><a href="#脚本名称-1" class="headerlink" title="脚本名称"></a>脚本名称</h3><p><code>create_partitions.py</code></p>
+<h3 id="使用说明-1"><a href="#使用说明-1" class="headerlink" title="使用说明"></a>使用说明</h3><ul>
+<li><code>python create_partitions.py size num [disk_name1, disk_name2 ...]</code>, <code>size</code>为分区大小，<code>num</code>为分区数</li>
+<li>支持单磁盘和多磁盘创建分区</li>
+<li>支持脚本参数，如果没有参数，默认为所有磁盘创建分区，加磁盘参数则可清空指定磁盘分区, 多磁盘则累加多位磁盘参数</li>
+<li>为了保证安全，脚本不会为系统磁盘创建磁盘分区，脚本会做过滤工作</li>
 </ul>
-<h2 id="More-about-udev"><a href="#More-about-udev" class="headerlink" title="More about udev"></a>More about udev</h2><p><code>udev</code>还有很多有意思的地方，如果想要更加深入的学习，那么除了熟练地掌握<code>rules</code>等技巧，还要对其实现原理有了解，这就得多看文档，多看源码了，建议大家有条件的情况下多看源码，多看原始的东西，因为经过别人的总结就可能会变味，相互对比，不要一味依赖别人总结的产物</p>
+<h3 id="使用范例-1"><a href="#使用范例-1" class="headerlink" title="使用范例"></a>使用范例</h3><ul>
+<li>为<code>sdb</code>和<code>sdc</code>分别都创建两个大小为<code>100G</code>的分区</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">python create_partitions.py 100G 2 sdb sdc</div></pre></td></tr></table></figure>
 <ul>
-<li><a href="https://my.oschina.net/bwhite/blog/808995" target="_blank" rel="external">Linux 自动挂载usb设备 小例子</a>  如何在<code>usb</code>设备插入后自动挂载？</li>
-<li><a href="http://www.jianshu.com/p/dd6cecd7755a" target="_blank" rel="external">udev使用笔记</a>  这篇文章里面那张图片不错</li>
-<li><a href="http://blog.csdn.net/fjb2080/article/details/5009791" target="_blank" rel="external">写个程序检测我们的设备插拔</a>  模仿内核源码简单地实现一个设备插拔的检测</li>
-<li><a href="http://www.itnose.net/detail/6691523.html" target="_blank" rel="external">linux下热插拔事件的产生是怎样通知到用户空间</a>  事件传递过程，<code>udev</code>源码解析</li>
-<li><a href="http://blog.csdn.net/bingqingsuimeng/article/details/7950639" target="_blank" rel="external">热插拔的工作原理 hotplug机制和udev</a>  <code>udev</code>原理讲解</li>
-<li><a href="http://blog.csdn.net/sunweizhong1024/article/details/7928530" target="_blank" rel="external">Uevent 上报event事件给上层的详细讲解</a>  <code>uevent</code>源码讲解</li>
-<li><a href="http://blog.csdn.net/bingqingsuimeng/article/details/7924756" target="_blank" rel="external">linux内核空间和用户空间的是怎样区别的，如何交互，如何从用户空间进入内核空间</a>  内核空间和用户空间的一些剖析</li>
-<li><a href="http://blog.chinaunix.net/uid-24943863-id-3223000.html" target="_blank" rel="external">Netlink实现热拔插监控 </a>  消息传输用的是什么？<code>Netlink</code>是如何做到的</li>
+<li>为所有磁盘创建三个大小为<code>10G</code>的分区</li>
 </ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">python create_partitions.py 10G 3</div></pre></td></tr></table></figure>
+<ul>
+<li>为<code>sdc</code>创建四个大小为<code>1T</code>的分区</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">python create_partitions.py 1024G 4 sdc</div></pre></td></tr></table></figure>
+<h3 id="脚本代码-1"><a href="#脚本代码-1" class="headerlink" title="脚本代码"></a>脚本代码</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line">import sys</div><div class="line">from mcs3.command import do_cmd</div><div class="line"></div><div class="line">size = sys.argv[1]</div><div class="line">num = sys.argv[2]</div><div class="line">mount_info = do_cmd(&apos;mount&apos;)</div><div class="line">sys_disk_name = mount_info[5:8]</div><div class="line"></div><div class="line">def parted_disks(num, size, disk):</div><div class="line">    for i in range(int(num)):</div><div class="line">        do_cmd(&apos;sgdisk -n &#123;&#125;:0:+&#123;&#125; /dev/&#123;&#125;&apos;.format(i+1, size, disk))</div><div class="line">        print &apos;disk &#123;&#125; partition &#123;&#125; done ...&apos;.format(disk, i+1)</div><div class="line"></div><div class="line">if len(sys.argv) &gt; 3:</div><div class="line">    disks = sys.argv[3:]</div><div class="line">    for disk in disks:</div><div class="line">        if disk == sys_disk_name:</div><div class="line">            print &apos;&#123;&#125; is system disk, can\&apos;t be parted!&apos;.format(disk)</div><div class="line">        else:</div><div class="line">            parted_disks(num, size, disk)</div><div class="line">else:</div><div class="line">    all_disks = do_cmd(&apos;lsblk&apos;).splitlines()</div><div class="line">    for disk in all_disks:</div><div class="line">        if (disk.startswith(&apos;sd&apos;)):</div><div class="line">            disk_name = disk.split()[0]</div><div class="line">            if disk_name != sys_disk_name:</div><div class="line">                parted_disks(num, size, disk)</div></pre></td></tr></table></figure>
 
       
     </div>
@@ -393,13 +363,13 @@
   
     
     <div class="copyright">
-        <p><span>本文标题:</span><a  href="/2017/09/10/Linux-Udev/">Linux Udev</a></p>
+        <p><span>本文标题:</span><a  href="/2017/10/02/Batch-Create-And-Delete-Disk-Partition-Script/">批量创建和删除磁盘分区脚本</a></p>
         <p><span>文章作者:</span><a  href="/" title="访问 Tony 的个人博客">Tony</a></p>
-        <p><span>发布时间:</span>2017年09月10日 - 02时20分</p>
-        <p><span>最后更新:</span>2017年09月20日 - 20时17分</p>
+        <p><span>发布时间:</span>2017年10月02日 - 13时07分</p>
+        <p><span>最后更新:</span>2017年10月02日 - 13时15分</p>
         <p>
-            <span>原始链接:</span><a class="post-url" href="/2017/09/10/Linux-Udev/" title="Linux Udev">https://tony-yin.github.io/2017/09/10/Linux-Udev/</a>
-            <span class="copy-path" data-clipboard-text="原文: https://tony-yin.github.io/2017/09/10/Linux-Udev/　　作者: Tony" title=""></span>
+            <span>原始链接:</span><a class="post-url" href="/2017/10/02/Batch-Create-And-Delete-Disk-Partition-Script/" title="批量创建和删除磁盘分区脚本">https://tony-yin.github.io/2017/10/02/Batch-Create-And-Delete-Disk-Partition-Script/</a>
+            <span class="copy-path" data-clipboard-text="原文: https://tony-yin.github.io/2017/10/02/Batch-Create-And-Delete-Disk-Partition-Script/　　作者: Tony" title=""></span>
         </p>
         <p>
             <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/cn/" title="中国大陆 (CC BY-NC-SA 3.0 CN)" target = "_blank">"署名-非商用-相同方式共享 3.0"</a> 转载请保留原文链接及作者。
@@ -410,18 +380,9 @@
 
 <nav id="article-nav">
   
-    <a  href="/2017/09/10/Disk-pull-and-plug-record/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption"><</strong>
-      <div class="article-nav-title">
-        
-          Disk pull and plug record
-        
-      </div>
-    </a>
   
-  
-    <a  href="/2017/09/10/Magicloud-Route/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">Magicloud Route</div>
+    <a  href="/2017/09/28/JS-Object-Null/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">JS判断对象是否为空</div>
       <strong class="article-nav-caption">></strong>
     </a>
   
@@ -433,7 +394,7 @@
 
     <div id="toc" class="toc-article">
     <strong class="toc-title">文章目录</strong>
-    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Udev-是什么"><span class="toc-number">1.</span> <span class="toc-text">Udev 是什么</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Udev-Rules"><span class="toc-number">2.</span> <span class="toc-text">Udev Rules</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Rules-Example"><span class="toc-number">2.1.</span> <span class="toc-text">Rules Example</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Notice"><span class="toc-number">2.2.</span> <span class="toc-text">Notice</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Link"><span class="toc-number">2.3.</span> <span class="toc-text">Link</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Udevadm"><span class="toc-number">3.</span> <span class="toc-text">Udevadm</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#推荐-Link"><span class="toc-number">3.1.</span> <span class="toc-text">推荐 Link</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#udevadm-info"><span class="toc-number">3.2.</span> <span class="toc-text">udevadm info</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#udevadm-test"><span class="toc-number">3.3.</span> <span class="toc-text">udevadm test</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#udevadm-trigger"><span class="toc-number">3.4.</span> <span class="toc-text">udevadm trigger</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#udevadm-control"><span class="toc-number">3.5.</span> <span class="toc-text">udevadm control</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#More-about-udev"><span class="toc-number">4.</span> <span class="toc-text">More about udev</span></a></li></ol>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#清空分区"><span class="toc-number">1.</span> <span class="toc-text">清空分区</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#脚本名称"><span class="toc-number">1.1.</span> <span class="toc-text">脚本名称</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#使用说明"><span class="toc-number">1.2.</span> <span class="toc-text">使用说明</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#使用范例"><span class="toc-number">1.3.</span> <span class="toc-text">使用范例</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#脚本代码"><span class="toc-number">1.4.</span> <span class="toc-text">脚本代码</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#创建分区"><span class="toc-number">2.</span> <span class="toc-text">创建分区</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#脚本名称-1"><span class="toc-number">2.1.</span> <span class="toc-text">脚本名称</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#使用说明-1"><span class="toc-number">2.2.</span> <span class="toc-text">使用说明</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#使用范例-1"><span class="toc-number">2.3.</span> <span class="toc-text">使用范例</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#脚本代码-1"><span class="toc-number">2.4.</span> <span class="toc-text">脚本代码</span></a></li></ol></li></ol>
 </div>
 <style>
     .left-col .switch-btn {
@@ -493,13 +454,11 @@
 
     <div class="scroll" id="post-nav-button">
         
-            <a  href="/2017/09/10/Disk-pull-and-plug-record/" title="上一篇: Disk pull and plug record">
-                <i class="fa fa-angle-left"></i>
-            </a>
+            <a  href="/" title="回到主页"><i class="fa fa-home"></i></a>
         
         <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
         
-            <a  href="/2017/09/10/Magicloud-Route/" title="下一篇: Magicloud Route">
+            <a  href="/2017/09/28/JS-Object-Null/" title="下一篇: JS判断对象是否为空">
                 <i class="fa fa-angle-right"></i>
             </a>
         
