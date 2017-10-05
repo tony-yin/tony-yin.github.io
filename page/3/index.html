@@ -7,11 +7,11 @@
   
   
   
-  <title>Archives: 2017/10 | Tony&#39;s blog</title>
+  <title>Tony&#39;s blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta property="og:type" content="website">
 <meta property="og:title" content="Tony&#39;s blog">
-<meta property="og:url" content="https://tony-yin.github.io/archives/2017/10/index.html">
+<meta property="og:url" content="https://tony-yin.github.io/page/3/index.html">
 <meta property="og:site_name" content="Tony&#39;s blog">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Tony&#39;s blog">
@@ -28,6 +28,9 @@
   <link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css">
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
   
+    
+    
+  
   
       <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
   
@@ -38,9 +41,9 @@
       var yiliaConfig = {
           fancybox: true,
           animate: true,
-          isHome: false,
+          isHome: true,
           isPost: false,
-          isArchive: true,
+          isArchive: false,
           isTag: false,
           isCategory: false,
           open_in_new: false
@@ -271,50 +274,304 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-network-down-notification" class="article article-type-post" itemscope itemprop="blogPost">
   
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a  href="/archives/2017" class="archive-year">2017</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-          <div class="article-meta">
-              <a  href="/2017/10/02/Batch-Create-And-Delete-Disk-Partition-Script/" class="archive-article-date">
-      <time datetime="2017-10-02T05:07:06.000Z" itemprop="datePublished">10-02</time>
+    <div class="article-meta">
+      <a  href="/2017/09/10/network-down-notification/" class="article-date">
+      <time datetime="2017-09-09T18:14:34.000Z" itemprop="datePublished">2017-09-10</time>
 </a>
 
-        </div>
-         
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
   
     <h1 itemprop="name">
-      <a  class="archive-article-title" href="/2017/10/02/Batch-Create-And-Delete-Disk-Partition-Script/">批量创建和删除磁盘分区脚本</a>
+      <a  class="article-title" href="/2017/09/10/network-down-notification/">Network Down Notification</a>
     </h1>
   
 
 
-        <div class="article-info info-on-archive">
-          
-
-          
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
+      </header>
+      
     
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+              <center><img src="http://ow0mgad6r.bkt.clouddn.com/it_specialist_kit8-net.png" alt="network"></center>
 
+<p>项目中要做一个<code>network</code> <code>down</code>了之后给用户发送邮件提醒的功能，这里面涉及到的问题有：</p>
+<ul>
+<li>如何监测 network 状态</li>
+<li>network down之后，如何发送邮件</li>
+<li>public network 和 storage network的用处和场景</li>
+</ul>
+          
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/tech/">tech</a>
+    </div>
+
+
+      
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Ceph/">Ceph</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Magicloud/">Magicloud</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Network/">Network</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Notification/">Notification</a></li></ul>
+    </div>
+
+      
+        <p class="article-more-link">
+          <a   href="/2017/09/10/network-down-notification/#more">阅读全文 >></a>
+        </p>
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-Python-Oracle" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a  href="/2017/09/10/Python-Oracle/" class="article-date">
+      <time datetime="2017-09-09T17:02:41.000Z" itemprop="datePublished">2017-09-10</time>
+</a>
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a  class="article-title" href="/2017/09/10/Python-Oracle/">Python Oracle</a>
+    </h1>
+  
+
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+              <center><img src="http://ow0mgad6r.bkt.clouddn.com/we-love-python-6000-450.png" alt="Python"></center>
+
+<p>近期在做<code>Intel</code>的测试，需要监测各种故障情况下的热恢复或者热迁移等功能，比如拔线测试，拔盘测试，断电测试等，来检验分布式的稳定性和灵活性，以<code>Oracle</code>为例，需要一直向数据库中写数据，然后在发生故障时，通过观察插入数据的情况来判断是否能够处理异常情况，所以我需要写一个脚本，能够做到通过<code>python</code>自动连接<code>oracle</code>数据库并自动插入数据。</p>
+          
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/teach/">teach</a>
+    </div>
+
+
+      
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Oracle/">Oracle</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Python/">Python</a></li></ul>
+    </div>
+
+      
+        <p class="article-more-link">
+          <a   href="/2017/09/10/Python-Oracle/#more">阅读全文 >></a>
+        </p>
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-oracle_install" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a  href="/2017/09/10/oracle_install/" class="article-date">
+      <time datetime="2017-09-09T16:53:06.000Z" itemprop="datePublished">2017-09-10</time>
+</a>
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a  class="article-title" href="/2017/09/10/oracle_install/">Oracle Linux And Oracle Database 11g R2 Intsallation</a>
+    </h1>
+  
+
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+              <center><img src="http://ow0mgad6r.bkt.clouddn.com/oracle-eloqua-campaign-manager.png" alt="oralce"></center>
+
+<p>最近工作中用到了<code>Oracle</code>作为<code>Intel</code>测试的数据库，在装<code>Oracle Linux</code>和<code>Oracle Database 11g R2</code>折腾了很久，这篇文章就这两点对大家分享一些我安装过程中遇到的问题和注意点，<code>rac</code>暂时还未配置，稍后找时间补上</p>
+          
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/tech/">tech</a>
+    </div>
+
+
+      
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Oracle/">Oracle</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Oracle-11g-R2/">Oracle 11g R2</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Oracle-Linux/">Oracle Linux</a></li></ul>
+    </div>
+
+      
+        <p class="article-more-link">
+          <a   href="/2017/09/10/oracle_install/#more">阅读全文 >></a>
+        </p>
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-Moodle-Local-Plugin" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a  href="/2017/09/09/Moodle-Local-Plugin/" class="article-date">
+      <time datetime="2017-09-09T15:05:05.000Z" itemprop="datePublished">2017-09-09</time>
+</a>
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a  class="article-title" href="/2017/09/09/Moodle-Local-Plugin/">Moodle Local Plugin</a>
+    </h1>
+  
+
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+              <center><img src="http://ow0mgad6r.bkt.clouddn.com/moodle-logo-concept.png" alt="moodle"></center>
+
+<p><code>Local</code>插件在<code>Moodle</code>中相比于其他插件算是比较容易上手的一个插件，<code>Local</code>插件中前后台分离，不用遨游在杂糅前后端的代码里。学会<code>Local</code>插件是上手其他插件的前提，其实一旦学会<code>Local</code>插件也会发现其他插件不过是它的一种变种形式罢了，只要举一反三就能很快掌握。</p>
+          
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/tech/">tech</a>
+    </div>
+
+
+      
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Moodle/">Moodle</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/PHP/">PHP</a></li></ul>
+    </div>
+
+      
+        <p class="article-more-link">
+          <a   href="/2017/09/09/Moodle-Local-Plugin/#more">阅读全文 >></a>
+        </p>
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <nav id="page-nav">
+      <a class="extend prev" rel="prev" href="/page/2/">&laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span>
+    </nav>
+  
 
 
 </div>
@@ -402,17 +659,6 @@ ga('send', 'pageview');
         };
     })
 </script>
-
-    <button class="hide-labels">TAG 开关</button>
-    <script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js">
-    </script>
-    <script>
-        $(document).ready(function() {
-            $("button").click(function() {
-                $(".article-info").toggle(200);
-            });
-        });
-    </script>
 
 
 <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">

@@ -7,11 +7,11 @@
   
   
   
-  <title>Archives: 2017/10 | Tony&#39;s blog</title>
+  <title>Tony&#39;s blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta property="og:type" content="website">
 <meta property="og:title" content="Tony&#39;s blog">
-<meta property="og:url" content="https://tony-yin.github.io/archives/2017/10/index.html">
+<meta property="og:url" content="https://tony-yin.github.io/page/5/index.html">
 <meta property="og:site_name" content="Tony&#39;s blog">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Tony&#39;s blog">
@@ -28,6 +28,9 @@
   <link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css">
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
   
+    
+    
+  
   
       <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
   
@@ -38,9 +41,9 @@
       var yiliaConfig = {
           fancybox: true,
           animate: true,
-          isHome: false,
+          isHome: true,
           isPost: false,
-          isArchive: true,
+          isArchive: false,
           isTag: false,
           isCategory: false,
           open_in_new: false
@@ -271,50 +274,147 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-JS-Object-Null" class="article article-type-post" itemscope itemprop="blogPost">
   
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a  href="/archives/2017" class="archive-year">2017</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-          <div class="article-meta">
-              <a  href="/2017/10/02/Batch-Create-And-Delete-Disk-Partition-Script/" class="archive-article-date">
-      <time datetime="2017-10-02T05:07:06.000Z" itemprop="datePublished">10-02</time>
+    <div class="article-meta">
+      <a  href="/2017/09/28/JS-Object-Null/" class="article-date">
+      <time datetime="2017-09-28T06:01:42.000Z" itemprop="datePublished">2017-09-28</time>
 </a>
 
-        </div>
-         
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
   
     <h1 itemprop="name">
-      <a  class="archive-article-title" href="/2017/10/02/Batch-Create-And-Delete-Disk-Partition-Script/">批量创建和删除磁盘分区脚本</a>
+      <a  class="article-title" href="/2017/09/28/JS-Object-Null/">JS判断对象是否为空</a>
     </h1>
   
 
 
-        <div class="article-info info-on-archive">
-          
-
-          
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
+      </header>
+      
     
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+              <center><img src="http://ow0mgad6r.bkt.clouddn.com/jsbanana-600-450.png" alt="JS"></center>
 
+<p>今天在项目中发现一个<code>Bug</code>，通过<code>debug</code>发现最终的原因便是判断对象是否为空导致的错误，一个小小的错误反映出<code>Javascript</code>这门语言的不严谨性，也提醒我们得熟悉它的一些技巧和原理，避免经常在一些问题上踩坑</p>
+          
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/tech/">tech</a>
+    </div>
+
+
+      
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Javascript/">Javascript</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Magicloud/">Magicloud</a></li></ul>
+    </div>
+
+      
+        <p class="article-more-link">
+          <a   href="/2017/09/28/JS-Object-Null/#more">阅读全文 >></a>
+        </p>
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-Batch-Create-And-Delete-Disk-Partition-Script" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a  href="/2017/10/02/Batch-Create-And-Delete-Disk-Partition-Script/" class="article-date">
+      <time datetime="2017-10-02T05:07:06.000Z" itemprop="datePublished">2017-10-02</time>
+</a>
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a  class="article-title" href="/2017/10/02/Batch-Create-And-Delete-Disk-Partition-Script/">批量创建和删除磁盘分区脚本</a>
+    </h1>
+  
+
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+              <center><img src="http://ow0mgad6r.bkt.clouddn.com/floppy_disk_600-450.png" alt="Disk Partition"></center>
+
+<p>最近在做批量启用<code>OSD</code>的性能优化，需要反复的删除磁盘分区，以保证彻底的删除数据，然后就要批量创建分区，保证足够量的分区数量创建足够多的<code>OSD</code>，由于数量较多，每次手动搞都要二十几次，所以针对创建和删除写了两个脚本，支持单一、批量和选择大小等功能</p>
+          
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+        <p class="article-more-link">
+          <a   href="/2017/10/02/Batch-Create-And-Delete-Disk-Partition-Script/#more">阅读全文 >></a>
+        </p>
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <nav id="page-nav">
+      <a class="extend prev" rel="prev" href="/page/4/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span>
+    </nav>
+  
 
 
 </div>
@@ -402,17 +502,6 @@ ga('send', 'pageview');
         };
     })
 </script>
-
-    <button class="hide-labels">TAG 开关</button>
-    <script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js">
-    </script>
-    <script>
-        $(document).ready(function() {
-            $("button").click(function() {
-                $(".article-info").toggle(200);
-            });
-        });
-    </script>
 
 
 <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
