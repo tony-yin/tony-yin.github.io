@@ -7,22 +7,21 @@
   
   
   
-  <title>JS判断对象是否为空 | Tony&#39;s blog</title>
+  <title>启用OSD性能剖析脚本 | Tony&#39;s blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="今天在项目中发现一个Bug，通过debug发现最终的原因便是判断对象是否为空导致的错误，一个小小的错误反映出Javascript这门语言的不严谨性，也提醒我们得熟悉它的一些技巧和原理，避免经常在一些问题上踩坑">
-<meta name="keywords" content="Magicloud,Javascript">
+  <meta name="description" content="针对OSD启用过程缓慢进行性能剖析，用到了一系列的脚本，例如批量创建OSD,批量启用OSD,Cprofile装饰器接口等">
+<meta name="keywords" content="Script,Magicloud,OSD,Profile">
 <meta property="og:type" content="article">
-<meta property="og:title" content="JS判断对象是否为空">
-<meta property="og:url" content="https://tony-yin.github.io/2017/09/28/JS-Object-Null/index.html">
+<meta property="og:title" content="启用OSD性能剖析脚本">
+<meta property="og:url" content="https://tony-yin.github.io/2017/10/10/Enable-OSD-Profile-Script/index.html">
 <meta property="og:site_name" content="Tony&#39;s blog">
-<meta property="og:description" content="今天在项目中发现一个Bug，通过debug发现最终的原因便是判断对象是否为空导致的错误，一个小小的错误反映出Javascript这门语言的不严谨性，也提醒我们得熟悉它的一些技巧和原理，避免经常在一些问题上踩坑">
-<meta property="og:image" content="http://ow0mgad6r.bkt.clouddn.com/jsbanana-600-450.png">
-<meta property="og:image" content="http://ow0mgad6r.bkt.clouddn.com/object_empty.png">
-<meta property="og:updated_time" content="2017-10-02T04:55:29.000Z">
+<meta property="og:description" content="针对OSD启用过程缓慢进行性能剖析，用到了一系列的脚本，例如批量创建OSD,批量启用OSD,Cprofile装饰器接口等">
+<meta property="og:image" content="http://ovv1r40we.bkt.clouddn.com/pozza-600x450.png">
+<meta property="og:updated_time" content="2017-10-10T13:46:10.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="JS判断对象是否为空">
-<meta name="twitter:description" content="今天在项目中发现一个Bug，通过debug发现最终的原因便是判断对象是否为空导致的错误，一个小小的错误反映出Javascript这门语言的不严谨性，也提醒我们得熟悉它的一些技巧和原理，避免经常在一些问题上踩坑">
-<meta name="twitter:image" content="http://ow0mgad6r.bkt.clouddn.com/jsbanana-600-450.png">
+<meta name="twitter:title" content="启用OSD性能剖析脚本">
+<meta name="twitter:description" content="针对OSD启用过程缓慢进行性能剖析，用到了一系列的脚本，例如批量创建OSD,批量启用OSD,Cprofile装饰器接口等">
+<meta name="twitter:image" content="http://ovv1r40we.bkt.clouddn.com/pozza-600x450.png">
   
     <link rel="alternative" href="/atom.xml" title="Tony&#39;s blog" type="application/atom+xml">
   
@@ -273,11 +272,11 @@
         </header>                
     </div>
 </nav>
-      <div class="body-wrap"><article id="post-JS-Object-Null" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-Enable-OSD-Profile-Script" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a  href="/2017/09/28/JS-Object-Null/" class="article-date">
-      <time datetime="2017-09-28T06:01:42.000Z" itemprop="datePublished">2017-09-28</time>
+      <a  href="/2017/10/10/Enable-OSD-Profile-Script/" class="article-date">
+      <time datetime="2017-10-10T13:34:16.000Z" itemprop="datePublished">2017-10-10</time>
 </a>
 
     </div>
@@ -291,7 +290,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      JS判断对象是否为空
+      启用OSD性能剖析脚本
     </h1>
   
 
@@ -307,7 +306,7 @@
 
         
     <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Javascript/">Javascript</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Magicloud/">Magicloud</a></li></ul>
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Magicloud/">Magicloud</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/OSD/">OSD</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Profile/">Profile</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Script/">Script</a></li></ul>
     </div>
 
         <div class="clearfix"></div>
@@ -317,24 +316,22 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <center><img src="http://ow0mgad6r.bkt.clouddn.com/jsbanana-600-450.png" alt="JS"></center>
+        <center><img src="http://ovv1r40we.bkt.clouddn.com/pozza-600x450.png" alt="Profile"></center>
 
-<p>今天在项目中发现一个<code>Bug</code>，通过<code>debug</code>发现最终的原因便是判断对象是否为空导致的错误，一个小小的错误反映出<code>Javascript</code>这门语言的不严谨性，也提醒我们得熟悉它的一些技巧和原理，避免经常在一些问题上踩坑</p>
+<p>针对<code>OSD</code>启用过程缓慢进行性能剖析，用到了一系列的脚本，例如批量创建<code>OSD</code>,批量启用<code>OSD</code>,<code>Cprofile</code>装饰器接口等</p>
 <a id="more"></a>
-<p>场景还原：通过<code>if(object)</code>判断对象内容不为空，</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">obj = &#123;&#125;;   // obj其实是通过其他方式获得，但是它的内容为空</div><div class="line">if (obj) &#123;</div><div class="line">        xxx;    // 判断当obj不为空的时候，执行判断内的代码</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>那么问题就出现了，即使对象内容为空，这个判断代码块里面的代码还是会被执行<br>用<code>chrome</code>简单的验证了一下：</p>
-<center><img src="http://ow0mgad6r.bkt.clouddn.com/object_empty.png" alt="object empty"></center>
-
-<p>这和一些其他语言不一样，比如<code>php</code>,<code>python</code>是可以通过<code>if(object)</code>来检查对象是否为空的，但是<code>JS</code>不可以，这个问题要不是遇到了肯定想不到</p>
-<p>那么<code>JS</code>如何判断对象内容是否为空呢？网上搜了下，大概有以下方式：</p>
-<h3 id="通过JSON-stringify将对象转换成字符串进行判断"><a href="#通过JSON-stringify将对象转换成字符串进行判断" class="headerlink" title="通过JSON.stringify将对象转换成字符串进行判断"></a>通过JSON.stringify将对象转换成字符串进行判断</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">var tt = &#123;&#125;;</div><div class="line">if (JSON.stringify(tt) == &quot;&#123;&#125;&quot;) &#123;</div><div class="line">        console.log(&apos;tt is not empty!&apos;);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h3 id="通过读取对象元素"><a href="#通过读取对象元素" class="headerlink" title="通过读取对象元素"></a>通过读取对象元素</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">var tt = &#123;&#125;;</div><div class="line">var t = &#123;id: 1&#125;;</div><div class="line">if (tt.id) &#123;</div><div class="line">        console.log(&apos;tt is not empty!&apos;);</div><div class="line">&#125; </div><div class="line">if (t.id) &#123;</div><div class="line">        console.log(&apos;t is not empty&apos;);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>方法1相对于方法2来说更加严谨，阅读性高，而方法2的效率却比方法1高</p>
-<h3 id="jQuery提供了判断对象是否为空的API"><a href="#jQuery提供了判断对象是否为空的API" class="headerlink" title="jQuery提供了判断对象是否为空的API"></a>jQuery提供了判断对象是否为空的API</h3><p>如果用的是<code>jquery</code>的话，可以使用其提供的现有方法：<code>isEmptyObject</code>,这是<code>jQuery1.4</code>版本后加入的功能，具体用法：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">var tt = &#123;&#125;; </div><div class="line">if ($.isEmptyObject(tt)) &#123;  // jQuery.isEmptyObject(tt)这样调用也可以</div><div class="line">        console.log(&apos;tt is empty!&apos;);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h3 id="判断对象是否存在"><a href="#判断对象是否存在" class="headerlink" title="判断对象是否存在"></a>判断对象是否存在</h3><p>借助上面的问题，顺便了解了一下：<a href="http://www.ruanyifeng.com/blog/2011/05/how_to_judge_the_existence_of_a_global_object_in_javascript.html" target="_blank" rel="external">如何判断Javascript对象是否存在</a></p>
-<p>这篇文章里面讲的还是比较全面的，针对不同场景给出了不同的方案</p>
+<p><code>docprofile.py</code>：提供<code>cprofiler</code>的装饰器接口</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> cProfile</div><div class="line"><span class="keyword">import</span> pstats</div><div class="line"><span class="keyword">import</span> os</div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">do_cprofile</span><span class="params">(filename)</span>:</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">wrapper</span><span class="params">(func)</span>:</span></div><div class="line">        <span class="function"><span class="keyword">def</span> <span class="title">profiled_func</span><span class="params">(*args, **kwargs)</span>:</span></div><div class="line">            <span class="keyword">print</span> filename</div><div class="line">            <span class="comment"># Flag for do profiling or not.</span></div><div class="line">            DO_PROF = os.getenv(<span class="string">"PROFILING"</span>)</div><div class="line">            <span class="keyword">if</span> DO_PROF:</div><div class="line">                profile = cProfile.Profile()</div><div class="line">                profile.enable()</div><div class="line">                result = func(*args, **kwargs)</div><div class="line">                profile.disable()</div><div class="line">                <span class="comment"># Sort stat by internal time.</span></div><div class="line">                sortby = <span class="string">"cum"</span></div><div class="line">                ps = pstats.Stats(profile).sort_stats(sortby)</div><div class="line">                ps.dump_stats(filename)</div><div class="line">            <span class="keyword">else</span>:</div><div class="line">                result = func(*args, **kwargs)</div><div class="line">            <span class="keyword">return</span> result</div><div class="line">        <span class="keyword">return</span> profiled_func</div><div class="line">    <span class="keyword">return</span> wrapper</div></pre></td></tr></table></figure>
+<p><code>create_osd.py</code>：批量创建<code>osd</code>的脚本，目前支持批量创建20个或者以下数量的<code>osd</code>，默认<code>/dev/sda</code>和<code>/dev/sdb</code>各<code>10</code>个，并且<code>journal</code>分区采用预设分区，分区类型为单一分区，缓存为空，参数较为简单，仅供测试使用，如果有其他需求，需要适当修改代码</p>
+<p>使用方法: <code>python create_osd.py osd1 20</code>    // 起始osd， 数量   </p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">from</span> mcs3 <span class="keyword">import</span> storage</div><div class="line"><span class="keyword">import</span> sys</div><div class="line"></div><div class="line">first_osd = sys.argv[<span class="number">1</span>]</div><div class="line">num = sys.argv[<span class="number">2</span>]</div><div class="line">first_number = int(first_osd[<span class="number">3</span>:])</div><div class="line"></div><div class="line">count = <span class="number">1</span></div><div class="line"><span class="keyword">for</span> osd <span class="keyword">in</span> range(first_number, int(num) + first_number)</div><div class="line">    sv_name = <span class="string">'osd'</span> + str(osd)</div><div class="line">    data_dev = <span class="string">'/dev/sda'</span> + str(osd) <span class="keyword">if</span> count &lt;=<span class="number">10</span> <span class="keyword">else</span> <span class="string">'/dev/sdb'</span> + str(osd - <span class="number">10</span>)</div><div class="line">    journal_dev = <span class="string">''</span></div><div class="line">    cache_dev = <span class="string">''</span></div><div class="line">    host = <span class="string">'10.16.100.99'</span></div><div class="line">    storage.add_storage_volume_single(sv_name, data_dev, journal_dev, cache_dev, _host=host)</div><div class="line">    count += <span class="number">1</span></div></pre></td></tr></table></figure>
+<p><code>enable_osd.py</code>：<code>admin</code>层启用<code>osd</code>的后端脚本，一些参数都是默认设置好的，所以有需要改变的要修改部分<code>hardcode</code></p>
+<blockquote>
+<p>需要注意的是这段代码不会等待后端所有启用工作执行完毕才结束，而是调用后就直接结束脚本执行了</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> mcs3.config</div><div class="line"><span class="keyword">from</span> mcs3.cluster <span class="keyword">import</span> ClusterManager, IfaceRoleChangeInUse, IfaceRoleNotDefined</div><div class="line"><span class="keyword">from</span> mcs3.license <span class="keyword">import</span> *</div><div class="line"><span class="keyword">from</span> mcs3.node_management <span class="keyword">import</span> prepare_enable_osd, enable_osd</div><div class="line"><span class="keyword">from</span> mcs3.remote <span class="keyword">import</span> TASK_TICKET, ASYNC_MODE</div><div class="line"><span class="keyword">import</span> sys</div><div class="line"><span class="keyword">from</span> docprofile <span class="keyword">import</span> do_cprofile</div><div class="line"></div><div class="line"><span class="meta">@do_cprofile('./enable_osd.out')</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">test</span><span class="params">()</span>:</span></div><div class="line">    ip = <span class="string">'10.16.100.99'</span></div><div class="line">    cluster_if = <span class="string">''</span></div><div class="line">    public_if = <span class="string">'eth0'</span></div><div class="line">    first_osd = sys.argv[<span class="number">1</span>]</div><div class="line">    num = sys.argv[<span class="number">2</span>]</div><div class="line">    svs = []</div><div class="line">    <span class="keyword">for</span> osd <span class="keyword">in</span> range(int(first_osd[<span class="number">3</span>:]), int(num)+int(first_osd[<span class="number">3</span>:])):</div><div class="line">        svs.append(<span class="string">'osd'</span> + str(osd))</div><div class="line">    <span class="keyword">print</span> svs</div><div class="line">    mgr = ClusterManager()</div><div class="line">    all_osds = mgr.list_hosts_in_pool(<span class="string">"default"</span>)</div><div class="line"></div><div class="line">    cluster_ip = mcs3.config.Mcs3CephConfig().get_storage_ip()</div><div class="line">    lic_str = get_license_key(cluster_ip)</div><div class="line"></div><div class="line">    <span class="keyword">if</span> <span class="keyword">not</span> lic_str:</div><div class="line">        lic_str = get_pre_license()</div><div class="line">        <span class="keyword">if</span> <span class="keyword">not</span> lic_str:</div><div class="line">            <span class="keyword">raise</span> LicenseNotFound()</div><div class="line">        set_license_key(lic_str, ip)</div><div class="line">        </div><div class="line">    prepare_enable_osd(cluster_if, public_if, svs, _host=ip)</div><div class="line">    enable_osd(svs, <span class="keyword">True</span>,</div><div class="line">        _host=ip,</div><div class="line">        _async=ASYNC_MODE.WAIT_UPDATED,</div><div class="line">        _ticket=TASK_TICKET.ENABLE_OSD)</div><div class="line"></div><div class="line"><span class="keyword">if</span> __name__  == <span class="string">'__main__'</span>:</div><div class="line">    test()</div></pre></td></tr></table></figure>
+<p><code>pstat.py</code>：用于处理生成的<code>cprofiler</code>文件，做一些排序，截取和打印等工作,默认按<code>culativetime</code>排序，打印前<code>100</code>条记录，有其他需求的可以适当修改参数</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> pstats, sys</div><div class="line">file = sys.argv[<span class="number">1</span>]</div><div class="line">p = pstats.Stats(file)</div><div class="line">p.strip_dirs().sort_stats(<span class="string">'cum'</span>).print_stats(<span class="number">100</span>)</div></pre></td></tr></table></figure>
 
       
     </div>
@@ -343,13 +340,13 @@
   
     
     <div class="copyright">
-        <p><span>本文标题:</span><a  href="/2017/09/28/JS-Object-Null/">JS判断对象是否为空</a></p>
+        <p><span>本文标题:</span><a  href="/2017/10/10/Enable-OSD-Profile-Script/">启用OSD性能剖析脚本</a></p>
         <p><span>文章作者:</span><a  href="/" title="访问 Tony 的个人博客">Tony</a></p>
-        <p><span>发布时间:</span>2017年09月28日 - 14时01分</p>
-        <p><span>最后更新:</span>2017年10月02日 - 12时55分</p>
+        <p><span>发布时间:</span>2017年10月10日 - 21时34分</p>
+        <p><span>最后更新:</span>2017年10月10日 - 21时46分</p>
         <p>
-            <span>原始链接:</span><a class="post-url" href="/2017/09/28/JS-Object-Null/" title="JS判断对象是否为空">https://tony-yin.github.io/2017/09/28/JS-Object-Null/</a>
-            <span class="copy-path" data-clipboard-text="原文: https://tony-yin.github.io/2017/09/28/JS-Object-Null/　　作者: Tony" title=""></span>
+            <span>原始链接:</span><a class="post-url" href="/2017/10/10/Enable-OSD-Profile-Script/" title="启用OSD性能剖析脚本">https://tony-yin.github.io/2017/10/10/Enable-OSD-Profile-Script/</a>
+            <span class="copy-path" data-clipboard-text="原文: https://tony-yin.github.io/2017/10/10/Enable-OSD-Profile-Script/　　作者: Tony" title=""></span>
         </p>
         <p>
             <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/cn/" title="中国大陆 (CC BY-NC-SA 3.0 CN)" target = "_blank">"署名-非商用-相同方式共享 3.0"</a> 转载请保留原文链接及作者。
@@ -360,18 +357,18 @@
 
 <nav id="article-nav">
   
-    <a  href="/2017/10/02/Batch-Create-And-Delete-Disk-Partition-Script/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a  href="/2017/10/10/Python-Profiler/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption"><</strong>
       <div class="article-nav-title">
         
-          批量创建和删除磁盘分区脚本
+          Python Profiler
         
       </div>
     </a>
   
   
-    <a  href="/2017/09/27/OSD-Create-And-Delete/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">OSD创建和删除全过程</div>
+    <a  href="/2017/10/02/Batch-Create-And-Delete-Disk-Partition-Script/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">批量创建和删除磁盘分区脚本</div>
       <strong class="article-nav-caption">></strong>
     </a>
   
@@ -383,7 +380,7 @@
 
     <div id="toc" class="toc-article">
     <strong class="toc-title">文章目录</strong>
-    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#通过JSON-stringify将对象转换成字符串进行判断"><span class="toc-number">1.</span> <span class="toc-text">通过JSON.stringify将对象转换成字符串进行判断</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#通过读取对象元素"><span class="toc-number">2.</span> <span class="toc-text">通过读取对象元素</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#总结"><span class="toc-number">3.</span> <span class="toc-text">总结</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#jQuery提供了判断对象是否为空的API"><span class="toc-number">4.</span> <span class="toc-text">jQuery提供了判断对象是否为空的API</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#判断对象是否存在"><span class="toc-number">5.</span> <span class="toc-text">判断对象是否存在</span></a></li></ol>
+    
 </div>
 <style>
     .left-col .switch-btn {
@@ -443,13 +440,13 @@
 
     <div class="scroll" id="post-nav-button">
         
-            <a  href="/2017/10/02/Batch-Create-And-Delete-Disk-Partition-Script/" title="上一篇: 批量创建和删除磁盘分区脚本">
+            <a  href="/2017/10/10/Python-Profiler/" title="上一篇: Python Profiler">
                 <i class="fa fa-angle-left"></i>
             </a>
         
         <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
         
-            <a  href="/2017/09/27/OSD-Create-And-Delete/" title="下一篇: OSD创建和删除全过程">
+            <a  href="/2017/10/02/Batch-Create-And-Delete-Disk-Partition-Script/" title="下一篇: 批量创建和删除磁盘分区脚本">
                 <i class="fa fa-angle-right"></i>
             </a>
         

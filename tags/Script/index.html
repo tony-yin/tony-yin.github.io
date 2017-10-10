@@ -4,25 +4,19 @@
   <meta charset="utf-8">
   <meta name="baidu-site-verification" content="L6Lm9d5Crl"/>
   
+   
+    <meta name="keywords" content="Script" />
   
   
   
-  <title>JS判断对象是否为空 | Tony&#39;s blog</title>
+  <title>Tag: Script | Tony&#39;s blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="今天在项目中发现一个Bug，通过debug发现最终的原因便是判断对象是否为空导致的错误，一个小小的错误反映出Javascript这门语言的不严谨性，也提醒我们得熟悉它的一些技巧和原理，避免经常在一些问题上踩坑">
-<meta name="keywords" content="Magicloud,Javascript">
-<meta property="og:type" content="article">
-<meta property="og:title" content="JS判断对象是否为空">
-<meta property="og:url" content="https://tony-yin.github.io/2017/09/28/JS-Object-Null/index.html">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="Tony&#39;s blog">
+<meta property="og:url" content="https://tony-yin.github.io/tags/Script/index.html">
 <meta property="og:site_name" content="Tony&#39;s blog">
-<meta property="og:description" content="今天在项目中发现一个Bug，通过debug发现最终的原因便是判断对象是否为空导致的错误，一个小小的错误反映出Javascript这门语言的不严谨性，也提醒我们得熟悉它的一些技巧和原理，避免经常在一些问题上踩坑">
-<meta property="og:image" content="http://ow0mgad6r.bkt.clouddn.com/jsbanana-600-450.png">
-<meta property="og:image" content="http://ow0mgad6r.bkt.clouddn.com/object_empty.png">
-<meta property="og:updated_time" content="2017-10-02T04:55:29.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="JS判断对象是否为空">
-<meta name="twitter:description" content="今天在项目中发现一个Bug，通过debug发现最终的原因便是判断对象是否为空导致的错误，一个小小的错误反映出Javascript这门语言的不严谨性，也提醒我们得熟悉它的一些技巧和原理，避免经常在一些问题上踩坑">
-<meta name="twitter:image" content="http://ow0mgad6r.bkt.clouddn.com/jsbanana-600-450.png">
+<meta name="twitter:title" content="Tony&#39;s blog">
   
     <link rel="alternative" href="/atom.xml" title="Tony&#39;s blog" type="application/atom+xml">
   
@@ -47,9 +41,9 @@
           fancybox: true,
           animate: true,
           isHome: false,
-          isPost: true,
+          isPost: false,
           isArchive: false,
-          isTag: false,
+          isTag: true,
           isCategory: false,
           open_in_new: false
       }
@@ -273,215 +267,97 @@
         </header>                
     </div>
 </nav>
-      <div class="body-wrap"><article id="post-JS-Object-Null" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap">
   
-    <div class="article-meta">
-      <a  href="/2017/09/28/JS-Object-Null/" class="article-date">
-      <time datetime="2017-09-28T06:01:42.000Z" itemprop="datePublished">2017-09-28</time>
+  
+    
+    
+      
+      
+      <section class="archives-wrap">
+        <div class="archive-year-wrap">
+          <a  href="/archives/2017" class="archive-year">2017</a>
+        </div>
+        <div class="archives">
+    
+    <article class="archive-article archive-type-post">
+  <div class="archive-article-inner">
+    <header class="archive-article-header">
+          <div class="article-meta">
+              <a  href="/2017/10/10/Enable-OSD-Profile-Script/" class="archive-article-date">
+      <time datetime="2017-10-10T13:34:16.000Z" itemprop="datePublished">10-10</time>
 </a>
 
-    </div>
+        </div>
+         
   
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="article-title" itemprop="name">
-      JS判断对象是否为空
+    <h1 itemprop="name">
+      <a  class="archive-article-title" href="/2017/10/10/Enable-OSD-Profile-Script/">启用OSD性能剖析脚本</a>
     </h1>
   
 
 
-      </header>
-      
-      <div class="article-info article-info-post">
-        
+        <div class="article-info info-on-archive">
+          
     <div class="article-category tagcloud">
     <a class="article-category-link" href="/categories/tech/">tech</a>
     </div>
 
 
-        
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Javascript/">Javascript</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Magicloud/">Magicloud</a></li></ul>
-    </div>
-
-        <div class="clearfix"></div>
-      </div>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
           
-        <center><img src="http://ow0mgad6r.bkt.clouddn.com/jsbanana-600-450.png" alt="JS"></center>
-
-<p>今天在项目中发现一个<code>Bug</code>，通过<code>debug</code>发现最终的原因便是判断对象是否为空导致的错误，一个小小的错误反映出<code>Javascript</code>这门语言的不严谨性，也提醒我们得熟悉它的一些技巧和原理，避免经常在一些问题上踩坑</p>
-<a id="more"></a>
-<p>场景还原：通过<code>if(object)</code>判断对象内容不为空，</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">obj = &#123;&#125;;   // obj其实是通过其他方式获得，但是它的内容为空</div><div class="line">if (obj) &#123;</div><div class="line">        xxx;    // 判断当obj不为空的时候，执行判断内的代码</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>那么问题就出现了，即使对象内容为空，这个判断代码块里面的代码还是会被执行<br>用<code>chrome</code>简单的验证了一下：</p>
-<center><img src="http://ow0mgad6r.bkt.clouddn.com/object_empty.png" alt="object empty"></center>
-
-<p>这和一些其他语言不一样，比如<code>php</code>,<code>python</code>是可以通过<code>if(object)</code>来检查对象是否为空的，但是<code>JS</code>不可以，这个问题要不是遇到了肯定想不到</p>
-<p>那么<code>JS</code>如何判断对象内容是否为空呢？网上搜了下，大概有以下方式：</p>
-<h3 id="通过JSON-stringify将对象转换成字符串进行判断"><a href="#通过JSON-stringify将对象转换成字符串进行判断" class="headerlink" title="通过JSON.stringify将对象转换成字符串进行判断"></a>通过JSON.stringify将对象转换成字符串进行判断</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">var tt = &#123;&#125;;</div><div class="line">if (JSON.stringify(tt) == &quot;&#123;&#125;&quot;) &#123;</div><div class="line">        console.log(&apos;tt is not empty!&apos;);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h3 id="通过读取对象元素"><a href="#通过读取对象元素" class="headerlink" title="通过读取对象元素"></a>通过读取对象元素</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">var tt = &#123;&#125;;</div><div class="line">var t = &#123;id: 1&#125;;</div><div class="line">if (tt.id) &#123;</div><div class="line">        console.log(&apos;tt is not empty!&apos;);</div><div class="line">&#125; </div><div class="line">if (t.id) &#123;</div><div class="line">        console.log(&apos;t is not empty&apos;);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>方法1相对于方法2来说更加严谨，阅读性高，而方法2的效率却比方法1高</p>
-<h3 id="jQuery提供了判断对象是否为空的API"><a href="#jQuery提供了判断对象是否为空的API" class="headerlink" title="jQuery提供了判断对象是否为空的API"></a>jQuery提供了判断对象是否为空的API</h3><p>如果用的是<code>jquery</code>的话，可以使用其提供的现有方法：<code>isEmptyObject</code>,这是<code>jQuery1.4</code>版本后加入的功能，具体用法：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">var tt = &#123;&#125;; </div><div class="line">if ($.isEmptyObject(tt)) &#123;  // jQuery.isEmptyObject(tt)这样调用也可以</div><div class="line">        console.log(&apos;tt is empty!&apos;);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h3 id="判断对象是否存在"><a href="#判断对象是否存在" class="headerlink" title="判断对象是否存在"></a>判断对象是否存在</h3><p>借助上面的问题，顺便了解了一下：<a href="http://www.ruanyifeng.com/blog/2011/05/how_to_judge_the_existence_of_a_global_object_in_javascript.html" target="_blank" rel="external">如何判断Javascript对象是否存在</a></p>
-<p>这篇文章里面讲的还是比较全面的，针对不同场景给出了不同的方案</p>
-
-      
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Magicloud/">Magicloud</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/OSD/">OSD</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Profile/">Profile</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Script/">Script</a></li></ul>
     </div>
-    
+
+        </div>
+        <div class="clearfix"></div>
+    </header>
   </div>
-  
-    
-    <div class="copyright">
-        <p><span>本文标题:</span><a  href="/2017/09/28/JS-Object-Null/">JS判断对象是否为空</a></p>
-        <p><span>文章作者:</span><a  href="/" title="访问 Tony 的个人博客">Tony</a></p>
-        <p><span>发布时间:</span>2017年09月28日 - 14时01分</p>
-        <p><span>最后更新:</span>2017年10月02日 - 12时55分</p>
-        <p>
-            <span>原始链接:</span><a class="post-url" href="/2017/09/28/JS-Object-Null/" title="JS判断对象是否为空">https://tony-yin.github.io/2017/09/28/JS-Object-Null/</a>
-            <span class="copy-path" data-clipboard-text="原文: https://tony-yin.github.io/2017/09/28/JS-Object-Null/　　作者: Tony" title=""></span>
-        </p>
-        <p>
-            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/cn/" title="中国大陆 (CC BY-NC-SA 3.0 CN)" target = "_blank">"署名-非商用-相同方式共享 3.0"</a> 转载请保留原文链接及作者。
-        </p>
-    </div>
-
-
-
-<nav id="article-nav">
-  
-    <a  href="/2017/10/02/Batch-Create-And-Delete-Disk-Partition-Script/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption"><</strong>
-      <div class="article-nav-title">
-        
-          批量创建和删除磁盘分区脚本
-        
-      </div>
-    </a>
-  
-  
-    <a  href="/2017/09/27/OSD-Create-And-Delete/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">OSD创建和删除全过程</div>
-      <strong class="article-nav-caption">></strong>
-    </a>
-  
-</nav>
-
-
-  
 </article>
+  
+    
+    
+    <article class="archive-article archive-type-post">
+  <div class="archive-article-inner">
+    <header class="archive-article-header">
+          <div class="article-meta">
+              <a  href="/2017/10/02/Batch-Create-And-Delete-Disk-Partition-Script/" class="archive-article-date">
+      <time datetime="2017-10-02T05:07:06.000Z" itemprop="datePublished">10-02</time>
+</a>
 
-    <div id="toc" class="toc-article">
-    <strong class="toc-title">文章目录</strong>
-    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#通过JSON-stringify将对象转换成字符串进行判断"><span class="toc-number">1.</span> <span class="toc-text">通过JSON.stringify将对象转换成字符串进行判断</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#通过读取对象元素"><span class="toc-number">2.</span> <span class="toc-text">通过读取对象元素</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#总结"><span class="toc-number">3.</span> <span class="toc-text">总结</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#jQuery提供了判断对象是否为空的API"><span class="toc-number">4.</span> <span class="toc-text">jQuery提供了判断对象是否为空的API</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#判断对象是否存在"><span class="toc-number">5.</span> <span class="toc-text">判断对象是否存在</span></a></li></ol>
-</div>
-<style>
-    .left-col .switch-btn {
-        display: none;
-    }
-    .left-col .switch-area {
-        display: none;
-    }
-</style>
-<input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
-<script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
-<script>
-    var valueHide = "隐藏目录";
-    var valueShow = "显示目录";
-    if ($(".left-col").is(":hidden")) {
-        $("#tocButton").attr("value", valueShow);
-    }
-    $("#tocButton").click(function() {
-        if ($("#toc").is(":hidden")) {
-            $("#tocButton").attr("value", valueHide);
-            $("#toc").slideDown(320);
-            $(".switch-btn, .switch-area").fadeOut(300);
-        }
-        else {
-            $("#tocButton").attr("value", valueShow);
-            $("#toc").slideUp(350);
-            $(".switch-btn, .switch-area").fadeIn(500);
-        }
-    })
-    if ($(".toc").length < 1) {
-        $("#toc, #tocButton").hide();
-        $(".switch-btn, .switch-area").show();
-    }
-</script>
+        </div>
+         
+  
+    <h1 itemprop="name">
+      <a  class="archive-article-title" href="/2017/10/02/Batch-Create-And-Delete-Disk-Partition-Script/">批量创建和删除磁盘分区脚本</a>
+    </h1>
+  
 
 
+        <div class="article-info info-on-archive">
+          
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/tech/">tech</a>
+    </div>
 
 
+          
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Disk/">Disk</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Partition/">Partition</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Script/">Script</a></li></ul>
+    </div>
 
-<div class="bdsharebuttonbox">
-	<a href="#" class="fx fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
-	<a href="#" class="fx fa-weixin bds_weixin" data-cmd="weixin" title="分享到微信"></a>
-	<a href="#" class="fx fa-qq bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a>
-	<a href="#" class="fx fa-facebook-official bds_fbook" data-cmd="fbook" title="分享到Facebook"></a>
-	<a href="#" class="fx fa-twitter bds_twi" data-cmd="twi" title="分享到Twitter"></a>
-	<a href="#" class="fx fa-linkedin bds_linkedin" data-cmd="linkedin" title="分享到linkedin"></a>
-	<a href="#" class="fx fa-files-o bds_copy" data-cmd="copy" title="分享到复制网址"></a>
-</div>
-<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"2","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='/static/api/js/share.js?cdnversion=' + ~ (-new Date() / 36e5)];</script>
-
-
-
+        </div>
+        <div class="clearfix"></div>
+    </header>
+  </div>
+</article>
+  
+  
+    </div></section>
+  
 
     
 
-
-
-    <div class="scroll" id="post-nav-button">
-        
-            <a  href="/2017/10/02/Batch-Create-And-Delete-Disk-Partition-Script/" title="上一篇: 批量创建和删除磁盘分区脚本">
-                <i class="fa fa-angle-left"></i>
-            </a>
-        
-        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
-        
-            <a  href="/2017/09/27/OSD-Create-And-Delete/" title="下一篇: OSD创建和删除全过程">
-                <i class="fa fa-angle-right"></i>
-            </a>
-        
-    </div>
-    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2017/10/10/Python-Profiler/">Python Profiler</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/10/Enable-OSD-Profile-Script/">启用OSD性能剖析脚本</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/02/Batch-Create-And-Delete-Disk-Partition-Script/">批量创建和删除磁盘分区脚本</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/28/JS-Object-Null/">JS判断对象是否为空</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/27/OSD-Create-And-Delete/">OSD创建和删除全过程</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/21/How-To-Forge-Product/">How-To-Forge-Product</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/18/PHP-Excel/">PHP-Excel 开发解决方案</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/10/Disk-pull-and-plug-record/">Disk pull and plug record</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/10/Linux-Udev/">Linux Udev</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/10/Magicloud-Route/">Magicloud Route</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/10/Osd-Enable-and-Disable/">Osd Enable and Disable</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/10/Disk-Mon-Daemon/">Disk Mon Daemon</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/10/network-down-notification/">Network Down Notification</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/10/Python-Oracle/">Python Oracle</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/10/oracle_install/">Oracle Linux And Oracle Database 11g R2 Intsallation</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/09/Moodle-Local-Plugin/">Moodle Local Plugin</a></li></ul>
-    <script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
-    <script>
-        $(".post-list").addClass("toc-article");
-        // $(".post-list-item a").attr("target","_blank");
-        $("#post-nav-button > a:nth-child(2)").click(function() {
-            $(".fa-bars, .fa-times").toggle();
-            $(".post-list").toggle(300);
-            if ($(".toc").length > 0) {
-                $("#toc, #tocButton").toggle(200, function() {
-                    if ($(".switch-area").is(":visible")) {
-                        $("#toc, .switch-btn, .switch-area").toggle();
-                        $("#tocButton").attr("value", valueHide);
-                        }
-                    })
-            }
-            else {
-                $(".switch-btn, .switch-area").fadeToggle(300);
-            }
-        })
-    </script>
-
-
-
-
-    <script>
-        
-    </script>
 
 </div>
       <footer id="footer">
@@ -568,6 +444,17 @@ ga('send', 'pageview');
         };
     })
 </script>
+
+    <button class="hide-labels">TAG 开关</button>
+    <script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js">
+    </script>
+    <script>
+        $(document).ready(function() {
+            $("button").click(function() {
+                $(".article-info").toggle(200);
+            });
+        });
+    </script>
 
 
 <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">

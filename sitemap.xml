@@ -2,9 +2,23 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://tony-yin.github.io/2017/10/10/Python-Profiler/</loc>
+    
+    <lastmod>2017-10-10T13:56:47.000Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://tony-yin.github.io/2017/10/02/Batch-Create-And-Delete-Disk-Partition-Script/</loc>
     
-    <lastmod>2017-10-02T05:15:39.000Z</lastmod>
+    <lastmod>2017-10-10T13:55:37.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://tony-yin.github.io/2017/10/10/Enable-OSD-Profile-Script/</loc>
+    
+    <lastmod>2017-10-10T13:46:10.000Z</lastmod>
     
   </url>
   

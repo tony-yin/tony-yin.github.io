@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="baidu-site-verification" content="L6Lm9d5Crl"/>
+  
+  
+  
+  
+  <title>Python Profiler | Tony&#39;s blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="OSD启用过程耗时较长，需要进行性能优化。期间通过python profilers对代码进行性能分析和数据统计，有坑，有收获，总而言之，这是一个不错的工具">
+<meta name="keywords" content="Magicloud,Profile,Python,性能优化">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python Profiler">
+<meta property="og:url" content="https://tony-yin.github.io/2017/10/10/Python-Profiler/index.html">
+<meta property="og:site_name" content="Tony&#39;s blog">
+<meta property="og:description" content="OSD启用过程耗时较长，需要进行性能优化。期间通过python profilers对代码进行性能分析和数据统计，有坑，有收获，总而言之，这是一个不错的工具">
+<meta property="og:image" content="http://ovv1r40we.bkt.clouddn.com/publicenemyno1-600x400.png">
+<meta property="og:image" content="http://images.cnblogs.com/cnblogs_com/btchenguang/201202/201202031502512968.png">
+<meta property="og:image" content="http://ovv1r40we.bkt.clouddn.com/enable_osd3.png">
+<meta property="og:image" content="http://ovv1r40we.bkt.clouddn.com/enable_osd3-2.png">
+<meta property="og:updated_time" content="2017-10-10T13:56:47.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Python Profiler">
+<meta name="twitter:description" content="OSD启用过程耗时较长，需要进行性能优化。期间通过python profilers对代码进行性能分析和数据统计，有坑，有收获，总而言之，这是一个不错的工具">
+<meta name="twitter:image" content="http://ovv1r40we.bkt.clouddn.com/publicenemyno1-600x400.png">
+  
+    <link rel="alternative" href="/atom.xml" title="Tony&#39;s blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/img/favicon.png">
+  
+  
+  <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  
+  
+      <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  
+  <!-- 加载特效 -->
+    <script src="/js/pace.js"></script>
+    <link href="/css/pace/pace-theme-flash.css" rel="stylesheet" />
+  <script>
+      var yiliaConfig = {
+          fancybox: true,
+          animate: true,
+          isHome: false,
+          isPost: true,
+          isArchive: false,
+          isTag: false,
+          isCategory: false,
+          open_in_new: false
+      }
+  </script>
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+        <a href="/" class="profilepic">
+            
+            <img lazy-src="/img/tony.jpg" class="js-avatar">
+            
+        </a>
+        <hgroup>
+          <h1 class="header-author"><a href="/">Tony</a></h1>
+        </hgroup>
+        
+        
+            <form>
+                <input type="text" class="st-default-search-input search" id="local-search-input" placeholder=" Search...">
+            </form>
+            <div id="local-search-result"></div>
+        
+        
+            <script type="text/javascript">
+                (function() {
+                    'use strict';
+                    function getMatchData(keyword, data) {
+                        var matchData = [];
+                        for(var i =0;i<data.length;i++){
+                            if(data[i].title.toLowerCase().indexOf(keyword)>=0) 
+                                matchData.push(data[i])
+                        }
+                        return matchData;
+                    }
+                    var $input = $('#local-search-input');
+                    var $resultContent = $('#local-search-result');
+                    $input.keyup(function(){
+                        $.ajax({
+                            url: '/search.json',
+                            dataType: "json",
+                            success: function( json ) {
+                                var str='<ul class=\"search-result-list\">';                
+                                var keyword = $input.val().trim().toLowerCase();
+                                $resultContent.innerHTML = "";
+                                if ($input.val().trim().length <= 0) {
+                                    $resultContent.empty();
+                                    $('#switch-area').show();
+                                    return;
+                                }
+                                var results = getMatchData(keyword, json);
+                                if(results.length === 0){
+                                    $resultContent.empty();
+                                    $('#switch-area').show();
+                                    return;
+                                } 
+                                for(var i =0; i<results.length; i++){
+                                    str += "<li><a href='"+ results[i].url +"' class='search-result-title'>"+ results[i].title +"</a></li>";
+                                }
+                                str += "</ul>";
+                                $resultContent.empty();
+                                $resultContent.append(str);
+                                $('#switch-area').hide();
+                            }
+                        });
+                    });
+                })();
+            </script>
+        
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                        <div class="icon-wrap icon-me hide" data-idx="3">
+                            <div class="user"></div>
+                            <div class="shoulder"></div>
+                        </div>
+                        
+                    </div>
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                        <li>关于我</li>
+                        
+                    </ul>
+                </div>
+            </div>
+        
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a  href="/archives/">所有文章</a></li>
+                        
+                            <li><a  href="/categories/tech">技术文章</a></li>
+                        
+                            <li><a  href="/categories/summary">感悟总结</a></li>
+                        
+                            <li><a  href="/categories/read">阅读翻译</a></li>
+                        
+                            <li><a  href="/categories/reprinted">好文转载</a></li>
+                        
+                            <li><a  href="/categories/life">生活随笔</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fl github"  target="_blank" href="https://github.com/tony-yin" title="github">github</a>
+                            
+                                <a class="fl weibo"  target="_blank" href="https://weibo.com/3832044210/profile?rightmod=1&wvr=6&mod=personinfo" title="weibo">weibo</a>
+                            
+                                <a class="fl segmentfault"  target="_blank" href="https://segmentfault.com/u/qzuser_57fb1d5db527e" title="segmentfault">segmentfault</a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <a href="/tags/Ceph/" style="font-size: 17.5px;">Ceph</a> <a href="/tags/Daemon/" style="font-size: 10px;">Daemon</a> <a href="/tags/Disk/" style="font-size: 12.5px;">Disk</a> <a href="/tags/Javascript/" style="font-size: 10px;">Javascript</a> <a href="/tags/Linux/" style="font-size: 15px;">Linux</a> <a href="/tags/Magicloud/" style="font-size: 20px;">Magicloud</a> <a href="/tags/Moodle/" style="font-size: 10px;">Moodle</a> <a href="/tags/Network/" style="font-size: 10px;">Network</a> <a href="/tags/Notification/" style="font-size: 10px;">Notification</a> <a href="/tags/OSD/" style="font-size: 12.5px;">OSD</a> <a href="/tags/Oracle/" style="font-size: 12.5px;">Oracle</a> <a href="/tags/Oracle-11g-R2/" style="font-size: 10px;">Oracle 11g R2</a> <a href="/tags/Oracle-Linux/" style="font-size: 10px;">Oracle Linux</a> <a href="/tags/Osd/" style="font-size: 12.5px;">Osd</a> <a href="/tags/PHP/" style="font-size: 12.5px;">PHP</a> <a href="/tags/PHPExcel/" style="font-size: 10px;">PHPExcel</a> <a href="/tags/Partition/" style="font-size: 10px;">Partition</a> <a href="/tags/Profile/" style="font-size: 12.5px;">Profile</a> <a href="/tags/Python/" style="font-size: 12.5px;">Python</a> <a href="/tags/Route/" style="font-size: 10px;">Route</a> <a href="/tags/Script/" style="font-size: 12.5px;">Script</a> <a href="/tags/Udev/" style="font-size: 12.5px;">Udev</a> <a href="/tags/产品/" style="font-size: 10px;">产品</a> <a href="/tags/性能优化/" style="font-size: 10px;">性能优化</a>
+                    </div>
+                </section>
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a target="_blank"  class="main-nav-link switch-friends-link" href="https://segmentfault.com/blog/tony_output">segmentfault</a>
+                    
+                    </div>
+                </section>
+                
+                
+                
+                <section class="switch-part switch-part4">
+                
+                    <div id="js-aboutme">江苏南京，熟悉Python/PHP，目前研究Ceph分布式存储</div>
+                </section>
+                
+            </div>
+        </div>
+    </header>
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">Tony</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                
+                    <img lazy-src="/img/tony.jpg" class="js-avatar">
+                
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">Tony</a></h1>
+            </hgroup>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/archives/">所有文章</a></li>
+                
+                    <li><a href="/categories/tech">技术文章</a></li>
+                
+                    <li><a href="/categories/summary">感悟总结</a></li>
+                
+                    <li><a href="/categories/read">阅读翻译</a></li>
+                
+                    <li><a href="/categories/reprinted">好文转载</a></li>
+                
+                    <li><a href="/categories/life">生活随笔</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a class="github" target="_blank" href="https://github.com/tony-yin" title="github">github</a>
+                    
+                        <a class="weibo" target="_blank" href="https://weibo.com/3832044210/profile?rightmod=1&wvr=6&mod=personinfo" title="weibo">weibo</a>
+                    
+                        <a class="segmentfault" target="_blank" href="https://segmentfault.com/u/qzuser_57fb1d5db527e" title="segmentfault">segmentfault</a>
+                    
+                </div>
+            </nav>
+        </header>                
+    </div>
+</nav>
+      <div class="body-wrap"><article id="post-Python-Profiler" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a  href="/2017/10/10/Python-Profiler/" class="article-date">
+      <time datetime="2017-10-10T13:46:24.000Z" itemprop="datePublished">2017-10-10</time>
+</a>
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Python Profiler
+    </h1>
+  
+
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/tech/">tech</a>
+    </div>
+
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Magicloud/">Magicloud</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Profile/">Profile</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Python/">Python</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/性能优化/">性能优化</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <center><img src="http://ovv1r40we.bkt.clouddn.com/publicenemyno1-600x400.png" alt="Python Profiler"></center>
+
+<p><code>OSD</code>启用过程耗时较长，需要进行性能优化。期间通过<code>python profilers</code>对代码进行性能分析和数据统计，有坑，有收获，总而言之，这是一个不错的工具</p>
+<a id="more"></a>
+<h2 id="Profilers简介"><a href="#Profilers简介" class="headerlink" title="Profilers简介"></a>Profilers简介</h2><p><code>python profilers</code>内置的主要有三种<code>cprofile</code>, <code>profile</code>和<code>hotshot</code>,<code>cprofile</code>是基于<code>profile</code>之上做的扩展，性能要比后者好很多，所以我用的就是<code>cprofile</code></p>
+<p>更详细的介绍可以查看官网，<code>python profilers</code>的好处在于不用看教程，只要看着官网简短的概述，就能掌握其使用方法</p>
+<ul>
+<li><a href="https://docs.python.org/2/library/profile.html" target="_blank" rel="external">Python Profile</a></li>
+<li><a href="http://www.cnblogs.com/btchenguang/archive/2012/02/03/2337112.html" target="_blank" rel="external">关于Python Profilers性能分析器</a></li>
+</ul>
+<h2 id="Cprofile快速使用"><a href="#Cprofile快速使用" class="headerlink" title="Cprofile快速使用"></a>Cprofile快速使用</h2><h3 id="官网例子"><a href="#官网例子" class="headerlink" title="官网例子"></a>官网例子</h3><h4 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> cProfile</div><div class="line"><span class="keyword">import</span> re</div><div class="line">cProfile.run(<span class="string">'re.compile("foo|bar")'</span>)</div></pre></td></tr></table></figure>
+<h4 id="分析结果"><a href="#分析结果" class="headerlink" title="分析结果"></a>分析结果</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">197 function calls (192 primitive calls) in 0.002 seconds</div><div class="line">Ordered by: standard name</div><div class="line">ncalls  tottime  percall  cumtime  percall filename:lineno(function)</div><div class="line">     1    0.000    0.000    0.001    0.001 &lt;string&gt;:1(&lt;module&gt;)</div><div class="line">     1    0.000    0.000    0.001    0.001 re.py:212(compile)</div><div class="line">     1    0.000    0.000    0.001    0.001 re.py:268(_compile)</div><div class="line">     1    0.000    0.000    0.000    0.000 sre_compile.py:172(_compile_charset)</div><div class="line">     1    0.000    0.000    0.000    0.000 sre_compile.py:201(_optimize_charset)</div><div class="line">     4    0.000    0.000    0.000    0.000 sre_compile.py:25(_identityfunction)</div><div class="line">   3/1    0.000    0.000    0.000    0.000 sre_compile.py:33(_compile)</div></pre></td></tr></table></figure>
+<h4 id="图解"><a href="#图解" class="headerlink" title="图解"></a>图解</h4><center><img src="http://images.cnblogs.com/cnblogs_com/btchenguang/201202/201202031502512968.png" alt="cprofile"></center>
+
+<h2 id="Cprofile深入"><a href="#Cprofile深入" class="headerlink" title="Cprofile深入"></a>Cprofile深入</h2><p>上面的基本用法可以在脚本中测试某个语句或者函数，然后打印到控制台。<code>cprofile</code>也可以将结果输出到文件中，这是比较常见的做法，因为打印到控制台，第一不能保存结果，第二如果数据量多没法全部浏览，并且影响阅读效果。而放在文件中还可以对结果进行按需排序、筛选等操作</p>
+<h3 id="输出文件"><a href="#输出文件" class="headerlink" title="输出文件"></a>输出文件</h3><ol>
+<li>参数方式</li>
+</ol>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> cProfile</div><div class="line"><span class="keyword">import</span> re</div><div class="line">cProfile.run(<span class="string">'re.compile("foo|bar")'</span>, <span class="string">'restats'</span>)</div></pre></td></tr></table></figure>
+<ol>
+<li>CLI方式</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">python -m cProfile [-o output_file] [-s sort_order] myscript.py</div></pre></td></tr></table></figure>
+<h2 id="Cprofile优雅使用"><a href="#Cprofile优雅使用" class="headerlink" title="Cprofile优雅使用"></a>Cprofile优雅使用</h2><p>上述方式可以使得<code>cprofile</code>在一些测试环境中受用，但是在一些复杂的环境中不能很好的<code>work</code>。由于<code>cprofile</code>是根据<code>python</code>在每个事件中存放的<code>hook</code>进行性能分析，所以在<code>cprofile.run()</code>的时候，要保证他就是最上层，他是调用的源头。</p>
+<p>但是实际场景中，我们经常会对一些<code>API</code>中的某个方法进行性能分析，如果在被调用处使用<code>cprofile</code>，会出现变量或者模块<code>undefined</code>的现象，模块不能识别还可以在<code>run</code>方法中引入，然后通过分号分隔，例如<code>cprofile.run(import re, re.compile(&quot;foo|bar&quot;))</code>，具体可以参考这篇文章：<a href="http://ju.outofmemory.cn/entry/46805" target="_blank" rel="external">Python Profile 工具性能分析</a></p>
+<p>变量无法识别更是让人头疼，所以为了达到测试效果，你会不得不修改一些并不是很少量的源代码，并且测一个方法就要搞一次很麻烦。还有一些多进程或者跨机器的场景导致代码异步执行，这样<code>cprofile</code>更不能达到用户的需求</p>
+<p>还好我们可以通过<code>python</code>装饰器的机制来做，这样既不用改动源代码，也可以很方便的切换函数分析</p>
+<h3 id="装饰器接口"><a href="#装饰器接口" class="headerlink" title="装饰器接口"></a>装饰器接口</h3><p>这里要注意设置全局变量</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">export PROFILING=y</div></pre></td></tr></table></figure>
+<p>接口定义：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> cProfile</div><div class="line"><span class="keyword">import</span> pstats</div><div class="line"><span class="keyword">import</span> os</div><div class="line"><span class="comment"># 性能分析装饰器定义</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">do_cprofile</span><span class="params">(filename)</span>:</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">wrapper</span><span class="params">(func)</span>:</span></div><div class="line">        <span class="function"><span class="keyword">def</span> <span class="title">profiled_func</span><span class="params">(*args, **kwargs)</span>:</span></div><div class="line">            <span class="comment"># Flag for do profiling or not.</span></div><div class="line">            DO_PROF = os.getenv(<span class="string">"PROFILING"</span>)</div><div class="line">            <span class="keyword">if</span> DO_PROF:</div><div class="line">                profile = cProfile.Profile()</div><div class="line">                profile.enable()</div><div class="line">                result = func(*args, **kwargs)</div><div class="line">                profile.disable()</div><div class="line">                <span class="comment"># Sort stat by internal time.</span></div><div class="line">                sortby = <span class="string">"tottime"</span></div><div class="line">                ps = pstats.Stats(profile).sort_stats(sortby)</div><div class="line">                ps.dump_stats(filename)</div><div class="line">            <span class="keyword">else</span>:</div><div class="line">                result = func(*args, **kwargs)</div><div class="line">            <span class="keyword">return</span> result</div><div class="line">        <span class="keyword">return</span> profiled_func</div><div class="line">    <span class="keyword">return</span> wrapper</div></pre></td></tr></table></figure>
+<h3 id="分析使用"><a href="#分析使用" class="headerlink" title="分析使用"></a>分析使用</h3><p>这时候只需要在调用的函数上面加一个装饰器即可</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@do_cprofile('filename')</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">run</span><span class="params">()</span>:</span></div><div class="line">    <span class="keyword">print</span> <span class="string">'hello world'</span></div></pre></td></tr></table></figure>
+<h2 id="pstats分析工具"><a href="#pstats分析工具" class="headerlink" title="pstats分析工具"></a>pstats分析工具</h2><p><code>pstats</code>可以根据<code>cprofile</code>生成的文件进行排序、筛选等处理，呈现更主要的结果</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> pstats</div><div class="line"> </div><div class="line"><span class="comment"># 创建Stats对象</span></div><div class="line">p = pstats.Stats(<span class="string">"result.out"</span>)</div><div class="line"> </div><div class="line"><span class="comment"># strip_dirs(): 去掉无关的路径信息</span></div><div class="line"><span class="comment"># sort_stats(): 排序，支持的方式和上述的一致</span></div><div class="line"><span class="comment"># print_stats(): 打印分析结果，可以指定打印前几行</span></div><div class="line"> </div><div class="line"><span class="comment"># 和直接运行cProfile.run("test()")的结果是一样的</span></div><div class="line">p.strip_dirs().sort_stats(<span class="number">-1</span>).print_stats()</div><div class="line"> </div><div class="line"><span class="comment"># 按照函数名排序，只打印前3行函数的信息, 参数还可为小数,表示前百分之几的函数信息 </span></div><div class="line">p.strip_dirs().sort_stats(<span class="string">"name"</span>).print_stats(<span class="number">3</span>)</div><div class="line"> </div><div class="line"><span class="comment"># 按照运行时间和函数名进行排序</span></div><div class="line">p.strip_dirs().sort_stats(<span class="string">"cumulative"</span>, <span class="string">"name"</span>).print_stats(<span class="number">0.5</span>)</div><div class="line"> </div><div class="line"><span class="comment"># 如果想知道有哪些函数调用了sum_num</span></div><div class="line">p.print_callers(<span class="number">0.5</span>, <span class="string">"sum_num"</span>)</div><div class="line"> </div><div class="line"><span class="comment"># 查看test()函数中调用了哪些函数</span></div><div class="line">p.print_callees(<span class="string">"test"</span>)</div></pre></td></tr></table></figure>
+<p>上述代码摘自：<a href="http://xianglong.me/article/analysis-python-application-performance-using-cProfile/" target="_blank" rel="external">使用cProfile分析Python程序性能</a>，原文还提供了<code>pstats</code>命令行交互工具方式</p>
+<h2 id="图形可视化"><a href="#图形可视化" class="headerlink" title="图形可视化"></a>图形可视化</h2><p>上面的命令行界面的确是有点反人类，不易一下子清晰地分析性能瓶颈，有很多图形可视化工具可以帮助我们生成简洁明了的图片</p>
+<p>工具有：</p>
+<ul>
+<li>gprof2dot</li>
+<li>vprof</li>
+<li>RunSnakeRun</li>
+<li>KCacheGrind &amp; pyprof2calltree</li>
+</ul>
+<p>最终我选择了<code>gprof2dot</code>，比较符合我的口味</p>
+<h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><p>我的机器是<code>ubuntu</code>，其他类型机器找对应方式，具体参考：<a href="https://github.com/jrfonseca/gprof2dot" target="_blank" rel="external">Github gprof2dot</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">apt-get install python graphviz</div><div class="line">pip install gprof2dot</div></pre></td></tr></table></figure>
+<p>注意：</p>
+<p>如果<code>pip</code>安装软件包报错：’Cannot fetch index base URL  <a href="http://pypi.python.org/simple/" target="_blank" rel="external">http://pypi.python.org/simple/</a>‘</p>
+<p>解决办法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">1. windows下创建/%user%/pip/pop.ini，并添加以下内容。</div><div class="line">[global]  </div><div class="line">index-url=http://pypi.douban.com/simple/</div><div class="line">2. linux创建文件~/.pip/pip.conf，并添加一下内容。</div><div class="line">[global]  </div><div class="line">index-url=http://pypi.douban.com/simple/</div><div class="line">3. 再次使用pip安装相应的包即可。</div></pre></td></tr></table></figure>
+<h3 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h3><p>根据<code>cpofile</code>输出的文件生成图片，这边输出的文件名为<code>osd.out</code>，生成的图片名为<code>osd.png</code></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">gprof2dot -f pstats osd.out | dot -Tpng -o osd.png</div></pre></td></tr></table></figure>
+<p>具体参考这篇文章：<a href="https://zhuanlan.zhihu.com/p/24495603/" target="_blank" rel="external">Python优化第一步: 性能分析实践</a>，写的很好，也很具体</p>
+<h3 id="效果图"><a href="#效果图" class="headerlink" title="效果图"></a>效果图</h3><p>这是我进行性能分析产生的两张图</p>
+<p>Picture 1：</p>
+<center><img src="http://ovv1r40we.bkt.clouddn.com/enable_osd3.png" alt="enable_osd1"></center>
+
+<p>Picture 2：</p>
+<center><img src="http://ovv1r40we.bkt.clouddn.com/enable_osd3-2.png" alt="enable_osd2"></center>
+
+<h2 id="继续深入"><a href="#继续深入" class="headerlink" title="继续深入"></a>继续深入</h2><ul>
+<li><code>pstats</code>深入了解</li>
+<li><code>gprof2dot</code>深入了解</li>
+<li>其他的可视化工具</li>
+</ul>
+<p>不过最终的目的都是通过性能分析找到性能瓶颈，然后进行优化，适合自己的就好</p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a  href="/2017/10/10/Python-Profiler/">Python Profiler</a></p>
+        <p><span>文章作者:</span><a  href="/" title="访问 Tony 的个人博客">Tony</a></p>
+        <p><span>发布时间:</span>2017年10月10日 - 21时46分</p>
+        <p><span>最后更新:</span>2017年10月10日 - 21时56分</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2017/10/10/Python-Profiler/" title="Python Profiler">https://tony-yin.github.io/2017/10/10/Python-Profiler/</a>
+            <span class="copy-path" data-clipboard-text="原文: https://tony-yin.github.io/2017/10/10/Python-Profiler/　　作者: Tony" title=""></span>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/cn/" title="中国大陆 (CC BY-NC-SA 3.0 CN)" target = "_blank">"署名-非商用-相同方式共享 3.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+<nav id="article-nav">
+  
+  
+    <a  href="/2017/10/10/Enable-OSD-Profile-Script/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">启用OSD性能剖析脚本</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Profilers简介"><span class="toc-number">1.</span> <span class="toc-text">Profilers简介</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Cprofile快速使用"><span class="toc-number">2.</span> <span class="toc-text">Cprofile快速使用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#官网例子"><span class="toc-number">2.1.</span> <span class="toc-text">官网例子</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#代码"><span class="toc-number">2.1.1.</span> <span class="toc-text">代码</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#分析结果"><span class="toc-number">2.1.2.</span> <span class="toc-text">分析结果</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#图解"><span class="toc-number">2.1.3.</span> <span class="toc-text">图解</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Cprofile深入"><span class="toc-number">3.</span> <span class="toc-text">Cprofile深入</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#输出文件"><span class="toc-number">3.1.</span> <span class="toc-text">输出文件</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Cprofile优雅使用"><span class="toc-number">4.</span> <span class="toc-text">Cprofile优雅使用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#装饰器接口"><span class="toc-number">4.1.</span> <span class="toc-text">装饰器接口</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#分析使用"><span class="toc-number">4.2.</span> <span class="toc-text">分析使用</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#pstats分析工具"><span class="toc-number">5.</span> <span class="toc-text">pstats分析工具</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#图形可视化"><span class="toc-number">6.</span> <span class="toc-text">图形可视化</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#安装"><span class="toc-number">6.1.</span> <span class="toc-text">安装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#使用"><span class="toc-number">6.2.</span> <span class="toc-text">使用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#效果图"><span class="toc-number">6.3.</span> <span class="toc-text">效果图</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#继续深入"><span class="toc-number">7.</span> <span class="toc-text">继续深入</span></a></li></ol>
+</div>
+<style>
+    .left-col .switch-btn {
+        display: none;
+    }
+    .left-col .switch-area {
+        display: none;
+    }
+</style>
+<input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+<script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script>
+    var valueHide = "隐藏目录";
+    var valueShow = "显示目录";
+    if ($(".left-col").is(":hidden")) {
+        $("#tocButton").attr("value", valueShow);
+    }
+    $("#tocButton").click(function() {
+        if ($("#toc").is(":hidden")) {
+            $("#tocButton").attr("value", valueHide);
+            $("#toc").slideDown(320);
+            $(".switch-btn, .switch-area").fadeOut(300);
+        }
+        else {
+            $("#tocButton").attr("value", valueShow);
+            $("#toc").slideUp(350);
+            $(".switch-btn, .switch-area").fadeIn(500);
+        }
+    })
+    if ($(".toc").length < 1) {
+        $("#toc, #tocButton").hide();
+        $(".switch-btn, .switch-area").show();
+    }
+</script>
+
+
+
+
+
+<div class="bdsharebuttonbox">
+	<a href="#" class="fx fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+	<a href="#" class="fx fa-weixin bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+	<a href="#" class="fx fa-qq bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a>
+	<a href="#" class="fx fa-facebook-official bds_fbook" data-cmd="fbook" title="分享到Facebook"></a>
+	<a href="#" class="fx fa-twitter bds_twi" data-cmd="twi" title="分享到Twitter"></a>
+	<a href="#" class="fx fa-linkedin bds_linkedin" data-cmd="linkedin" title="分享到linkedin"></a>
+	<a href="#" class="fx fa-files-o bds_copy" data-cmd="copy" title="分享到复制网址"></a>
+</div>
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"2","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='/static/api/js/share.js?cdnversion=' + ~ (-new Date() / 36e5)];</script>
+
+
+
+
+    
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a  href="/" title="回到主页"><i class="fa fa-home"></i></a>
+        
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+        
+            <a  href="/2017/10/10/Enable-OSD-Profile-Script/" title="下一篇: 启用OSD性能剖析脚本">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2017/10/10/Python-Profiler/">Python Profiler</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/10/Enable-OSD-Profile-Script/">启用OSD性能剖析脚本</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/02/Batch-Create-And-Delete-Disk-Partition-Script/">批量创建和删除磁盘分区脚本</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/28/JS-Object-Null/">JS判断对象是否为空</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/27/OSD-Create-And-Delete/">OSD创建和删除全过程</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/21/How-To-Forge-Product/">How-To-Forge-Product</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/18/PHP-Excel/">PHP-Excel 开发解决方案</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/10/Disk-pull-and-plug-record/">Disk pull and plug record</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/10/Linux-Udev/">Linux Udev</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/10/Magicloud-Route/">Magicloud Route</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/10/Osd-Enable-and-Disable/">Osd Enable and Disable</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/10/Disk-Mon-Daemon/">Disk Mon Daemon</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/10/network-down-notification/">Network Down Notification</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/10/Python-Oracle/">Python Oracle</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/10/oracle_install/">Oracle Linux And Oracle Database 11g R2 Intsallation</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/09/Moodle-Local-Plugin/">Moodle Local Plugin</a></li></ul>
+    <script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+    <script>
+        $(".post-list").addClass("toc-article");
+        // $(".post-list-item a").attr("target","_blank");
+        $("#post-nav-button > a:nth-child(2)").click(function() {
+            $(".fa-bars, .fa-times").toggle();
+            $(".post-list").toggle(300);
+            if ($(".toc").length > 0) {
+                $("#toc, #tocButton").toggle(200, function() {
+                    if ($(".switch-area").is(":visible")) {
+                        $("#toc, .switch-btn, .switch-area").toggle();
+                        $("#tocButton").attr("value", valueHide);
+                        }
+                    })
+            }
+            else {
+                $(".switch-btn, .switch-area").fadeToggle(300);
+            }
+        })
+    </script>
+
+
+
+
+    <script>
+        
+    </script>
+
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                &copy; 2017 Tony
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" >极客到访数: 
+                            <span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>, </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit">本页阅读量: 
+                            <span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+
+    </div>
+    <script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script src="/js/main.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var backgroundnum = 4;
+            var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+            $("#mobile-nav").css({"background-image": backgroundimg,"background-size": "cover","background-position": "center"});
+            $(".left-col").css({"background-image": backgroundimg,"background-size": "cover","background-position": "center"});
+        })
+    </script>
+
+
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'xxxxx', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+
+	<script>
+	var _hmt = _hmt || [];
+	(function() {
+	  var hm = document.createElement("script");
+	  hm.src = "//hm.baidu.com/hm.js?xxxxxx";
+	  var s = document.getElementsByTagName("script")[0]; 
+	  s.parentNode.insertBefore(hm, s);
+	})();
+	</script>
+
+
+
+<div class="scroll" id="scroll">
+    <a href="#"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    $(document).ready(function() {
+        if ($("#comments").length < 1) {
+            $("#scroll > a:nth-child(2)").hide();
+        };
+    })
+</script>
+
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+  <script language="javascript">
+    $(function() {
+        $("a[title]").each(function() {
+            var a = $(this);
+            var title = a.attr('title');
+            if (title == undefined || title == "") return;
+            a.data('title', title).removeAttr('title').hover(
+            function() {
+                var offset = a.offset();
+                $("<div id=\"anchortitlecontainer\"></div>").appendTo($("body")).html(title).css({
+                    top: offset.top - a.outerHeight() - 15,
+                    left: offset.left + a.outerWidth()/2 + 1
+                }).fadeIn(function() {
+                    var pop = $(this);
+                    setTimeout(function() {
+                        pop.remove();
+                    }, pop.text().length * 800);
+                });
+            }, function() {
+                $("#anchortitlecontainer").remove();
+            });
+        });
+    });
+</script>
+
+
+  </div>
+</body>
+</html>

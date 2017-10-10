@@ -176,8 +176,6 @@
                         
                             <li><a  href="/categories/life">生活随笔</a></li>
                         
-                            <li><a  href="/about/">关于我</a></li>
-                        
                         </ul>
                     </nav>
                     <nav class="header-nav">
@@ -195,7 +193,7 @@
                 
                 <section class="switch-part switch-part2">
                     <div class="widget tagcloud" id="js-tagcloud">
-                        <a href="/tags/Ceph/" style="font-size: 17.5px;">Ceph</a> <a href="/tags/Daemon/" style="font-size: 10px;">Daemon</a> <a href="/tags/Disk/" style="font-size: 10px;">Disk</a> <a href="/tags/Javascript/" style="font-size: 10px;">Javascript</a> <a href="/tags/Linux/" style="font-size: 15px;">Linux</a> <a href="/tags/Magicloud/" style="font-size: 20px;">Magicloud</a> <a href="/tags/Moodle/" style="font-size: 10px;">Moodle</a> <a href="/tags/Network/" style="font-size: 10px;">Network</a> <a href="/tags/Notification/" style="font-size: 10px;">Notification</a> <a href="/tags/OSD/" style="font-size: 10px;">OSD</a> <a href="/tags/Oracle/" style="font-size: 12.5px;">Oracle</a> <a href="/tags/Oracle-11g-R2/" style="font-size: 10px;">Oracle 11g R2</a> <a href="/tags/Oracle-Linux/" style="font-size: 10px;">Oracle Linux</a> <a href="/tags/Osd/" style="font-size: 12.5px;">Osd</a> <a href="/tags/PHP/" style="font-size: 12.5px;">PHP</a> <a href="/tags/PHPExcel/" style="font-size: 10px;">PHPExcel</a> <a href="/tags/Python/" style="font-size: 10px;">Python</a> <a href="/tags/Route/" style="font-size: 10px;">Route</a> <a href="/tags/Udev/" style="font-size: 12.5px;">Udev</a> <a href="/tags/产品/" style="font-size: 10px;">产品</a>
+                        <a href="/tags/Ceph/" style="font-size: 17.5px;">Ceph</a> <a href="/tags/Daemon/" style="font-size: 10px;">Daemon</a> <a href="/tags/Disk/" style="font-size: 12.5px;">Disk</a> <a href="/tags/Javascript/" style="font-size: 10px;">Javascript</a> <a href="/tags/Linux/" style="font-size: 15px;">Linux</a> <a href="/tags/Magicloud/" style="font-size: 20px;">Magicloud</a> <a href="/tags/Moodle/" style="font-size: 10px;">Moodle</a> <a href="/tags/Network/" style="font-size: 10px;">Network</a> <a href="/tags/Notification/" style="font-size: 10px;">Notification</a> <a href="/tags/OSD/" style="font-size: 12.5px;">OSD</a> <a href="/tags/Oracle/" style="font-size: 12.5px;">Oracle</a> <a href="/tags/Oracle-11g-R2/" style="font-size: 10px;">Oracle 11g R2</a> <a href="/tags/Oracle-Linux/" style="font-size: 10px;">Oracle Linux</a> <a href="/tags/Osd/" style="font-size: 12.5px;">Osd</a> <a href="/tags/PHP/" style="font-size: 12.5px;">PHP</a> <a href="/tags/PHPExcel/" style="font-size: 10px;">PHPExcel</a> <a href="/tags/Partition/" style="font-size: 10px;">Partition</a> <a href="/tags/Profile/" style="font-size: 12.5px;">Profile</a> <a href="/tags/Python/" style="font-size: 12.5px;">Python</a> <a href="/tags/Route/" style="font-size: 10px;">Route</a> <a href="/tags/Script/" style="font-size: 12.5px;">Script</a> <a href="/tags/Udev/" style="font-size: 12.5px;">Udev</a> <a href="/tags/产品/" style="font-size: 10px;">产品</a> <a href="/tags/性能优化/" style="font-size: 10px;">性能优化</a>
                     </div>
                 </section>
                 
@@ -253,8 +251,6 @@
                 
                     <li><a href="/categories/life">生活随笔</a></li>
                 
-                    <li><a href="/about/">关于我</a></li>
-                
                 <div class="clearfix"></div>
                 </ul>
             </nav>
@@ -273,6 +269,151 @@
     </div>
 </nav>
       <div class="body-wrap">
+  
+    <article id="post-Osd-Enable-and-Disable" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a  href="/2017/09/10/Osd-Enable-and-Disable/" class="article-date">
+      <time datetime="2017-09-09T18:18:33.000Z" itemprop="datePublished">2017-09-10</time>
+</a>
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a  class="article-title" href="/2017/09/10/Osd-Enable-and-Disable/">Osd Enable and Disable</a>
+    </h1>
+  
+
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+              <center><img src="http://ow0mgad6r.bkt.clouddn.com/fireart_blog-600-450.jpg" alt="osd"></center>
+
+<p>对项目中<code>osd</code>的<code>enable</code>和<code>disable</code>的代码流程的总结</p>
+          
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/tech/">tech</a>
+    </div>
+
+
+      
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Ceph/">Ceph</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Magicloud/">Magicloud</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Osd/">Osd</a></li></ul>
+    </div>
+
+      
+        <p class="article-more-link">
+          <a   href="/2017/09/10/Osd-Enable-and-Disable/#more">阅读全文 >></a>
+        </p>
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-Disk-Mon-Daemon" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a  href="/2017/09/10/Disk-Mon-Daemon/" class="article-date">
+      <time datetime="2017-09-09T18:17:19.000Z" itemprop="datePublished">2017-09-10</time>
+</a>
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a  class="article-title" href="/2017/09/10/Disk-Mon-Daemon/">Disk Mon Daemon</a>
+    </h1>
+  
+
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+              <center><img src="http://ow0mgad6r.bkt.clouddn.com/dribbble-health-600-450.png" alt="daemon"></center>
+
+
+<p>最近在做监控<code>SSD</code>磁盘健康状态这个需求的时候，发现项目中专门针对磁盘写了一个<code>daemon</code>，之前对<code>daemon</code>只是表面上的了解，所以这次正好深入学习下,了解一下这样做的原因和好处以及如何在以后的工作中熟练运用<code>daemon</code><br>
+          
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/tech/">tech</a>
+    </div>
+
+
+      
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Ceph/">Ceph</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Daemon/">Daemon</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/">Linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Magicloud/">Magicloud</a></li></ul>
+    </div>
+
+      
+        <p class="article-more-link">
+          <a   href="/2017/09/10/Disk-Mon-Daemon/#more">阅读全文 >></a>
+        </p>
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+
+
   
     <article id="post-network-down-notification" class="article article-type-post" itemscope itemprop="blogPost">
   
@@ -495,81 +636,9 @@
 
 
   
-    <article id="post-Moodle-Local-Plugin" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a  href="/2017/09/09/Moodle-Local-Plugin/" class="article-date">
-      <time datetime="2017-09-09T15:05:05.000Z" itemprop="datePublished">2017-09-09</time>
-</a>
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a  class="article-title" href="/2017/09/09/Moodle-Local-Plugin/">Moodle Local Plugin</a>
-    </h1>
-  
-
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-              <center><img src="http://ow0mgad6r.bkt.clouddn.com/moodle-logo-concept.png" alt="moodle"></center>
-
-<p><code>Local</code>插件在<code>Moodle</code>中相比于其他插件算是比较容易上手的一个插件，<code>Local</code>插件中前后台分离，不用遨游在杂糅前后端的代码里。学会<code>Local</code>插件是上手其他插件的前提，其实一旦学会<code>Local</code>插件也会发现其他插件不过是它的一种变种形式罢了，只要举一反三就能很快掌握。</p>
-          
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-    <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/tech/">tech</a>
-    </div>
-
-
-      
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Moodle/">Moodle</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/PHP/">PHP</a></li></ul>
-    </div>
-
-      
-        <p class="article-more-link">
-          <a   href="/2017/09/09/Moodle-Local-Plugin/#more">阅读全文 >></a>
-        </p>
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-
-
-  
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/2/">&laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span>
+      <a class="extend prev" rel="prev" href="/page/2/">&laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/4/">Next &raquo;</a>
     </nav>
   
 
