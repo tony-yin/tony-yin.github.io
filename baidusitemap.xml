@@ -4,6 +4,32 @@
 
     
   <url>
+    <loc>https://tony-yin.github.io/2017/10/31/RBD-Mount-NFS/</loc>
+    <lastmod>2017-10-31T14:52:40.000Z</lastmod>
+    <data>
+        <display>
+        <title>使用NFS挂载RBD</title>
+        <pubTime>2017-10-31T14:45:25.000Z</pubTime>
+        
+        <tag>Ceph</tag>
+         
+        <tag>RBD</tag>
+         
+        <tag>EC</tag>
+         
+        <tag>NFS</tag>
+         
+         
+           
+             
+              <breadCrumb title="tech" url="https://tony-yin.github.io/categories/tech/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>https://tony-yin.github.io/2017/10/10/Python-Profiler/</loc>
     <lastmod>2017-10-10T13:56:47.000Z</lastmod>
     <data>
@@ -87,9 +113,9 @@
         <title>Disk Mon Daemon</title>
         <pubTime>2017-09-09T18:17:19.000Z</pubTime>
         
-        <tag>Ceph</tag>
-         
         <tag>Magicloud</tag>
+         
+        <tag>Ceph</tag>
          
         <tag>Linux</tag>
          
@@ -133,9 +159,9 @@
         <title>Osd Enable and Disable</title>
         <pubTime>2017-09-09T18:18:33.000Z</pubTime>
         
-        <tag>Ceph</tag>
-         
         <tag>Magicloud</tag>
+         
+        <tag>Ceph</tag>
          
         <tag>Osd</tag>
          
@@ -179,9 +205,9 @@
         <title>OSD创建和删除全过程</title>
         <pubTime>2017-09-27T15:05:36.000Z</pubTime>
         
-        <tag>Ceph</tag>
-         
         <tag>OSD</tag>
+         
+        <tag>Ceph</tag>
          
          
            
@@ -225,13 +251,13 @@
         
         <tag>Disk</tag>
          
-        <tag>Ceph</tag>
-         
         <tag>Magicloud</tag>
          
-        <tag>Linux</tag>
+        <tag>Ceph</tag>
          
         <tag>Osd</tag>
+         
+        <tag>Linux</tag>
          
         <tag>Udev</tag>
          
@@ -275,9 +301,9 @@
         <title>Network Down Notification</title>
         <pubTime>2017-09-09T18:14:34.000Z</pubTime>
         
-        <tag>Ceph</tag>
-         
         <tag>Magicloud</tag>
+         
+        <tag>Ceph</tag>
          
         <tag>Network</tag>
          
@@ -347,9 +373,9 @@
         <title>Linux Udev</title>
         <pubTime>2017-09-09T18:20:27.000Z</pubTime>
         
-        <tag>Ceph</tag>
-         
         <tag>Magicloud</tag>
+         
+        <tag>Ceph</tag>
          
         <tag>Linux</tag>
          

@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://tony-yin.github.io/"/>
-  <updated>2017-10-10T13:56:47.000Z</updated>
+  <updated>2017-10-31T14:52:40.000Z</updated>
   <id>https://tony-yin.github.io/</id>
   
   <author>
@@ -15,6 +15,44 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>使用NFS挂载RBD</title>
+    <link href="https://tony-yin.github.io/2017/10/31/RBD-Mount-NFS/"/>
+    <id>https://tony-yin.github.io/2017/10/31/RBD-Mount-NFS/</id>
+    <published>2017-10-31T14:45:25.000Z</published>
+    <updated>2017-10-31T14:52:40.000Z</updated>
+    
+    <content type="html"><![CDATA[<center><img src="http://ovv1r40we.bkt.clouddn.com/rbd-london-christmas-600x450.jpg" alt="RBD"></center><p><strong>具体场景</strong></p><ul><li>在<code>Server</code>端创建<code>RBD</code>块设备并挂载到某个目录，然后在<code>Client</code>端通过<code>NFS</code>将<code>Server</code>端之前说的目录再挂载到本地，就可以实现在客户端写文件通过<code>NFS</code>到<code>Server</code>端的块设备上</li><li>这波操作的目的是因为测试<code>EC</code>性能时，<code>Ceph</code>版本还是<code>Hammer</code>，<code>CephFS</code>不是很稳定，性能不行，所以想用<code>RBD</code>的方式取代，但是<code>Hammer</code>版本中<code>EC</code>是只支持<code>RGW</code>的，并不支持<code>CephFS</code>和<code>RBD</code>，至于这个场景具体流程之后会在其他文章分享</li><li>这波操作在之前<code>Ceph</code>的<code>Hammer</code>版本做过，这次是要在新版本<code>Luminous</code>上实践，由于遇到了很多问题，大部分都是新版本缘故引入的，故与大家分享</li></ul><blockquote><p>PS：<code>Luminous</code>新版本提供了新的<code>NFS</code>的处理方式，不再需要用这种老式的<code>RBD</code>的手段，之后也会在其他文章分享出来</p></blockquote><a id="more"></a><h2 id="Hammer版本"><a href="#Hammer版本" class="headerlink" title="Hammer版本"></a>Hammer版本</h2><p>操作步骤</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line">1. 使用RBD方式导出NFS，步骤如下：</div><div class="line"></div><div class="line">1.1 create RBD block device image (size unit: MB)</div><div class="line"># rbd create --size 1024 ec-pool/test_image</div><div class="line"></div><div class="line">1.2 map RBD device</div><div class="line"># rbd map ec-pool/test_image</div><div class="line"></div><div class="line">[Optional] check mapped device</div><div class="line"># rbd showmapped</div><div class="line"></div><div class="line">1.3 create filesystem on the device</div><div class="line"># mkfs.ext4 /dev/rbd0</div><div class="line"></div><div class="line">1.4 mount it,</div><div class="line"># mkdir -p /vol/test_image</div><div class="line"># mount /dev/rbd0 /vol/test_image/</div><div class="line"></div><div class="line">1.5 export it, modify the /etc/exports</div><div class="line"># cat /etc/exports</div><div class="line">/vol/test_image *(rw,async,no_subtree_check,no_root_squash)</div><div class="line"># service nfs-kernel-server restart</div><div class="line"># exportfs -r</div><div class="line"></div><div class="line">1.6 check mount info for NFS server</div><div class="line"># showmount -e 192.168.1.167</div><div class="line"></div><div class="line">2. 在客户端以nfs方式mount上述导出的文件夹</div><div class="line"># mount -t nfs 192.168.1.167:/vol/test_image /mnt</div></pre></td></tr></table></figure><h2 id="Luminous版本"><a href="#Luminous版本" class="headerlink" title="Luminous版本"></a>Luminous版本</h2><h3 id="Create-RBD-image"><a href="#Create-RBD-image" class="headerlink" title="Create RBD image"></a>Create RBD image</h3><p>之前<code>EC Pool</code>只能为<code>RGW</code>服务 ，直到<code>Luminous</code>版本，<code>EC Pool</code>也可以应用在<code>RBD</code>和<code>CephFS</code>，并且增加了<code>data-pool</code>这样的新特性，具体请参考官网：<a href="http://docs.ceph.com/docs/luminous/rados/operations/erasure-code/#erasure-coding-with-overwrites" target="_blank" rel="external">http://docs.ceph.com/docs/luminous/rados/operations/erasure-code/#erasure-coding-with-overwrites</a></p><p>所以创建<code>image</code>的方式也有所改变</p><h4 id="Enable-ec-overwrites"><a href="#Enable-ec-overwrites" class="headerlink" title="Enable ec overwrites"></a>Enable ec overwrites</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ceph osd pool set ec_pool allow_ec_overwrites true</div></pre></td></tr></table></figure><h4 id="Create-pool-and-image"><a href="#Create-pool-and-image" class="headerlink" title="Create pool and image"></a>Create pool and image</h4><p>由于<code>EC</code>不支持<code>omap</code>，所以在<code>CephFS</code>或者<code>RBD</code>场景使用<code>EC</code>时，需要将<code>data</code>存在<code>EC Pool</code>中，将<code>metadata</code>存在<code>Replicated Pool</code>中</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">// 创建pool</div><div class="line">ceph osd pool create ec-pool 12 12 erasure  // ec pool, store data</div><div class="line">ceph osd pool create md-pool 12 12 replicated   // replicated pool, store metadata</div><div class="line">ceph osd pool create ssd-pool 12 12 replicated  // replicated pool, used as cache pool</div><div class="line">// 创建image</div><div class="line">rbd create --size 1024 --data-pool ec-pool md-pool/test_image</div></pre></td></tr></table></figure><h3 id="Map-RBD"><a href="#Map-RBD" class="headerlink" title="Map RBD"></a>Map RBD</h3><p>这一步之前的操作是<code>rbd map ec-pool/test_image</code>，所以当前需要执行</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">rbd map md-pool/test_image</div></pre></td></tr></table></figure><p>但是一直<code>timeout</code>，通过查看<code>dmesg</code>和网上资料发现是因为<code>linux kernel</code>版本太低，所以升级了一下内核到<code>4.3</code>版本之后就可以<code>work</code>了</p><p>升级内核版本请参考：</p><blockquote><ul><li><a href="http://www.jianshu.com/p/66a724a1f3af" target="_blank" rel="external">内核版本过低导致RBD Feature不支持</a></li><li><a href="http://xiaqunfeng.cc/2017/06/06/ceph-rbd-map-failed/" target="_blank" rel="external">RBD Feature</a></li></ul></blockquote><h3 id="Check-map"><a href="#Check-map" class="headerlink" title="Check map"></a>Check map</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">rbd showmapped</div></pre></td></tr></table></figure><h3 id="Create-filesystem-on-RBD"><a href="#Create-filesystem-on-RBD" class="headerlink" title="Create filesystem on RBD"></a>Create filesystem on RBD</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">mkfs.ext4 /dev/rbd0</div></pre></td></tr></table></figure><h3 id="Mount"><a href="#Mount" class="headerlink" title="Mount"></a>Mount</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">mkdir -p /vol/test_image</div><div class="line">mount /dev/rbd0 /vol/test_image/</div></pre></td></tr></table></figure><h3 id="Modify-export-for-nfs-on-server"><a href="#Modify-export-for-nfs-on-server" class="headerlink" title="Modify export for nfs on server"></a>Modify export for nfs on server</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">vim /etc/exports</div><div class="line">/vol/test_image *(rw,async,no_subtree_check,no_root_squash) // Modify it to /etc/exports</div></pre></td></tr></table></figure><h4 id="Server"><a href="#Server" class="headerlink" title="Server"></a>Server</h4><h5 id="Install-NFS-on-server-and-client"><a href="#Install-NFS-on-server-and-client" class="headerlink" title="Install NFS on server and client"></a>Install NFS on server and client</h5><p><code>Server</code>端执行一下操作</p><h5 id="Install"><a href="#Install" class="headerlink" title="Install"></a>Install</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">yum -y install nfs-utils rpcbind</div></pre></td></tr></table></figure><h5 id="Start-service"><a href="#Start-service" class="headerlink" title="Start service"></a>Start service</h5><p><code>nfs</code>依赖<code>rpcbind</code>，所以必须先启动<code>rpcbind</code>，这很重要</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">service rpcbind start</div><div class="line">service nfs start</div><div class="line">exportfs -r</div></pre></td></tr></table></figure><h4 id="Client"><a href="#Client" class="headerlink" title="Client"></a>Client</h4><p>客户端也执行以上操作，假设客户端<code>ip</code>为<code>192.168.1.1</code>，服务端为<code>192.168.1.2</code></p><h5 id="Check-mount"><a href="#Check-mount" class="headerlink" title="Check mount"></a>Check mount</h5><p>查看是否可以挂载</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">showmount -e 192.168.1.2</div></pre></td></tr></table></figure><h5 id="Mount-server-to-client"><a href="#Mount-server-to-client" class="headerlink" title="Mount server to client"></a>Mount server to client</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">mount -t nfs 192.168.1.2:/vol/test_image /mnt</div></pre></td></tr></table></figure><h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>遇到的主要问题</p><ul><li><code>EC Pool</code>创建<code>image</code>因为新版本改动</li><li><code>rbd map</code>因为<code>linux kernel</code>版本低</li><li><code>nfs</code>因为<code>nfs</code>在<code>rpcbind</code>前启动</li></ul><p>希望帮助大家尽量少些踩坑 ~~~</p><p>作者： Tony<br>日期： 2017-10-31 22:33</p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;center&gt;&lt;img src=&quot;http://ovv1r40we.bkt.clouddn.com/rbd-london-christmas-600x450.jpg&quot; alt=&quot;RBD&quot;&gt;&lt;/center&gt;
+
+&lt;p&gt;&lt;strong&gt;具体场景&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;在&lt;code&gt;Server&lt;/code&gt;端创建&lt;code&gt;RBD&lt;/code&gt;块设备并挂载到某个目录，然后在&lt;code&gt;Client&lt;/code&gt;端通过&lt;code&gt;NFS&lt;/code&gt;将&lt;code&gt;Server&lt;/code&gt;端之前说的目录再挂载到本地，就可以实现在客户端写文件通过&lt;code&gt;NFS&lt;/code&gt;到&lt;code&gt;Server&lt;/code&gt;端的块设备上&lt;/li&gt;
+&lt;li&gt;这波操作的目的是因为测试&lt;code&gt;EC&lt;/code&gt;性能时，&lt;code&gt;Ceph&lt;/code&gt;版本还是&lt;code&gt;Hammer&lt;/code&gt;，&lt;code&gt;CephFS&lt;/code&gt;不是很稳定，性能不行，所以想用&lt;code&gt;RBD&lt;/code&gt;的方式取代，但是&lt;code&gt;Hammer&lt;/code&gt;版本中&lt;code&gt;EC&lt;/code&gt;是只支持&lt;code&gt;RGW&lt;/code&gt;的，并不支持&lt;code&gt;CephFS&lt;/code&gt;和&lt;code&gt;RBD&lt;/code&gt;，至于这个场景具体流程之后会在其他文章分享&lt;/li&gt;
+&lt;li&gt;这波操作在之前&lt;code&gt;Ceph&lt;/code&gt;的&lt;code&gt;Hammer&lt;/code&gt;版本做过，这次是要在新版本&lt;code&gt;Luminous&lt;/code&gt;上实践，由于遇到了很多问题，大部分都是新版本缘故引入的，故与大家分享&lt;/li&gt;
+&lt;/ul&gt;
+&lt;blockquote&gt;
+&lt;p&gt;PS：&lt;code&gt;Luminous&lt;/code&gt;新版本提供了新的&lt;code&gt;NFS&lt;/code&gt;的处理方式，不再需要用这种老式的&lt;code&gt;RBD&lt;/code&gt;的手段，之后也会在其他文章分享出来&lt;/p&gt;
+&lt;/blockquote&gt;
+    
+    </summary>
+    
+      <category term="tech" scheme="https://tony-yin.github.io/categories/tech/"/>
+    
+    
+      <category term="Ceph" scheme="https://tony-yin.github.io/tags/Ceph/"/>
+    
+      <category term="RBD" scheme="https://tony-yin.github.io/tags/RBD/"/>
+    
+      <category term="EC" scheme="https://tony-yin.github.io/tags/EC/"/>
+    
+      <category term="NFS" scheme="https://tony-yin.github.io/tags/NFS/"/>
+    
+  </entry>
   
   <entry>
     <title>Python Profiler</title>
@@ -150,9 +188,9 @@
       <category term="tech" scheme="https://tony-yin.github.io/categories/tech/"/>
     
     
-      <category term="Ceph" scheme="https://tony-yin.github.io/tags/Ceph/"/>
-    
       <category term="OSD" scheme="https://tony-yin.github.io/tags/OSD/"/>
+    
+      <category term="Ceph" scheme="https://tony-yin.github.io/tags/Ceph/"/>
     
   </entry>
   
@@ -232,13 +270,13 @@
     
       <category term="Disk" scheme="https://tony-yin.github.io/tags/Disk/"/>
     
-      <category term="Ceph" scheme="https://tony-yin.github.io/tags/Ceph/"/>
-    
       <category term="Magicloud" scheme="https://tony-yin.github.io/tags/Magicloud/"/>
     
-      <category term="Linux" scheme="https://tony-yin.github.io/tags/Linux/"/>
+      <category term="Ceph" scheme="https://tony-yin.github.io/tags/Ceph/"/>
     
       <category term="Osd" scheme="https://tony-yin.github.io/tags/Osd/"/>
+    
+      <category term="Linux" scheme="https://tony-yin.github.io/tags/Linux/"/>
     
       <category term="Udev" scheme="https://tony-yin.github.io/tags/Udev/"/>
     
@@ -264,9 +302,9 @@
       <category term="tech" scheme="https://tony-yin.github.io/categories/tech/"/>
     
     
-      <category term="Ceph" scheme="https://tony-yin.github.io/tags/Ceph/"/>
-    
       <category term="Magicloud" scheme="https://tony-yin.github.io/tags/Magicloud/"/>
+    
+      <category term="Ceph" scheme="https://tony-yin.github.io/tags/Ceph/"/>
     
       <category term="Linux" scheme="https://tony-yin.github.io/tags/Linux/"/>
     
@@ -320,9 +358,9 @@
       <category term="tech" scheme="https://tony-yin.github.io/categories/tech/"/>
     
     
-      <category term="Ceph" scheme="https://tony-yin.github.io/tags/Ceph/"/>
-    
       <category term="Magicloud" scheme="https://tony-yin.github.io/tags/Magicloud/"/>
+    
+      <category term="Ceph" scheme="https://tony-yin.github.io/tags/Ceph/"/>
     
       <category term="Osd" scheme="https://tony-yin.github.io/tags/Osd/"/>
     
@@ -349,9 +387,9 @@
       <category term="tech" scheme="https://tony-yin.github.io/categories/tech/"/>
     
     
-      <category term="Ceph" scheme="https://tony-yin.github.io/tags/Ceph/"/>
-    
       <category term="Magicloud" scheme="https://tony-yin.github.io/tags/Magicloud/"/>
+    
+      <category term="Ceph" scheme="https://tony-yin.github.io/tags/Ceph/"/>
     
       <category term="Linux" scheme="https://tony-yin.github.io/tags/Linux/"/>
     
@@ -384,9 +422,9 @@
       <category term="tech" scheme="https://tony-yin.github.io/categories/tech/"/>
     
     
-      <category term="Ceph" scheme="https://tony-yin.github.io/tags/Ceph/"/>
-    
       <category term="Magicloud" scheme="https://tony-yin.github.io/tags/Magicloud/"/>
+    
+      <category term="Ceph" scheme="https://tony-yin.github.io/tags/Ceph/"/>
     
       <category term="Network" scheme="https://tony-yin.github.io/tags/Network/"/>
     

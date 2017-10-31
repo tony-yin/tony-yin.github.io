@@ -7,21 +7,21 @@
   
   
   
-  <title>Oracle Linux And Oracle Database 11g R2 Intsallation | Tony&#39;s blog</title>
+  <title>使用NFS挂载RBD | Tony&#39;s blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="最近工作中用到了Oracle作为Intel测试的数据库，在装Oracle Linux和Oracle Database 11g R2折腾了很久，这篇文章就这两点对大家分享一些我安装过程中遇到的问题和注意点，rac暂时还未配置，稍后找时间补上">
-<meta name="keywords" content="Oracle,Oracle Linux,Oracle 11g R2">
+  <meta name="description" content="具体场景  在Server端创建RBD块设备并挂载到某个目录，然后在Client端通过NFS将Server端之前说的目录再挂载到本地，就可以实现在客户端写文件通过NFS到Server端的块设备上 这波操作的目的是因为测试EC性能时，Ceph版本还是Hammer，CephFS不是很稳定，性能不行，所以想用RBD的方式取代，但是Hammer版本中EC是只支持RGW的，并不支持CephFS和RBD，">
+<meta name="keywords" content="Ceph,RBD,EC,NFS">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Oracle Linux And Oracle Database 11g R2 Intsallation">
-<meta property="og:url" content="https://tony-yin.github.io/2017/09/10/oracle_install/index.html">
+<meta property="og:title" content="使用NFS挂载RBD">
+<meta property="og:url" content="https://tony-yin.github.io/2017/10/31/RBD-Mount-NFS/index.html">
 <meta property="og:site_name" content="Tony&#39;s blog">
-<meta property="og:description" content="最近工作中用到了Oracle作为Intel测试的数据库，在装Oracle Linux和Oracle Database 11g R2折腾了很久，这篇文章就这两点对大家分享一些我安装过程中遇到的问题和注意点，rac暂时还未配置，稍后找时间补上">
-<meta property="og:image" content="http://ow0mgad6r.bkt.clouddn.com/oracle-eloqua-campaign-manager.png">
-<meta property="og:updated_time" content="2017-09-20T13:38:36.000Z">
+<meta property="og:description" content="具体场景  在Server端创建RBD块设备并挂载到某个目录，然后在Client端通过NFS将Server端之前说的目录再挂载到本地，就可以实现在客户端写文件通过NFS到Server端的块设备上 这波操作的目的是因为测试EC性能时，Ceph版本还是Hammer，CephFS不是很稳定，性能不行，所以想用RBD的方式取代，但是Hammer版本中EC是只支持RGW的，并不支持CephFS和RBD，">
+<meta property="og:image" content="http://ovv1r40we.bkt.clouddn.com/rbd-london-christmas-600x450.jpg">
+<meta property="og:updated_time" content="2017-10-31T14:52:40.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Oracle Linux And Oracle Database 11g R2 Intsallation">
-<meta name="twitter:description" content="最近工作中用到了Oracle作为Intel测试的数据库，在装Oracle Linux和Oracle Database 11g R2折腾了很久，这篇文章就这两点对大家分享一些我安装过程中遇到的问题和注意点，rac暂时还未配置，稍后找时间补上">
-<meta name="twitter:image" content="http://ow0mgad6r.bkt.clouddn.com/oracle-eloqua-campaign-manager.png">
+<meta name="twitter:title" content="使用NFS挂载RBD">
+<meta name="twitter:description" content="具体场景  在Server端创建RBD块设备并挂载到某个目录，然后在Client端通过NFS将Server端之前说的目录再挂载到本地，就可以实现在客户端写文件通过NFS到Server端的块设备上 这波操作的目的是因为测试EC性能时，Ceph版本还是Hammer，CephFS不是很稳定，性能不行，所以想用RBD的方式取代，但是Hammer版本中EC是只支持RGW的，并不支持CephFS和RBD，">
+<meta name="twitter:image" content="http://ovv1r40we.bkt.clouddn.com/rbd-london-christmas-600x450.jpg">
   
     <link rel="alternative" href="/atom.xml" title="Tony&#39;s blog" type="application/atom+xml">
   
@@ -272,11 +272,11 @@
         </header>                
     </div>
 </nav>
-      <div class="body-wrap"><article id="post-oracle_install" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-RBD-Mount-NFS" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a  href="/2017/09/10/oracle_install/" class="article-date">
-      <time datetime="2017-09-09T16:53:06.000Z" itemprop="datePublished">2017-09-10</time>
+      <a  href="/2017/10/31/RBD-Mount-NFS/" class="article-date">
+      <time datetime="2017-10-31T14:45:25.000Z" itemprop="datePublished">2017-10-31</time>
 </a>
 
     </div>
@@ -290,7 +290,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      Oracle Linux And Oracle Database 11g R2 Intsallation
+      使用NFS挂载RBD
     </h1>
   
 
@@ -306,7 +306,7 @@
 
         
     <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Oracle/">Oracle</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Oracle-11g-R2/">Oracle 11g R2</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Oracle-Linux/">Oracle Linux</a></li></ul>
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Ceph/">Ceph</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/EC/">EC</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/NFS/">NFS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/RBD/">RBD</a></li></ul>
     </div>
 
         <div class="clearfix"></div>
@@ -316,175 +316,55 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <center><img src="http://ow0mgad6r.bkt.clouddn.com/oracle-eloqua-campaign-manager.png" alt="oralce"></center>
+        <center><img src="http://ovv1r40we.bkt.clouddn.com/rbd-london-christmas-600x450.jpg" alt="RBD"></center>
 
-<p>最近工作中用到了<code>Oracle</code>作为<code>Intel</code>测试的数据库，在装<code>Oracle Linux</code>和<code>Oracle Database 11g R2</code>折腾了很久，这篇文章就这两点对大家分享一些我安装过程中遇到的问题和注意点，<code>rac</code>暂时还未配置，稍后找时间补上</p>
+<p><strong>具体场景</strong></p>
+<ul>
+<li>在<code>Server</code>端创建<code>RBD</code>块设备并挂载到某个目录，然后在<code>Client</code>端通过<code>NFS</code>将<code>Server</code>端之前说的目录再挂载到本地，就可以实现在客户端写文件通过<code>NFS</code>到<code>Server</code>端的块设备上</li>
+<li>这波操作的目的是因为测试<code>EC</code>性能时，<code>Ceph</code>版本还是<code>Hammer</code>，<code>CephFS</code>不是很稳定，性能不行，所以想用<code>RBD</code>的方式取代，但是<code>Hammer</code>版本中<code>EC</code>是只支持<code>RGW</code>的，并不支持<code>CephFS</code>和<code>RBD</code>，至于这个场景具体流程之后会在其他文章分享</li>
+<li>这波操作在之前<code>Ceph</code>的<code>Hammer</code>版本做过，这次是要在新版本<code>Luminous</code>上实践，由于遇到了很多问题，大部分都是新版本缘故引入的，故与大家分享</li>
+</ul>
+<blockquote>
+<p>PS：<code>Luminous</code>新版本提供了新的<code>NFS</code>的处理方式，不再需要用这种老式的<code>RBD</code>的手段，之后也会在其他文章分享出来</p>
+</blockquote>
 <a id="more"></a>
+<h2 id="Hammer版本"><a href="#Hammer版本" class="headerlink" title="Hammer版本"></a>Hammer版本</h2><p>操作步骤</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line">1. 使用RBD方式导出NFS，步骤如下：</div><div class="line"></div><div class="line">	1.1 create RBD block device image (size unit: MB)</div><div class="line">		# rbd create --size 1024 ec-pool/test_image</div><div class="line">		</div><div class="line">	1.2 map RBD device</div><div class="line">		# rbd map ec-pool/test_image</div><div class="line">		</div><div class="line">		[Optional] check mapped device</div><div class="line">		# rbd showmapped</div><div class="line">		</div><div class="line">	1.3 create filesystem on the device</div><div class="line">		# mkfs.ext4 /dev/rbd0</div><div class="line">		</div><div class="line">	1.4 mount it,</div><div class="line">		# mkdir -p /vol/test_image</div><div class="line">		# mount /dev/rbd0 /vol/test_image/</div><div class="line">		</div><div class="line">	1.5 export it, modify the /etc/exports</div><div class="line">		# cat /etc/exports</div><div class="line">		/vol/test_image *(rw,async,no_subtree_check,no_root_squash)</div><div class="line">		# service nfs-kernel-server restart</div><div class="line">		# exportfs -r</div><div class="line">		</div><div class="line">	1.6 check mount info for NFS server</div><div class="line">		# showmount -e 192.168.1.167</div><div class="line">	</div><div class="line">2. 在客户端以nfs方式mount上述导出的文件夹</div><div class="line">	# mount -t nfs 192.168.1.167:/vol/test_image /mnt</div></pre></td></tr></table></figure>
+<h2 id="Luminous版本"><a href="#Luminous版本" class="headerlink" title="Luminous版本"></a>Luminous版本</h2><h3 id="Create-RBD-image"><a href="#Create-RBD-image" class="headerlink" title="Create RBD image"></a>Create RBD image</h3><p>之前<code>EC Pool</code>只能为<code>RGW</code>服务 ，直到<code>Luminous</code>版本，<code>EC Pool</code>也可以应用在<code>RBD</code>和<code>CephFS</code>，并且增加了<code>data-pool</code>这样的新特性，具体请参考官网：<a href="http://docs.ceph.com/docs/luminous/rados/operations/erasure-code/#erasure-coding-with-overwrites" target="_blank" rel="external">http://docs.ceph.com/docs/luminous/rados/operations/erasure-code/#erasure-coding-with-overwrites</a></p>
+<p>所以创建<code>image</code>的方式也有所改变</p>
+<h4 id="Enable-ec-overwrites"><a href="#Enable-ec-overwrites" class="headerlink" title="Enable ec overwrites"></a>Enable ec overwrites</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ceph osd pool set ec_pool allow_ec_overwrites true</div></pre></td></tr></table></figure>
+<h4 id="Create-pool-and-image"><a href="#Create-pool-and-image" class="headerlink" title="Create pool and image"></a>Create pool and image</h4><p>由于<code>EC</code>不支持<code>omap</code>，所以在<code>CephFS</code>或者<code>RBD</code>场景使用<code>EC</code>时，需要将<code>data</code>存在<code>EC Pool</code>中，将<code>metadata</code>存在<code>Replicated Pool</code>中</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">// 创建pool</div><div class="line">ceph osd pool create ec-pool 12 12 erasure  // ec pool, store data</div><div class="line">ceph osd pool create md-pool 12 12 replicated   // replicated pool, store metadata</div><div class="line">ceph osd pool create ssd-pool 12 12 replicated  // replicated pool, used as cache pool</div><div class="line">// 创建image</div><div class="line">rbd create --size 1024 --data-pool ec-pool md-pool/test_image</div></pre></td></tr></table></figure>
+<h3 id="Map-RBD"><a href="#Map-RBD" class="headerlink" title="Map RBD"></a>Map RBD</h3><p>这一步之前的操作是<code>rbd map ec-pool/test_image</code>，所以当前需要执行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">rbd map md-pool/test_image</div></pre></td></tr></table></figure>
+<p>但是一直<code>timeout</code>，通过查看<code>dmesg</code>和网上资料发现是因为<code>linux kernel</code>版本太低，所以升级了一下内核到<code>4.3</code>版本之后就可以<code>work</code>了</p>
+<p>升级内核版本请参考：</p>
 <blockquote>
-<p>友情提醒： 本文参照<code>link</code>较多，请细心并且耐心地进行每一步操作</p>
-<h3 id="Resource-Link"><a href="#Resource-Link" class="headerlink" title="Resource Link"></a>Resource Link</h3><ul>
-<li><a href="https://pan.baidu.com/s/1pL7ENn9" target="_blank" rel="external">Oracle Linux ISO</a></li>
-<li><a href="https://pan.baidu.com/s/1qYufAQo" target="_blank" rel="external">Linux Oracle Database 11g R2</a> </li>
-<li><a href="https://pan.baidu.com/s/1kV3JpCr" target="_blank" rel="external">Windows Oracle Database 11g R2</a> </li>
-</ul>
-</blockquote>
-<h3 id="Oracle-Linux-Installation"><a href="#Oracle-Linux-Installation" class="headerlink" title="Oracle Linux Installation"></a>Oracle Linux Installation</h3><p><strong>参考列表：</strong></p>
 <ul>
-<li><a href="https://wenku.baidu.com/view/afd5ca9e5022aaea998f0fa2.html" target="_blank" rel="external">oracle linux 6.5 安装 oracle 11gR2图文详解</a></li>
-<li><a href="https://pan.baidu.com/s/1miDQEoC" target="_blank" rel="external">Oracle 11g R2（自己整理的Word，带详细RAC配置）</a></li>
+<li><a href="http://www.jianshu.com/p/66a724a1f3af" target="_blank" rel="external">内核版本过低导致RBD Feature不支持</a></li>
+<li><a href="http://xiaqunfeng.cc/2017/06/06/ceph-rbd-map-failed/" target="_blank" rel="external">RBD Feature</a></li>
 </ul>
-<blockquote>
-<p>以下操作步骤基本是按上面两条<code>link</code>走的，有一些地方不一样或者是没必要的我会在下面详细讲解，我装的时候以<code>link1</code>为主线，然后参照<code>link2</code>的<code>word</code>文档进行，没有特殊标记的一般都是根据<code>link1</code>操作，大家也可以这样操作，可以少遇一些坑，节省一些时间~~~</p>
 </blockquote>
-<p><strong>注意点：</strong></p>
+<h3 id="Check-map"><a href="#Check-map" class="headerlink" title="Check map"></a>Check map</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">rbd showmapped</div></pre></td></tr></table></figure>
+<h3 id="Create-filesystem-on-RBD"><a href="#Create-filesystem-on-RBD" class="headerlink" title="Create filesystem on RBD"></a>Create filesystem on RBD</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">mkfs.ext4 /dev/rbd0</div></pre></td></tr></table></figure>
+<h3 id="Mount"><a href="#Mount" class="headerlink" title="Mount"></a>Mount</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">mkdir -p /vol/test_image</div><div class="line">mount /dev/rbd0 /vol/test_image/</div></pre></td></tr></table></figure>
+<h3 id="Modify-export-for-nfs-on-server"><a href="#Modify-export-for-nfs-on-server" class="headerlink" title="Modify export for nfs on server"></a>Modify export for nfs on server</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">vim /etc/exports</div><div class="line">/vol/test_image *(rw,async,no_subtree_check,no_root_squash) // Modify it to /etc/exports</div></pre></td></tr></table></figure>
+<h4 id="Server"><a href="#Server" class="headerlink" title="Server"></a>Server</h4><h5 id="Install-NFS-on-server-and-client"><a href="#Install-NFS-on-server-and-client" class="headerlink" title="Install NFS on server and client"></a>Install NFS on server and client</h5><p><code>Server</code>端执行一下操作</p>
+<h5 id="Install"><a href="#Install" class="headerlink" title="Install"></a>Install</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">yum -y install nfs-utils rpcbind</div></pre></td></tr></table></figure>
+<h5 id="Start-service"><a href="#Start-service" class="headerlink" title="Start service"></a>Start service</h5><p><code>nfs</code>依赖<code>rpcbind</code>，所以必须先启动<code>rpcbind</code>，这很重要</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">service rpcbind start</div><div class="line">service nfs start</div><div class="line">exportfs -r</div></pre></td></tr></table></figure>
+<h4 id="Client"><a href="#Client" class="headerlink" title="Client"></a>Client</h4><p>客户端也执行以上操作，假设客户端<code>ip</code>为<code>192.168.1.1</code>，服务端为<code>192.168.1.2</code></p>
+<h5 id="Check-mount"><a href="#Check-mount" class="headerlink" title="Check mount"></a>Check mount</h5><p>查看是否可以挂载</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">showmount -e 192.168.1.2</div></pre></td></tr></table></figure>
+<h5 id="Mount-server-to-client"><a href="#Mount-server-to-client" class="headerlink" title="Mount server to client"></a>Mount server to client</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">mount -t nfs 192.168.1.2:/vol/test_image /mnt</div></pre></td></tr></table></figure>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>遇到的主要问题</p>
 <ul>
-<li><code>Base server</code>这一步很关键<ul>
-<li>勾选<code>Oracle Linux Server</code>, <code>Resilient Storage</code>和 <code>Scalable Filesystem Support</code>（参照<code>link2</code>）</li>
-<li>勾选<code>Customize Now</code>，这一步依然非常关键，只有勾选了才可以装一些<code>Oracle Linux</code>需要的套件</li>
-<li>需要手动添加安装的套件（系统默认勾选的不要删掉，这边的操作只添加勾选）：<ul>
-<li><code>Base System</code>：<code>Compatibility libraries</code></li>
-<li><code>Servers</code>: <code>System administration tools</code></li>
-<li><code>Desktops</code>: <code>Desktop</code>、<code>Desktop Platform</code>、<code>Fonts</code>、<code>General Purpose Desktop</code>、<code>Graphical Administration Tools</code>、<code>Input Methods</code>、<code>X Window System</code></li>
-<li><code>Development</code>: <code>Additional Development</code>、<code>Development Tools</code></li>
-<li><code>Appilication</code>: <code>Internet Browser</code></li>
+<li><code>EC Pool</code>创建<code>image</code>因为新版本改动</li>
+<li><code>rbd map</code>因为<code>linux kernel</code>版本低</li>
+<li><code>nfs</code>因为<code>nfs</code>在<code>rpcbind</code>前启动</li>
 </ul>
-</li>
-</ul>
-</li>
-<li>安装应该是<code>1390</code>个包，装好直接<code>reboot</code></li>
-<li>这时候创建普通用户的时候，千万不要创建<code>oracle</code>用户，否则之后会有很多麻烦</li>
-</ul>
-<h3 id="Oracle-Linux-Configuration（important-and-complicated）"><a href="#Oracle-Linux-Configuration（important-and-complicated）" class="headerlink" title="Oracle Linux Configuration（important and complicated）"></a>Oracle Linux Configuration（important and complicated）</h3><p><strong>下面讲的主要是和两个文档不同的地方（依然以<code>link1</code>为主线）：</strong></p>
-<p><strong>1.</strong> <code>selinux</code>需要<code>dsiable</code></p>
-<p><strong>2.</strong> <code>/etc/sysctl.conf</code>参照<code>link2</code>，<code>kernel.shmmax = 536870912</code>（这行参照<code>link2</code>）</p>
-<p><strong>3.</strong> <code>/etc/security/limits.conf</code><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">oracle soft nproc 16384</div><div class="line">oracle hard nproc 16384</div><div class="line">oracle soft nofile 4096</div><div class="line">oracle hard nofile 65536</div><div class="line">oracle soft stack 10240</div></pre></td></tr></table></figure></p>
-<p><strong>4.</strong> <code>oracle linux 6.5</code>光盘下载包（我是通过<code>yum</code>安装,没有安装的大部分都是系统已经安装了，少部分是没必要安装）</p>
-<ul>
-<li>需要安装：<ul>
-<li><code>ksh</code></li>
-<li><code>libaio-devel.i686</code></li>
-<li><code>libaio-devel.x86_64</code></li>
-<li><code>libaio.i686</code></li>
-<li><code>libstdc++.i686</code></li>
-<li><code>libstdc++-4.4.7-18.el6.i686</code></li>
-<li><code>compat-libstdc++-33.i686</code></li>
-</ul>
-</li>
-<li>不需要安装：<ul>
-<li><code>numactl-devel-2*x86_64*</code></li>
-</ul>
-</li>
-</ul>
-<blockquote>
-<p>由于我本地的是<code>libstdc++-4.4.7-4.el6.x86_64</code>，而安装的是<code>libstdc++-4.4.7-18.el6.i686</code>，版本不匹配会造成<code>yum</code>报错，而这个库作为众多库的依赖还不能删除，所以只能强行升级：<code>yum install libstdc++-4.4.7-18.el6.i686</code>，然后再安装<code>i686</code>文件</p>
-</blockquote>
-<p><strong>5.</strong> 路径、权限与环境变量配置<br>这一步参照: <a href="https://oracle-base.com/articles/linux/automating-database-startup-and-shutdown-on-linux" target="_blank" rel="external">Automating Database Startup and Shutdown on Linux</a></p>
-<p><strong>附上脚本和<code>~/.bash_profile</code>:</strong></p>
-<p><code>start_all.sh</code>：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">#!/bin/bash</div><div class="line">. /home/oracle/scripts/setEnv.sh</div><div class="line"></div><div class="line">export ORAENV_ASK=NO</div><div class="line">. oraenv</div><div class="line">export ORAENV_ASK=YES</div><div class="line"></div><div class="line">dbstart $ORACLE_HOME</div></pre></td></tr></table></figure>
-<p><code>stop_all.sh</code>：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">#!/bin/bash</div><div class="line">. /home/oracle/scripts/setEnv.sh</div><div class="line"></div><div class="line">export ORAENV_ASK=NO</div><div class="line">. oraenv</div><div class="line">export ORAENV_ASK=YES</div><div class="line"></div><div class="line">dbshut $ORACLE_HOME</div></pre></td></tr></table></figure>
-<p><code>setenv.sh</code>：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"># Oracle Settings</div><div class="line">export TMP=/tmp</div><div class="line">export TMPDIR=$TMP</div><div class="line"></div><div class="line">export ORACLE_HOSTNAME=tonydb.localdomain</div><div class="line">export ORACLE_UNQNAME=sampledb</div><div class="line">export ORACLE_BASE=/home/oracle/app/oracle</div><div class="line">export ORACLE_HOME=$ORACLE_BASE/product/11.2.0/dbhome_1</div><div class="line">export ORACLE_SID=sampledb</div><div class="line"></div><div class="line">export PATH=/usr/sbin:/usr/local/bin:$PATH</div><div class="line">export PATH=$ORACLE_HOME/bin:$PATH</div><div class="line"></div><div class="line">export LD_LIBRARY_PATH=$ORACLE_HOME/lib:/lib:/usr/lib</div><div class="line">export CLASSPATH=$ORACLE_HOME/jlib:$ORACLE_HOME/rdbms/jlib</div></pre></td></tr></table></figure>
-<p><code>~/.bash_profile</code>最后一行追加： </p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">. /home/oracle/scripts/setenv.sh</div></pre></td></tr></table></figure>
-<p><strong>6.</strong> 安装<code>FTP</code>并上传<code>zip</code>文件（这一步有需求就执行，我是通过<code>windows</code>传输到<code>linux</code>上）</p>
-<blockquote>
-<p>安装包在页面最上方<code>Resource Link</code>的第二个<code>link</code>，有两个<code>zip</code>包，都是需要的，这就是<code>Oracle Database 11g R2</code>的包，下面就开始安装数据库了，离成功也就不远了</p>
-</blockquote>
-<h3 id="Oracle-Database-11g-R2-Installation"><a href="#Oracle-Database-11g-R2-Installation" class="headerlink" title="Oracle Database 11g R2 Installation"></a>Oracle Database 11g R2 Installation</h3><p><strong>参照：</strong> <a href="https://www.tecmint.com/oracle-database-11g-release-2-installation-in-linux/" target="_blank" rel="external">Oracle Database 11g Release 2 Installation on RHEL/CentOS 6.x/5.x/4.x</a>，以这个<code>link</code>的步骤为主，<code>link1</code>和<code>link2</code>为辅</p>
-<ol>
-<li><p>如果出现<code>next button</code>闪退的现象，进入<code>preference</code>里面调节屏幕分辨率即可</p>
-</li>
-<li><p><code>check</code>时候报错，如果你在上面安装了那么就<code>ignore</code>吧，因为这些包都安装了，只不过版本比它<code>check</code>的高：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">libaio-0.3.105</div><div class="line">compat-libstdc++-33-3.2.3</div><div class="line">libaio-devel-0.3.105</div><div class="line">libgcc-3.4.6</div><div class="line">libstdc++-3.4.6</div><div class="line">unixODBC-2.2.11</div><div class="line">unixODBC-2.2.11</div><div class="line">unixODBC-devel-2.2.11</div><div class="line">unixODBC-devel-2.2.11</div><div class="line">pdksh-5.2.14</div></pre></td></tr></table></figure>
-</li>
-</ol>
-<h3 id="Oracle-Listener-Configuration"><a href="#Oracle-Listener-Configuration" class="headerlink" title="Oracle Listener Configuration"></a>Oracle Listener Configuration</h3><p><strong>参照：</strong> <a href="http://blog.csdn.net/haiross/article/details/13613931" target="_blank" rel="external">Oracle Listener</a></p>
-<blockquote>
-<p>最后<code>test</code>不成功也没关系，先保存设置进行下一步，这边把<code>lsnrcetl</code>起起来就可以了，先不要进入<code>oracle</code>命令行，需要等下一步创建了数据库再进行<code>startup</code>等操作</p>
-</blockquote>
-<h3 id="创建数据库"><a href="#创建数据库" class="headerlink" title="创建数据库"></a>创建数据库</h3><blockquote>
-<p><code>dbca</code>进入创建向导，填写正确的<code>sid</code>，<code>sid</code>不用填<code>ORCL</code>,就用同步生成的就好，不同的数据库可以拥有不同的<code>sid</code>，按照默认的配置不断地<code>next</code>就好</p>
-</blockquote>
-<ul>
-<li>安装后的默认数据库为orcl，如需创建新的数据库<ul>
-<li>使用辅助工具(Linux UI mode)<blockquote>
-<p>root@oracledb: xhost local:oracledb<br>root@oracledb: su - oracle<br>oracle@oracledb: dbca</p>
-</blockquote>
-</li>
-<li>使用em管理WebUI</li>
-</ul>
-</li>
-<li>创建表空间<ul>
-<li>使用sqlplus<blockquote>
-<p>su - oracle (Windows下此步骤省略)<br>sqlplus / as sysdba<br>create tablespace test_space datafile ‘/opt/oracle/oradata/test_data.dbf’ size 500M</p>
-</blockquote>
-</li>
-<li>使用em管理WebUI</li>
-</ul>
-</li>
-<li>创建用户    <ul>
-<li>使用sqlplus<blockquote>
-<p>su - oracle (Windows下此步骤省略)<br>sqlplus / as sysdba<br>create user test identified by test default tablespace test_space;</p>
-</blockquote>
-</li>
-<li>使用em管理WebUI</li>
-</ul>
-</li>
-<li>授权用户权限<ul>
-<li>使用sqlplus<blockquote>
-<p>su - oracle (Windows下此步骤省略)<br>sqlplus / as sysdba<br>grant connect, resource to test;</p>
-</blockquote>
-</li>
-<li>使用em管理WebUI</li>
-</ul>
-</li>
-<li>授权DBA权限（RMAN需要dba权限来运行）<ul>
-<li>使用sqlplus<blockquote>
-<p>su - oracle (Windows下此步骤省略)<br>sqlplus / as sysdba<br>grant sysdba to test;</p>
-</blockquote>
-</li>
-<li>使用em管理WebUI</li>
-</ul>
-</li>
-<li>数据库启动/关闭<ul>
-<li>切换用户<blockquote>
-<p>root@oracledb: su - oracle</p>
-</blockquote>
-</li>
-<li>启动监听<blockquote>
-<p>lsnrctl start</p>
-</blockquote>
-</li>
-<li>启动实例<blockquote>
-<p>su - oracle (Windows下此步骤省略)<br>sqlplus /nolog<br>conn /as sysdba<br>startup</p>
-</blockquote>
-</li>
-<li>关闭实例<blockquote>
-<p>su - oracle (Windows下此步骤省略)<br>sqlplus /nolog<br>conn /as sysdba<br>shutdown immediate<br>exit</p>
-</blockquote>
-</li>
-<li>关闭监听<blockquote>
-<p>lsnrctl stop</p>
-</blockquote>
-</li>
-</ul>
-</li>
-<li>归档日志模式启动/关闭<ul>
-<li>启动归档日志模式<blockquote>
-<p>sqlplus /as sysdba<br>shutdown immediate<br>startup mount<br>alter database archivelog<br>alter database open</p>
-</blockquote>
-</li>
-<li>关闭归档日志模式<blockquote>
-<p>sqlplus /as sysdba<br>shutdown immediate<br>startup mount<br>alter database noarchivelog<br>alter database open</p>
-</blockquote>
-</li>
-</ul>
-</li>
-</ul>
-<p>作者： Tony</p>
-<p>日期： 2017/06/26</p>
+<p>希望帮助大家尽量少些踩坑 ~~~</p>
+<p>作者： Tony<br>日期： 2017-10-31 22:33</p>
 
       
     </div>
@@ -493,13 +373,13 @@
   
     
     <div class="copyright">
-        <p><span>本文标题:</span><a  href="/2017/09/10/oracle_install/">Oracle Linux And Oracle Database 11g R2 Intsallation</a></p>
+        <p><span>本文标题:</span><a  href="/2017/10/31/RBD-Mount-NFS/">使用NFS挂载RBD</a></p>
         <p><span>文章作者:</span><a  href="/" title="访问 Tony 的个人博客">Tony</a></p>
-        <p><span>发布时间:</span>2017年09月10日 - 00时53分</p>
-        <p><span>最后更新:</span>2017年09月20日 - 21时38分</p>
+        <p><span>发布时间:</span>2017年10月31日 - 22时45分</p>
+        <p><span>最后更新:</span>2017年10月31日 - 22时52分</p>
         <p>
-            <span>原始链接:</span><a class="post-url" href="/2017/09/10/oracle_install/" title="Oracle Linux And Oracle Database 11g R2 Intsallation">https://tony-yin.github.io/2017/09/10/oracle_install/</a>
-            <span class="copy-path" data-clipboard-text="原文: https://tony-yin.github.io/2017/09/10/oracle_install/　　作者: Tony" title=""></span>
+            <span>原始链接:</span><a class="post-url" href="/2017/10/31/RBD-Mount-NFS/" title="使用NFS挂载RBD">https://tony-yin.github.io/2017/10/31/RBD-Mount-NFS/</a>
+            <span class="copy-path" data-clipboard-text="原文: https://tony-yin.github.io/2017/10/31/RBD-Mount-NFS/　　作者: Tony" title=""></span>
         </p>
         <p>
             <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/cn/" title="中国大陆 (CC BY-NC-SA 3.0 CN)" target = "_blank">"署名-非商用-相同方式共享 3.0"</a> 转载请保留原文链接及作者。
@@ -510,18 +390,9 @@
 
 <nav id="article-nav">
   
-    <a  href="/2017/09/10/Python-Oracle/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption"><</strong>
-      <div class="article-nav-title">
-        
-          Python Oracle
-        
-      </div>
-    </a>
   
-  
-    <a  href="/2017/09/09/Moodle-Local-Plugin/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">Moodle Local Plugin</div>
+    <a  href="/2017/10/10/Python-Profiler/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Python Profiler</div>
       <strong class="article-nav-caption">></strong>
     </a>
   
@@ -533,7 +404,7 @@
 
     <div id="toc" class="toc-article">
     <strong class="toc-title">文章目录</strong>
-    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Resource-Link"><span class="toc-number">1.</span> <span class="toc-text">Resource Link</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Oracle-Linux-Installation"><span class="toc-number">2.</span> <span class="toc-text">Oracle Linux Installation</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Oracle-Linux-Configuration（important-and-complicated）"><span class="toc-number">3.</span> <span class="toc-text">Oracle Linux Configuration（important and complicated）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Oracle-Database-11g-R2-Installation"><span class="toc-number">4.</span> <span class="toc-text">Oracle Database 11g R2 Installation</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Oracle-Listener-Configuration"><span class="toc-number">5.</span> <span class="toc-text">Oracle Listener Configuration</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#创建数据库"><span class="toc-number">6.</span> <span class="toc-text">创建数据库</span></a></li></ol>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Hammer版本"><span class="toc-number">1.</span> <span class="toc-text">Hammer版本</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Luminous版本"><span class="toc-number">2.</span> <span class="toc-text">Luminous版本</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Create-RBD-image"><span class="toc-number">2.1.</span> <span class="toc-text">Create RBD image</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Enable-ec-overwrites"><span class="toc-number">2.1.1.</span> <span class="toc-text">Enable ec overwrites</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Create-pool-and-image"><span class="toc-number">2.1.2.</span> <span class="toc-text">Create pool and image</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Map-RBD"><span class="toc-number">2.2.</span> <span class="toc-text">Map RBD</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Check-map"><span class="toc-number">2.3.</span> <span class="toc-text">Check map</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Create-filesystem-on-RBD"><span class="toc-number">2.4.</span> <span class="toc-text">Create filesystem on RBD</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Mount"><span class="toc-number">2.5.</span> <span class="toc-text">Mount</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Modify-export-for-nfs-on-server"><span class="toc-number">2.6.</span> <span class="toc-text">Modify export for nfs on server</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Server"><span class="toc-number">2.6.1.</span> <span class="toc-text">Server</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#Install-NFS-on-server-and-client"><span class="toc-number">2.6.1.1.</span> <span class="toc-text">Install NFS on server and client</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Install"><span class="toc-number">2.6.1.2.</span> <span class="toc-text">Install</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Start-service"><span class="toc-number">2.6.1.3.</span> <span class="toc-text">Start service</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Client"><span class="toc-number">2.6.2.</span> <span class="toc-text">Client</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#Check-mount"><span class="toc-number">2.6.2.1.</span> <span class="toc-text">Check mount</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Mount-server-to-client"><span class="toc-number">2.6.2.2.</span> <span class="toc-text">Mount server to client</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-number">3.</span> <span class="toc-text">总结</span></a></li></ol>
 </div>
 <style>
     .left-col .switch-btn {
@@ -593,13 +464,11 @@
 
     <div class="scroll" id="post-nav-button">
         
-            <a  href="/2017/09/10/Python-Oracle/" title="上一篇: Python Oracle">
-                <i class="fa fa-angle-left"></i>
-            </a>
+            <a  href="/" title="回到主页"><i class="fa fa-home"></i></a>
         
         <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
         
-            <a  href="/2017/09/09/Moodle-Local-Plugin/" title="下一篇: Moodle Local Plugin">
+            <a  href="/2017/10/10/Python-Profiler/" title="下一篇: Python Profiler">
                 <i class="fa fa-angle-right"></i>
             </a>
         
