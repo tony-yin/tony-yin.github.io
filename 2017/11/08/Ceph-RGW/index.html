@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="baidu-site-verification" content="L6Lm9d5Crl"/>
+  
+  
+  
+  
+  <title>Ceph RGW 安装和创建 | Tony&#39;s blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="本文通过ceph-deploy安装和创建RGW，然后分别创建S3和Swift接口并提供了相应的方案。 Ceph RGW基于librados，是为应用提供RESTful类型的对象存储接口。RGW提供两种类型的接口：  S3：兼容Amazon S3 RESTful API Swift：兼容OpenStack Swift API  S3和Swift API共享同一个命名空间，所以可以使用两种API访">
+<meta name="keywords" content="Ceph,RGW">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Ceph RGW 安装和创建">
+<meta property="og:url" content="https://tony-yin.github.io/2017/11/08/Ceph-RGW/index.html">
+<meta property="og:site_name" content="Tony&#39;s blog">
+<meta property="og:description" content="本文通过ceph-deploy安装和创建RGW，然后分别创建S3和Swift接口并提供了相应的方案。 Ceph RGW基于librados，是为应用提供RESTful类型的对象存储接口。RGW提供两种类型的接口：  S3：兼容Amazon S3 RESTful API Swift：兼容OpenStack Swift API  S3和Swift API共享同一个命名空间，所以可以使用两种API访">
+<meta property="og:image" content="http://ow0mgad6r.bkt.clouddn.com/gateway-600x450.png">
+<meta property="og:updated_time" content="2017-11-08T15:15:09.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Ceph RGW 安装和创建">
+<meta name="twitter:description" content="本文通过ceph-deploy安装和创建RGW，然后分别创建S3和Swift接口并提供了相应的方案。 Ceph RGW基于librados，是为应用提供RESTful类型的对象存储接口。RGW提供两种类型的接口：  S3：兼容Amazon S3 RESTful API Swift：兼容OpenStack Swift API  S3和Swift API共享同一个命名空间，所以可以使用两种API访">
+<meta name="twitter:image" content="http://ow0mgad6r.bkt.clouddn.com/gateway-600x450.png">
+  
+    <link rel="alternative" href="/atom.xml" title="Tony&#39;s blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/img/favicon.png">
+  
+  
+  <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  
+  
+      <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  
+  <!-- 加载特效 -->
+    <script src="/js/pace.js"></script>
+    <link href="/css/pace/pace-theme-flash.css" rel="stylesheet" />
+  <script>
+      var yiliaConfig = {
+          fancybox: true,
+          animate: true,
+          isHome: false,
+          isPost: true,
+          isArchive: false,
+          isTag: false,
+          isCategory: false,
+          open_in_new: false
+      }
+  </script>
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+        <a href="/" class="profilepic">
+            
+            <img lazy-src="/img/tony.jpg" class="js-avatar">
+            
+        </a>
+        <hgroup>
+          <h1 class="header-author"><a href="/">Tony</a></h1>
+        </hgroup>
+        
+        
+            <form>
+                <input type="text" class="st-default-search-input search" id="local-search-input" placeholder=" Search...">
+            </form>
+            <div id="local-search-result"></div>
+        
+        
+            <script type="text/javascript">
+                (function() {
+                    'use strict';
+                    function getMatchData(keyword, data) {
+                        var matchData = [];
+                        for(var i =0;i<data.length;i++){
+                            if(data[i].title.toLowerCase().indexOf(keyword)>=0) 
+                                matchData.push(data[i])
+                        }
+                        return matchData;
+                    }
+                    var $input = $('#local-search-input');
+                    var $resultContent = $('#local-search-result');
+                    $input.keyup(function(){
+                        $.ajax({
+                            url: '/search.json',
+                            dataType: "json",
+                            success: function( json ) {
+                                var str='<ul class=\"search-result-list\">';                
+                                var keyword = $input.val().trim().toLowerCase();
+                                $resultContent.innerHTML = "";
+                                if ($input.val().trim().length <= 0) {
+                                    $resultContent.empty();
+                                    $('#switch-area').show();
+                                    return;
+                                }
+                                var results = getMatchData(keyword, json);
+                                if(results.length === 0){
+                                    $resultContent.empty();
+                                    $('#switch-area').show();
+                                    return;
+                                } 
+                                for(var i =0; i<results.length; i++){
+                                    str += "<li><a href='"+ results[i].url +"' class='search-result-title'>"+ results[i].title +"</a></li>";
+                                }
+                                str += "</ul>";
+                                $resultContent.empty();
+                                $resultContent.append(str);
+                                $('#switch-area').hide();
+                            }
+                        });
+                    });
+                })();
+            </script>
+        
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                        <div class="icon-wrap icon-me hide" data-idx="3">
+                            <div class="user"></div>
+                            <div class="shoulder"></div>
+                        </div>
+                        
+                    </div>
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                        <li>关于我</li>
+                        
+                    </ul>
+                </div>
+            </div>
+        
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a  href="/archives/">所有文章</a></li>
+                        
+                            <li><a  href="/categories/tech">技术文章</a></li>
+                        
+                            <li><a  href="/categories/summary">感悟总结</a></li>
+                        
+                            <li><a  href="/categories/read">阅读翻译</a></li>
+                        
+                            <li><a  href="/categories/reprinted">好文转载</a></li>
+                        
+                            <li><a  href="/categories/life">生活随笔</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fl github"  target="_blank" href="https://github.com/tony-yin" title="github">github</a>
+                            
+                                <a class="fl weibo"  target="_blank" href="https://weibo.com/3832044210/profile?rightmod=1&wvr=6&mod=personinfo" title="weibo">weibo</a>
+                            
+                                <a class="fl segmentfault"  target="_blank" href="https://segmentfault.com/u/qzuser_57fb1d5db527e" title="segmentfault">segmentfault</a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <a href="/tags/Ceph/" style="font-size: 20px;">Ceph</a> <a href="/tags/Daemon/" style="font-size: 10px;">Daemon</a> <a href="/tags/Disk/" style="font-size: 13.33px;">Disk</a> <a href="/tags/EC/" style="font-size: 10px;">EC</a> <a href="/tags/Javascript/" style="font-size: 10px;">Javascript</a> <a href="/tags/Linux/" style="font-size: 16.67px;">Linux</a> <a href="/tags/Magicloud/" style="font-size: 20px;">Magicloud</a> <a href="/tags/Moodle/" style="font-size: 10px;">Moodle</a> <a href="/tags/NFS/" style="font-size: 10px;">NFS</a> <a href="/tags/NFS-Ganesha/" style="font-size: 10px;">NFS-Ganesha</a> <a href="/tags/Network/" style="font-size: 10px;">Network</a> <a href="/tags/Notification/" style="font-size: 10px;">Notification</a> <a href="/tags/OSD/" style="font-size: 13.33px;">OSD</a> <a href="/tags/Oracle/" style="font-size: 13.33px;">Oracle</a> <a href="/tags/Oracle-11g-R2/" style="font-size: 10px;">Oracle 11g R2</a> <a href="/tags/Oracle-Linux/" style="font-size: 10px;">Oracle Linux</a> <a href="/tags/Osd/" style="font-size: 13.33px;">Osd</a> <a href="/tags/PHP/" style="font-size: 13.33px;">PHP</a> <a href="/tags/PHPExcel/" style="font-size: 10px;">PHPExcel</a> <a href="/tags/Partition/" style="font-size: 10px;">Partition</a> <a href="/tags/Profile/" style="font-size: 13.33px;">Profile</a> <a href="/tags/Python/" style="font-size: 13.33px;">Python</a> <a href="/tags/RBD/" style="font-size: 10px;">RBD</a> <a href="/tags/RGW/" style="font-size: 10px;">RGW</a> <a href="/tags/Route/" style="font-size: 10px;">Route</a> <a href="/tags/Script/" style="font-size: 13.33px;">Script</a> <a href="/tags/Udev/" style="font-size: 13.33px;">Udev</a> <a href="/tags/产品/" style="font-size: 10px;">产品</a> <a href="/tags/性能优化/" style="font-size: 10px;">性能优化</a>
+                    </div>
+                </section>
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a target="_blank"  class="main-nav-link switch-friends-link" href="https://segmentfault.com/blog/tony_output">segmentfault</a>
+                    
+                    </div>
+                </section>
+                
+                
+                
+                <section class="switch-part switch-part4">
+                
+                    <div id="js-aboutme">江苏南京，熟悉Python/PHP，目前研究Ceph分布式存储</div>
+                </section>
+                
+            </div>
+        </div>
+    </header>
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">Tony</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                
+                    <img lazy-src="/img/tony.jpg" class="js-avatar">
+                
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">Tony</a></h1>
+            </hgroup>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/archives/">所有文章</a></li>
+                
+                    <li><a href="/categories/tech">技术文章</a></li>
+                
+                    <li><a href="/categories/summary">感悟总结</a></li>
+                
+                    <li><a href="/categories/read">阅读翻译</a></li>
+                
+                    <li><a href="/categories/reprinted">好文转载</a></li>
+                
+                    <li><a href="/categories/life">生活随笔</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a class="github" target="_blank" href="https://github.com/tony-yin" title="github">github</a>
+                    
+                        <a class="weibo" target="_blank" href="https://weibo.com/3832044210/profile?rightmod=1&wvr=6&mod=personinfo" title="weibo">weibo</a>
+                    
+                        <a class="segmentfault" target="_blank" href="https://segmentfault.com/u/qzuser_57fb1d5db527e" title="segmentfault">segmentfault</a>
+                    
+                </div>
+            </nav>
+        </header>                
+    </div>
+</nav>
+      <div class="body-wrap"><article id="post-Ceph-RGW" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a  href="/2017/11/08/Ceph-RGW/" class="article-date">
+      <time datetime="2017-11-08T15:11:59.000Z" itemprop="datePublished">2017-11-08</time>
+</a>
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Ceph RGW 安装和创建
+    </h1>
+  
+
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/tech/">tech</a>
+    </div>
+
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Ceph/">Ceph</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/RGW/">RGW</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <center><img src="http://ow0mgad6r.bkt.clouddn.com/gateway-600x450.png" alt="Ceph RGW"></center>
+
+<p>本文通过<code>ceph-deploy</code>安装和创建<code>RGW</code>，然后分别创建<code>S3</code>和<code>Swift</code>接口并提供了相应的方案。</p>
+<p><code>Ceph RGW</code>基于<code>librados</code>，是为应用提供<code>RESTful</code>类型的对象存储接口。<code>RGW</code>提供两种类型的接口：</p>
+<ul>
+<li>S3：兼容<code>Amazon S3 RESTful API</code></li>
+<li>Swift：兼容<code>OpenStack Swift API</code></li>
+</ul>
+<p><code>S3</code>和<code>Swift API</code>共享同一个命名空间，所以可以使用两种<code>API</code>访问相同的数据。</p>
+<a id="more"></a>
+<p>参考链接: <a href="http://blog.csdn.net/younger_china/article/details/73410918" target="_blank" rel="external">Ceph：创建RGW</a></p>
+<h2 id="部署-RGW"><a href="#部署-RGW" class="headerlink" title="部署 RGW"></a>部署 RGW</h2><h3 id="进入-ceph-目录"><a href="#进入-ceph-目录" class="headerlink" title="进入 ceph 目录"></a>进入 ceph 目录</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">cd /etc/ceph</div></pre></td></tr></table></figure>
+<h3 id="安装-ceph-object-gateway"><a href="#安装-ceph-object-gateway" class="headerlink" title="安装 ceph object gateway"></a>安装 ceph object gateway</h3><p>我这边是<code>node1</code>，根据<code>hostname</code>对号入座就行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ceph-deploy install --rgw node1</div></pre></td></tr></table></figure>
+<h3 id="Gather-keys"><a href="#Gather-keys" class="headerlink" title="Gather keys"></a>Gather keys</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ceph-deploy gatherkeys node1</div></pre></td></tr></table></figure>
+<h3 id="创建-rgw-实例"><a href="#创建-rgw-实例" class="headerlink" title="创建 rgw 实例"></a>创建 rgw 实例</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ceph-deploy rgw create node1</div></pre></td></tr></table></figure>
+<h3 id="Ceph-CLI"><a href="#Ceph-CLI" class="headerlink" title="Ceph CLI"></a>Ceph CLI</h3><p><code>Ceph CLI</code>工具需要在管理员模式下运行，因此需要执行以下命令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ceph-deploy admin node1</div></pre></td></tr></table></figure>
+<h3 id="测试是否安装成功"><a href="#测试是否安装成功" class="headerlink" title="测试是否安装成功"></a>测试是否安装成功</h3><p>一旦<code>RGW</code>开始运行，就可以通过端口<code>7480</code>（如果没有修改的话）来访问。如：<br><code>http://node1:7480</code>，如果<code>RGW</code>运行正常，它应该返回类似的信息： </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">This XML file does not appear to have any style information associated with it. The document tree is shown below.</div><div class="line">&lt;ListAllMyBucketsResult xmlns=&quot;http://s3.amazonaws.com/doc/2006-03-01/&quot;&gt;</div><div class="line">&lt;Owner&gt;</div><div class="line">&lt;ID&gt;anonymous&lt;/ID&gt;</div><div class="line">&lt;DisplayName/&gt;</div><div class="line">&lt;/Owner&gt;</div><div class="line">&lt;Buckets/&gt;</div><div class="line">&lt;/ListAllMyBucketsResult&gt;</div></pre></td></tr></table></figure>
+<h2 id="创建-S3-用户"><a href="#创建-S3-用户" class="headerlink" title="创建 S3 用户"></a>创建 S3 用户</h2><p>想正常的访问<code>RGW</code>，需要创建相应的<code>RGW</code>用户，并赋予相应的权限，<code>radosgw-admin</code>命令实现了这些功能。</p>
+<p>其中<code>keys</code>中的<code>user</code>，<code>access_key</code>和<code>secret_key</code>用于之后的<code>S3</code>接口访问确认</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div></pre></td><td class="code"><pre><div class="line">[root@node1 ~]# radosgw-admin user create --uid=&quot;admin&quot; --display-name=&quot;First user&quot;</div><div class="line">2017-11-08 16:51:39.883217 7fb6868fac40  0 WARNING: detected a version of libcurl which contains a bug in curl_multi_wait(). enabling a workaround that may degrade performance slightly.</div><div class="line">&#123;</div><div class="line">    &quot;user_id&quot;: &quot;admin&quot;,</div><div class="line">    &quot;display_name&quot;: &quot;First user&quot;,</div><div class="line">    &quot;email&quot;: &quot;&quot;,</div><div class="line">    &quot;suspended&quot;: 0,</div><div class="line">    &quot;max_buckets&quot;: 1000,</div><div class="line">    &quot;auid&quot;: 0,</div><div class="line">    &quot;subusers&quot;: [],</div><div class="line">    &quot;keys&quot;: [</div><div class="line">        &#123;</div><div class="line">            &quot;user&quot;: &quot;admin&quot;,</div><div class="line">            &quot;access_key&quot;: &quot;1MWH3LWM1BS4ZF4HN5IH&quot;,</div><div class="line">            &quot;secret_key&quot;: &quot;cuObxYgtl1lJgqNxOIpENycVqXfxLxZ8z5IXDM0O&quot;</div><div class="line">        &#125;</div><div class="line">    ],</div><div class="line">    &quot;swift_keys&quot;: [],</div><div class="line">    &quot;caps&quot;: [],</div><div class="line">    &quot;op_mask&quot;: &quot;read, write, delete&quot;,</div><div class="line">    &quot;default_placement&quot;: &quot;&quot;,</div><div class="line">    &quot;placement_tags&quot;: [],</div><div class="line">    &quot;bucket_quota&quot;: &#123;</div><div class="line">        &quot;enabled&quot;: false,</div><div class="line">        &quot;check_on_raw&quot;: false,</div><div class="line">        &quot;max_size&quot;: -1,</div><div class="line">        &quot;max_size_kb&quot;: 0,</div><div class="line">        &quot;max_objects&quot;: -1</div><div class="line">    &#125;,</div><div class="line">    &quot;user_quota&quot;: &#123;</div><div class="line">        &quot;enabled&quot;: false,</div><div class="line">        &quot;check_on_raw&quot;: false,</div><div class="line">        &quot;max_size&quot;: -1,</div><div class="line">        &quot;max_size_kb&quot;: 0,</div><div class="line">        &quot;max_objects&quot;: -1</div><div class="line">    &#125;,</div><div class="line">    &quot;temp_url_keys&quot;: [],</div><div class="line">    &quot;type&quot;: &quot;rgw&quot;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="创建-Swift-用户"><a href="#创建-Swift-用户" class="headerlink" title="创建 Swift 用户"></a>创建 Swift 用户</h2><p><code>Swift</code>用户是作为子用户<code>subuser</code>被创建的，执行以下命令：</p>
+<p>其中<code>swift_keys</code>中的<code>user</code>和<code>secret_key</code>用于之后的<code>swift</code>接口访问确认</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div></pre></td><td class="code"><pre><div class="line">[root@node1 ~]# radosgw-admin subuser create --uid=admin --subuser=admin:swift --access=full</div><div class="line">2017-11-08 16:55:05.371174 7fb4cbfc2c40  0 WARNING: detected a version of libcurl which contains a bug in curl_multi_wait(). enabling a workaround that may degrade performance slightly.</div><div class="line">&#123;</div><div class="line">    &quot;user_id&quot;: &quot;admin&quot;,</div><div class="line">    &quot;display_name&quot;: &quot;First user&quot;,</div><div class="line">    &quot;email&quot;: &quot;&quot;,</div><div class="line">    &quot;suspended&quot;: 0,</div><div class="line">    &quot;max_buckets&quot;: 1000,</div><div class="line">    &quot;auid&quot;: 0,</div><div class="line">    &quot;subusers&quot;: [</div><div class="line">        &#123;</div><div class="line">            &quot;id&quot;: &quot;admin:swift&quot;,</div><div class="line">            &quot;permissions&quot;: &quot;full-control&quot;</div><div class="line">        &#125;</div><div class="line">    ],</div><div class="line">    &quot;keys&quot;: [</div><div class="line">        &#123;</div><div class="line">            &quot;user&quot;: &quot;admin&quot;,</div><div class="line">            &quot;access_key&quot;: &quot;1MWH3LWM1BS4ZF4HN5IH&quot;,</div><div class="line">            &quot;secret_key&quot;: &quot;cuObxYgtl1lJgqNxOIpENycVqXfxLxZ8z5IXDM0O&quot;</div><div class="line">        &#125;</div><div class="line">    ],</div><div class="line">    &quot;swift_keys&quot;: [</div><div class="line">        &#123;</div><div class="line">            &quot;user&quot;: &quot;admin:swift&quot;,</div><div class="line">            &quot;secret_key&quot;: &quot;PKRXACd8Ysgx7MCTjd9gHnL3sdpJ2J6wsuy2IS0P&quot;</div><div class="line">        &#125;</div><div class="line">    ],</div><div class="line">    &quot;caps&quot;: [],</div><div class="line">    &quot;op_mask&quot;: &quot;read, write, delete&quot;,</div><div class="line">    &quot;default_placement&quot;: &quot;&quot;,</div><div class="line">    &quot;placement_tags&quot;: [],</div><div class="line">    &quot;bucket_quota&quot;: &#123;</div><div class="line">        &quot;enabled&quot;: false,</div><div class="line">        &quot;check_on_raw&quot;: false,</div><div class="line">        &quot;max_size&quot;: -1,</div><div class="line">        &quot;max_size_kb&quot;: 0,</div><div class="line">        &quot;max_objects&quot;: -1</div><div class="line">    &#125;,</div><div class="line">    &quot;user_quota&quot;: &#123;</div><div class="line">        &quot;enabled&quot;: false,</div><div class="line">        &quot;check_on_raw&quot;: false,</div><div class="line">        &quot;max_size&quot;: -1,</div><div class="line">        &quot;max_size_kb&quot;: 0,</div><div class="line">        &quot;max_objects&quot;: -1</div><div class="line">    &#125;,</div><div class="line">    &quot;temp_url_keys&quot;: [],</div><div class="line">    &quot;type&quot;: &quot;rgw&quot;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="测试-S3-接口"><a href="#测试-S3-接口" class="headerlink" title="测试 S3 接口"></a>测试 S3 接口</h2><p>需要创建一个<code>python</code>测试脚本来测试<code>S3</code>访问。该脚本会连接<code>RGW</code>，创建一个<code>bucket</code>并打印输出所有的<code>bucket</code>。其中，变量<code>access_key</code>和<code>secret_access</code>的值，来自于创建<code>S3</code>用户命令时，<code>radosgw-admin</code>命令返回的<code>keys-&gt;access_key</code>和<code>keys-&gt;secret_key</code>。</p>
+<h3 id="安装-python-boto库"><a href="#安装-python-boto库" class="headerlink" title="安装 python-boto库"></a>安装 python-boto库</h3><p>执行以下步骤，首先安装<code>python-boto</code>库，该库用于连接<code>S3</code>：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">yum install -y python-boto</div></pre></td></tr></table></figure>
+<h3 id="创建脚本"><a href="#创建脚本" class="headerlink" title="创建脚本"></a>创建脚本</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">#!/usr/bin/python  </div><div class="line"># -*- coding:utf-8 -*-  </div><div class="line"></div><div class="line">import boto.s3.connection  </div><div class="line">   </div><div class="line">access_key = &apos;1MWH3LWM1BS4ZF4HN5IH&apos;     </div><div class="line">secret_key =&apos;cuObxYgtl1lJgqNxOIpENycVqXfxLxZ8z5IXDM0O&apos;  </div><div class="line">conn = boto.connect_s3(  </div><div class="line">        aws_access_key_id=access_key,  </div><div class="line">        aws_secret_access_key=secret_key,  </div><div class="line">        host=&apos;&#123;hostname&#125;&apos;,port=&#123;port&#125;,  </div><div class="line">        is_secure=False,calling_format=boto.s3.connection.OrdinaryCallingFormat(),  </div><div class="line">        )  </div><div class="line">   </div><div class="line">bucket = conn.create_bucket(&apos;my-new-bucket&apos;)  </div><div class="line">for bucket in conn.get_all_buckets():  </div><div class="line">    print&quot;&#123;name&#125; &#123;created&#125;&quot;.format(  </div><div class="line">            name=bucket.name,  </div><div class="line">            created=bucket.creation_date,  </div><div class="line">            )</div></pre></td></tr></table></figure>
+<p>需要将上面的<code>{hostname}</code>替换成对应的<code>hostname</code>或者<code>IP</code>,例如<code>192.168.1.1</code>；将<code>{port}</code>替换成<code>RGW</code>运行的端口，默认为<code>7480</code>；前者为字符串，后者为数字</p>
+<h3 id="执行脚本测试"><a href="#执行脚本测试" class="headerlink" title="执行脚本测试"></a>执行脚本测试</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">[root@node1 ceph]# python s3test.py </div><div class="line">my-new-bucket 2017-11-01T10:58:53.670Z</div></pre></td></tr></table></figure>
+<h2 id="测试-Swift-接口"><a href="#测试-Swift-接口" class="headerlink" title="测试 Swift 接口"></a>测试 Swift 接口</h2><h3 id="安装相关软件包"><a href="#安装相关软件包" class="headerlink" title="安装相关软件包"></a>安装相关软件包</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">pip installpython-setuptools    </div><div class="line">pip installpython-swiftclient</div></pre></td></tr></table></figure>
+<h3 id="命令行访问"><a href="#命令行访问" class="headerlink" title="命令行访问"></a>命令行访问</h3><p>替换<code>{ip}</code>，<code>{port}</code>和<code>{swift_secret_key}</code>，其中<code>{swift_secret_key}</code>为创建<code>Swift</code>用户时，<code>radosgw-admin</code>命令返回的<code>swift_keys-&gt;secret_key</code>的值</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">swift -A http://&#123;ip&#125;:&#123;port&#125;/auth/1.0 -Utestuser:swift -K &apos;&#123;swift_secret_key&#125;&apos; list</div></pre></td></tr></table></figure>
+<p>正常输出应该如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">[root@node1 ceph]# swift -Ahttp://192.168.1.1:7480/auth/1.0 -U admin:swift -K &apos;PKRXACd8Ysgx7MCTjd9gHnL3sdpJ2J6wsuy2IS0P&apos; list  </div><div class="line">my-new-bucket</div></pre></td></tr></table></figure>
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p><code>ceph-deploy</code>命令，大大地简化了对<code>Ceph</code>集群和<code>RGW的</code>安装和配置，可以很快速的搭建测试环境，达到测试效果，但如果要在生产环境中应用的话，可能需要手动做一些配置就，不能完全依赖<code>ceph-deploy</code>了。</p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a  href="/2017/11/08/Ceph-RGW/">Ceph RGW 安装和创建</a></p>
+        <p><span>文章作者:</span><a  href="/" title="访问 Tony 的个人博客">Tony</a></p>
+        <p><span>发布时间:</span>2017年11月08日 - 23时11分</p>
+        <p><span>最后更新:</span>2017年11月08日 - 23时15分</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2017/11/08/Ceph-RGW/" title="Ceph RGW 安装和创建">https://tony-yin.github.io/2017/11/08/Ceph-RGW/</a>
+            <span class="copy-path" data-clipboard-text="原文: https://tony-yin.github.io/2017/11/08/Ceph-RGW/　　作者: Tony" title=""></span>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/cn/" title="中国大陆 (CC BY-NC-SA 3.0 CN)" target = "_blank">"署名-非商用-相同方式共享 3.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+<nav id="article-nav">
+  
+    <a  href="/2017/11/08/Ceph-NFS-Ganesha/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption"><</strong>
+      <div class="article-nav-title">
+        
+          通过 ganesha-nfs 将 Ceph 导出为 NFS（Luminous）
+        
+      </div>
+    </a>
+  
+  
+    <a  href="/2017/10/31/RBD-Mount-NFS/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">使用NFS挂载RBD</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#部署-RGW"><span class="toc-number">1.</span> <span class="toc-text">部署 RGW</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#进入-ceph-目录"><span class="toc-number">1.1.</span> <span class="toc-text">进入 ceph 目录</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#安装-ceph-object-gateway"><span class="toc-number">1.2.</span> <span class="toc-text">安装 ceph object gateway</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Gather-keys"><span class="toc-number">1.3.</span> <span class="toc-text">Gather keys</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#创建-rgw-实例"><span class="toc-number">1.4.</span> <span class="toc-text">创建 rgw 实例</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Ceph-CLI"><span class="toc-number">1.5.</span> <span class="toc-text">Ceph CLI</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#测试是否安装成功"><span class="toc-number">1.6.</span> <span class="toc-text">测试是否安装成功</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#创建-S3-用户"><span class="toc-number">2.</span> <span class="toc-text">创建 S3 用户</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#创建-Swift-用户"><span class="toc-number">3.</span> <span class="toc-text">创建 Swift 用户</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#测试-S3-接口"><span class="toc-number">4.</span> <span class="toc-text">测试 S3 接口</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#安装-python-boto库"><span class="toc-number">4.1.</span> <span class="toc-text">安装 python-boto库</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#创建脚本"><span class="toc-number">4.2.</span> <span class="toc-text">创建脚本</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#执行脚本测试"><span class="toc-number">4.3.</span> <span class="toc-text">执行脚本测试</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#测试-Swift-接口"><span class="toc-number">5.</span> <span class="toc-text">测试 Swift 接口</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#安装相关软件包"><span class="toc-number">5.1.</span> <span class="toc-text">安装相关软件包</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#命令行访问"><span class="toc-number">5.2.</span> <span class="toc-text">命令行访问</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#小结"><span class="toc-number">6.</span> <span class="toc-text">小结</span></a></li></ol>
+</div>
+<style>
+    .left-col .switch-btn {
+        display: none;
+    }
+    .left-col .switch-area {
+        display: none;
+    }
+</style>
+<input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+<script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script>
+    var valueHide = "隐藏目录";
+    var valueShow = "显示目录";
+    if ($(".left-col").is(":hidden")) {
+        $("#tocButton").attr("value", valueShow);
+    }
+    $("#tocButton").click(function() {
+        if ($("#toc").is(":hidden")) {
+            $("#tocButton").attr("value", valueHide);
+            $("#toc").slideDown(320);
+            $(".switch-btn, .switch-area").fadeOut(300);
+        }
+        else {
+            $("#tocButton").attr("value", valueShow);
+            $("#toc").slideUp(350);
+            $(".switch-btn, .switch-area").fadeIn(500);
+        }
+    })
+    if ($(".toc").length < 1) {
+        $("#toc, #tocButton").hide();
+        $(".switch-btn, .switch-area").show();
+    }
+</script>
+
+
+
+
+
+<div class="bdsharebuttonbox">
+	<a href="#" class="fx fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+	<a href="#" class="fx fa-weixin bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+	<a href="#" class="fx fa-qq bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a>
+	<a href="#" class="fx fa-facebook-official bds_fbook" data-cmd="fbook" title="分享到Facebook"></a>
+	<a href="#" class="fx fa-twitter bds_twi" data-cmd="twi" title="分享到Twitter"></a>
+	<a href="#" class="fx fa-linkedin bds_linkedin" data-cmd="linkedin" title="分享到linkedin"></a>
+	<a href="#" class="fx fa-files-o bds_copy" data-cmd="copy" title="分享到复制网址"></a>
+</div>
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"2","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='/static/api/js/share.js?cdnversion=' + ~ (-new Date() / 36e5)];</script>
+
+
+
+
+    
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a  href="/2017/11/08/Ceph-NFS-Ganesha/" title="上一篇: 通过 ganesha-nfs 将 Ceph 导出为 NFS（Luminous）">
+                <i class="fa fa-angle-left"></i>
+            </a>
+        
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+        
+            <a  href="/2017/10/31/RBD-Mount-NFS/" title="下一篇: 使用NFS挂载RBD">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2017/11/08/Ceph-NFS-Ganesha/">通过 ganesha-nfs 将 Ceph 导出为 NFS（Luminous）</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/08/Ceph-RGW/">Ceph RGW 安装和创建</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/31/RBD-Mount-NFS/">使用NFS挂载RBD</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/10/Python-Profiler/">Python Profiler</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/10/Enable-OSD-Profile-Script/">启用OSD性能剖析脚本</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/02/Batch-Create-And-Delete-Disk-Partition-Script/">批量创建和删除磁盘分区脚本</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/28/JS-Object-Null/">JS判断对象是否为空</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/27/OSD-Create-And-Delete/">OSD创建和删除全过程</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/21/How-To-Forge-Product/">How-To-Forge-Product</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/18/PHP-Excel/">PHP-Excel 开发解决方案</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/10/Disk-pull-and-plug-record/">Disk pull and plug record</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/10/Linux-Udev/">Linux Udev</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/10/Magicloud-Route/">Magicloud Route</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/10/Osd-Enable-and-Disable/">Osd Enable and Disable</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/10/Disk-Mon-Daemon/">Disk Mon Daemon</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/10/network-down-notification/">Network Down Notification</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/10/Python-Oracle/">Python Oracle</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/10/oracle_install/">Oracle Linux And Oracle Database 11g R2 Intsallation</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/09/Moodle-Local-Plugin/">Moodle Local Plugin</a></li></ul>
+    <script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+    <script>
+        $(".post-list").addClass("toc-article");
+        // $(".post-list-item a").attr("target","_blank");
+        $("#post-nav-button > a:nth-child(2)").click(function() {
+            $(".fa-bars, .fa-times").toggle();
+            $(".post-list").toggle(300);
+            if ($(".toc").length > 0) {
+                $("#toc, #tocButton").toggle(200, function() {
+                    if ($(".switch-area").is(":visible")) {
+                        $("#toc, .switch-btn, .switch-area").toggle();
+                        $("#tocButton").attr("value", valueHide);
+                        }
+                    })
+            }
+            else {
+                $(".switch-btn, .switch-area").fadeToggle(300);
+            }
+        })
+    </script>
+
+
+
+
+    <script>
+        
+    </script>
+
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                &copy; 2017 Tony
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" >极客到访数: 
+                            <span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>, </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit">本页阅读量: 
+                            <span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+
+    </div>
+    <script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script src="/js/main.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var backgroundnum = 4;
+            var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+            $("#mobile-nav").css({"background-image": backgroundimg,"background-size": "cover","background-position": "center"});
+            $(".left-col").css({"background-image": backgroundimg,"background-size": "cover","background-position": "center"});
+        })
+    </script>
+
+
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'xxxxx', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+
+	<script>
+	var _hmt = _hmt || [];
+	(function() {
+	  var hm = document.createElement("script");
+	  hm.src = "//hm.baidu.com/hm.js?xxxxxx";
+	  var s = document.getElementsByTagName("script")[0]; 
+	  s.parentNode.insertBefore(hm, s);
+	})();
+	</script>
+
+
+
+<div class="scroll" id="scroll">
+    <a href="#"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    $(document).ready(function() {
+        if ($("#comments").length < 1) {
+            $("#scroll > a:nth-child(2)").hide();
+        };
+    })
+</script>
+
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+  <script language="javascript">
+    $(function() {
+        $("a[title]").each(function() {
+            var a = $(this);
+            var title = a.attr('title');
+            if (title == undefined || title == "") return;
+            a.data('title', title).removeAttr('title').hover(
+            function() {
+                var offset = a.offset();
+                $("<div id=\"anchortitlecontainer\"></div>").appendTo($("body")).html(title).css({
+                    top: offset.top - a.outerHeight() - 15,
+                    left: offset.left + a.outerWidth()/2 + 1
+                }).fadeIn(function() {
+                    var pop = $(this);
+                    setTimeout(function() {
+                        pop.remove();
+                    }, pop.text().length * 800);
+                });
+            }, function() {
+                $("#anchortitlecontainer").remove();
+            });
+        });
+    });
+</script>
+
+
+  </div>
+</body>
+</html>

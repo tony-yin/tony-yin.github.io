@@ -4,6 +4,50 @@
 
     
   <url>
+    <loc>https://tony-yin.github.io/2017/11/08/Ceph-NFS-Ganesha/</loc>
+    <lastmod>2017-11-08T15:20:52.000Z</lastmod>
+    <data>
+        <display>
+        <title>通过 ganesha-nfs 将 Ceph 导出为 NFS（Luminous）</title>
+        <pubTime>2017-11-08T15:15:26.000Z</pubTime>
+        
+        <tag>Ceph</tag>
+         
+        <tag>NFS-Ganesha</tag>
+         
+         
+           
+             
+              <breadCrumb title="tech" url="https://tony-yin.github.io/categories/tech/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://tony-yin.github.io/2017/11/08/Ceph-RGW/</loc>
+    <lastmod>2017-11-08T15:15:09.000Z</lastmod>
+    <data>
+        <display>
+        <title>Ceph RGW 安装和创建</title>
+        <pubTime>2017-11-08T15:11:59.000Z</pubTime>
+        
+        <tag>Ceph</tag>
+         
+        <tag>RGW</tag>
+         
+         
+           
+             
+              <breadCrumb title="tech" url="https://tony-yin.github.io/categories/tech/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>https://tony-yin.github.io/2017/10/31/RBD-Mount-NFS/</loc>
     <lastmod>2017-10-31T14:52:40.000Z</lastmod>
     <data>
@@ -113,9 +157,9 @@
         <title>Disk Mon Daemon</title>
         <pubTime>2017-09-09T18:17:19.000Z</pubTime>
         
-        <tag>Magicloud</tag>
-         
         <tag>Ceph</tag>
+         
+        <tag>Magicloud</tag>
          
         <tag>Linux</tag>
          
@@ -159,9 +203,9 @@
         <title>Osd Enable and Disable</title>
         <pubTime>2017-09-09T18:18:33.000Z</pubTime>
         
-        <tag>Magicloud</tag>
-         
         <tag>Ceph</tag>
+         
+        <tag>Magicloud</tag>
          
         <tag>Osd</tag>
          
@@ -205,9 +249,9 @@
         <title>OSD创建和删除全过程</title>
         <pubTime>2017-09-27T15:05:36.000Z</pubTime>
         
-        <tag>OSD</tag>
-         
         <tag>Ceph</tag>
+         
+        <tag>OSD</tag>
          
          
            
@@ -251,13 +295,13 @@
         
         <tag>Disk</tag>
          
-        <tag>Magicloud</tag>
-         
         <tag>Ceph</tag>
          
-        <tag>Osd</tag>
+        <tag>Magicloud</tag>
          
         <tag>Linux</tag>
+         
+        <tag>Osd</tag>
          
         <tag>Udev</tag>
          
@@ -301,9 +345,9 @@
         <title>Network Down Notification</title>
         <pubTime>2017-09-09T18:14:34.000Z</pubTime>
         
-        <tag>Magicloud</tag>
-         
         <tag>Ceph</tag>
+         
+        <tag>Magicloud</tag>
          
         <tag>Network</tag>
          
@@ -373,9 +417,9 @@
         <title>Linux Udev</title>
         <pubTime>2017-09-09T18:20:27.000Z</pubTime>
         
-        <tag>Magicloud</tag>
-         
         <tag>Ceph</tag>
+         
+        <tag>Magicloud</tag>
          
         <tag>Linux</tag>
          

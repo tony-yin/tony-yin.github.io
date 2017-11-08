@@ -7,22 +7,21 @@
   
   
   
-  <title>Moodle Local Plugin | Tony&#39;s blog</title>
+  <title>通过 ganesha-nfs 将 Ceph 导出为 NFS（Luminous） | Tony&#39;s blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Local插件在Moodle中相比于其他插件算是比较容易上手的一个插件，Local插件中前后台分离，不用遨游在杂糅前后端的代码里。学会Local插件是上手其他插件的前提，其实一旦学会Local插件也会发现其他插件不过是它的一种变种形式罢了，只要举一反三就能很快掌握。">
-<meta name="keywords" content="Moodle,PHP">
+  <meta name="description" content="自从Jewel版本，nfs-ganesha开始支持ceph，并且把对接点选择了rados。Ganesha支持两种方式将Ceph导出为NFS，一种通过RGW，一种通过CephFS，通过FSAL模块 连接到RGW或者CephFS， 其中，FSAL_RGW调用librgw2将NFS协议转义为S3协议再通过RGW存入到Ceph中，FSAL_CEPH 调用libcephfs1将NFS转义为Cephfs协">
+<meta name="keywords" content="Ceph,NFS-Ganesha">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Moodle Local Plugin">
-<meta property="og:url" content="https://tony-yin.github.io/2017/09/09/Moodle-Local-Plugin/index.html">
+<meta property="og:title" content="通过 ganesha-nfs 将 Ceph 导出为 NFS（Luminous）">
+<meta property="og:url" content="https://tony-yin.github.io/2017/11/08/Ceph-NFS-Ganesha/index.html">
 <meta property="og:site_name" content="Tony&#39;s blog">
-<meta property="og:description" content="Local插件在Moodle中相比于其他插件算是比较容易上手的一个插件，Local插件中前后台分离，不用遨游在杂糅前后端的代码里。学会Local插件是上手其他插件的前提，其实一旦学会Local插件也会发现其他插件不过是它的一种变种形式罢了，只要举一反三就能很快掌握。">
-<meta property="og:image" content="http://ow0mgad6r.bkt.clouddn.com/moodle-logo-concept.png">
-<meta property="og:image" content="http://on-img.com/chart_image/58b5173ce4b01d80b64d335e.png">
-<meta property="og:updated_time" content="2017-09-20T13:43:26.000Z">
+<meta property="og:description" content="自从Jewel版本，nfs-ganesha开始支持ceph，并且把对接点选择了rados。Ganesha支持两种方式将Ceph导出为NFS，一种通过RGW，一种通过CephFS，通过FSAL模块 连接到RGW或者CephFS， 其中，FSAL_RGW调用librgw2将NFS协议转义为S3协议再通过RGW存入到Ceph中，FSAL_CEPH 调用libcephfs1将NFS转义为Cephfs协">
+<meta property="og:image" content="http://ow0mgad6r.bkt.clouddn.com/ganesha-600x450.png">
+<meta property="og:updated_time" content="2017-11-08T15:20:52.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Moodle Local Plugin">
-<meta name="twitter:description" content="Local插件在Moodle中相比于其他插件算是比较容易上手的一个插件，Local插件中前后台分离，不用遨游在杂糅前后端的代码里。学会Local插件是上手其他插件的前提，其实一旦学会Local插件也会发现其他插件不过是它的一种变种形式罢了，只要举一反三就能很快掌握。">
-<meta name="twitter:image" content="http://ow0mgad6r.bkt.clouddn.com/moodle-logo-concept.png">
+<meta name="twitter:title" content="通过 ganesha-nfs 将 Ceph 导出为 NFS（Luminous）">
+<meta name="twitter:description" content="自从Jewel版本，nfs-ganesha开始支持ceph，并且把对接点选择了rados。Ganesha支持两种方式将Ceph导出为NFS，一种通过RGW，一种通过CephFS，通过FSAL模块 连接到RGW或者CephFS， 其中，FSAL_RGW调用librgw2将NFS协议转义为S3协议再通过RGW存入到Ceph中，FSAL_CEPH 调用libcephfs1将NFS转义为Cephfs协">
+<meta name="twitter:image" content="http://ow0mgad6r.bkt.clouddn.com/ganesha-600x450.png">
   
     <link rel="alternative" href="/atom.xml" title="Tony&#39;s blog" type="application/atom+xml">
   
@@ -273,11 +272,11 @@
         </header>                
     </div>
 </nav>
-      <div class="body-wrap"><article id="post-Moodle-Local-Plugin" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-Ceph-NFS-Ganesha" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a  href="/2017/09/09/Moodle-Local-Plugin/" class="article-date">
-      <time datetime="2017-09-09T15:05:05.000Z" itemprop="datePublished">2017-09-09</time>
+      <a  href="/2017/11/08/Ceph-NFS-Ganesha/" class="article-date">
+      <time datetime="2017-11-08T15:15:26.000Z" itemprop="datePublished">2017-11-08</time>
 </a>
 
     </div>
@@ -291,7 +290,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      Moodle Local Plugin
+      通过 ganesha-nfs 将 Ceph 导出为 NFS（Luminous）
     </h1>
   
 
@@ -307,7 +306,7 @@
 
         
     <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Moodle/">Moodle</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/PHP/">PHP</a></li></ul>
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Ceph/">Ceph</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/NFS-Ganesha/">NFS-Ganesha</a></li></ul>
     </div>
 
         <div class="clearfix"></div>
@@ -317,47 +316,66 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <center><img src="http://ow0mgad6r.bkt.clouddn.com/moodle-logo-concept.png" alt="moodle"></center>
+        <center><img src="http://ow0mgad6r.bkt.clouddn.com/ganesha-600x450.png" alt="ganesha"></center>
 
-<p><code>Local</code>插件在<code>Moodle</code>中相比于其他插件算是比较容易上手的一个插件，<code>Local</code>插件中前后台分离，不用遨游在杂糅前后端的代码里。学会<code>Local</code>插件是上手其他插件的前提，其实一旦学会<code>Local</code>插件也会发现其他插件不过是它的一种变种形式罢了，只要举一反三就能很快掌握。</p>
+<p>自从<code>Jewel</code>版本，<code>nfs-ganesha</code>开始支持<code>ceph</code>，并且把对接点选择了<code>rados</code>。<code>Ganesha</code>支持两种方式将<code>Ceph</code>导出为<code>NFS</code>，一种通过<code>RGW</code>，一种通过<code>CephFS</code>，通过<code>FSAL</code>模块 连接到<code>RGW</code>或者<code>CephFS</code>， 其中，<code>FSAL_RGW</code>调用<code>librgw2</code>将<code>NFS</code>协议转义为<code>S3</code>协议再通过<code>RGW</code>存入到<code>Ceph</code>中，<code>FSAL_CEPH</code> 调用<code>libcephfs1</code>将<code>NFS</code>转义为<code>Cephfs</code>协议再存入到<code>Ceph</code> 中。所以需要额外安装这两个包。</p>
+<p>本文就<code>Luminous</code>版本的<code>ceph</code>基于<code>ganesha</code>导出<code>nfs</code>部署，并且测试一下<code>rgw</code>和<code>cephfs</code>的性能。<a href="http://www.xuxiaopang.com/2017/03/27/ganesha-nfs-deploy/#more" target="_blank" rel="external">@徐小胖</a>已经就<code>jewel</code>版本的过程进行了大致的讲解，我这边主要分享一下我遇到他文章没提到的和<code>Luminous</code>场景导致的问题。</p>
 <a id="more"></a>
-<h2 id="Moodle-Local-插件架构"><a href="#Moodle-Local-插件架构" class="headerlink" title="Moodle Local 插件架构"></a>Moodle Local 插件架构</h2><center><img src="http://on-img.com/chart_image/58b5173ce4b01d80b64d335e.png" alt="image"></center>
-
-<h2 id="前端"><a href="#前端" class="headerlink" title="前端"></a>前端</h2><h3 id="Template"><a href="#Template" class="headerlink" title="Template"></a><a href="https://docs.moodle.org/dev/Templates" target="_blank" rel="external">Template</a></h3><p>服务器配置了相应的<code>url</code>，所以每个插件的加载首页都是<code>index.php</code>，但是并不意味着页面的代码就在<code>index.php</code>中，首先在<code>index.php</code>中调用<code>renderer.php</code> 中相应的页面渲染方法，例如  <code>render_index_page($page)</code> 方法：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">public function render_index_page($page) &#123;</div><div class="line">$data = $page-&gt;export_for_template($this);</div><div class="line">    render_from_template(&apos;local_xxx/index&apos;, $data)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<ul>
-<li>在这个方法中，首先调用了<code>index_page</code>这个类中的 <code>export_for_template</code> 方法，获得页面静态加载需要的数据，例如<code>mustache</code>模板需要的数据，<code>data</code>数组的索引与模板名称一一对应，例如<code>mustache</code>文件中若有 &#123;&#123;<code>#user</code>&#125;&#125;<code>hello!</code>&#123;&#123;<code>/user</code>&#125;&#125;，那么对应 class 一定存在 <code>$data[&#39;user&#39;] = xxxx</code>；</li>
-<li>以 <code>render_from_template(&#39;local_xxx/index&#39;, $data)</code> 为例， <code>local_xxx/index</code>，<code>template</code>目录下必定有文件名为<code>index.mustache</code>的文件，这是<code>moodle</code> 封装好的命名规范，而<code>mustache</code>文件就是页面展示的代码所在了；</li>
-<li>通过&#123;&#123;<code>#js</code>&#125;&#125;<code>require xxx</code>&#123;&#123;<code>/js</code>&#125;&#125;引入对应的<code>JavaScript</code>文件；</li>
+<h2 id="参考链接："><a href="#参考链接：" class="headerlink" title="参考链接："></a>参考链接：</h2><ul>
+<li><a href="http://www.xuxiaopang.com/2017/03/27/ganesha-nfs-deploy/#more" target="_blank" rel="external">通过ganesha-nfs将 Ceph 导出为 NFS</a></li>
+<li><a href="http://blog.csdn.net/younger_china/article/details/73432726" target="_blank" rel="external">RGW+Ganesha环境部署</a></li>
 </ul>
-<h3 id="CSS"><a href="#CSS" class="headerlink" title="CSS"></a><a href="https://docs.moodle.org/dev/CSS" target="_blank" rel="external">CSS</a></h3><p>每个 local 插件中都存在一个<code>style.css</code>这样的一个<code>css</code>样式文件，系统运行时，会将每个模块的<code>css</code>文件内容合并到一起，所以如果有两个名称一样的<code>css</code>，则会发生覆盖的现象，所以建议起名字统一在最前面加上当前的插件名称，要注意的是，每次新增、修改或者删除<code>css</code>文件内容后，如若需要立即查看效果，必要以<code>admin</code>角色进入系统，然后<strong>清空缓存</strong>；</p>
-<h3 id="JavaScript"><a href="#JavaScript" class="headerlink" title="JavaScript"></a><a href="https://docs.moodle.org/dev/Javascript_Modules" target="_blank" rel="external">JavaScript</a></h3><p>目前系统中的<code>js</code>是基于<code>RequireJS</code>框架，遵循<code>AMD</code>开发规范，利用<code>Grunt</code>构建的。<code>amd</code>目录下有<code>src</code>目录和<code>build</code>目录，<code>src</code>下的<code>xxx.js</code>是供开发时编写调试使用，而<code>build</code>目录下的<code>min.js</code>则是网站实际运行时所使用的<code>js</code>文件，经过压缩可以大幅度提升运行速度。所以每次修改<code>js</code>完毕后，提交代码切勿忘记生成对应的<code>min.js</code>文件并提供，生成命令为 <code>grunt uglify</code>；</p>
-<h2 id="后端"><a href="#后端" class="headerlink" title="后端"></a>后端</h2><h3 id="db"><a href="#db" class="headerlink" title="db"></a><a href="https://docs.moodle.org/dev/Data_definition_API" target="_blank" rel="external">db</a></h3><ol>
-<li><p>access.php<br>主要负责记录权限的配置；</p>
-</li>
-<li><p>service.php<br>负责接收<code>ajax</code>提交，配置对应的后台<code>API</code>的类名、路径 和方法名等信息，并将对应的<code>ajax</code>方法存入数据库中；</p>
-</li>
-<li><p>install.xml<br>用于安装系统时表结构的对应生成；</p>
-</li>
-<li><p>install.php<br>用于安装系统时数据库的缺省数据的提供；</p>
-</li>
-<li><p>upgrade.php <a href="https://note.youdao.com/share/?token=18D5479D0AFA4286A46EACE741345DF5&amp;gid=29389535" target="_blank" rel="external">开发规范</a><br>用于系统表结构变化等版本升级事项的实现，由于生产环境中客户已有大量数据存在于数据库中，所以这时候不能采取重装系统的方式更改表结构或者更改数据库等操作，这时候就得借助<code>upgrade.php</code>平滑升级。</p>
-</li>
-</ol>
-<h3 id="后台-API"><a href="#后台-API" class="headerlink" title="后台 API"></a>后台 API</h3><ol>
-<li><p>externallib.php<br>负责编写<code>service.php</code>中<code>ajax</code>提交方法对应的后台方法，并调用<code>lib.php</code>中的<code>API</code>实现；</p>
-</li>
-<li><p>lib.php<br>负责方法的具体实现，代码与数据库的数据交互</p>
-</li>
-<li><p>lang/en/xxx.php 和 lang/zh_cn/xxx.php</p>
-</li>
-</ol>
-<p><code>en</code>目录下的表示英文翻译语言文件，<code>zh_cn</code>目录下的表示中文翻译语言文件，具体调用方法为： </p>
-<ul>
-<li><code>php</code>中： <code>get_string(字符串名, 插件名)</code></li>
-<li><code>mustache</code>中： &#123;&#123;<code>#str</code>&#125;&#125;<code>字符串名, 插件名</code>&#123;&#123;<code>/str</code>&#125;&#125;</li>
+<h2 id="环境声明"><a href="#环境声明" class="headerlink" title="环境声明"></a>环境声明</h2><ul>
+<li>os： centos7</li>
+<li>ceph： luminous</li>
+<li>nfs-gnesha： <strong>v2.5 stable</strong>（important）</li>
 </ul>
-<p>作者：Tony<br>2017年02月28日</p>
+<h2 id="安装依赖"><a href="#安装依赖" class="headerlink" title="安装依赖"></a>安装依赖</h2><p>一些编译需要的公共库</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">yum install gcc git cmake autoconf libtool bison flex doxygen openssl-devel gcc-c++ krb5-libs krb5-devel libuuid-devel nfs-utils -y</div></pre></td></tr></table></figure>
+<p><code>ubuntu</code>的我也试了一下，主要有以下几个包不同：</p>
+<ul>
+<li><code>gcc-c++</code>   -&gt;   <code>g++</code></li>
+<li><code>libuuid-devel</code> -&gt;  <code>uuid-dev</code></li>
+<li><code>nfs-utils</code>   -&gt;  <code>nfs-kernel-server</code> </li>
+</ul>
+<p>如果要生成<code>FSAL_RGW</code>模块，需要安装<code>librgw2-devel</code>（我装的<code>librgw-devel</code>也可以<code>work</code>，看了<code>so</code>文件发现就是<code>2</code>，只是建立了映射关系，这个看了源码知道了是因为<code>K</code>版本对<code>librgw</code>编译这块做了升级，加了<code>2</code>标识一下）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">yum install librgw2-devel -y</div></pre></td></tr></table></figure>
+<p>如果要生成<code>FSAL_CEPH</code>模块，需要安装<code>libcephfs1-devel</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">yum install libcephfs1-devel -y</div></pre></td></tr></table></figure>
+<h2 id="源码下载"><a href="#源码下载" class="headerlink" title="源码下载"></a>源码下载</h2><p>上面两篇文章一个下载的是<code>v2.3 stable</code>，一个是<code>v2.4 stable</code>，两个我都试过，都会在<code>make</code>到<code>80%</code>左右的时候报错，应该是源码版本和库的版本有冲突导致的，这个问题耽误我挺长时间的，后来猜想可能是版本问题，尝试了一下<code>v2.5 stable</code>的源码就可以了</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">	</div><div class="line">git clone -b V2.5-stable https://github.com/nfs-ganesha/nfs-ganesha.git --recursive</div></pre></td></tr></table></figure>
+<h2 id="编译"><a href="#编译" class="headerlink" title="编译"></a>编译</h2><p>编译<code>nfs-ganesha</code>， <strong>注意打开对应的模块：</strong></p>
+<ul>
+<li>如果需要生成<code>FSAL_RGW</code>模块，则在编译选项中添加： <code>-DUSE_FSAL_RGW=ON</code></li>
+<li>如果需要生成<code>FSAL_CEPH</code>模块，则在编译选项中添加： <code>-DUSE_FSAL_CEPH=ON</code></li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">cd src/</div><div class="line">mkdir build</div><div class="line">cd /build/</div><div class="line">cmake -DUSE_FSAL_RGW=ON -DUSE_FSAL_CEPH=ON ../</div></pre></td></tr></table></figure>
+<p><code>cmake</code>的过程中会有以下输出：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">-- Looking for ceph_ll_lookup_root in cephfs - found</div><div class="line">-- Found cephfs libraries: /usr/lib64/libcephfs.so</div><div class="line">-- Found CEPHFS: /usr/include  </div><div class="line">-- Looking for rgw_mount in rgw</div><div class="line">-- Looking for rgw_mount in rgw - found</div><div class="line">-- Found rgw libraries: /usr/lib64/librgw.so</div><div class="line">-- Found RGW: /usr (found suitable version &quot;1.1&quot;, minimum required is &quot;1.1&quot;) </div><div class="line">...</div><div class="line">-- USE_FSAL_CEPH = ON</div><div class="line">-- USE_FSAL_CEPH_MKNOD = OFF</div><div class="line">-- USE_FSAL_CEPH_SETLK = OFF</div><div class="line">-- USE_FSAL_CEPH_LL_LOOKUP_ROOT = ON</div><div class="line">-- USE_FSAL_RGW = ON</div></pre></td></tr></table></figure>
+<p>这一步，很重要，很多时候会因为没有装好的<code>librgw2-devel</code>或者<code>libcephfs1-devel</code>导致这边的<code>USE_FSAL_RGW</code>或者<code>USE_FSAL_CEPH</code>状态为<code>OFF</code></p>
+<p><strong>确保，确保，确保：</strong> <code>-- USE_FSAL_CEPH</code>为<code>ON</code>，以及<code>-- USE_FSAL_RGW</code>为<code>ON</code>。</p>
+<p>如果是<code>OFF</code>，请检查下<code>librgw2-devel</code>或者<code>libcephfs1-devel</code>是否有安装，如果这两个包都已经安装了，还显示为<code>OFF</code>， 可以尝试下清空编译目录：<code>rm -rf build/*</code>，再进行编译，如果依旧为 <code>OFF</code>，可以尝试下删除所有的<code>Ceph</code>包，再重新<code>yum install ceph librgw2-devel libcephfs1-devel -y</code>。</p>
+<p>编译和安装，在<code>build</code>目录下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">make</div><div class="line">make install</div></pre></td></tr></table></figure>
+<blockquote>
+<p>PS:<br>在<code>make install</code>生成的输出中，可以看到:</p>
+<p>– Up-to-date: /usr/share/doc/ganesha/config_samples/rgw.conf<br>…<br>– Up-to-date: /usr/share/doc/ganesha/config_samples/ceph.conf</p>
+<p>这两个文件就是配置将<code>RGW</code>和<code>CephFS</code>配置为<code>ganesha-nfs</code>的配置模板。</p>
+</blockquote>
+<h2 id="编辑配置文件"><a href="#编辑配置文件" class="headerlink" title="编辑配置文件"></a>编辑配置文件</h2><p>注意<code>Path</code>后面的路径需要加引号，<code>rgw</code>替换成创建<code>S3</code>用户生成的用户信息</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line">cat /etc/ganesha/ganesha.conf</div><div class="line">EXPORT</div><div class="line">&#123;</div><div class="line">        Export_ID=1;</div><div class="line">        Path = &quot;/&quot;;</div><div class="line">        Pseudo = /cephfs;</div><div class="line">        Access_Type = RW;</div><div class="line">        NFS_Protocols = 4;</div><div class="line">        Transport_Protocols = TCP;</div><div class="line">        FSAL &#123;</div><div class="line">                Name = CEPH;</div><div class="line">        &#125;</div><div class="line">&#125;</div><div class="line">EXPORT</div><div class="line">&#123;</div><div class="line">        Export_ID=2;</div><div class="line">        Path = &quot;/&quot;;</div><div class="line">        Pseudo = /rgw;</div><div class="line">        Access_Type = RW;</div><div class="line">        Squash = No_root_squash;</div><div class="line">        NFS_Protocols = 4;</div><div class="line">        Transport_Protocols = TCP;</div><div class="line">        FSAL &#123;</div><div class="line">                Name = RGW;</div><div class="line">                User_Id = &quot;admin&quot;;</div><div class="line">                Access_Key_Id =&quot;1MWH3LWM1BS4ZF4HN5IH&quot;;</div><div class="line">                Secret_Access_Key = &quot;cuObxYgtl1lJgqNxOIpENycVqXfxLxZ8z5IXDM0O&quot;;</div><div class="line">        &#125;</div><div class="line">&#125;</div><div class="line">RGW &#123;</div><div class="line">    ceph_conf = &quot;/etc/ceph/ceph.conf&quot;;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="启动-Ganesha"><a href="#启动-Ganesha" class="headerlink" title="启动 Ganesha"></a>启动 Ganesha</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ganesha.nfsd -f /etc/ganesha/ganesha.conf -L /var/log/nfs-ganesha.log -N NIV_DEBUG</div></pre></td></tr></table></figure>
+<p>如果一切顺利，你应该可以看到<code>ganesha.nfsd</code> 进程在那，如果进程不在，那么查看<code>Log</code>，记得在启动进程前，关闭所有<code>CephX</code>配置。</p>
+<p><strong>重要</strong>：<code>librgw init failed (-5)</code> 解决方法</p>
+<p>报错内容如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">RGW-1 : nfs-ganesha-2232083[main] create_export :FSAL :CRIT :RGW module: librgw init failed (-5)</div><div class="line">RGW-1 : nfs-ganesha-2232083[main] mdcache_fsal_create_export :FSAL :MAJ :Failed to call create_export on underlying FSAL</div></pre></td></tr></table></figure>
+<p>经过多次尝试，包括在<code>ganesha.conf</code>内添加<code>init_args</code>指定秘钥和<code>Ceph</code>的用户，<code>ganesha-nfs</code> 均无法启动，报的错如标题，解决方法就是关闭<code>CephX</code>，将<code>/etc/ceph/ceph.conf</code>内的三个 <code>cephx</code>改为<code>none</code>，然后重启<code>ceph-mon</code>，<code>ceph-osd</code>，<code>ceph-radosgw</code>，<code>ceph-mds</code> 进程，再启动<code>ganesha-nfs</code>，即可正常运行。</p>
+<p><strong>需要注意的是：</strong></p>
+<p>当你在当前节点上，关闭<code>cephx</code>后，你用<code>ceph -s</code>查看集群状态时，这时候会报错说明由于没有<code>auth</code>认证导致无法连接集群，所以我当时试了很久，尽管<code>nfs-ganesha</code>已经运行了，但是<code>mount</code>都没有成功<code>export</code>，查看<code>log</code>才发现原来在<code>init</code>配置的时候就失败了，导致这个问题的原因是我只关闭了一个节点的<code>cephx</code>，所以需要做的就是将集群内所有节点的<code>cephx</code>全部关闭，然后集群就可以正常访问了，并且<code>nfs-ganesha</code>也不会因为<code>cephx</code>导致加载配置出错</p>
+<h2 id="Check-Export"><a href="#Check-Export" class="headerlink" title="Check Export"></a>Check Export</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">[root@node1 build]# showmount -e  </div><div class="line">Export list for node1:  </div><div class="line">/ (everyone)  </div><div class="line">/ (everyone)</div></pre></td></tr></table></figure>
+<h2 id="挂载-NFS"><a href="#挂载-NFS" class="headerlink" title="挂载 NFS"></a>挂载 NFS</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">[root@node1 mnt]# mount -t nfs4 192.168.1.1:/  /mnt/ceph/  </div><div class="line">root@node1 mnt]# ls ceph/*  </div><div class="line">ceph/cephfs:  </div><div class="line">test  </div><div class="line">   </div><div class="line">ceph/rgw:  </div><div class="line">my-new-bucket</div></pre></td></tr></table></figure>
+<p>说明<code>CephFS</code>和<code>RGW</code>都已经正常对接。<br>如果，你所使用的<code>admin</code>用户名下有很多的桶，那么这些桶都会以<code>/mnt/rgw/xxbucket</code>的结构显示出来，如果你在<code>/mnt/rgw/</code>下建立的一个目录，那么就相当于通过<code>RGW</code>建立了一个桶，所以，你执行<code>touch /mnt/rgw/123</code>是会报错的，因为不符合<code>S3</code>的对象必须位于桶内的规定，简单点说，就是把<code>/mnt/rgw/</code>和<code>S3</code>的根目录一一对应即可。</p>
+<p>同样，<code>CephFS</code>内的内容都会显示在<code>/mnt/cephfs/</code>目录下。可以开始愉快的玩耍了！！</p>
 
       
     </div>
@@ -366,13 +384,13 @@
   
     
     <div class="copyright">
-        <p><span>本文标题:</span><a  href="/2017/09/09/Moodle-Local-Plugin/">Moodle Local Plugin</a></p>
+        <p><span>本文标题:</span><a  href="/2017/11/08/Ceph-NFS-Ganesha/">通过 ganesha-nfs 将 Ceph 导出为 NFS（Luminous）</a></p>
         <p><span>文章作者:</span><a  href="/" title="访问 Tony 的个人博客">Tony</a></p>
-        <p><span>发布时间:</span>2017年09月09日 - 23时05分</p>
-        <p><span>最后更新:</span>2017年09月20日 - 21时43分</p>
+        <p><span>发布时间:</span>2017年11月08日 - 23时15分</p>
+        <p><span>最后更新:</span>2017年11月08日 - 23时20分</p>
         <p>
-            <span>原始链接:</span><a class="post-url" href="/2017/09/09/Moodle-Local-Plugin/" title="Moodle Local Plugin">https://tony-yin.github.io/2017/09/09/Moodle-Local-Plugin/</a>
-            <span class="copy-path" data-clipboard-text="原文: https://tony-yin.github.io/2017/09/09/Moodle-Local-Plugin/　　作者: Tony" title=""></span>
+            <span>原始链接:</span><a class="post-url" href="/2017/11/08/Ceph-NFS-Ganesha/" title="通过 ganesha-nfs 将 Ceph 导出为 NFS（Luminous）">https://tony-yin.github.io/2017/11/08/Ceph-NFS-Ganesha/</a>
+            <span class="copy-path" data-clipboard-text="原文: https://tony-yin.github.io/2017/11/08/Ceph-NFS-Ganesha/　　作者: Tony" title=""></span>
         </p>
         <p>
             <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/cn/" title="中国大陆 (CC BY-NC-SA 3.0 CN)" target = "_blank">"署名-非商用-相同方式共享 3.0"</a> 转载请保留原文链接及作者。
@@ -383,15 +401,11 @@
 
 <nav id="article-nav">
   
-    <a  href="/2017/09/10/oracle_install/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption"><</strong>
-      <div class="article-nav-title">
-        
-          Oracle Linux And Oracle Database 11g R2 Intsallation
-        
-      </div>
-    </a>
   
+    <a  href="/2017/11/08/Ceph-RGW/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Ceph RGW 安装和创建</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
   
 </nav>
 
@@ -401,7 +415,7 @@
 
     <div id="toc" class="toc-article">
     <strong class="toc-title">文章目录</strong>
-    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Moodle-Local-插件架构"><span class="toc-number">1.</span> <span class="toc-text">Moodle Local 插件架构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#前端"><span class="toc-number">2.</span> <span class="toc-text">前端</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Template"><span class="toc-number">2.1.</span> <span class="toc-text">Template</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CSS"><span class="toc-number">2.2.</span> <span class="toc-text">CSS</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#JavaScript"><span class="toc-number">2.3.</span> <span class="toc-text">JavaScript</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#后端"><span class="toc-number">3.</span> <span class="toc-text">后端</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#db"><span class="toc-number">3.1.</span> <span class="toc-text">db</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#后台-API"><span class="toc-number">3.2.</span> <span class="toc-text">后台 API</span></a></li></ol></li></ol>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#参考链接："><span class="toc-number">1.</span> <span class="toc-text">参考链接：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#环境声明"><span class="toc-number">2.</span> <span class="toc-text">环境声明</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#安装依赖"><span class="toc-number">3.</span> <span class="toc-text">安装依赖</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#源码下载"><span class="toc-number">4.</span> <span class="toc-text">源码下载</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#编译"><span class="toc-number">5.</span> <span class="toc-text">编译</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#编辑配置文件"><span class="toc-number">6.</span> <span class="toc-text">编辑配置文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#启动-Ganesha"><span class="toc-number">7.</span> <span class="toc-text">启动 Ganesha</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Check-Export"><span class="toc-number">8.</span> <span class="toc-text">Check Export</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#挂载-NFS"><span class="toc-number">9.</span> <span class="toc-text">挂载 NFS</span></a></li></ol>
 </div>
 <style>
     .left-col .switch-btn {
@@ -461,13 +475,13 @@
 
     <div class="scroll" id="post-nav-button">
         
-            <a  href="/2017/09/10/oracle_install/" title="上一篇: Oracle Linux And Oracle Database 11g R2 Intsallation">
-                <i class="fa fa-angle-left"></i>
-            </a>
+            <a  href="/" title="回到主页"><i class="fa fa-home"></i></a>
         
         <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
         
-            <a  href="/" title="回到主页"><i class="fa fa-home"></i></a>
+            <a  href="/2017/11/08/Ceph-RGW/" title="下一篇: Ceph RGW 安装和创建">
+                <i class="fa fa-angle-right"></i>
+            </a>
         
     </div>
     <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2017/11/08/Ceph-NFS-Ganesha/">通过 ganesha-nfs 将 Ceph 导出为 NFS（Luminous）</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/08/Ceph-RGW/">Ceph RGW 安装和创建</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/31/RBD-Mount-NFS/">使用NFS挂载RBD</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/10/Python-Profiler/">Python Profiler</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/10/Enable-OSD-Profile-Script/">启用OSD性能剖析脚本</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/02/Batch-Create-And-Delete-Disk-Partition-Script/">批量创建和删除磁盘分区脚本</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/28/JS-Object-Null/">JS判断对象是否为空</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/27/OSD-Create-And-Delete/">OSD创建和删除全过程</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/21/How-To-Forge-Product/">How-To-Forge-Product</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/18/PHP-Excel/">PHP-Excel 开发解决方案</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/10/Disk-pull-and-plug-record/">Disk pull and plug record</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/10/Linux-Udev/">Linux Udev</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/10/Magicloud-Route/">Magicloud Route</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/10/Osd-Enable-and-Disable/">Osd Enable and Disable</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/10/Disk-Mon-Daemon/">Disk Mon Daemon</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/10/network-down-notification/">Network Down Notification</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/10/Python-Oracle/">Python Oracle</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/10/oracle_install/">Oracle Linux And Oracle Database 11g R2 Intsallation</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/09/Moodle-Local-Plugin/">Moodle Local Plugin</a></li></ul>
