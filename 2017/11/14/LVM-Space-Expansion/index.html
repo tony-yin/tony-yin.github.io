@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="baidu-site-verification" content="L6Lm9d5Crl"/>
+  
+  
+  
+  
+  <title>LVM-Space-Expansion | Tony&#39;s blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="在平时的开发工作中，经常会创建磁盘不足够大的虚拟机，然后往集群里面写一些数据导致磁盘满了。手动编辑虚拟机的磁盘大小是不会文件系统识别的，大多数同学只能无奈的重新装OS，这里我介绍一种基于LVM实现动态的方式。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="LVM-Space-Expansion">
+<meta property="og:url" content="https://tony-yin.github.io/2017/11/14/LVM-Space-Expansion/index.html">
+<meta property="og:site_name" content="Tony&#39;s blog">
+<meta property="og:description" content="在平时的开发工作中，经常会创建磁盘不足够大的虚拟机，然后往集群里面写一些数据导致磁盘满了。手动编辑虚拟机的磁盘大小是不会文件系统识别的，大多数同学只能无奈的重新装OS，这里我介绍一种基于LVM实现动态的方式。">
+<meta property="og:image" content="http://ow0mgad6r.bkt.clouddn.com/work-for-love-600x450.png">
+<meta property="og:updated_time" content="2017-11-14T02:56:22.194Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="LVM-Space-Expansion">
+<meta name="twitter:description" content="在平时的开发工作中，经常会创建磁盘不足够大的虚拟机，然后往集群里面写一些数据导致磁盘满了。手动编辑虚拟机的磁盘大小是不会文件系统识别的，大多数同学只能无奈的重新装OS，这里我介绍一种基于LVM实现动态的方式。">
+<meta name="twitter:image" content="http://ow0mgad6r.bkt.clouddn.com/work-for-love-600x450.png">
+  
+    <link rel="alternative" href="/atom.xml" title="Tony&#39;s blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/img/favicon.png">
+  
+  
+  <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  
+  
+      <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  
+  <!-- 加载特效 -->
+    <script src="/js/pace.js"></script>
+    <link href="/css/pace/pace-theme-flash.css" rel="stylesheet" />
+  <script>
+      var yiliaConfig = {
+          fancybox: true,
+          animate: true,
+          isHome: false,
+          isPost: true,
+          isArchive: false,
+          isTag: false,
+          isCategory: false,
+          open_in_new: false
+      }
+  </script>
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+        <a href="/" class="profilepic">
+            
+            <img lazy-src="/img/tony.jpg" class="js-avatar">
+            
+        </a>
+        <hgroup>
+          <h1 class="header-author"><a href="/">Tony</a></h1>
+        </hgroup>
+        
+        
+            <form>
+                <input type="text" class="st-default-search-input search" id="local-search-input" placeholder=" Search...">
+            </form>
+            <div id="local-search-result"></div>
+        
+        
+            <script type="text/javascript">
+                (function() {
+                    'use strict';
+                    function getMatchData(keyword, data) {
+                        var matchData = [];
+                        for(var i =0;i<data.length;i++){
+                            if(data[i].title.toLowerCase().indexOf(keyword)>=0) 
+                                matchData.push(data[i])
+                        }
+                        return matchData;
+                    }
+                    var $input = $('#local-search-input');
+                    var $resultContent = $('#local-search-result');
+                    $input.keyup(function(){
+                        $.ajax({
+                            url: '/search.json',
+                            dataType: "json",
+                            success: function( json ) {
+                                var str='<ul class=\"search-result-list\">';                
+                                var keyword = $input.val().trim().toLowerCase();
+                                $resultContent.innerHTML = "";
+                                if ($input.val().trim().length <= 0) {
+                                    $resultContent.empty();
+                                    $('#switch-area').show();
+                                    return;
+                                }
+                                var results = getMatchData(keyword, json);
+                                if(results.length === 0){
+                                    $resultContent.empty();
+                                    $('#switch-area').show();
+                                    return;
+                                } 
+                                for(var i =0; i<results.length; i++){
+                                    str += "<li><a href='"+ results[i].url +"' class='search-result-title'>"+ results[i].title +"</a></li>";
+                                }
+                                str += "</ul>";
+                                $resultContent.empty();
+                                $resultContent.append(str);
+                                $('#switch-area').hide();
+                            }
+                        });
+                    });
+                })();
+            </script>
+        
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                        <div class="icon-wrap icon-me hide" data-idx="3">
+                            <div class="user"></div>
+                            <div class="shoulder"></div>
+                        </div>
+                        
+                    </div>
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                        <li>关于我</li>
+                        
+                    </ul>
+                </div>
+            </div>
+        
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a  href="/archives/">所有文章</a></li>
+                        
+                            <li><a  href="/categories/tech">技术文章</a></li>
+                        
+                            <li><a  href="/categories/summary">感悟总结</a></li>
+                        
+                            <li><a  href="/categories/read">阅读翻译</a></li>
+                        
+                            <li><a  href="/categories/reprinted">好文转载</a></li>
+                        
+                            <li><a  href="/categories/life">生活随笔</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fl github"  target="_blank" href="https://github.com/tony-yin" title="github">github</a>
+                            
+                                <a class="fl weibo"  target="_blank" href="https://weibo.com/3832044210/profile?rightmod=1&wvr=6&mod=personinfo" title="weibo">weibo</a>
+                            
+                                <a class="fl segmentfault"  target="_blank" href="https://segmentfault.com/u/qzuser_57fb1d5db527e" title="segmentfault">segmentfault</a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <a href="/tags/Ceph/" style="font-size: 20px;">Ceph</a> <a href="/tags/Daemon/" style="font-size: 10px;">Daemon</a> <a href="/tags/Disk/" style="font-size: 12.5px;">Disk</a> <a href="/tags/EC/" style="font-size: 10px;">EC</a> <a href="/tags/Javascript/" style="font-size: 10px;">Javascript</a> <a href="/tags/Linux/" style="font-size: 15px;">Linux</a> <a href="/tags/Magicloud/" style="font-size: 17.5px;">Magicloud</a> <a href="/tags/Moodle/" style="font-size: 10px;">Moodle</a> <a href="/tags/NFS/" style="font-size: 10px;">NFS</a> <a href="/tags/NFS-Ganesha/" style="font-size: 10px;">NFS-Ganesha</a> <a href="/tags/Network/" style="font-size: 10px;">Network</a> <a href="/tags/Notification/" style="font-size: 10px;">Notification</a> <a href="/tags/OSD/" style="font-size: 12.5px;">OSD</a> <a href="/tags/Oracle/" style="font-size: 12.5px;">Oracle</a> <a href="/tags/Oracle-11g-R2/" style="font-size: 10px;">Oracle 11g R2</a> <a href="/tags/Oracle-Linux/" style="font-size: 10px;">Oracle Linux</a> <a href="/tags/Osd/" style="font-size: 12.5px;">Osd</a> <a href="/tags/PHP/" style="font-size: 12.5px;">PHP</a> <a href="/tags/PHPExcel/" style="font-size: 10px;">PHPExcel</a> <a href="/tags/Partition/" style="font-size: 10px;">Partition</a> <a href="/tags/Profile/" style="font-size: 12.5px;">Profile</a> <a href="/tags/Python/" style="font-size: 12.5px;">Python</a> <a href="/tags/RBD/" style="font-size: 10px;">RBD</a> <a href="/tags/RGW/" style="font-size: 10px;">RGW</a> <a href="/tags/Route/" style="font-size: 10px;">Route</a> <a href="/tags/Script/" style="font-size: 12.5px;">Script</a> <a href="/tags/Udev/" style="font-size: 12.5px;">Udev</a> <a href="/tags/产品/" style="font-size: 10px;">产品</a> <a href="/tags/性能优化/" style="font-size: 10px;">性能优化</a> <a href="/tags/编译/" style="font-size: 10px;">编译</a>
+                    </div>
+                </section>
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a target="_blank"  class="main-nav-link switch-friends-link" href="https://segmentfault.com/blog/tony_output">segmentfault</a>
+                    
+                    </div>
+                </section>
+                
+                
+                
+                <section class="switch-part switch-part4">
+                
+                    <div id="js-aboutme">江苏南京，熟悉Python/PHP，目前研究Ceph分布式存储</div>
+                </section>
+                
+            </div>
+        </div>
+    </header>
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">Tony</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                
+                    <img lazy-src="/img/tony.jpg" class="js-avatar">
+                
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">Tony</a></h1>
+            </hgroup>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/archives/">所有文章</a></li>
+                
+                    <li><a href="/categories/tech">技术文章</a></li>
+                
+                    <li><a href="/categories/summary">感悟总结</a></li>
+                
+                    <li><a href="/categories/read">阅读翻译</a></li>
+                
+                    <li><a href="/categories/reprinted">好文转载</a></li>
+                
+                    <li><a href="/categories/life">生活随笔</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a class="github" target="_blank" href="https://github.com/tony-yin" title="github">github</a>
+                    
+                        <a class="weibo" target="_blank" href="https://weibo.com/3832044210/profile?rightmod=1&wvr=6&mod=personinfo" title="weibo">weibo</a>
+                    
+                        <a class="segmentfault" target="_blank" href="https://segmentfault.com/u/qzuser_57fb1d5db527e" title="segmentfault">segmentfault</a>
+                    
+                </div>
+            </nav>
+        </header>                
+    </div>
+</nav>
+      <div class="body-wrap"><article id="post-LVM-Space-Expansion" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a  href="/2017/11/14/LVM-Space-Expansion/" class="article-date">
+      <time datetime="2017-11-14T02:35:39.000Z" itemprop="datePublished">2017-11-14</time>
+</a>
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      LVM-Space-Expansion
+    </h1>
+  
+
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+
+        
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <center><img src="http://ow0mgad6r.bkt.clouddn.com/work-for-love-600x450.png" alt="LVM Space Expansion"></center>
+
+<p>在平时的开发工作中，经常会创建磁盘不足够大的虚拟机，然后往集群里面写一些数据导致磁盘满了。手动编辑虚拟机的磁盘大小是不会文件系统识别的，大多数同学只能无奈的重新装<code>OS</code>，这里我介绍一种基于<code>LVM</code>实现动态的方式。</p>
+<a id="more"></a>
+<h2 id="LVM了解"><a href="#LVM了解" class="headerlink" title="LVM了解"></a>LVM了解</h2><p><code>LVM</code>是逻辑盘卷管理（<code>LogicalVolumeManager</code>）的简称，它是<code>Linux</code>环境下对磁盘分区进行管理的一种机制，<code>LVM</code>是建立在硬盘和分区之上的一个逻辑层，来提高磁盘分区管理的灵活性。通过LVM系统管理员可以轻松管理磁盘分区，如：将若干个磁盘分区连接为一个整块的卷组（<code>volumegroup</code>），形成一个存储池。管理员可以在卷组上随意创建逻辑卷组（<code>logicalvolumes</code>），并进一步在逻辑卷组上创建文件系统。管理员通过<code>LVM</code>可以方便的调整存储卷组的大小，并且可以对磁盘存储按照组的方式进行命名、管理和分配。</p>
+<h2 id="查看分区"><a href="#查看分区" class="headerlink" title="查看分区"></a>查看分区</h2><p>当前默认只有一个采用<code>lvm</code>的分区，一开始<code>sda</code>磁盘容量为<code>16G</code>，后来发现不够用了，编辑磁盘大小为<code>50G</code>，但是可以发现这<code>50G</code>并没有起到扩展分区容量的效果。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">[root@tony-play ~]# df -h</div><div class="line">Filesystem            Size  Used Avail Use% Mounted on</div><div class="line">/dev/mapper/vg_tonyplay-lv_root</div><div class="line">                       14G  3.4G  9.6G  26% /</div><div class="line">tmpfs                 1.9G   72K  1.9G   1% /dev/shm</div><div class="line">/dev/sda1             477M   42M  410M  10% /boot</div><div class="line"></div><div class="line">[root@tony-play ~]# lsblk</div><div class="line">NAME                           MAJ:MIN RM  SIZE RO TYPE MOUNTPOINT</div><div class="line">sr0                             11:0    1 1024M  0 rom  </div><div class="line">sda                              8:0    0   50G  0 disk </div><div class="line">├─sda1                           8:1    0  500M  0 part /boot</div><div class="line">└─sda2                           8:2    0 15.5G  0 part </div><div class="line">  ├─vg_tonyplay-lv_root (dm-0) 253:0    0 13.9G  0 lvm  /</div><div class="line">  └─vg_tonyplay-lv_swap (dm-1) 253:1    0  1.6G  0 lvm  [SWAP]</div></pre></td></tr></table></figure>
+<h2 id="分区"><a href="#分区" class="headerlink" title="分区"></a>分区</h2><p>可以通过新增一块其他磁盘来扩容，我这边采取的是增大当前磁盘的容量实现扩容。</p>
+<p>有时候因为系统设备处于繁忙状态，所以分区需要重启后才会生效。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line">[root@tony-play ~]# fdisk /dev/sda</div><div class="line">WARNING: DOS-compatible mode is deprecated. It&apos;s strongly recommended to</div><div class="line">         switch off the mode (command &apos;c&apos;) and change display units to</div><div class="line">         sectors (command &apos;u&apos;).</div><div class="line">Command (m for help): n</div><div class="line">Command action</div><div class="line">    e   extended</div><div class="line">    p   primary partition (1-4)</div><div class="line">p</div><div class="line">Partition number (1-4): 3</div><div class="line">First cylinder (2089-6527, default 2089):   // 直接回车，用默认值就可以了</div><div class="line">Using default value 2089</div><div class="line">Last cylinder, +cylinders or +size&#123;K,M,G&#125; (2089-6527, default 6527):    // 直接回车，用默认值就可以了</div><div class="line">Using default value 6527</div><div class="line">Command (m for help): w</div><div class="line">The partition table has been altered!</div><div class="line"></div><div class="line"># 可以看到新建的分区sda3已结被创建出来了，采取默认值会将剩余所有空间都分到分区中</div><div class="line">[root@tony-play ~]# lsblk</div><div class="line">NAME                           MAJ:MIN RM  SIZE RO TYPE MOUNTPOINT</div><div class="line">sr0                             11:0    1 1024M  0 rom  </div><div class="line">sda                              8:0    0   50G  0 disk </div><div class="line">├─sda1                           8:1    0  500M  0 part /boot</div><div class="line">├─sda2                           8:2    0 15.5G  0 part </div><div class="line">│ ├─vg_tonyplay-lv_root (dm-0) 253:0    0 13.9G  0 lvm  /</div><div class="line">│ └─vg_tonyplay-lv_swap (dm-1) 253:1    0  1.6G  0 lvm  [SWAP]</div><div class="line">└─sda3                           8:3    0   34G  0 part</div></pre></td></tr></table></figure>
+<h2 id="查看当前文件系统"><a href="#查看当前文件系统" class="headerlink" title="查看当前文件系统"></a>查看当前文件系统</h2><p>当前文件系统为<code>ext4</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">[root@tony-play ~]# mount</div><div class="line">/dev/mapper/vg_tonyplay-lv_root on / type ext4 (rw)</div><div class="line">proc on /proc type proc (rw)</div><div class="line">sysfs on /sys type sysfs (rw)</div><div class="line">devpts on /dev/pts type devpts (rw,gid=5,mode=620)</div><div class="line">tmpfs on /dev/shm type tmpfs (rw,rootcontext=&quot;system_u:object_r:tmpfs_t:s0&quot;)</div><div class="line">/dev/sda1 on /boot type ext4 (rw)</div><div class="line">none on /proc/sys/fs/binfmt_misc type binfmt_misc (rw)</div></pre></td></tr></table></figure>
+<h2 id="为新分区创建文件系统"><a href="#为新分区创建文件系统" class="headerlink" title="为新分区创建文件系统"></a>为新分区创建文件系统</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line">[root@tony-play ~]# sudo mkfs.ext4 /dev/sda3</div><div class="line">mke2fs 1.41.12 (17-May-2010)</div><div class="line">Filesystem label=</div><div class="line">OS type: Linux</div><div class="line">Block size=4096 (log=2)</div><div class="line">Fragment size=4096 (log=2)</div><div class="line">Stride=0 blocks, Stripe width=0 blocks</div><div class="line">2228224 inodes, 8912727 blocks</div><div class="line">445636 blocks (5.00%) reserved for the super user</div><div class="line">First data block=0</div><div class="line">Maximum filesystem blocks=4294967296</div><div class="line">272 block groups</div><div class="line">32768 blocks per group, 32768 fragments per group</div><div class="line">8192 inodes per group</div><div class="line">Superblock backups stored on blocks: </div><div class="line">    32768, 98304, 163840, 229376, 294912, 819200, 884736, 1605632, 2654208, </div><div class="line">    4096000, 7962624</div><div class="line"></div><div class="line">Writing inode tables: done                            </div><div class="line">Creating journal (32768 blocks): done</div><div class="line">Writing superblocks and filesystem accounting information: done</div><div class="line"></div><div class="line">This filesystem will be automatically checked every 39 mounts or</div><div class="line">180 days, whichever comes first.  Use tune2fs -c or -i to override.</div></pre></td></tr></table></figure>
+<h2 id="查看卷组信息"><a href="#查看卷组信息" class="headerlink" title="查看卷组信息"></a>查看卷组信息</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">[root@tony-play ~]# vgdisplay</div><div class="line">  --- Volume group ---</div><div class="line">  VG Name               vg_tonyplay     // 卷组名在下面扩展中会用到</div><div class="line">  System ID             </div><div class="line">  Format                lvm2</div><div class="line">  Metadata Areas        1</div><div class="line">  Metadata Sequence No  3</div><div class="line">  VG Access             read/write</div><div class="line">  VG Status             resizable</div><div class="line">  MAX LV                0</div><div class="line">  Cur LV                2</div><div class="line">  Open LV               2</div><div class="line">  Max PV                0</div><div class="line">  Cur PV                1</div><div class="line">  Act PV                1</div><div class="line">  VG Size               15.51 GiB</div><div class="line">  PE Size               4.00 MiB</div><div class="line">  Total PE              3970</div><div class="line">  Alloc PE / Size       3970 / 15.51 GiB</div><div class="line">  Free  PE / Size       0 / 0   </div><div class="line">  VG UUID               Y9usSM-nDU5-ZAUd-Y3Te-u5Pd-uFBr-gcYHf0</div></pre></td></tr></table></figure>
+<h2 id="创建新物理卷"><a href="#创建新物理卷" class="headerlink" title="创建新物理卷"></a>创建新物理卷</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">[root@tony-play ~]# pvcreate /dev/sda3</div><div class="line">  Physical volume &quot;/dev/sda3&quot; successfully created</div></pre></td></tr></table></figure>
+<h2 id="扩展到卷组"><a href="#扩展到卷组" class="headerlink" title="扩展到卷组"></a>扩展到卷组</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">vgextend vg_tonyplay /dev/sda3  // 卷组名在查看卷组信息中</div><div class="line">  Volume group &quot;vg_tonyplay&quot; successfully extended</div></pre></td></tr></table></figure>
+<h2 id="查看逻辑分区"><a href="#查看逻辑分区" class="headerlink" title="查看逻辑分区"></a>查看逻辑分区</h2><p><code>/dev/vg_tonyplay/lv_root</code>就是根分区，也是我们要扩展的分区。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div></pre></td><td class="code"><pre><div class="line">[root@tony-play ~]# lvdisplay </div><div class="line">  --- Logical volume ---</div><div class="line">    LV Path                /dev/vg_tonyplay/lv_root   // 根分区</div><div class="line">    LV Name                lv_root</div><div class="line">    VG Name                vg_tonyplay</div><div class="line">    LV UUID                IPd7lm-Sx8g-pe7k-llNL-j1wc-mbA2-2cAdsy</div><div class="line">    LV Write Access        read/write</div><div class="line">    LV Creation host, time tony-play, 2017-04-10 17:58:53 -0400</div><div class="line">    LV Status              available</div><div class="line">    # open                 1</div><div class="line">    LV Size                13.91 GiB</div><div class="line">    Current LE             3561</div><div class="line">    Segments               1</div><div class="line">    Allocation             inherit</div><div class="line">    Read ahead sectors     auto</div><div class="line">    - currently set to     256</div><div class="line">    Block device           253:0</div><div class="line"></div><div class="line">    --- Logical volume ---</div><div class="line">    LV Path                /dev/vg_tonyplay/lv_swap</div><div class="line">    LV Name                lv_swap</div><div class="line">    VG Name                vg_tonyplay</div><div class="line">    LV UUID                qX637q-iD6i-8blp-hmmS-MvLy-xZ0y-b4D0BF</div><div class="line">    LV Write Access        read/write</div><div class="line">    LV Creation host, time tony-play, 2017-04-10 17:59:07 -0400</div><div class="line">    LV Status              available</div><div class="line">    # open                 1</div><div class="line">    LV Size                1.60 GiB</div><div class="line">    Current LE             409</div><div class="line">    Segments               1</div><div class="line">    Allocation             inherit</div><div class="line">    Read ahead sectors     auto</div><div class="line">    - currently set to     256</div><div class="line">    Block device           253:1</div></pre></td></tr></table></figure>
+<h2 id="扩展容量到逻辑分区"><a href="#扩展容量到逻辑分区" class="headerlink" title="扩展容量到逻辑分区"></a>扩展容量到逻辑分区</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">[root@tony-play ~]# lvextend /dev/vg_tonyplay/lv_root /dev/sda3</div><div class="line">  Size of logical volume vg_tonyplay/lv_root changed from 13.91 GiB (3561 extents) to 47.91 GiB (12264 extents).</div><div class="line">  Logical volume lv_root successfully resized</div></pre></td></tr></table></figure>
+<h2 id="刷新逻辑分区容量使扩展生效"><a href="#刷新逻辑分区容量使扩展生效" class="headerlink" title="刷新逻辑分区容量使扩展生效"></a>刷新逻辑分区容量使扩展生效</h2><p><code>ext4</code>用<code>resize2fs</code>，<code>xfs</code>用<code>xfs_growfs</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">[root@tony-play ~]# resize2fs /dev/vg_tonyplay/lv_root</div><div class="line">resize2fs 1.41.12 (17-May-2010)</div><div class="line">Filesystem at /dev/vg_tonyplay/lv_root is mounted on /; on-line resizing required</div><div class="line">old desc_blocks = 1, new_desc_blocks = 3</div><div class="line">Performing an on-line resize of /dev/vg_tonyplay/lv_root to 12558336 (4k) blocks.</div><div class="line">The filesystem on /dev/vg_tonyplay/lv_root is now 12558336 blocks long.</div></pre></td></tr></table></figure>
+<h2 id="查看逻辑分区容量"><a href="#查看逻辑分区容量" class="headerlink" title="查看逻辑分区容量"></a>查看逻辑分区容量</h2><p>可以发现<code>/dev/mapper/vg_tonyplay-lv_root</code>已经从开始的<code>14G</code>扩展到了<code>48G</code>。ok，这就说明大功告成了，再也不用通过重装系统这种蹩脚的方式扩容了</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">[root@tony-play ~]# df -h</div><div class="line">Filesystem            Size  Used Avail Use% Mounted on</div><div class="line">/dev/mapper/vg_tonyplay-lv_root</div><div class="line">                       48G  3.4G   42G   8% /</div><div class="line">tmpfs                 1.9G   72K  1.9G   1% /dev/shm</div><div class="line">/dev/sda1             477M   42M  410M  10% /boot</div></pre></td></tr></table></figure>
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>至此，<code>lvm</code>扩容工作的过程应该是比较清楚了，之后有机会的话我会再补充一下<code>LVM</code>的压缩、删除等操作过程。</p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a  href="/2017/11/14/LVM-Space-Expansion/">LVM-Space-Expansion</a></p>
+        <p><span>文章作者:</span><a  href="/" title="访问 Tony 的个人博客">Tony</a></p>
+        <p><span>发布时间:</span>2017年11月14日 - 10时35分</p>
+        <p><span>最后更新:</span>2017年11月14日 - 10时56分</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2017/11/14/LVM-Space-Expansion/" title="LVM-Space-Expansion">https://tony-yin.github.io/2017/11/14/LVM-Space-Expansion/</a>
+            <span class="copy-path" data-clipboard-text="原文: https://tony-yin.github.io/2017/11/14/LVM-Space-Expansion/　　作者: Tony" title=""></span>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/cn/" title="中国大陆 (CC BY-NC-SA 3.0 CN)" target = "_blank">"署名-非商用-相同方式共享 3.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+<nav id="article-nav">
+  
+  
+    <a  href="/2017/11/14/Ceph-Compile/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Ceph 编译（Giant版本）</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#LVM了解"><span class="toc-number">1.</span> <span class="toc-text">LVM了解</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#查看分区"><span class="toc-number">2.</span> <span class="toc-text">查看分区</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#分区"><span class="toc-number">3.</span> <span class="toc-text">分区</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#查看当前文件系统"><span class="toc-number">4.</span> <span class="toc-text">查看当前文件系统</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#为新分区创建文件系统"><span class="toc-number">5.</span> <span class="toc-text">为新分区创建文件系统</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#查看卷组信息"><span class="toc-number">6.</span> <span class="toc-text">查看卷组信息</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#创建新物理卷"><span class="toc-number">7.</span> <span class="toc-text">创建新物理卷</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#扩展到卷组"><span class="toc-number">8.</span> <span class="toc-text">扩展到卷组</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#查看逻辑分区"><span class="toc-number">9.</span> <span class="toc-text">查看逻辑分区</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#扩展容量到逻辑分区"><span class="toc-number">10.</span> <span class="toc-text">扩展容量到逻辑分区</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#刷新逻辑分区容量使扩展生效"><span class="toc-number">11.</span> <span class="toc-text">刷新逻辑分区容量使扩展生效</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#查看逻辑分区容量"><span class="toc-number">12.</span> <span class="toc-text">查看逻辑分区容量</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#小结"><span class="toc-number">13.</span> <span class="toc-text">小结</span></a></li></ol>
+</div>
+<style>
+    .left-col .switch-btn {
+        display: none;
+    }
+    .left-col .switch-area {
+        display: none;
+    }
+</style>
+<input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+<script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script>
+    var valueHide = "隐藏目录";
+    var valueShow = "显示目录";
+    if ($(".left-col").is(":hidden")) {
+        $("#tocButton").attr("value", valueShow);
+    }
+    $("#tocButton").click(function() {
+        if ($("#toc").is(":hidden")) {
+            $("#tocButton").attr("value", valueHide);
+            $("#toc").slideDown(320);
+            $(".switch-btn, .switch-area").fadeOut(300);
+        }
+        else {
+            $("#tocButton").attr("value", valueShow);
+            $("#toc").slideUp(350);
+            $(".switch-btn, .switch-area").fadeIn(500);
+        }
+    })
+    if ($(".toc").length < 1) {
+        $("#toc, #tocButton").hide();
+        $(".switch-btn, .switch-area").show();
+    }
+</script>
+
+
+
+
+
+<div class="bdsharebuttonbox">
+	<a href="#" class="fx fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+	<a href="#" class="fx fa-weixin bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+	<a href="#" class="fx fa-qq bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a>
+	<a href="#" class="fx fa-facebook-official bds_fbook" data-cmd="fbook" title="分享到Facebook"></a>
+	<a href="#" class="fx fa-twitter bds_twi" data-cmd="twi" title="分享到Twitter"></a>
+	<a href="#" class="fx fa-linkedin bds_linkedin" data-cmd="linkedin" title="分享到linkedin"></a>
+	<a href="#" class="fx fa-files-o bds_copy" data-cmd="copy" title="分享到复制网址"></a>
+</div>
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"2","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='/static/api/js/share.js?cdnversion=' + ~ (-new Date() / 36e5)];</script>
+
+
+
+
+    
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a  href="/" title="回到主页"><i class="fa fa-home"></i></a>
+        
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+        
+            <a  href="/2017/11/14/Ceph-Compile/" title="下一篇: Ceph 编译（Giant版本）">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2017/11/14/LVM-Space-Expansion/">LVM-Space-Expansion</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/14/Ceph-Compile/">Ceph 编译（Giant版本）</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/08/Ceph-NFS-Ganesha/">通过 ganesha-nfs 将 Ceph 导出为 NFS（Luminous）</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/08/Ceph-RGW/">Ceph RGW 安装和创建</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/31/RBD-Mount-NFS/">使用NFS挂载RBD</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/10/Python-Profiler/">Python Profiler</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/10/Enable-OSD-Profile-Script/">启用OSD性能剖析脚本</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/02/Batch-Create-And-Delete-Disk-Partition-Script/">批量创建和删除磁盘分区脚本</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/28/JS-Object-Null/">JS判断对象是否为空</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/27/OSD-Create-And-Delete/">OSD创建和删除全过程</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/21/How-To-Forge-Product/">How-To-Forge-Product</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/18/PHP-Excel/">PHP-Excel 开发解决方案</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/10/Disk-pull-and-plug-record/">Disk pull and plug record</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/10/Linux-Udev/">Linux Udev</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/10/Magicloud-Route/">Magicloud Route</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/10/Osd-Enable-and-Disable/">Osd Enable and Disable</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/10/Disk-Mon-Daemon/">Disk Mon Daemon</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/10/network-down-notification/">Network Down Notification</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/10/Python-Oracle/">Python Oracle</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/10/oracle_install/">Oracle Linux And Oracle Database 11g R2 Intsallation</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/09/Moodle-Local-Plugin/">Moodle Local Plugin</a></li></ul>
+    <script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+    <script>
+        $(".post-list").addClass("toc-article");
+        // $(".post-list-item a").attr("target","_blank");
+        $("#post-nav-button > a:nth-child(2)").click(function() {
+            $(".fa-bars, .fa-times").toggle();
+            $(".post-list").toggle(300);
+            if ($(".toc").length > 0) {
+                $("#toc, #tocButton").toggle(200, function() {
+                    if ($(".switch-area").is(":visible")) {
+                        $("#toc, .switch-btn, .switch-area").toggle();
+                        $("#tocButton").attr("value", valueHide);
+                        }
+                    })
+            }
+            else {
+                $(".switch-btn, .switch-area").fadeToggle(300);
+            }
+        })
+    </script>
+
+
+
+
+    <script>
+        
+    </script>
+
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                &copy; 2017 Tony
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" >极客到访数: 
+                            <span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>, </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit">本页阅读量: 
+                            <span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+
+    </div>
+    <script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script src="/js/main.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var backgroundnum = 4;
+            var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+            $("#mobile-nav").css({"background-image": backgroundimg,"background-size": "cover","background-position": "center"});
+            $(".left-col").css({"background-image": backgroundimg,"background-size": "cover","background-position": "center"});
+        })
+    </script>
+
+
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'xxxxx', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+
+	<script>
+	var _hmt = _hmt || [];
+	(function() {
+	  var hm = document.createElement("script");
+	  hm.src = "//hm.baidu.com/hm.js?xxxxxx";
+	  var s = document.getElementsByTagName("script")[0]; 
+	  s.parentNode.insertBefore(hm, s);
+	})();
+	</script>
+
+
+
+<div class="scroll" id="scroll">
+    <a href="#"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    $(document).ready(function() {
+        if ($("#comments").length < 1) {
+            $("#scroll > a:nth-child(2)").hide();
+        };
+    })
+</script>
+
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+  <script language="javascript">
+    $(function() {
+        $("a[title]").each(function() {
+            var a = $(this);
+            var title = a.attr('title');
+            if (title == undefined || title == "") return;
+            a.data('title', title).removeAttr('title').hover(
+            function() {
+                var offset = a.offset();
+                $("<div id=\"anchortitlecontainer\"></div>").appendTo($("body")).html(title).css({
+                    top: offset.top - a.outerHeight() - 15,
+                    left: offset.left + a.outerWidth()/2 + 1
+                }).fadeIn(function() {
+                    var pop = $(this);
+                    setTimeout(function() {
+                        pop.remove();
+                    }, pop.text().length * 800);
+                });
+            }, function() {
+                $("#anchortitlecontainer").remove();
+            });
+        });
+    });
+</script>
+
+
+  </div>
+</body>
+</html>

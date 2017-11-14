@@ -2,6 +2,20 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://tony-yin.github.io/2017/11/14/LVM-Space-Expansion/</loc>
+    
+    <lastmod>2017-11-14T02:56:22.194Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://tony-yin.github.io/2017/11/14/Ceph-Compile/</loc>
+    
+    <lastmod>2017-11-14T02:34:27.393Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://tony-yin.github.io/2017/11/08/Ceph-NFS-Ganesha/</loc>
     
     <lastmod>2017-11-08T15:20:52.000Z</lastmod>
@@ -11,7 +25,7 @@
   <url>
     <loc>https://tony-yin.github.io/2017/11/08/Ceph-RGW/</loc>
     
-    <lastmod>2017-11-08T15:15:09.000Z</lastmod>
+    <lastmod>2017-11-08T15:20:27.000Z</lastmod>
     
   </url>
   

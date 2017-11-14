@@ -7,21 +7,21 @@
   
   
   
-  <title>Network Down Notification | Tony&#39;s blog</title>
+  <title>Ceph 编译（Giant版本） | Tony&#39;s blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="项目中要做一个network down了之后给用户发送邮件提醒的功能，这里面涉及到的问题有：  如何监测 network 状态 network down之后，如何发送邮件 public network 和 storage network的用处和场景">
-<meta name="keywords" content="Ceph,Magicloud,Network,Notification">
+  <meta name="description" content="如今入门Ceph的时候，大家一般用ceph-deploy工具比较多，这个工具的确很强大，很方便，对应的也就是很无脑。如果之后想深入Ceph或者想在生产环境中部署Ceph的话，就得熟悉Ceph源码编译了。这对我们熟悉Ceph的feature的变化，component的相互关系以及围绕Ceph各种定制化扩展都大有裨益。本文就笔者Ceph源码编译过程和遇到的问题作出分享，希望有人能够得益于此。">
+<meta name="keywords" content="Ceph,编译">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Network Down Notification">
-<meta property="og:url" content="https://tony-yin.github.io/2017/09/10/network-down-notification/index.html">
+<meta property="og:title" content="Ceph 编译（Giant版本）">
+<meta property="og:url" content="https://tony-yin.github.io/2017/11/14/Ceph-Compile/index.html">
 <meta property="og:site_name" content="Tony&#39;s blog">
-<meta property="og:description" content="项目中要做一个network down了之后给用户发送邮件提醒的功能，这里面涉及到的问题有：  如何监测 network 状态 network down之后，如何发送邮件 public network 和 storage network的用处和场景">
-<meta property="og:image" content="http://ow0mgad6r.bkt.clouddn.com/it_specialist_kit8-net.png">
-<meta property="og:updated_time" content="2017-09-20T13:40:00.000Z">
+<meta property="og:description" content="如今入门Ceph的时候，大家一般用ceph-deploy工具比较多，这个工具的确很强大，很方便，对应的也就是很无脑。如果之后想深入Ceph或者想在生产环境中部署Ceph的话，就得熟悉Ceph源码编译了。这对我们熟悉Ceph的feature的变化，component的相互关系以及围绕Ceph各种定制化扩展都大有裨益。本文就笔者Ceph源码编译过程和遇到的问题作出分享，希望有人能够得益于此。">
+<meta property="og:image" content="http://ow0mgad6r.bkt.clouddn.com/ceph-600x450.png">
+<meta property="og:updated_time" content="2017-11-14T02:34:27.393Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Network Down Notification">
-<meta name="twitter:description" content="项目中要做一个network down了之后给用户发送邮件提醒的功能，这里面涉及到的问题有：  如何监测 network 状态 network down之后，如何发送邮件 public network 和 storage network的用处和场景">
-<meta name="twitter:image" content="http://ow0mgad6r.bkt.clouddn.com/it_specialist_kit8-net.png">
+<meta name="twitter:title" content="Ceph 编译（Giant版本）">
+<meta name="twitter:description" content="如今入门Ceph的时候，大家一般用ceph-deploy工具比较多，这个工具的确很强大，很方便，对应的也就是很无脑。如果之后想深入Ceph或者想在生产环境中部署Ceph的话，就得熟悉Ceph源码编译了。这对我们熟悉Ceph的feature的变化，component的相互关系以及围绕Ceph各种定制化扩展都大有裨益。本文就笔者Ceph源码编译过程和遇到的问题作出分享，希望有人能够得益于此。">
+<meta name="twitter:image" content="http://ow0mgad6r.bkt.clouddn.com/ceph-600x450.png">
   
     <link rel="alternative" href="/atom.xml" title="Tony&#39;s blog" type="application/atom+xml">
   
@@ -272,11 +272,11 @@
         </header>                
     </div>
 </nav>
-      <div class="body-wrap"><article id="post-network-down-notification" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-Ceph-Compile" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a  href="/2017/09/10/network-down-notification/" class="article-date">
-      <time datetime="2017-09-09T18:14:34.000Z" itemprop="datePublished">2017-09-10</time>
+      <a  href="/2017/11/14/Ceph-Compile/" class="article-date">
+      <time datetime="2017-11-14T01:30:29.000Z" itemprop="datePublished">2017-11-14</time>
 </a>
 
     </div>
@@ -290,7 +290,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      Network Down Notification
+      Ceph 编译（Giant版本）
     </h1>
   
 
@@ -306,7 +306,7 @@
 
         
     <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Ceph/">Ceph</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Magicloud/">Magicloud</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Network/">Network</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Notification/">Notification</a></li></ul>
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Ceph/">Ceph</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/编译/">编译</a></li></ul>
     </div>
 
         <div class="clearfix"></div>
@@ -316,38 +316,99 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <center><img src="http://ow0mgad6r.bkt.clouddn.com/it_specialist_kit8-net.png" alt="network"></center>
+        <center><img src="http://ow0mgad6r.bkt.clouddn.com/ceph-600x450.png" alt="Ceph Compile"></center>
 
-<p>项目中要做一个<code>network</code> <code>down</code>了之后给用户发送邮件提醒的功能，这里面涉及到的问题有：</p>
-<ul>
-<li>如何监测 network 状态</li>
-<li>network down之后，如何发送邮件</li>
-<li>public network 和 storage network的用处和场景</li>
-</ul>
+<p>如今入门<code>Ceph</code>的时候，大家一般用<code>ceph-deploy</code>工具比较多，这个工具的确很强大，很方便，对应的也就是很无脑。如果之后想深入<code>Ceph</code>或者想在生产环境中部署<code>Ceph</code>的话，就得熟悉<code>Ceph</code>源码编译了。这对我们熟悉<code>Ceph</code>的<code>feature</code>的变化，<code>component</code>的相互关系以及围绕<code>Ceph</code>各种定制化扩展都大有裨益。本文就笔者<code>Ceph</code>源码编译过程和遇到的问题作出分享，希望有人能够得益于此。</p>
 <a id="more"></a>
-<h2 id="get-role-interfaces"><a href="#get-role-interfaces" class="headerlink" title="get role interfaces"></a>get role interfaces</h2><h2 id="get-interfaces"><a href="#get-interfaces" class="headerlink" title="get interfaces"></a>get interfaces</h2><h2 id="get-interface-info"><a href="#get-interface-info" class="headerlink" title="get interface info"></a>get interface info</h2><h3 id="获取-MAC-和-busid"><a href="#获取-MAC-和-busid" class="headerlink" title="获取 MAC 和 busid"></a>获取 MAC 和 busid</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">syspath = os.path.join(&quot;/sys/class/net/&quot;, interface)  // interface such as &apos;eth0&apos;</div><div class="line">mac = linecache.getline(os.path.join(syspath, &quot;address&quot;), 1)[:-1].upper()</div><div class="line">buspath = os.path.realpath(syspath)</div><div class="line">bus_id = os.path.basename(os.path.dirname(os.path.dirname(buspath)))</div></pre></td></tr></table></figure>
-<ul>
-<li>MAC: 直接在<code>syspath</code>目录下读取<code>address</code>文件</li>
-<li>假设为<code>eth0</code>,查看<code>eth0</code>目录可见该目录被建立了软连接，并不是真实地址，所以需要取出它的真实地址，这个需要使用<code>python</code>中的<code>os.path.realpath()</code>处理获得<code>0000:03:00.0</code>,作为下一步<code>lspci</code>的参数</li>
+<h2 id="环境声明"><a href="#环境声明" class="headerlink" title="环境声明"></a>环境声明</h2><ul>
+<li>OS： Centos 6.8</li>
+<li>Ceph： Giant</li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">root@ceph133:/sys/class/net# ll eth0</div><div class="line">lrwxrwxrwx 1 root root 0  8月  8 01:26 eth0 -&gt; ../../devices/pci0000:00/0000:00:15.0/0000:03:00.0/net/eth0/</div></pre></td></tr></table></figure>
-<h3 id="获取网卡信息"><a href="#获取网卡信息" class="headerlink" title="获取网卡信息"></a>获取网卡信息</h3><p><code>lspci -s</code>后面的参数为<code>pci</code>设备的地址，也叫<code>pci寻址</code>，这个地址由总线编号、插槽编号和功能块编号信息组成<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">lspci -m -s xxx // 这边的参数就是上面的bus_id</div></pre></td></tr></table></figure></p>
-<blockquote>
-<p>具体<code>lspci</code>信息请参照：<br><a href="http://coolnull.com/2246.html" target="_blank" rel="external">lspci命令详解</a><br><a href="http://blog.csdn.net/xiadidi/article/details/18408169" target="_blank" rel="external">LSPCI命令详解分析</a></p>
-</blockquote>
-<h3 id="获取网卡状态"><a href="#获取网卡状态" class="headerlink" title="获取网卡状态"></a>获取网卡状态</h3><p>通过<code>ethtool</code>工具获取网卡状态，就是看<code>Link detected</code>是否为<code>yes</code>，<code>yes</code>表示已激活</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">/sbin/ethtool eth0 | grep &apos;Link detected: yes&apos; | wc -l</div></pre></td></tr></table></figure>
-<h2 id="bond-filter"><a href="#bond-filter" class="headerlink" title="bond filter"></a>bond filter</h2><h2 id="Network-down-notification"><a href="#Network-down-notification" class="headerlink" title="Network down notification"></a>Network down notification</h2><p><strong>1.</strong> 目前无论是<code>storage</code>还是<code>public</code>网卡只要<code>down</code>其中一个都无法发送<code>email</code>:</p>
-<ul>
-<li>public: <code>visit foreign network and connect smtp server</code></li>
-<li>storage: <code>connect ceph rados to get notification info, such as send account and smtp server etc</code><br>所以只能<code>monitor</code>除这两个以外的网卡</li>
-</ul>
-<p><strong>2.</strong> <code>Python</code></p>
-<ul>
-<li><code>log</code>打印的文件取决于当前文件进程的初始化<code>log level</code></li>
-<li><code>logger</code>: <code>handler</code>, <code>formatter</code>, <code>filter</code></li>
-<li><code>dictdefault</code></li>
-</ul>
+<h2 id="源码下载"><a href="#源码下载" class="headerlink" title="源码下载"></a>源码下载</h2><h3 id="指定-giant-分支"><a href="#指定-giant-分支" class="headerlink" title="指定 giant 分支"></a>指定 giant 分支</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git clone -b giant git://github.com/ceph/ceph.git</div></pre></td></tr></table></figure>
+<h3 id="下载子模块"><a href="#下载子模块" class="headerlink" title="下载子模块"></a>下载子模块</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git submodule update --init --recursive</div></pre></td></tr></table></figure>
+<p>这一步我始终更新不了，尝试了一些办法未果，所以就去直接手动下载了源码，这个问题以后有时间看下</p>
+<h2 id="预检"><a href="#预检" class="headerlink" title="预检"></a>预检</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">cd ceph </div><div class="line">./autogen.sh </div><div class="line">./configure</div></pre></td></tr></table></figure>
+<h3 id="Autogen"><a href="#Autogen" class="headerlink" title="Autogen"></a>Autogen</h3><p>这一步会频繁的报错一些<code>m4</code>文件没有，这需要我们手动创建这些<code>m4</code>文件夹即可，</p>
+<p>一开始我在<code>ceph</code>根目录创建了<code>m4</code>文件夹，并生成了包括<code>acx_pthread.m4</code>在内的文件，但是还是报错：<code>acx_pthread.m4 not exist</code>，后来发现这时候已经<strong>切换目录</strong>了，不止一个地方需要<code>m4</code>文件夹，一共有这几个地方需要手动创建目录：<code>mkdir m4</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">./src/rocksdb/m4</div><div class="line">./src/gtest/m4</div><div class="line">./src/erasure-code/jerasure/jerasure/m4</div><div class="line">./src/erasure-code/jerasure/gf-complete/m4</div><div class="line">./m4</div></pre></td></tr></table></figure>
+<p>如果还是报错一些文件不存在，并且通过上述方法不能自行初始化生成的话，可以从网上或者已经编译过的<code>ceph</code>环境拷贝过来</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">报错：umdefined macro</div></pre></td></tr></table></figure>
+<p>下载地址：<a href="https://www.gnu.org/software/autoconf-archive/ax_check_classpath.html#ax_check_classpath" target="_blank" rel="external">https://www.gnu.org/software/autoconf-archive/ax_check_classpath.html#ax_check_classpath</a></p>
+<h3 id="Configure"><a href="#Configure" class="headerlink" title="Configure"></a>Configure</h3><p>这一步是编译过程中可能出错的次数最多的，因为可能会因为你的环境缺少相应的包不断报错。不过数量虽多，解决起来还是比较容易的，就根据报错的缺包对应下载安装就好了，下面我先给出一个所有包的安装步骤，然后再针对每个报错环节给出具体的解决方案</p>
+<h4 id="总体解决方案"><a href="#总体解决方案" class="headerlink" title="总体解决方案"></a>总体解决方案</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"># 1. 通过yum安装所有可以安装的包</div><div class="line">yum install -y yasm libuuid-devel libblkid-devel libudev-devel cryptopp-devel fuse-devel libunwind-devel libedit-devel libatomic_ops-devel snappy-devel leveldb-devel libaio-devel xfsprogs-devel boost*</div><div class="line"></div><div class="line"># 2. 部分yum不能安装的可以通过rpm安装</div><div class="line">wget https://github.com/gperftools/gperftools/releases/download/gperftools-2.2.1/gperftools-2.2.1.tar.gz</div><div class="line">tar -zxvf gperftools-2.2.1.tar.g</div><div class="line">cd gperftools-2.2.1</div><div class="line">./configure</div><div class="line">make</div><div class="line">make install</div></pre></td></tr></table></figure>
+<h4 id="具体解决方案"><a href="#具体解决方案" class="headerlink" title="具体解决方案"></a>具体解决方案</h4><p>1.yasm</p>
+<p>报错：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">yasm command not found</div></pre></td></tr></table></figure>
+<p>解决：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">yum install yasm -y</div></pre></td></tr></table></figure>
+<p>2.libuuid</p>
+<p>报错：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">configure: error: libuuid not found</div></pre></td></tr></table></figure>
+<p>解决：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">yum install libuuid-devel -y</div></pre></td></tr></table></figure>
+<p>3.libblkid</p>
+<p>报错：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">configure: error: blkid/blkid.h not found (libblkid-dev, libblkid-devel)</div></pre></td></tr></table></figure>
+<p>解决：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">yum install libblkid-devel -y</div></pre></td></tr></table></figure>
+<p>4.libudev</p>
+<p>报错</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">configure: error: libudev.h not found (libudev-dev, libudev-devel)</div></pre></td></tr></table></figure>
+<p>解决：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">yum install libudev-devel -y</div></pre></td></tr></table></figure>
+<p>5.crypto</p>
+<p>报错：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">configure: error: no suitable crypto library found</div></pre></td></tr></table></figure>
+<p> 解决：</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">yum install cryptopp-devel -y</div></pre></td></tr></table></figure>
+<p> 6.fuse</p>
+<p> 报错：</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">configure: error: no FUSE found (use --without-fuse to disable)</div></pre></td></tr></table></figure>
+<p> 解决：</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">yum install fuse-devel -y</div></pre></td></tr></table></figure>
+<p> 7.tcmalloc</p>
+<p> 报错：</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">configure: error: no tcmalloc found (use --without-tcmalloc to disable)</div></pre></td></tr></table></figure>
+<p> 解决：</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"># 1. 需要先安装libunwind-devel，被gperftools依赖</div><div class="line"> yum install libunwind-devel -y</div><div class="line"></div><div class="line"># 2. 安装tcmalloc（yum无法安装，需要通过rpm的方式）</div><div class="line">wget https://github.com/gperftools/gperftools/releases/download/gperftools-2.2.1/gperftools-2.2.1.tar.gz</div><div class="line">tar -zxvf gperftools-2.2.1.tar.g</div><div class="line">cd gperftools-2.2.1</div><div class="line">./configure</div><div class="line">make</div><div class="line">make install</div></pre></td></tr></table></figure>
+<p>8.libedit</p>
+<p>报错：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">configure: error: No usable version of libedit found.</div></pre></td></tr></table></figure>
+<p>解决：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">yum install  libedit-devel -y</div></pre></td></tr></table></figure>
+<p>9.libatomic-ops</p>
+<p>报错：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">configure: error: no libatomic-ops found (use --without-libatomic-ops to disable)</div></pre></td></tr></table></figure>
+<p>解决：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">yum install libatomic_ops-devel  -y</div></pre></td></tr></table></figure>
+<p>10.libsnappy</p>
+<p>报错：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">configure: error: libsnappy not found</div></pre></td></tr></table></figure>
+<p>解决：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">yum install snappy-devel -y</div><div class="line"></div><div class="line">or </div><div class="line"></div><div class="line">wget ftp://195.220.108.108/linux/centos/6.9/os/x86_64/Packages/snappy-devel-1.1.0-1.el6.x86_64.rpm</div><div class="line">rpm -ivh snappy-devel-1.1.0-1.el6.x86_64.rpm</div></pre></td></tr></table></figure>
+<p>11.libleveldb</p>
+<p>报错：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">configure: error: libleveldb not found</div></pre></td></tr></table></figure>
+<p>解决：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">yum install leveldb-devel</div></pre></td></tr></table></figure>
+<p>12.libaio</p>
+<p>报错：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">configure: error: libaio not found</div></pre></td></tr></table></figure>
+<p>解决：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">yum install libaio-devel -y</div></pre></td></tr></table></figure>
+<p>13.libxfs</p>
+<p>报错：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">configure: error: xfs/xfs.h not found (--without-libxfs to disable)</div></pre></td></tr></table></figure>
+<p>解决：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">yum -y install xfsprogs-devel</div></pre></td></tr></table></figure>
+<p>14.boost</p>
+<p>报错：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Can&apos;t find boost spirit headers</div></pre></td></tr></table></figure>
+<p>解决：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">yum install boost* -y</div></pre></td></tr></table></figure>
+<h2 id="编译安装"><a href="#编译安装" class="headerlink" title="编译安装"></a>编译安装</h2><p>机器配置不好的话，编译需要时间比较长。可以使用<code>make -j</code>增加并发度，<code>4</code>表示同时执行的<code>make</code>方法数。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">make -j4</div><div class="line">make install（可选）</div></pre></td></tr></table></figure>
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p><code>ceph</code>手动源码编译遇到的问题还是蛮多的，如果不自己动手经历一下的话很多东西都不知道，当然这都是经验的积累，不断地锻炼自己解决问题的能力，要学会见招拆招，通过问题发现原理和本质。</p>
 
       
     </div>
@@ -356,13 +417,13 @@
   
     
     <div class="copyright">
-        <p><span>本文标题:</span><a  href="/2017/09/10/network-down-notification/">Network Down Notification</a></p>
+        <p><span>本文标题:</span><a  href="/2017/11/14/Ceph-Compile/">Ceph 编译（Giant版本）</a></p>
         <p><span>文章作者:</span><a  href="/" title="访问 Tony 的个人博客">Tony</a></p>
-        <p><span>发布时间:</span>2017年09月10日 - 02时14分</p>
-        <p><span>最后更新:</span>2017年09月20日 - 21时40分</p>
+        <p><span>发布时间:</span>2017年11月14日 - 09时30分</p>
+        <p><span>最后更新:</span>2017年11月14日 - 10时34分</p>
         <p>
-            <span>原始链接:</span><a class="post-url" href="/2017/09/10/network-down-notification/" title="Network Down Notification">https://tony-yin.github.io/2017/09/10/network-down-notification/</a>
-            <span class="copy-path" data-clipboard-text="原文: https://tony-yin.github.io/2017/09/10/network-down-notification/　　作者: Tony" title=""></span>
+            <span>原始链接:</span><a class="post-url" href="/2017/11/14/Ceph-Compile/" title="Ceph 编译（Giant版本）">https://tony-yin.github.io/2017/11/14/Ceph-Compile/</a>
+            <span class="copy-path" data-clipboard-text="原文: https://tony-yin.github.io/2017/11/14/Ceph-Compile/　　作者: Tony" title=""></span>
         </p>
         <p>
             <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/cn/" title="中国大陆 (CC BY-NC-SA 3.0 CN)" target = "_blank">"署名-非商用-相同方式共享 3.0"</a> 转载请保留原文链接及作者。
@@ -373,18 +434,18 @@
 
 <nav id="article-nav">
   
-    <a  href="/2017/09/10/Disk-Mon-Daemon/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a  href="/2017/11/14/LVM-Space-Expansion/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption"><</strong>
       <div class="article-nav-title">
         
-          Disk Mon Daemon
+          LVM-Space-Expansion
         
       </div>
     </a>
   
   
-    <a  href="/2017/09/10/Python-Oracle/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">Python Oracle</div>
+    <a  href="/2017/11/08/Ceph-NFS-Ganesha/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">通过 ganesha-nfs 将 Ceph 导出为 NFS（Luminous）</div>
       <strong class="article-nav-caption">></strong>
     </a>
   
@@ -396,7 +457,7 @@
 
     <div id="toc" class="toc-article">
     <strong class="toc-title">文章目录</strong>
-    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#get-role-interfaces"><span class="toc-number">1.</span> <span class="toc-text">get role interfaces</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#get-interfaces"><span class="toc-number">2.</span> <span class="toc-text">get interfaces</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#get-interface-info"><span class="toc-number">3.</span> <span class="toc-text">get interface info</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#获取-MAC-和-busid"><span class="toc-number">3.1.</span> <span class="toc-text">获取 MAC 和 busid</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#获取网卡信息"><span class="toc-number">3.2.</span> <span class="toc-text">获取网卡信息</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#获取网卡状态"><span class="toc-number">3.3.</span> <span class="toc-text">获取网卡状态</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#bond-filter"><span class="toc-number">4.</span> <span class="toc-text">bond filter</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Network-down-notification"><span class="toc-number">5.</span> <span class="toc-text">Network down notification</span></a></li></ol>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#环境声明"><span class="toc-number">1.</span> <span class="toc-text">环境声明</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#源码下载"><span class="toc-number">2.</span> <span class="toc-text">源码下载</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#指定-giant-分支"><span class="toc-number">2.1.</span> <span class="toc-text">指定 giant 分支</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#下载子模块"><span class="toc-number">2.2.</span> <span class="toc-text">下载子模块</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#预检"><span class="toc-number">3.</span> <span class="toc-text">预检</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Autogen"><span class="toc-number">3.1.</span> <span class="toc-text">Autogen</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Configure"><span class="toc-number">3.2.</span> <span class="toc-text">Configure</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#总体解决方案"><span class="toc-number">3.2.1.</span> <span class="toc-text">总体解决方案</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#具体解决方案"><span class="toc-number">3.2.2.</span> <span class="toc-text">具体解决方案</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#编译安装"><span class="toc-number">4.</span> <span class="toc-text">编译安装</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#小结"><span class="toc-number">5.</span> <span class="toc-text">小结</span></a></li></ol>
 </div>
 <style>
     .left-col .switch-btn {
@@ -456,13 +517,13 @@
 
     <div class="scroll" id="post-nav-button">
         
-            <a  href="/2017/09/10/Disk-Mon-Daemon/" title="上一篇: Disk Mon Daemon">
+            <a  href="/2017/11/14/LVM-Space-Expansion/" title="上一篇: LVM-Space-Expansion">
                 <i class="fa fa-angle-left"></i>
             </a>
         
         <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
         
-            <a  href="/2017/09/10/Python-Oracle/" title="下一篇: Python Oracle">
+            <a  href="/2017/11/08/Ceph-NFS-Ganesha/" title="下一篇: 通过 ganesha-nfs 将 Ceph 导出为 NFS（Luminous）">
                 <i class="fa fa-angle-right"></i>
             </a>
         

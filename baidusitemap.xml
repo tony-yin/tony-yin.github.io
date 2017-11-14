@@ -4,6 +4,43 @@
 
     
   <url>
+    <loc>https://tony-yin.github.io/2017/11/14/LVM-Space-Expansion/</loc>
+    <lastmod>2017-11-14T02:56:22.194Z</lastmod>
+    <data>
+        <display>
+        <title>LVM-Space-Expansion</title>
+        <pubTime>2017-11-14T02:35:39.000Z</pubTime>
+        
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://tony-yin.github.io/2017/11/14/Ceph-Compile/</loc>
+    <lastmod>2017-11-14T02:34:27.393Z</lastmod>
+    <data>
+        <display>
+        <title>Ceph 编译（Giant版本）</title>
+        <pubTime>2017-11-14T01:30:29.000Z</pubTime>
+        
+        <tag>Ceph</tag>
+         
+        <tag>编译</tag>
+         
+         
+           
+             
+              <breadCrumb title="tech" url="https://tony-yin.github.io/categories/tech/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>https://tony-yin.github.io/2017/11/08/Ceph-NFS-Ganesha/</loc>
     <lastmod>2017-11-08T15:20:52.000Z</lastmod>
     <data>
@@ -27,7 +64,7 @@
     
   <url>
     <loc>https://tony-yin.github.io/2017/11/08/Ceph-RGW/</loc>
-    <lastmod>2017-11-08T15:15:09.000Z</lastmod>
+    <lastmod>2017-11-08T15:20:27.000Z</lastmod>
     <data>
         <display>
         <title>Ceph RGW 安装和创建</title>
@@ -299,9 +336,9 @@
          
         <tag>Magicloud</tag>
          
-        <tag>Linux</tag>
-         
         <tag>Osd</tag>
+         
+        <tag>Linux</tag>
          
         <tag>Udev</tag>
          
