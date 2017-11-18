@@ -5,7 +5,7 @@
     
   <url>
     <loc>https://tony-yin.github.io/2017/11/14/LVM-Space-Expansion/</loc>
-    <lastmod>2017-11-14T02:56:22.194Z</lastmod>
+    <lastmod>2017-11-15T03:08:05.971Z</lastmod>
     <data>
         <display>
         <title>LVM-Space-Expansion</title>
@@ -20,7 +20,7 @@
     
   <url>
     <loc>https://tony-yin.github.io/2017/11/14/Ceph-Compile/</loc>
-    <lastmod>2017-11-14T02:34:27.393Z</lastmod>
+    <lastmod>2017-11-14T02:34:27.000Z</lastmod>
     <data>
         <display>
         <title>Ceph 编译（Giant版本）</title>
@@ -336,9 +336,9 @@
          
         <tag>Magicloud</tag>
          
-        <tag>Osd</tag>
-         
         <tag>Linux</tag>
+         
+        <tag>Osd</tag>
          
         <tag>Udev</tag>
          
