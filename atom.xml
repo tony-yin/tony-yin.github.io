@@ -188,9 +188,9 @@
     
       <category term="Ceph" scheme="https://tony-yin.github.io/tags/Ceph/"/>
     
-      <category term="RBD" scheme="https://tony-yin.github.io/tags/RBD/"/>
-    
       <category term="NFS" scheme="https://tony-yin.github.io/tags/NFS/"/>
+    
+      <category term="RBD" scheme="https://tony-yin.github.io/tags/RBD/"/>
     
   </entry>
   
@@ -270,13 +270,13 @@
       <category term="tech" scheme="https://tony-yin.github.io/categories/tech/"/>
     
     
+      <category term="Ceph" scheme="https://tony-yin.github.io/tags/Ceph/"/>
+    
       <category term="Disk" scheme="https://tony-yin.github.io/tags/Disk/"/>
     
       <category term="Partition" scheme="https://tony-yin.github.io/tags/Partition/"/>
     
       <category term="Script" scheme="https://tony-yin.github.io/tags/Script/"/>
-    
-      <category term="Ceph" scheme="https://tony-yin.github.io/tags/Ceph/"/>
     
   </entry>
   
@@ -406,15 +406,15 @@
       <category term="ceph" scheme="https://tony-yin.github.io/categories/tech/ceph/"/>
     
     
-      <category term="Disk" scheme="https://tony-yin.github.io/tags/Disk/"/>
-    
       <category term="Ceph" scheme="https://tony-yin.github.io/tags/Ceph/"/>
     
-      <category term="Linux" scheme="https://tony-yin.github.io/tags/Linux/"/>
+      <category term="Disk" scheme="https://tony-yin.github.io/tags/Disk/"/>
+    
+      <category term="OSD" scheme="https://tony-yin.github.io/tags/OSD/"/>
     
       <category term="Udev" scheme="https://tony-yin.github.io/tags/Udev/"/>
     
-      <category term="OSD" scheme="https://tony-yin.github.io/tags/OSD/"/>
+      <category term="Linux" scheme="https://tony-yin.github.io/tags/Linux/"/>
     
   </entry>
   
@@ -440,9 +440,9 @@
     
       <category term="Ceph" scheme="https://tony-yin.github.io/tags/Ceph/"/>
     
-      <category term="Linux" scheme="https://tony-yin.github.io/tags/Linux/"/>
-    
       <category term="Udev" scheme="https://tony-yin.github.io/tags/Udev/"/>
+    
+      <category term="Linux" scheme="https://tony-yin.github.io/tags/Linux/"/>
     
   </entry>
   

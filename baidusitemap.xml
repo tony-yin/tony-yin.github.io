@@ -33,9 +33,9 @@
         
         <tag>Ceph</tag>
          
-        <tag>RBD</tag>
-         
         <tag>NFS</tag>
+         
+        <tag>RBD</tag>
          
          
            
@@ -173,9 +173,9 @@
         
         <tag>Ceph</tag>
          
-        <tag>Linux</tag>
-         
         <tag>Udev</tag>
+         
+        <tag>Linux</tag>
          
          
            
@@ -239,15 +239,15 @@
         <title>磁盘反复拔插记录</title>
         <pubTime>2017-09-09T18:21:45.000Z</pubTime>
         
-        <tag>Disk</tag>
-         
         <tag>Ceph</tag>
          
-        <tag>Linux</tag>
+        <tag>Disk</tag>
+         
+        <tag>OSD</tag>
          
         <tag>Udev</tag>
          
-        <tag>OSD</tag>
+        <tag>Linux</tag>
          
          
            
@@ -340,13 +340,13 @@
         <title>批量创建和删除磁盘分区脚本</title>
         <pubTime>2017-10-02T05:07:06.000Z</pubTime>
         
+        <tag>Ceph</tag>
+         
         <tag>Disk</tag>
          
         <tag>Partition</tag>
          
         <tag>Script</tag>
-         
-        <tag>Ceph</tag>
          
          
            

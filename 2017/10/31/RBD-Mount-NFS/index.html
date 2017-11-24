@@ -10,7 +10,7 @@
   <title>Ceph修炼之路：使用NFS挂载RBD | Tony&#39;s blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="具体场景  在Server端创建RBD块设备并挂载到某个目录，然后在Client端通过NFS将Server端之前说的目录再挂载到本地，就可以实现在客户端写文件通过NFS到Server端的块设备上 这波操作的目的是因为测试EC性能时，Ceph版本还是Hammer，CephFS不是很稳定，性能不行，所以想用RBD的方式取代，但是Hammer版本中EC是只支持RGW的，并不支持CephFS和RBD，">
-<meta name="keywords" content="Ceph,RBD,NFS">
+<meta name="keywords" content="Ceph,NFS,RBD">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Ceph修炼之路：使用NFS挂载RBD">
 <meta property="og:url" content="https://tony-yin.github.io/2017/10/31/RBD-Mount-NFS/index.html">

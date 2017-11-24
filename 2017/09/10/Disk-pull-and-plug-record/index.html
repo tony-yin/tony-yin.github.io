@@ -10,7 +10,7 @@
   <title>磁盘反复拔插记录 | Tony&#39;s blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="最近在做磁盘拔插后的OSD热恢复功能。在反复拔插盘的实践过程中，遇到了一个难题，就是时常会由于拔盘，然后再插盘后盘符发生了改变，kernel和udev接收不到任何device增加或删除的事件消息，由于我是基于udev监测磁盘的插拔，所以一旦感知不到的话，就无法进行相应的恢复操作，所以在此对拔盘的记录进行一些记录，并在大量操作中得出总结。">
-<meta name="keywords" content="Disk,Ceph,Linux,Udev,OSD">
+<meta name="keywords" content="Ceph,Disk,OSD,Udev,Linux">
 <meta property="og:type" content="article">
 <meta property="og:title" content="磁盘反复拔插记录">
 <meta property="og:url" content="https://tony-yin.github.io/2017/09/10/Disk-pull-and-plug-record/index.html">
