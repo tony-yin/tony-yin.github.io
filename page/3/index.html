@@ -197,7 +197,7 @@
                 
                 <section class="switch-part switch-part2">
                     <div class="widget tagcloud" id="js-tagcloud">
-                        <a href="/tags/Ceph/" style="font-size: 20px;">Ceph</a> <a href="/tags/Disk/" style="font-size: 13.33px;">Disk</a> <a href="/tags/Javascript/" style="font-size: 10px;">Javascript</a> <a href="/tags/LVM/" style="font-size: 10px;">LVM</a> <a href="/tags/Linux/" style="font-size: 16.67px;">Linux</a> <a href="/tags/Luminous/" style="font-size: 10px;">Luminous</a> <a href="/tags/Moodle/" style="font-size: 10px;">Moodle</a> <a href="/tags/NFS/" style="font-size: 13.33px;">NFS</a> <a href="/tags/NFS-Ganesha/" style="font-size: 10px;">NFS-Ganesha</a> <a href="/tags/Network/" style="font-size: 10px;">Network</a> <a href="/tags/Notification/" style="font-size: 10px;">Notification</a> <a href="/tags/OSD/" style="font-size: 16.67px;">OSD</a> <a href="/tags/Oracle/" style="font-size: 13.33px;">Oracle</a> <a href="/tags/Oracle-11g-R2/" style="font-size: 10px;">Oracle 11g R2</a> <a href="/tags/Oracle-Linux/" style="font-size: 10px;">Oracle Linux</a> <a href="/tags/PHP/" style="font-size: 13.33px;">PHP</a> <a href="/tags/PHPExcel/" style="font-size: 10px;">PHPExcel</a> <a href="/tags/Partition/" style="font-size: 10px;">Partition</a> <a href="/tags/Profile/" style="font-size: 13.33px;">Profile</a> <a href="/tags/Python/" style="font-size: 13.33px;">Python</a> <a href="/tags/RBD/" style="font-size: 10px;">RBD</a> <a href="/tags/RGW/" style="font-size: 10px;">RGW</a> <a href="/tags/Script/" style="font-size: 13.33px;">Script</a> <a href="/tags/Udev/" style="font-size: 13.33px;">Udev</a> <a href="/tags/产品/" style="font-size: 10px;">产品</a> <a href="/tags/博客/" style="font-size: 10px;">博客</a> <a href="/tags/性能优化/" style="font-size: 10px;">性能优化</a> <a href="/tags/编译/" style="font-size: 10px;">编译</a>
+                        <a href="/tags/Ceph/" style="font-size: 20px;">Ceph</a> <a href="/tags/Disk/" style="font-size: 13.33px;">Disk</a> <a href="/tags/Javascript/" style="font-size: 10px;">Javascript</a> <a href="/tags/LVM/" style="font-size: 10px;">LVM</a> <a href="/tags/Linux/" style="font-size: 16.67px;">Linux</a> <a href="/tags/Luminous/" style="font-size: 10px;">Luminous</a> <a href="/tags/Moodle/" style="font-size: 10px;">Moodle</a> <a href="/tags/NFS/" style="font-size: 13.33px;">NFS</a> <a href="/tags/NFS-Ganesha/" style="font-size: 10px;">NFS-Ganesha</a> <a href="/tags/Network/" style="font-size: 10px;">Network</a> <a href="/tags/Notification/" style="font-size: 10px;">Notification</a> <a href="/tags/OSD/" style="font-size: 16.67px;">OSD</a> <a href="/tags/Oracle/" style="font-size: 13.33px;">Oracle</a> <a href="/tags/Oracle-11g-R2/" style="font-size: 10px;">Oracle 11g R2</a> <a href="/tags/Oracle-Linux/" style="font-size: 10px;">Oracle Linux</a> <a href="/tags/PHP/" style="font-size: 13.33px;">PHP</a> <a href="/tags/PHPExcel/" style="font-size: 10px;">PHPExcel</a> <a href="/tags/Partition/" style="font-size: 10px;">Partition</a> <a href="/tags/Profile/" style="font-size: 13.33px;">Profile</a> <a href="/tags/Python/" style="font-size: 16.67px;">Python</a> <a href="/tags/RBD/" style="font-size: 10px;">RBD</a> <a href="/tags/RGW/" style="font-size: 10px;">RGW</a> <a href="/tags/Read/" style="font-size: 16.67px;">Read</a> <a href="/tags/Script/" style="font-size: 13.33px;">Script</a> <a href="/tags/Udev/" style="font-size: 13.33px;">Udev</a> <a href="/tags/产品/" style="font-size: 10px;">产品</a> <a href="/tags/博客/" style="font-size: 10px;">博客</a> <a href="/tags/性能优化/" style="font-size: 10px;">性能优化</a> <a href="/tags/编译/" style="font-size: 10px;">编译</a>
                     </div>
                 </section>
                 
@@ -276,6 +276,222 @@
 </nav>
 
       <div class="body-wrap">
+  
+    <article id="post-Enable-OSD-Profile-Script" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a  href="/2017/10/10/Enable-OSD-Profile-Script/" class="article-date">
+      <time datetime="2017-10-10T13:34:16.000Z" itemprop="datePublished">2017-10-10</time>
+</a>
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a  class="article-title" href="/2017/10/10/Enable-OSD-Profile-Script/">启用OSD性能剖析脚本</a>
+    </h1>
+  
+
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+              <center><img src="http://ovv1r40we.bkt.clouddn.com/pozza-600x450.png" alt="Profile"></center>
+
+<p>针对<code>OSD</code>启用过程缓慢进行性能剖析，用到了一系列的脚本，例如批量创建<code>OSD</code>,批量启用<code>OSD</code>,<code>Cprofile</code>装饰器接口等</p>
+          
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/tech/">tech</a>
+    </div>
+
+
+      
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/OSD/">OSD</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Profile/">Profile</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Script/">Script</a></li></ul>
+    </div>
+
+      
+        <p class="article-more-link">
+          <a   href="/2017/10/10/Enable-OSD-Profile-Script/#more">阅读全文 >></a>
+        </p>
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-Batch-Create-And-Delete-Disk-Partition-Script" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a  href="/2017/10/02/Batch-Create-And-Delete-Disk-Partition-Script/" class="article-date">
+      <time datetime="2017-10-02T05:07:06.000Z" itemprop="datePublished">2017-10-02</time>
+</a>
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a  class="article-title" href="/2017/10/02/Batch-Create-And-Delete-Disk-Partition-Script/">批量创建和删除磁盘分区脚本</a>
+    </h1>
+  
+
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+              <center><img src="http://ow0mgad6r.bkt.clouddn.com/floppy_disk_600-450.png" alt="Disk Partition"></center>
+
+<p>最近在做批量启用<code>OSD</code>的性能优化，需要反复的删除磁盘分区，以保证彻底的删除数据，然后就要批量创建分区，保证足够量的分区数量创建足够多的<code>OSD</code>，由于数量较多，每次手动搞都要二十几次，所以针对创建和删除写了两个脚本，支持单一、批量和选择大小等功能</p>
+          
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/tech/">tech</a>
+    </div>
+
+
+      
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Ceph/">Ceph</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Disk/">Disk</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Partition/">Partition</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Script/">Script</a></li></ul>
+    </div>
+
+      
+        <p class="article-more-link">
+          <a   href="/2017/10/02/Batch-Create-And-Delete-Disk-Partition-Script/#more">阅读全文 >></a>
+        </p>
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-JS-Object-Null" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a  href="/2017/09/28/JS-Object-Null/" class="article-date">
+      <time datetime="2017-09-28T06:01:42.000Z" itemprop="datePublished">2017-09-28</time>
+</a>
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a  class="article-title" href="/2017/09/28/JS-Object-Null/">JS判断对象是否为空</a>
+    </h1>
+  
+
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+              <center><img src="http://ow0mgad6r.bkt.clouddn.com/jsbanana-600-450.png" alt="JS"></center>
+
+<p>今天在改代码的时候中发现一个<code>Bug</code>，通过<code>debug</code>发现最终的原因便是判断对象是否为空导致的错误，一个小小的错误反映出<code>Javascript</code>这门语言的不严谨性，也提醒我们得熟悉它的一些技巧和原理，避免经常在一些问题上踩坑</p>
+          
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/tech/">tech</a>
+    </div>
+
+
+      
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Javascript/">Javascript</a></li></ul>
+    </div>
+
+      
+        <p class="article-more-link">
+          <a   href="/2017/09/28/JS-Object-Null/#more">阅读全文 >></a>
+        </p>
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+
+
   
     <article id="post-OSD-Create-And-Delete" class="article article-type-post" itemscope itemprop="blogPost">
   
@@ -424,226 +640,9 @@
 
 
   
-    <article id="post-PHP-Excel" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a  href="/2017/09/18/PHP-Excel/" class="article-date">
-      <time datetime="2017-09-18T10:37:28.000Z" itemprop="datePublished">2017-09-18</time>
-</a>
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a  class="article-title" href="/2017/09/18/PHP-Excel/">PHP-Excel 开发解决方案</a>
-    </h1>
-  
-
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-              <center><img src="http://ow0mgad6r.bkt.clouddn.com/office-card-game.png" alt="office"></center>
-
-<p> 过去工作中使用<code>PHPExcel</code>较多，碰到并解决了各种大大小小的问题，总结出这样一篇文章，一方面记录自己踩过的坑，一方面与大家分享，让大家少走弯路，并不断完善之，欢迎大家去<code>github</code>上面<code>star</code>和提交<code>pull request</code>，不断补充和优化，打造最全面的<code>PHPExcel</code>开发解决方案</p>
-<p>Github 地址：<a href="https://github.com/tony-yin/PHPExcel_Road" target="_blank" rel="external">https://github.com/tony-yin/PHPExcel_Road</a><br>原文地址：<a href="https://tony-yin.github.io/2017/09/18/PHP-Excel/">https://tony-yin.github.io/2017/09/18/PHP-Excel/</a></p>
-          
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-    <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/tech/">tech</a>
-    </div>
-
-
-      
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/PHP/">PHP</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/PHPExcel/">PHPExcel</a></li></ul>
-    </div>
-
-      
-        <p class="article-more-link">
-          <a   href="/2017/09/18/PHP-Excel/#more">阅读全文 >></a>
-        </p>
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-Disk-pull-and-plug-record" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a  href="/2017/09/10/Disk-pull-and-plug-record/" class="article-date">
-      <time datetime="2017-09-09T18:21:45.000Z" itemprop="datePublished">2017-09-10</time>
-</a>
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a  class="article-title" href="/2017/09/10/Disk-pull-and-plug-record/">磁盘反复拔插记录</a>
-    </h1>
-  
-
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-              <center><img src="http://ow0mgad6r.bkt.clouddn.com/open-uri20150611-11-s7rw56.png" alt="pull disk"></center>
-
-<p>最近在做磁盘拔插后的<code>OSD</code>热恢复功能。在反复拔插盘的实践过程中，遇到了一个难题，就是时常会由于拔盘，然后再插盘后盘符发生了改变，<code>kernel</code>和<code>udev</code>接收不到任何<code>device</code>增加或删除的事件消息，<br>由于我是基于<code>udev</code>监测磁盘的插拔，所以一旦感知不到的话，就无法进行相应的恢复操作，所以在此对拔盘的记录进行一些记录，并在大量操作中得出总结。</p>
-          
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-    <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/tech/">tech</a><a class="article-category-link" href="/categories/tech/ceph/">ceph</a>
-    </div>
-
-
-      
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Ceph/">Ceph</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Disk/">Disk</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/">Linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/OSD/">OSD</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Udev/">Udev</a></li></ul>
-    </div>
-
-      
-        <p class="article-more-link">
-          <a   href="/2017/09/10/Disk-pull-and-plug-record/#more">阅读全文 >></a>
-        </p>
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-Linux-Udev" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a  href="/2017/09/10/Linux-Udev/" class="article-date">
-      <time datetime="2017-09-09T18:20:27.000Z" itemprop="datePublished">2017-09-10</time>
-</a>
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a  class="article-title" href="/2017/09/10/Linux-Udev/">Linux Udev</a>
-    </h1>
-  
-
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-              <center><img src="http://ow0mgad6r.bkt.clouddn.com/pingu.png" alt="udev"></center>
-
-<p>在我入门<code>udev</code>，看着各种各样的资料觉得这个东西很高深的时候，突然瞄到一篇文章里面说道： 要树立一个信念：<code>udev</code>很简单，当时不以为然，现在深表赞同。看起来很高端很遥远的<code>Title</code>，比如<code>Linux Kernel</code>，比如软硬件交互，比如热插拔等等，其实掌握几个<code>rules</code>，然后再动手实践实践，对比着讲解，就能知道七七八八了，想要再深入，就多看看文档实现和内核源码，其实很多东西都是这样，了解了就很简单，没事了解一点就比别人多知道一些，共勉 </p>
-          
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-    <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/tech/">tech</a>
-    </div>
-
-
-      
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Ceph/">Ceph</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/">Linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Udev/">Udev</a></li></ul>
-    </div>
-
-      
-        <p class="article-more-link">
-          <a   href="/2017/09/10/Linux-Udev/#more">阅读全文 >></a>
-        </p>
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-
-
-  
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/2/">&laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/4/">Next &raquo;</a>
+      <a class="extend prev" rel="prev" href="/page/2/">&laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/4/">Next &raquo;</a>
     </nav>
   
 

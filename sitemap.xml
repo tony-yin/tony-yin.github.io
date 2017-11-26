@@ -2,6 +2,27 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://tony-yin.github.io/2017/11/26/read-python-automation/</loc>
+    
+    <lastmod>2017-11-26T14:55:08.548Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://tony-yin.github.io/2017/11/26/read-ceph-cookbook/</loc>
+    
+    <lastmod>2017-11-26T14:54:36.045Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://tony-yin.github.io/2017/11/26/read-ceph-guide/</loc>
+    
+    <lastmod>2017-11-26T14:52:37.828Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://tony-yin.github.io/2017/11/19/hexo-theme-shadow/</loc>
     
     <lastmod>2017-11-22T01:45:32.586Z</lastmod>
