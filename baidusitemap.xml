@@ -4,21 +4,19 @@
 
     
   <url>
-    <loc>https://tony-yin.github.io/2017/11/26/read-python-automation/</loc>
-    <lastmod>2017-11-26T14:55:08.548Z</lastmod>
+    <loc>https://tony-yin.github.io/2017/11/19/hexo-theme-shadow/</loc>
+    <lastmod>2017-11-26T15:58:09.824Z</lastmod>
     <data>
         <display>
-        <title>阅读感悟：《Python编程快速上手---让繁琐工作自动化》</title>
-        <pubTime>2017-11-26T14:45:48.000Z</pubTime>
+        <title>博客主题 shadow</title>
+        <pubTime>2017-11-19T14:45:52.000Z</pubTime>
         
-        <tag>Python</tag>
-         
-        <tag>Read</tag>
+        <tag>博客</tag>
          
          
            
              
-              <breadCrumb title="read" url="https://tony-yin.github.io/categories/read/"/>
+              <breadCrumb title="tech" url="https://tony-yin.github.io/categories/tech/"/>
           
         </display>
     </data>
@@ -27,7 +25,7 @@
     
   <url>
     <loc>https://tony-yin.github.io/2017/11/26/read-ceph-cookbook/</loc>
-    <lastmod>2017-11-26T14:54:36.045Z</lastmod>
+    <lastmod>2017-11-26T15:55:54.593Z</lastmod>
     <data>
         <display>
         <title>阅读感悟：《Ceph Cookbook》</title>
@@ -49,7 +47,7 @@
     
   <url>
     <loc>https://tony-yin.github.io/2017/11/26/read-ceph-guide/</loc>
-    <lastmod>2017-11-26T14:52:37.828Z</lastmod>
+    <lastmod>2017-11-26T15:55:04.969Z</lastmod>
     <data>
         <display>
         <title>阅读感悟：《Ceph分布式存储学习指南》</title>
@@ -70,19 +68,21 @@
 
     
   <url>
-    <loc>https://tony-yin.github.io/2017/11/19/hexo-theme-shadow/</loc>
-    <lastmod>2017-11-22T01:45:32.586Z</lastmod>
+    <loc>https://tony-yin.github.io/2017/11/26/read-python-automation/</loc>
+    <lastmod>2017-11-26T15:54:05.204Z</lastmod>
     <data>
         <display>
-        <title>博客主题 shadow</title>
-        <pubTime>2017-11-19T14:45:52.000Z</pubTime>
+        <title>阅读感悟：《Python编程快速上手---让繁琐工作自动化》</title>
+        <pubTime>2017-11-26T14:45:48.000Z</pubTime>
         
-        <tag>博客</tag>
+        <tag>Python</tag>
+         
+        <tag>Read</tag>
          
          
            
              
-              <breadCrumb title="tech" url="https://tony-yin.github.io/categories/tech/"/>
+              <breadCrumb title="read" url="https://tony-yin.github.io/categories/read/"/>
           
         </display>
     </data>
