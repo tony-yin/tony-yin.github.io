@@ -7,19 +7,19 @@
   
   
   
-  <title>Ceph修炼之路：通过ganesha-nfs导出Ceph为NFS（Luminous） | Tony&#39;s blog</title>
+  <title>通过ganesha-nfs导出Ceph为NFS（Luminous） | Tony&#39;s blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="自从Jewel版本，nfs-ganesha开始支持ceph，并且把对接点选择了rados。Ganesha支持两种方式将Ceph导出为NFS，一种通过RGW，一种通过CephFS，通过FSAL模块 连接到RGW或者CephFS， 其中，FSAL_RGW调用librgw2将NFS协议转义为S3协议再通过RGW存入到Ceph中，FSAL_CEPH 调用libcephfs1将NFS转义为Cephfs协">
 <meta name="keywords" content="Ceph,NFS-Ganesha,NFS,Luminous">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Ceph修炼之路：通过ganesha-nfs导出Ceph为NFS（Luminous）">
+<meta property="og:title" content="通过ganesha-nfs导出Ceph为NFS（Luminous）">
 <meta property="og:url" content="https://tony-yin.github.io/2017/11/08/Ceph-NFS-Ganesha/index.html">
 <meta property="og:site_name" content="Tony&#39;s blog">
 <meta property="og:description" content="自从Jewel版本，nfs-ganesha开始支持ceph，并且把对接点选择了rados。Ganesha支持两种方式将Ceph导出为NFS，一种通过RGW，一种通过CephFS，通过FSAL模块 连接到RGW或者CephFS， 其中，FSAL_RGW调用librgw2将NFS协议转义为S3协议再通过RGW存入到Ceph中，FSAL_CEPH 调用libcephfs1将NFS转义为Cephfs协">
 <meta property="og:image" content="http://ow0mgad6r.bkt.clouddn.com/ganesha-600x450.png">
-<meta property="og:updated_time" content="2017-11-22T01:34:18.740Z">
+<meta property="og:updated_time" content="2017-11-30T03:09:29.197Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Ceph修炼之路：通过ganesha-nfs导出Ceph为NFS（Luminous）">
+<meta name="twitter:title" content="通过ganesha-nfs导出Ceph为NFS（Luminous）">
 <meta name="twitter:description" content="自从Jewel版本，nfs-ganesha开始支持ceph，并且把对接点选择了rados。Ganesha支持两种方式将Ceph导出为NFS，一种通过RGW，一种通过CephFS，通过FSAL模块 连接到RGW或者CephFS， 其中，FSAL_RGW调用librgw2将NFS协议转义为S3协议再通过RGW存入到Ceph中，FSAL_CEPH 调用libcephfs1将NFS转义为Cephfs协">
 <meta name="twitter:image" content="http://ow0mgad6r.bkt.clouddn.com/ganesha-600x450.png">
   
@@ -172,7 +172,7 @@
                         
                             <li><a  href="/categories/tech">技术文章</a></li>
                         
-                            <li><a  href="/tags/Ceph">Ceph杂货铺</a></li>
+                            <li><a  href="/tags/Ceph">Ceph修炼之路</a></li>
                         
                             <li><a  href="/categories/summary">感悟总结</a></li>
                         
@@ -201,7 +201,7 @@
                 
                 <section class="switch-part switch-part2">
                     <div class="widget tagcloud" id="js-tagcloud">
-                        <a href="/tags/Ceph/" style="font-size: 20px;">Ceph</a> <a href="/tags/Disk/" style="font-size: 13.33px;">Disk</a> <a href="/tags/Javascript/" style="font-size: 10px;">Javascript</a> <a href="/tags/LVM/" style="font-size: 10px;">LVM</a> <a href="/tags/Linux/" style="font-size: 16.67px;">Linux</a> <a href="/tags/Luminous/" style="font-size: 10px;">Luminous</a> <a href="/tags/Moodle/" style="font-size: 10px;">Moodle</a> <a href="/tags/NFS/" style="font-size: 13.33px;">NFS</a> <a href="/tags/NFS-Ganesha/" style="font-size: 10px;">NFS-Ganesha</a> <a href="/tags/Network/" style="font-size: 10px;">Network</a> <a href="/tags/Notification/" style="font-size: 10px;">Notification</a> <a href="/tags/OSD/" style="font-size: 16.67px;">OSD</a> <a href="/tags/Oracle/" style="font-size: 13.33px;">Oracle</a> <a href="/tags/Oracle-11g-R2/" style="font-size: 10px;">Oracle 11g R2</a> <a href="/tags/Oracle-Linux/" style="font-size: 10px;">Oracle Linux</a> <a href="/tags/PHP/" style="font-size: 13.33px;">PHP</a> <a href="/tags/PHPExcel/" style="font-size: 10px;">PHPExcel</a> <a href="/tags/Partition/" style="font-size: 10px;">Partition</a> <a href="/tags/Profile/" style="font-size: 13.33px;">Profile</a> <a href="/tags/Python/" style="font-size: 16.67px;">Python</a> <a href="/tags/RBD/" style="font-size: 10px;">RBD</a> <a href="/tags/RGW/" style="font-size: 10px;">RGW</a> <a href="/tags/Read/" style="font-size: 16.67px;">Read</a> <a href="/tags/Script/" style="font-size: 13.33px;">Script</a> <a href="/tags/Udev/" style="font-size: 13.33px;">Udev</a> <a href="/tags/产品/" style="font-size: 10px;">产品</a> <a href="/tags/博客/" style="font-size: 10px;">博客</a> <a href="/tags/性能优化/" style="font-size: 10px;">性能优化</a> <a href="/tags/编译/" style="font-size: 10px;">编译</a>
+                        <a href="/tags/Ceph/" style="font-size: 20px;">Ceph</a> <a href="/tags/Cephx/" style="font-size: 10px;">Cephx</a> <a href="/tags/Disk/" style="font-size: 13.33px;">Disk</a> <a href="/tags/Javascript/" style="font-size: 10px;">Javascript</a> <a href="/tags/LVM/" style="font-size: 10px;">LVM</a> <a href="/tags/Linux/" style="font-size: 16.67px;">Linux</a> <a href="/tags/Luminous/" style="font-size: 10px;">Luminous</a> <a href="/tags/Moodle/" style="font-size: 10px;">Moodle</a> <a href="/tags/NFS/" style="font-size: 13.33px;">NFS</a> <a href="/tags/NFS-Ganesha/" style="font-size: 10px;">NFS-Ganesha</a> <a href="/tags/Network/" style="font-size: 10px;">Network</a> <a href="/tags/Notification/" style="font-size: 10px;">Notification</a> <a href="/tags/OSD/" style="font-size: 16.67px;">OSD</a> <a href="/tags/Oracle/" style="font-size: 13.33px;">Oracle</a> <a href="/tags/Oracle-11g-R2/" style="font-size: 10px;">Oracle 11g R2</a> <a href="/tags/Oracle-Linux/" style="font-size: 10px;">Oracle Linux</a> <a href="/tags/PHP/" style="font-size: 13.33px;">PHP</a> <a href="/tags/PHPExcel/" style="font-size: 10px;">PHPExcel</a> <a href="/tags/Partition/" style="font-size: 10px;">Partition</a> <a href="/tags/Profile/" style="font-size: 13.33px;">Profile</a> <a href="/tags/Python/" style="font-size: 16.67px;">Python</a> <a href="/tags/RBD/" style="font-size: 10px;">RBD</a> <a href="/tags/RGW/" style="font-size: 10px;">RGW</a> <a href="/tags/Read/" style="font-size: 16.67px;">Read</a> <a href="/tags/Script/" style="font-size: 13.33px;">Script</a> <a href="/tags/Udev/" style="font-size: 13.33px;">Udev</a> <a href="/tags/产品/" style="font-size: 10px;">产品</a> <a href="/tags/博客/" style="font-size: 10px;">博客</a> <a href="/tags/性能优化/" style="font-size: 10px;">性能优化</a> <a href="/tags/编译/" style="font-size: 10px;">编译</a>
                     </div>
                 </section>
                 
@@ -253,7 +253,7 @@
                 
                     <li><a href="/categories/tech">技术文章</a></li>
                 
-                    <li><a href="/tags/Ceph">Ceph杂货铺</a></li>
+                    <li><a href="/tags/Ceph">Ceph修炼之路</a></li>
                 
                     <li><a href="/categories/summary">感悟总结</a></li>
                 
@@ -297,7 +297,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      Ceph修炼之路：通过ganesha-nfs导出Ceph为NFS（Luminous）
+      通过ganesha-nfs导出Ceph为NFS（Luminous）
     </h1>
   
 
@@ -350,7 +350,26 @@
 <p>如果要生成<code>FSAL_CEPH</code>模块，需要安装<code>libcephfs1-devel</code></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">yum install libcephfs1-devel -y</div></pre></td></tr></table></figure>
 <h2 id="源码下载"><a href="#源码下载" class="headerlink" title="源码下载"></a>源码下载</h2><p>上面两篇文章一个下载的是<code>v2.3 stable</code>，一个是<code>v2.4 stable</code>，两个我都试过，都会在<code>make</code>到<code>80%</code>左右的时候报错，应该是源码版本和库的版本有冲突导致的，这个问题耽误我挺长时间的，后来猜想可能是版本问题，尝试了一下<code>v2.5 stable</code>的源码就可以了</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">	</div><div class="line">git clone -b V2.5-stable https://github.com/nfs-ganesha/nfs-ganesha.git --recursive</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git clone -b V2.5-stable https://github.com/nfs-ganesha/nfs-ganesha.git --recursive</div></pre></td></tr></table></figure>
+<p><strong>注意：（重要）</strong></p>
+<p>最近我同事根据这篇文档部署<code>nfs-ganesha</code>的时候，发现之后<code>cmake</code>的操作后<code>USE_FSAL_RGW</code>始终是<code>OFF</code>的状态，一开始检查了一下环境发现<code>ganesha</code>是<code>v2.5</code>，然后<code>ceph</code>也是<code>L</code>版本，<code>centos</code>也是<code>7</code>。</p>
+<p>报错如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">local RGW version is 1.1.4 not suitable match, but required latest RGW version is 1.1.6</div></pre></td></tr></table></figure>
+<p>很好理解，就是我们安装的<code>RGW</code>达不到<code>nfs-ganesha</code>的要求，首先我们尝试去安装新的版本，但是<code>yum</code>的源已经配置了<code>luminous</code>，并且网上搜索了一圈并没有找到更新的。</p>
+<p>ok，那就第二步，那就找原因同样的环境为啥我可以成功？而这位同事却不行？莫非因为我帅？不能这么逆天吧^_^ （明明可以靠脸吃饭，偏偏靠才华，哎……）</p>
+<p>言归正传，通过报错信息查看源代码？定位到了报错文件<code>src/CMakeLists.txt</code>，然后代码中对<code>RGW</code>的版本要求也的确是<code>1.1.6</code>，回过头再看我之前下载下来的源代码，怪异的现象发生了，我代码中对<code>RGW</code>的版本要求只有<code>1.1.3</code>，此时我的第一反应就是应该这个文件被修改过导致两份代码不一样，出于本能直接上了<code>github</code>，果不其然，发现了<code>mattbenjamin</code>同学在<code>10</code>月<code>17</code>号在<code>v2.5</code>的分支上提交了一个<code>commit</code>针对<code>RGW</code>版本做出了修改！具体参看<a href="https://github.com/nfs-ganesha/nfs-ganesha/commit/8d039cd139ea1dcfbe316b7e93e96efe755669ef" target="_blank" rel="external">commit详情</a>，而这位贡献者几乎同时也在<code>ceph</code>提交了相关代码。这样想想就说得通了，我在搭建<code>nfs-ganesha</code>的时候恰好是在他提交之前的，所以我本地<code>RGW</code>本地版本是<code>1.1.4</code>是比要求版本<code>1.1.3</code>要高的，虽然不是完全<code>match</code>，但是也基本符合了要求，而我这位同事脸就比较黑了。。。</p>
+<p>那该怎么解决这个问题呢？</p>
+<p>有两种解决方案：</p>
+<ol>
+<li>手动编译<code>Luminous Ceph</code>把最新的<code>RGW</code>包编译出来，因为现在这个资源还没被公开分享出来；</li>
+<li>克隆这个改动之前的代码</li>
+</ol>
+<p>这么看来第二种更为简单一些，我们也是采用的这种方式，<code>git clone v2.5 stable</code>后，然后<code>git checkout</code>恰当的版本号即可。</p>
+<p><strong>总结：</strong></p>
+<p>其实直接<code>clone</code>实时的代码这是不合理的，因为你不知道他什么时候会更新。正确的方式是我们应该找到稳定的<code>release</code>版本，<code>nfs-ganesha</code>也有提供<a href="https://github.com/nfs-ganesha/nfs-ganesha/releases" target="_blank" rel="external">一系列的release</a>，而我们通过查看<code>2.5 tree</code>上面的<code>commit</code>信息，可以知道<code>RGW</code>的改动是介于<code>2.5.3</code>和<code>2.5.4</code>之间的，所以我们下载<code>2.5.3</code>较为合适，下载地址在<a href="https://github.com/nfs-ganesha/nfs-ganesha/releases/tag/V2.5.3" target="_blank" rel="external">这里</a>。</p>
+<p>这边还需要注意一个问题，这边<code>release</code>包下载下来你会发现<code>libntrirpc</code>这个文件夹没有内容，出现这个问题是因为<code>libntrirpc</code>对应的也是一个<code>git</code>仓库，我们需要去<a href="https://github.com/nfs-ganesha/nfs-ganesha/tree/next/src" target="_blank" rel="external">ntrirpc</a>手动克隆，然后通过<code>nfs-ganesha</code>的目录发现对<code>ntrirpc</code>的版本要求是<code>fadcbde</code>（这些都是上<code>github</code>可以看到的），我们需要做的就是在下载下来的<code>ntrirpc</code>目录下切到<code>fadcbde</code>这个<code>commit</code>上，并把当前的内容拷贝到<code>nfs-ganesha</code>的<code>libntrirpc</code>目录下。</p>
+<p>实在搞不定的童鞋，我提供一个我克隆的<code>nfs-ganesha</code>的代码包，你们可以对比一下，这个我是可以成功部署的</p>
+<p>附：我的<code>nfs-ganesha</code><a href="http://ovv1r40we.bkt.clouddn.com/nfs-ganesha.tar.gz" target="_blank" rel="external">下载地址</a></p>
 <h2 id="编译"><a href="#编译" class="headerlink" title="编译"></a>编译</h2><p>编译<code>nfs-ganesha</code>， <strong>注意打开对应的模块：</strong></p>
 <ul>
 <li>如果需要生成<code>FSAL_RGW</code>模块，则在编译选项中添加： <code>-DUSE_FSAL_RGW=ON</code></li>
@@ -391,12 +410,12 @@
   
     
     <div class="copyright">
-        <p><span>本文标题:</span><a  href="/2017/11/08/Ceph-NFS-Ganesha/">Ceph修炼之路：通过ganesha-nfs导出Ceph为NFS（Luminous）</a></p>
+        <p><span>本文标题:</span><a  href="/2017/11/08/Ceph-NFS-Ganesha/">通过ganesha-nfs导出Ceph为NFS（Luminous）</a></p>
         <p><span>文章作者:</span><a  href="/" title="访问 Tony 的个人博客">Tony</a></p>
         <p><span>发布时间:</span>2017年11月08日 - 23时15分</p>
-        <p><span>最后更新:</span>2017年11月22日 - 09时34分</p>
+        <p><span>最后更新:</span>2017年11月30日 - 11时09分</p>
         <p>
-            <span>原始链接:</span><a class="post-url" href="/2017/11/08/Ceph-NFS-Ganesha/" title="Ceph修炼之路：通过ganesha-nfs导出Ceph为NFS（Luminous）">https://tony-yin.github.io/2017/11/08/Ceph-NFS-Ganesha/</a>
+            <span>原始链接:</span><a class="post-url" href="/2017/11/08/Ceph-NFS-Ganesha/" title="通过ganesha-nfs导出Ceph为NFS（Luminous）">https://tony-yin.github.io/2017/11/08/Ceph-NFS-Ganesha/</a>
             <span class="copy-path" data-clipboard-text="原文: https://tony-yin.github.io/2017/11/08/Ceph-NFS-Ganesha/　　作者: Tony" title=""></span>
         </p>
         <p>
@@ -412,14 +431,14 @@
       <strong class="article-nav-caption"><</strong>
       <div class="article-nav-title">
         
-          Ceph修炼之路：Ceph 编译（Giant版本）
+          Ceph 编译（Giant版本）
         
       </div>
     </a>
   
   
     <a  href="/2017/11/08/Ceph-RGW/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">Ceph修炼之路：RGW 安装和创建</div>
+      <div class="article-nav-title">RGW 安装和创建</div>
       <strong class="article-nav-caption">></strong>
     </a>
   
@@ -491,18 +510,18 @@
 
     <div class="scroll" id="post-nav-button">
         
-            <a  href="/2017/11/14/Ceph-Compile/" title="上一篇: Ceph修炼之路：Ceph 编译（Giant版本）">
+            <a  href="/2017/11/14/Ceph-Compile/" title="上一篇: Ceph 编译（Giant版本）">
                 <i class="fa fa-angle-left"></i>
             </a>
         
         <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
         
-            <a  href="/2017/11/08/Ceph-RGW/" title="下一篇: Ceph修炼之路：RGW 安装和创建">
+            <a  href="/2017/11/08/Ceph-RGW/" title="下一篇: RGW 安装和创建">
                 <i class="fa fa-angle-right"></i>
             </a>
         
     </div>
-    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2017/11/26/read-ceph-cookbook/">阅读感悟：《Ceph Cookbook》</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/26/read-ceph-guide/">阅读感悟：《Ceph分布式存储学习指南》</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/26/read-python-automation/">阅读感悟：《Python编程快速上手---让繁琐工作自动化》</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/19/hexo-theme-shadow/">博客主题 shadow</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/14/LVM-Space-Expansion/">LVM动态扩展</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/14/Ceph-Compile/">Ceph修炼之路：Ceph 编译（Giant版本）</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/08/Ceph-NFS-Ganesha/">Ceph修炼之路：通过ganesha-nfs导出Ceph为NFS（Luminous）</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/08/Ceph-RGW/">Ceph修炼之路：RGW 安装和创建</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/31/RBD-Mount-NFS/">Ceph修炼之路：使用NFS挂载RBD</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/10/Python-Profiler/">Python Profiler</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/10/Enable-OSD-Profile-Script/">启用OSD性能剖析脚本</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/02/Batch-Create-And-Delete-Disk-Partition-Script/">批量创建和删除磁盘分区脚本</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/28/JS-Object-Null/">JS判断对象是否为空</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/27/OSD-Create-And-Delete/">OSD创建和删除全过程</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/21/How-To-Forge-Product/">如何打造一个好的产品</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/18/PHP-Excel/">PHP-Excel 开发解决方案</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/10/Disk-pull-and-plug-record/">磁盘反复拔插记录</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/10/Linux-Udev/">Linux Udev</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/10/network-down-notification/">Network Down Notification</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/10/Python-Oracle/">Python操作Oracle</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/10/oracle_install/">Oracle Linux And Oracle Database 11g R2 Intsallation</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/09/Moodle-Local-Plugin/">Moodle Local插件</a></li></ul>
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2017/11/30/Cephx-practice/">Cephx 实战演练</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/26/read-ceph-cookbook/">阅读感悟：《Ceph Cookbook》</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/26/read-ceph-guide/">阅读感悟：《Ceph分布式存储学习指南》</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/26/read-python-automation/">阅读感悟：《Python编程快速上手---让繁琐工作自动化》</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/19/hexo-theme-shadow/">博客主题 shadow</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/14/LVM-Space-Expansion/">LVM动态扩展</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/14/Ceph-Compile/">Ceph 编译（Giant版本）</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/08/Ceph-NFS-Ganesha/">通过ganesha-nfs导出Ceph为NFS（Luminous）</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/08/Ceph-RGW/">RGW 安装和创建</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/31/RBD-Mount-NFS/">使用NFS挂载RBD</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/10/Python-Profiler/">Python Profiler</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/10/Enable-OSD-Profile-Script/">启用OSD性能剖析脚本</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/02/Batch-Create-And-Delete-Disk-Partition-Script/">批量创建和删除磁盘分区脚本</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/28/JS-Object-Null/">JS判断对象是否为空</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/27/OSD-Create-And-Delete/">OSD创建和删除全过程</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/21/How-To-Forge-Product/">如何打造一个好的产品</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/18/PHP-Excel/">PHP-Excel 开发解决方案</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/10/Disk-pull-and-plug-record/">磁盘反复拔插记录</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/10/Linux-Udev/">Linux Udev</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/10/network-down-notification/">Network Down Notification</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/10/Python-Oracle/">Python操作Oracle</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/10/oracle_install/">Oracle Linux And Oracle Database 11g R2 Intsallation</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/09/Moodle-Local-Plugin/">Moodle Local插件</a></li></ul>
     <script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
     <script>
         $(".post-list").addClass("toc-article");

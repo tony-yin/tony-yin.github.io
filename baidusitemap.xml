@@ -4,6 +4,122 @@
 
     
   <url>
+    <loc>https://tony-yin.github.io/2017/10/31/RBD-Mount-NFS/</loc>
+    <lastmod>2017-11-30T03:10:23.246Z</lastmod>
+    <data>
+        <display>
+        <title>使用NFS挂载RBD</title>
+        <pubTime>2017-10-31T14:45:25.000Z</pubTime>
+        
+        <tag>Ceph</tag>
+         
+        <tag>NFS</tag>
+         
+        <tag>RBD</tag>
+         
+         
+           
+             
+              <breadCrumb title="tech" url="https://tony-yin.github.io/categories/tech/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://tony-yin.github.io/2017/11/30/Cephx-practice/</loc>
+    <lastmod>2017-11-30T03:10:00.441Z</lastmod>
+    <data>
+        <display>
+        <title>Cephx 实战演练</title>
+        <pubTime>2017-11-30T03:04:04.000Z</pubTime>
+        
+        <tag>Ceph</tag>
+         
+        <tag>Cephx</tag>
+         
+         
+           
+             
+              <breadCrumb title="tech" url="https://tony-yin.github.io/categories/tech/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://tony-yin.github.io/2017/11/08/Ceph-RGW/</loc>
+    <lastmod>2017-11-30T03:09:45.077Z</lastmod>
+    <data>
+        <display>
+        <title>RGW 安装和创建</title>
+        <pubTime>2017-11-08T15:11:59.000Z</pubTime>
+        
+        <tag>Ceph</tag>
+         
+        <tag>RGW</tag>
+         
+         
+           
+             
+              <breadCrumb title="tech" url="https://tony-yin.github.io/categories/tech/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://tony-yin.github.io/2017/11/08/Ceph-NFS-Ganesha/</loc>
+    <lastmod>2017-11-30T03:09:29.197Z</lastmod>
+    <data>
+        <display>
+        <title>通过ganesha-nfs导出Ceph为NFS（Luminous）</title>
+        <pubTime>2017-11-08T15:15:26.000Z</pubTime>
+        
+        <tag>Ceph</tag>
+         
+        <tag>NFS-Ganesha</tag>
+         
+        <tag>NFS</tag>
+         
+        <tag>Luminous</tag>
+         
+         
+           
+             
+              <breadCrumb title="tech" url="https://tony-yin.github.io/categories/tech/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://tony-yin.github.io/2017/11/14/Ceph-Compile/</loc>
+    <lastmod>2017-11-30T03:09:12.602Z</lastmod>
+    <data>
+        <display>
+        <title>Ceph 编译（Giant版本）</title>
+        <pubTime>2017-11-14T01:30:29.000Z</pubTime>
+        
+        <tag>Ceph</tag>
+         
+        <tag>编译</tag>
+         
+         
+           
+             
+              <breadCrumb title="tech" url="https://tony-yin.github.io/categories/tech/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>https://tony-yin.github.io/2017/11/19/hexo-theme-shadow/</loc>
     <lastmod>2017-11-26T15:58:09.824Z</lastmod>
     <data>
@@ -83,30 +199,6 @@
            
              
               <breadCrumb title="read" url="https://tony-yin.github.io/categories/read/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>https://tony-yin.github.io/2017/10/31/RBD-Mount-NFS/</loc>
-    <lastmod>2017-11-22T01:39:52.016Z</lastmod>
-    <data>
-        <display>
-        <title>Ceph修炼之路：使用NFS挂载RBD</title>
-        <pubTime>2017-10-31T14:45:25.000Z</pubTime>
-        
-        <tag>Ceph</tag>
-         
-        <tag>NFS</tag>
-         
-        <tag>RBD</tag>
-         
-         
-           
-             
-              <breadCrumb title="tech" url="https://tony-yin.github.io/categories/tech/"/>
           
         </display>
     </data>
@@ -322,76 +414,6 @@
           
              
               <breadCrumb title="ceph" url="https://tony-yin.github.io/categories/tech/ceph/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>https://tony-yin.github.io/2017/11/08/Ceph-NFS-Ganesha/</loc>
-    <lastmod>2017-11-22T01:34:18.740Z</lastmod>
-    <data>
-        <display>
-        <title>Ceph修炼之路：通过ganesha-nfs导出Ceph为NFS（Luminous）</title>
-        <pubTime>2017-11-08T15:15:26.000Z</pubTime>
-        
-        <tag>Ceph</tag>
-         
-        <tag>NFS-Ganesha</tag>
-         
-        <tag>NFS</tag>
-         
-        <tag>Luminous</tag>
-         
-         
-           
-             
-              <breadCrumb title="tech" url="https://tony-yin.github.io/categories/tech/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>https://tony-yin.github.io/2017/11/08/Ceph-RGW/</loc>
-    <lastmod>2017-11-22T01:33:40.170Z</lastmod>
-    <data>
-        <display>
-        <title>Ceph修炼之路：RGW 安装和创建</title>
-        <pubTime>2017-11-08T15:11:59.000Z</pubTime>
-        
-        <tag>Ceph</tag>
-         
-        <tag>RGW</tag>
-         
-         
-           
-             
-              <breadCrumb title="tech" url="https://tony-yin.github.io/categories/tech/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>https://tony-yin.github.io/2017/11/14/Ceph-Compile/</loc>
-    <lastmod>2017-11-22T01:27:29.834Z</lastmod>
-    <data>
-        <display>
-        <title>Ceph修炼之路：Ceph 编译（Giant版本）</title>
-        <pubTime>2017-11-14T01:30:29.000Z</pubTime>
-        
-        <tag>Ceph</tag>
-         
-        <tag>编译</tag>
-         
-         
-           
-             
-              <breadCrumb title="tech" url="https://tony-yin.github.io/categories/tech/"/>
           
         </display>
     </data>
