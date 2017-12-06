@@ -4,6 +4,32 @@
 
     
   <url>
+    <loc>https://tony-yin.github.io/2017/12/07/RBD-HA/</loc>
+    <lastmod>2017-12-06T16:32:56.751Z</lastmod>
+    <data>
+        <display>
+        <title>通过 Keepalived 实现 Ceph RBD 的高可用</title>
+        <pubTime>2017-12-06T16:25:31.000Z</pubTime>
+        
+        <tag>Ceph</tag>
+         
+        <tag>RBD</tag>
+         
+        <tag>HA</tag>
+         
+        <tag>Keepalived</tag>
+         
+         
+           
+             
+              <breadCrumb title="tech" url="https://tony-yin.github.io/categories/tech/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>https://tony-yin.github.io/2017/10/31/RBD-Mount-NFS/</loc>
     <lastmod>2017-11-30T03:10:23.246Z</lastmod>
     <data>
