@@ -20,7 +20,7 @@
 <meta property="og:image" content="http://ow0mgad6r.bkt.clouddn.com/keepalived_space.png">
 <meta property="og:image" content="http://ow0mgad6r.bkt.clouddn.com/keepalived_two_host.png">
 <meta property="og:image" content="http://ow0mgad6r.bkt.clouddn.com/keepalived_layer.png">
-<meta property="og:updated_time" content="2017-12-06T16:32:56.751Z">
+<meta property="og:updated_time" content="2017-12-07T06:47:35.572Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="通过 Keepalived 实现 Ceph RBD 的高可用">
 <meta name="twitter:description" content="由于Cephfs很不稳定，并且性能差，很难达到用户在性能上的需求，所以Cephfs也难以应用于生产环境之上。而RBD可以说是一直非常稳定的存储接口方案，用户可以将image挂载到客户端进行访问读写，然而很多用户不愿意在本地安装Ceph客户端，所以我们常常需要自己封装一层，给客户端暴露出一个通用的接口进行访问，现在一般都是默认用NFS，所以本文就Ceph RBD如何实现高可用暴露NFS给客户端访">
@@ -374,7 +374,11 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">vrrp_script chk_nfs &#123;</div><div class="line">    script &quot;/etc/keepalived/check_nfs.sh&quot;       # 调用脚本</div><div class="line">    interval 2      # 设置间隔时间为 2s</div><div class="line">&#125;</div><div class="line">vrrp_instance VI_1 &#123;</div><div class="line">    track_script &#123;</div><div class="line">        chk_nfs     # 调用上面的chk_nfs函数</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <h4 id="整个配置文件内容"><a href="#整个配置文件内容" class="headerlink" title="整个配置文件内容"></a>整个配置文件内容</h4><p>暂时还是比较精简的，邮件什么的都没配置，<code>keepalived</code>还是可以做很多事情的，有兴趣的童鞋可以深入研究</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div></pre></td><td class="code"><pre><div class="line">global_defs &#123;</div><div class="line">    notification_email &#123;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    router_id NFS_HA_222</div><div class="line">&#125;</div><div class="line"></div><div class="line">vrrp_script chk_nfs &#123;</div><div class="line">    script &quot;/etc/keepalived/check_nfs.sh&quot;</div><div class="line">    interval 2</div><div class="line">&#125;</div><div class="line"></div><div class="line">vrrp_instance VI_1 &#123;</div><div class="line">    #state MASTER</div><div class="line">    state BACKUP</div><div class="line">    interface eth0</div><div class="line">    priority 100</div><div class="line">    virtual_router_id 100</div><div class="line">    advert_int 1</div><div class="line">    authentication &#123;</div><div class="line">        auth_type PASS</div><div class="line">        auth_pass 1111</div><div class="line">    &#125;</div><div class="line">    track_script &#123;</div><div class="line">        chk_nfs</div><div class="line">    &#125;</div><div class="line">    nopreempt</div><div class="line">    notify_master &quot;/etc/keepalived/ChangeToMaster.sh&quot;</div><div class="line">    notify_backup &quot;/etc/keepalived/ChangeToBackup.sh&quot;</div><div class="line">    virtual_ipaddress &#123;</div><div class="line">        192.168.1.13/24</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h4 id="相关脚本"><a href="#相关脚本" class="headerlink" title="相关脚本"></a>相关脚本</h4><p>这些脚本都是针对我当前环境的，需要针对自己的环境和需求进行相应更改</p>
+<h4 id="相关脚本"><a href="#相关脚本" class="headerlink" title="相关脚本"></a>相关脚本</h4><blockquote>
+<p>大家可以手动从下面复制，也可以去我的<code>github</code>上面获取，欢迎点赞！</p>
+<p>地址： <a href="https://github.com/tony-yin/ceph_scripts#keepalived" target="_blank" rel="external">https://github.com/tony-yin/ceph_scripts#keepalived</a></p>
+</blockquote>
+<p>这些脚本都是针对我当前环境的，需要针对自己的环境和需求进行相应更改</p>
 <p><code>ChangeToBackup.sh</code>：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">#!/bin/bash</div><div class="line"></div><div class="line">service nfs-kernel-server stop</div><div class="line">for folder in $(ls /vol)</div><div class="line">do</div><div class="line">    if $(mount | grep $folder -q); then</div><div class="line">        umount -f /vol/$folder</div><div class="line">    fi</div><div class="line">done</div></pre></td></tr></table></figure>
 <p><code>ChangeToMaster.sh</code>：</p>
@@ -462,7 +466,7 @@
         <p><span>本文标题:</span><a  href="/2017/12/07/RBD-HA/">通过 Keepalived 实现 Ceph RBD 的高可用</a></p>
         <p><span>文章作者:</span><a  href="/" title="访问 Tony 的个人博客">Tony</a></p>
         <p><span>发布时间:</span>2017年12月07日 - 00时25分</p>
-        <p><span>最后更新:</span>2017年12月07日 - 00时32分</p>
+        <p><span>最后更新:</span>2017年12月07日 - 14时47分</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2017/12/07/RBD-HA/" title="通过 Keepalived 实现 Ceph RBD 的高可用">https://tony-yin.github.io/2017/12/07/RBD-HA/</a>
             <span class="copy-path" data-clipboard-text="原文: https://tony-yin.github.io/2017/12/07/RBD-HA/　　作者: Tony" title=""></span>

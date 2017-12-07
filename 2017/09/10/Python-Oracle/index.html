@@ -17,7 +17,7 @@
 <meta property="og:site_name" content="Tony&#39;s blog">
 <meta property="og:description" content="近期在做Intel的测试，需要监测各种故障情况下的热恢复或者热迁移等功能，比如拔线测试，拔盘测试，断电测试等，来检验分布式的稳定性和灵活性，以Oracle为例，需要一直向数据库中写数据，然后在发生故障时，通过观察插入数据的情况来判断是否能够处理异常情况，所以我需要写一个脚本，能够做到通过python自动连接oracle数据库并自动插入数据。">
 <meta property="og:image" content="http://ow0mgad6r.bkt.clouddn.com/we-love-python-6000-450.png">
-<meta property="og:updated_time" content="2017-11-22T01:39:30.048Z">
+<meta property="og:updated_time" content="2017-12-07T06:17:51.151Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Python操作Oracle">
 <meta name="twitter:description" content="近期在做Intel的测试，需要监测各种故障情况下的热恢复或者热迁移等功能，比如拔线测试，拔盘测试，断电测试等，来检验分布式的稳定性和灵活性，以Oracle为例，需要一直向数据库中写数据，然后在发生故障时，通过观察插入数据的情况来判断是否能够处理异常情况，所以我需要写一个脚本，能够做到通过python自动连接oracle数据库并自动插入数据。">
@@ -382,7 +382,7 @@
 <h3 id="6-检查是否可以引入cx-Oracle"><a href="#6-检查是否可以引入cx-Oracle" class="headerlink" title="6. 检查是否可以引入cx_Oracle"></a>6. 检查是否可以引入<code>cx_Oracle</code></h3><p><code>import</code>没有报错，说明之前的辛苦没有白费</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">[root client64]# python</div><div class="line">Python 2.7.5 (default, Nov  6 2016, 00:28:07) </div><div class="line">[GCC 4.8.5 20150623 (Red Hat 4.8.5-11)] on linux2</div><div class="line">Type &quot;help&quot;, &quot;copyright&quot;, &quot;credits&quot; or &quot;license&quot; for more information.</div><div class="line">&gt;&gt;&gt; import cx_Oracle</div><div class="line">&gt;&gt;&gt;</div></pre></td></tr></table></figure>
 <h3 id="7-连接-Oracle"><a href="#7-连接-Oracle" class="headerlink" title="7. 连接 Oracle"></a>7. 连接 Oracle</h3><p>一个插入10条数据的Python脚本demo：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">#!/usr/bin/python</div><div class="line"># -*- coding: UTF-8 -*-</div><div class="line">import cx_Oracle</div><div class="line">con = cx_Oracle.connect(&apos;test/test@xxx.xxx.xxx.xxx/xe&apos;)</div><div class="line">cur = con.cursor()</div><div class="line">for n in range(1, 10):</div><div class="line">    cur.execute(&apos;insert into test(id, name) values (1, n);&apos;)</div><div class="line">cur.close()</div><div class="line">con.close()</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">#!/usr/bin/python</div><div class="line"># -*- coding: UTF-8 -*-</div><div class="line">import sys</div><div class="line">import cx_Oracle</div><div class="line">import time</div><div class="line"></div><div class="line">rows = int(sys.argv[1])</div><div class="line">con = cx_Oracle.connect(&apos;test/test@sampledb&apos;)</div><div class="line">cur = con.cursor()</div><div class="line">cur.execute(&quot;SELECT MAX(ID) FROM PTTEST&quot;)</div><div class="line">max_id = cur.fetchone()[0] or 0</div><div class="line"></div><div class="line">start_id = max_id + 1</div><div class="line">for i in xrange(rows):</div><div class="line">    cur.execute(&quot;INSERT INTO PTTEST (ID, NAME, AGE, GENDER, SALARY)VALUES(%d, &apos;pt&apos;, 15, &apos;male&apos;, 50000)&quot; % int(i + start_id))</div><div class="line">    if i % 100 == 0:</div><div class="line">        time.sleep(3)</div><div class="line">        print &apos;Insert rows [%d]:%d&apos; % (int(time.time()), i)</div><div class="line">        con.commit()</div><div class="line">cur.close()</div><div class="line">con.close()</div></pre></td></tr></table></figure>
 
       
     </div>
@@ -394,7 +394,7 @@
         <p><span>本文标题:</span><a  href="/2017/09/10/Python-Oracle/">Python操作Oracle</a></p>
         <p><span>文章作者:</span><a  href="/" title="访问 Tony 的个人博客">Tony</a></p>
         <p><span>发布时间:</span>2017年09月10日 - 01时02分</p>
-        <p><span>最后更新:</span>2017年11月22日 - 09时39分</p>
+        <p><span>最后更新:</span>2017年12月07日 - 14时17分</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2017/09/10/Python-Oracle/" title="Python操作Oracle">https://tony-yin.github.io/2017/09/10/Python-Oracle/</a>
             <span class="copy-path" data-clipboard-text="原文: https://tony-yin.github.io/2017/09/10/Python-Oracle/　　作者: Tony" title=""></span>

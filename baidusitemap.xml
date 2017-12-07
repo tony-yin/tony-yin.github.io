@@ -5,7 +5,7 @@
     
   <url>
     <loc>https://tony-yin.github.io/2017/12/07/RBD-HA/</loc>
-    <lastmod>2017-12-06T16:32:56.751Z</lastmod>
+    <lastmod>2017-12-07T06:47:35.572Z</lastmod>
     <data>
         <display>
         <title>通过 Keepalived 实现 Ceph RBD 的高可用</title>
@@ -18,6 +18,76 @@
         <tag>HA</tag>
          
         <tag>Keepalived</tag>
+         
+         
+           
+             
+              <breadCrumb title="tech" url="https://tony-yin.github.io/categories/tech/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://tony-yin.github.io/2017/09/27/OSD-Create-And-Delete/</loc>
+    <lastmod>2017-12-07T06:21:22.794Z</lastmod>
+    <data>
+        <display>
+        <title>OSD创建和删除全过程</title>
+        <pubTime>2017-09-27T15:05:36.000Z</pubTime>
+        
+        <tag>Ceph</tag>
+         
+        <tag>OSD</tag>
+         
+         
+           
+             
+              <breadCrumb title="tech" url="https://tony-yin.github.io/categories/tech/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://tony-yin.github.io/2017/09/10/Python-Oracle/</loc>
+    <lastmod>2017-12-07T06:17:51.151Z</lastmod>
+    <data>
+        <display>
+        <title>Python操作Oracle</title>
+        <pubTime>2017-09-09T17:02:41.000Z</pubTime>
+        
+        <tag>Python</tag>
+         
+        <tag>Oracle</tag>
+         
+         
+           
+             
+              <breadCrumb title="tech" url="https://tony-yin.github.io/categories/tech/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://tony-yin.github.io/2017/10/02/Batch-Create-And-Delete-Disk-Partition-Script/</loc>
+    <lastmod>2017-12-07T04:40:52.705Z</lastmod>
+    <data>
+        <display>
+        <title>批量创建和删除磁盘分区脚本</title>
+        <pubTime>2017-10-02T05:07:06.000Z</pubTime>
+        
+        <tag>Ceph</tag>
+         
+        <tag>Disk</tag>
+         
+        <tag>Partition</tag>
+         
+        <tag>Script</tag>
          
          
            
@@ -256,50 +326,6 @@
 
     
   <url>
-    <loc>https://tony-yin.github.io/2017/09/10/Python-Oracle/</loc>
-    <lastmod>2017-11-22T01:39:30.048Z</lastmod>
-    <data>
-        <display>
-        <title>Python操作Oracle</title>
-        <pubTime>2017-09-09T17:02:41.000Z</pubTime>
-        
-        <tag>Python</tag>
-         
-        <tag>Oracle</tag>
-         
-         
-           
-             
-              <breadCrumb title="tech" url="https://tony-yin.github.io/categories/tech/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>https://tony-yin.github.io/2017/09/27/OSD-Create-And-Delete/</loc>
-    <lastmod>2017-11-22T01:38:54.784Z</lastmod>
-    <data>
-        <display>
-        <title>OSD创建和删除全过程</title>
-        <pubTime>2017-09-27T15:05:36.000Z</pubTime>
-        
-        <tag>Ceph</tag>
-         
-        <tag>OSD</tag>
-         
-         
-           
-             
-              <breadCrumb title="tech" url="https://tony-yin.github.io/categories/tech/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
     <loc>https://tony-yin.github.io/2017/09/10/network-down-notification/</loc>
     <lastmod>2017-11-22T01:38:44.002Z</lastmod>
     <data>
@@ -440,32 +466,6 @@
           
              
               <breadCrumb title="ceph" url="https://tony-yin.github.io/categories/tech/ceph/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>https://tony-yin.github.io/2017/10/02/Batch-Create-And-Delete-Disk-Partition-Script/</loc>
-    <lastmod>2017-11-22T01:27:12.698Z</lastmod>
-    <data>
-        <display>
-        <title>批量创建和删除磁盘分区脚本</title>
-        <pubTime>2017-10-02T05:07:06.000Z</pubTime>
-        
-        <tag>Ceph</tag>
-         
-        <tag>Disk</tag>
-         
-        <tag>Partition</tag>
-         
-        <tag>Script</tag>
-         
-         
-           
-             
-              <breadCrumb title="tech" url="https://tony-yin.github.io/categories/tech/"/>
           
         </display>
     </data>
