@@ -2,6 +2,20 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://tony-yin.github.io/2017/12/10/Into-Withe-Night/</loc>
+    
+    <lastmod>2017-12-10T12:59:56.042Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://tony-yin.github.io/2017/12/08/Filesystem-Bug-Fix/</loc>
+    
+    <lastmod>2017-12-10T12:59:19.652Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://tony-yin.github.io/2017/12/07/RBD-HA/</loc>
     
     <lastmod>2017-12-07T06:47:35.572Z</lastmod>

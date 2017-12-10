@@ -4,6 +4,48 @@
 
     
   <url>
+    <loc>https://tony-yin.github.io/2017/12/10/Into-Withe-Night/</loc>
+    <lastmod>2017-12-10T12:59:56.042Z</lastmod>
+    <data>
+        <display>
+        <title>阅读感悟：《白夜行》</title>
+        <pubTime>2017-12-10T11:57:34.000Z</pubTime>
+        
+        <tag>Read</tag>
+         
+         
+           
+             
+              <breadCrumb title="read" url="https://tony-yin.github.io/categories/read/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://tony-yin.github.io/2017/12/08/Filesystem-Bug-Fix/</loc>
+    <lastmod>2017-12-10T12:59:19.652Z</lastmod>
+    <data>
+        <display>
+        <title>故障修复：文件系统导致OSD启动失败</title>
+        <pubTime>2017-12-08T12:54:16.000Z</pubTime>
+        
+        <tag>Ceph</tag>
+         
+        <tag>Bugfix</tag>
+         
+         
+           
+             
+              <breadCrumb title="tech" url="https://tony-yin.github.io/categories/tech/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>https://tony-yin.github.io/2017/12/07/RBD-HA/</loc>
     <lastmod>2017-12-07T06:47:35.572Z</lastmod>
     <data>
@@ -287,9 +329,9 @@
         <title>阅读感悟：《Python编程快速上手---让繁琐工作自动化》</title>
         <pubTime>2017-11-26T14:45:48.000Z</pubTime>
         
-        <tag>Python</tag>
-         
         <tag>Read</tag>
+         
+        <tag>Python</tag>
          
          
            

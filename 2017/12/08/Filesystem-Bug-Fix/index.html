@@ -7,21 +7,21 @@
   
   
   
-  <title>RGW 安装和创建 | Tony&#39;s blog</title>
+  <title>故障修复：文件系统导致OSD启动失败 | Tony&#39;s blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="本文通过ceph-deploy安装和创建RGW，然后分别创建S3和Swift接口并提供了相应的方案。 Ceph RGW基于librados，是为应用提供RESTful类型的对象存储接口。RGW提供两种类型的接口：  S3：兼容Amazon S3 RESTful API Swift：兼容OpenStack Swift API  S3和Swift API共享同一个命名空间，所以可以使用两种API访">
-<meta name="keywords" content="Ceph,RGW">
+  <meta name="description" content="记一次因为文件系统导致OSD无法启动的故障修复。">
+<meta name="keywords" content="Ceph,Bugfix">
 <meta property="og:type" content="article">
-<meta property="og:title" content="RGW 安装和创建">
-<meta property="og:url" content="https://tony-yin.github.io/2017/11/08/Ceph-RGW/index.html">
+<meta property="og:title" content="故障修复：文件系统导致OSD启动失败">
+<meta property="og:url" content="https://tony-yin.github.io/2017/12/08/Filesystem-Bug-Fix/index.html">
 <meta property="og:site_name" content="Tony&#39;s blog">
-<meta property="og:description" content="本文通过ceph-deploy安装和创建RGW，然后分别创建S3和Swift接口并提供了相应的方案。 Ceph RGW基于librados，是为应用提供RESTful类型的对象存储接口。RGW提供两种类型的接口：  S3：兼容Amazon S3 RESTful API Swift：兼容OpenStack Swift API  S3和Swift API共享同一个命名空间，所以可以使用两种API访">
-<meta property="og:image" content="http://ow0mgad6r.bkt.clouddn.com/gateway-600x450.png">
-<meta property="og:updated_time" content="2017-11-30T03:09:45.077Z">
+<meta property="og:description" content="记一次因为文件系统导致OSD无法启动的故障修复。">
+<meta property="og:image" content="http://ow0mgad6r.bkt.clouddn.com/bugfix.png">
+<meta property="og:updated_time" content="2017-12-10T12:59:19.652Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="RGW 安装和创建">
-<meta name="twitter:description" content="本文通过ceph-deploy安装和创建RGW，然后分别创建S3和Swift接口并提供了相应的方案。 Ceph RGW基于librados，是为应用提供RESTful类型的对象存储接口。RGW提供两种类型的接口：  S3：兼容Amazon S3 RESTful API Swift：兼容OpenStack Swift API  S3和Swift API共享同一个命名空间，所以可以使用两种API访">
-<meta name="twitter:image" content="http://ow0mgad6r.bkt.clouddn.com/gateway-600x450.png">
+<meta name="twitter:title" content="故障修复：文件系统导致OSD启动失败">
+<meta name="twitter:description" content="记一次因为文件系统导致OSD无法启动的故障修复。">
+<meta name="twitter:image" content="http://ow0mgad6r.bkt.clouddn.com/bugfix.png">
   
     <link rel="alternative" href="/atom.xml" title="Tony&#39;s blog" type="application/atom+xml">
   
@@ -279,11 +279,11 @@
     </div>
 </nav>
 
-      <div class="body-wrap"><article id="post-Ceph-RGW" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-Filesystem-Bug-Fix" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a  href="/2017/11/08/Ceph-RGW/" class="article-date">
-      <time datetime="2017-11-08T15:11:59.000Z" itemprop="datePublished">2017-11-08</time>
+      <a  href="/2017/12/08/Filesystem-Bug-Fix/" class="article-date">
+      <time datetime="2017-12-08T12:54:16.000Z" itemprop="datePublished">2017-12-08</time>
 </a>
 
     </div>
@@ -297,7 +297,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      RGW 安装和创建
+      故障修复：文件系统导致OSD启动失败
     </h1>
   
 
@@ -313,7 +313,7 @@
 
         
     <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Ceph/">Ceph</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/RGW/">RGW</a></li></ul>
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Bugfix/">Bugfix</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Ceph/">Ceph</a></li></ul>
     </div>
 
         <div class="clearfix"></div>
@@ -323,44 +323,32 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <center><img src="http://ow0mgad6r.bkt.clouddn.com/gateway-600x450.png" alt="Ceph RGW"></center>
+        <center><img src="http://ow0mgad6r.bkt.clouddn.com/bugfix.png" alt="Bug fix"></center>
 
-<p>本文通过<code>ceph-deploy</code>安装和创建<code>RGW</code>，然后分别创建<code>S3</code>和<code>Swift</code>接口并提供了相应的方案。</p>
-<p><code>Ceph RGW</code>基于<code>librados</code>，是为应用提供<code>RESTful</code>类型的对象存储接口。<code>RGW</code>提供两种类型的接口：</p>
-<ul>
-<li>S3：兼容<code>Amazon S3 RESTful API</code></li>
-<li>Swift：兼容<code>OpenStack Swift API</code></li>
-</ul>
-<p><code>S3</code>和<code>Swift API</code>共享同一个命名空间，所以可以使用两种<code>API</code>访问相同的数据。</p>
+<p>记一次因为文件系统导致<code>OSD</code>无法启动的故障修复。</p>
 <a id="more"></a>
-<p>参考链接: <a href="http://blog.csdn.net/younger_china/article/details/73410918" target="_blank" rel="external">Ceph：创建RGW</a></p>
-<h2 id="部署-RGW"><a href="#部署-RGW" class="headerlink" title="部署 RGW"></a>部署 RGW</h2><h3 id="进入-ceph-目录"><a href="#进入-ceph-目录" class="headerlink" title="进入 ceph 目录"></a>进入 ceph 目录</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">cd /etc/ceph</div></pre></td></tr></table></figure>
-<h3 id="安装-ceph-object-gateway"><a href="#安装-ceph-object-gateway" class="headerlink" title="安装 ceph object gateway"></a>安装 ceph object gateway</h3><p>我这边是<code>node1</code>，根据<code>hostname</code>对号入座就行</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ceph-deploy install --rgw node1</div></pre></td></tr></table></figure>
-<h3 id="Gather-keys"><a href="#Gather-keys" class="headerlink" title="Gather keys"></a>Gather keys</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ceph-deploy gatherkeys node1</div></pre></td></tr></table></figure>
-<h3 id="创建-rgw-实例"><a href="#创建-rgw-实例" class="headerlink" title="创建 rgw 实例"></a>创建 rgw 实例</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ceph-deploy rgw create node1</div></pre></td></tr></table></figure>
-<h3 id="Ceph-CLI"><a href="#Ceph-CLI" class="headerlink" title="Ceph CLI"></a>Ceph CLI</h3><p><code>Ceph CLI</code>工具需要在管理员模式下运行，因此需要执行以下命令</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ceph-deploy admin node1</div></pre></td></tr></table></figure>
-<h3 id="测试是否安装成功"><a href="#测试是否安装成功" class="headerlink" title="测试是否安装成功"></a>测试是否安装成功</h3><p>一旦<code>RGW</code>开始运行，就可以通过端口<code>7480</code>（如果没有修改的话）来访问。如：<br><code>http://node1:7480</code>，如果<code>RGW</code>运行正常，它应该返回类似的信息： </p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">This XML file does not appear to have any style information associated with it. The document tree is shown below.</div><div class="line">&lt;ListAllMyBucketsResult xmlns=&quot;http://s3.amazonaws.com/doc/2006-03-01/&quot;&gt;</div><div class="line">&lt;Owner&gt;</div><div class="line">&lt;ID&gt;anonymous&lt;/ID&gt;</div><div class="line">&lt;DisplayName/&gt;</div><div class="line">&lt;/Owner&gt;</div><div class="line">&lt;Buckets/&gt;</div><div class="line">&lt;/ListAllMyBucketsResult&gt;</div></pre></td></tr></table></figure>
-<h2 id="创建-S3-用户"><a href="#创建-S3-用户" class="headerlink" title="创建 S3 用户"></a>创建 S3 用户</h2><p>想正常的访问<code>RGW</code>，需要创建相应的<code>RGW</code>用户，并赋予相应的权限，<code>radosgw-admin</code>命令实现了这些功能。</p>
-<p>其中<code>keys</code>中的<code>user</code>，<code>access_key</code>和<code>secret_key</code>用于之后的<code>S3</code>接口访问确认</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div></pre></td><td class="code"><pre><div class="line">[root@node1 ~]# radosgw-admin user create --uid=&quot;admin&quot; --display-name=&quot;First user&quot;</div><div class="line">2017-11-08 16:51:39.883217 7fb6868fac40  0 WARNING: detected a version of libcurl which contains a bug in curl_multi_wait(). enabling a workaround that may degrade performance slightly.</div><div class="line">&#123;</div><div class="line">    &quot;user_id&quot;: &quot;admin&quot;,</div><div class="line">    &quot;display_name&quot;: &quot;First user&quot;,</div><div class="line">    &quot;email&quot;: &quot;&quot;,</div><div class="line">    &quot;suspended&quot;: 0,</div><div class="line">    &quot;max_buckets&quot;: 1000,</div><div class="line">    &quot;auid&quot;: 0,</div><div class="line">    &quot;subusers&quot;: [],</div><div class="line">    &quot;keys&quot;: [</div><div class="line">        &#123;</div><div class="line">            &quot;user&quot;: &quot;admin&quot;,</div><div class="line">            &quot;access_key&quot;: &quot;1MWH3LWM1BS4ZF4HN5IH&quot;,</div><div class="line">            &quot;secret_key&quot;: &quot;cuObxYgtl1lJgqNxOIpENycVqXfxLxZ8z5IXDM0O&quot;</div><div class="line">        &#125;</div><div class="line">    ],</div><div class="line">    &quot;swift_keys&quot;: [],</div><div class="line">    &quot;caps&quot;: [],</div><div class="line">    &quot;op_mask&quot;: &quot;read, write, delete&quot;,</div><div class="line">    &quot;default_placement&quot;: &quot;&quot;,</div><div class="line">    &quot;placement_tags&quot;: [],</div><div class="line">    &quot;bucket_quota&quot;: &#123;</div><div class="line">        &quot;enabled&quot;: false,</div><div class="line">        &quot;check_on_raw&quot;: false,</div><div class="line">        &quot;max_size&quot;: -1,</div><div class="line">        &quot;max_size_kb&quot;: 0,</div><div class="line">        &quot;max_objects&quot;: -1</div><div class="line">    &#125;,</div><div class="line">    &quot;user_quota&quot;: &#123;</div><div class="line">        &quot;enabled&quot;: false,</div><div class="line">        &quot;check_on_raw&quot;: false,</div><div class="line">        &quot;max_size&quot;: -1,</div><div class="line">        &quot;max_size_kb&quot;: 0,</div><div class="line">        &quot;max_objects&quot;: -1</div><div class="line">    &#125;,</div><div class="line">    &quot;temp_url_keys&quot;: [],</div><div class="line">    &quot;type&quot;: &quot;rgw&quot;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h2 id="创建-Swift-用户"><a href="#创建-Swift-用户" class="headerlink" title="创建 Swift 用户"></a>创建 Swift 用户</h2><p><code>Swift</code>用户是作为子用户<code>subuser</code>被创建的，执行以下命令：</p>
-<p>其中<code>swift_keys</code>中的<code>user</code>和<code>secret_key</code>用于之后的<code>swift</code>接口访问确认</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div></pre></td><td class="code"><pre><div class="line">[root@node1 ~]# radosgw-admin subuser create --uid=admin --subuser=admin:swift --access=full</div><div class="line">2017-11-08 16:55:05.371174 7fb4cbfc2c40  0 WARNING: detected a version of libcurl which contains a bug in curl_multi_wait(). enabling a workaround that may degrade performance slightly.</div><div class="line">&#123;</div><div class="line">    &quot;user_id&quot;: &quot;admin&quot;,</div><div class="line">    &quot;display_name&quot;: &quot;First user&quot;,</div><div class="line">    &quot;email&quot;: &quot;&quot;,</div><div class="line">    &quot;suspended&quot;: 0,</div><div class="line">    &quot;max_buckets&quot;: 1000,</div><div class="line">    &quot;auid&quot;: 0,</div><div class="line">    &quot;subusers&quot;: [</div><div class="line">        &#123;</div><div class="line">            &quot;id&quot;: &quot;admin:swift&quot;,</div><div class="line">            &quot;permissions&quot;: &quot;full-control&quot;</div><div class="line">        &#125;</div><div class="line">    ],</div><div class="line">    &quot;keys&quot;: [</div><div class="line">        &#123;</div><div class="line">            &quot;user&quot;: &quot;admin&quot;,</div><div class="line">            &quot;access_key&quot;: &quot;1MWH3LWM1BS4ZF4HN5IH&quot;,</div><div class="line">            &quot;secret_key&quot;: &quot;cuObxYgtl1lJgqNxOIpENycVqXfxLxZ8z5IXDM0O&quot;</div><div class="line">        &#125;</div><div class="line">    ],</div><div class="line">    &quot;swift_keys&quot;: [</div><div class="line">        &#123;</div><div class="line">            &quot;user&quot;: &quot;admin:swift&quot;,</div><div class="line">            &quot;secret_key&quot;: &quot;PKRXACd8Ysgx7MCTjd9gHnL3sdpJ2J6wsuy2IS0P&quot;</div><div class="line">        &#125;</div><div class="line">    ],</div><div class="line">    &quot;caps&quot;: [],</div><div class="line">    &quot;op_mask&quot;: &quot;read, write, delete&quot;,</div><div class="line">    &quot;default_placement&quot;: &quot;&quot;,</div><div class="line">    &quot;placement_tags&quot;: [],</div><div class="line">    &quot;bucket_quota&quot;: &#123;</div><div class="line">        &quot;enabled&quot;: false,</div><div class="line">        &quot;check_on_raw&quot;: false,</div><div class="line">        &quot;max_size&quot;: -1,</div><div class="line">        &quot;max_size_kb&quot;: 0,</div><div class="line">        &quot;max_objects&quot;: -1</div><div class="line">    &#125;,</div><div class="line">    &quot;user_quota&quot;: &#123;</div><div class="line">        &quot;enabled&quot;: false,</div><div class="line">        &quot;check_on_raw&quot;: false,</div><div class="line">        &quot;max_size&quot;: -1,</div><div class="line">        &quot;max_size_kb&quot;: 0,</div><div class="line">        &quot;max_objects&quot;: -1</div><div class="line">    &#125;,</div><div class="line">    &quot;temp_url_keys&quot;: [],</div><div class="line">    &quot;type&quot;: &quot;rgw&quot;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h2 id="测试-S3-接口"><a href="#测试-S3-接口" class="headerlink" title="测试 S3 接口"></a>测试 S3 接口</h2><p>需要创建一个<code>python</code>测试脚本来测试<code>S3</code>访问。该脚本会连接<code>RGW</code>，创建一个<code>bucket</code>并打印输出所有的<code>bucket</code>。其中，变量<code>access_key</code>和<code>secret_access</code>的值，来自于创建<code>S3</code>用户命令时，<code>radosgw-admin</code>命令返回的<code>keys-&gt;access_key</code>和<code>keys-&gt;secret_key</code>。</p>
-<h3 id="安装-python-boto库"><a href="#安装-python-boto库" class="headerlink" title="安装 python-boto库"></a>安装 python-boto库</h3><p>执行以下步骤，首先安装<code>python-boto</code>库，该库用于连接<code>S3</code>：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">yum install -y python-boto</div></pre></td></tr></table></figure>
-<h3 id="创建脚本"><a href="#创建脚本" class="headerlink" title="创建脚本"></a>创建脚本</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">#!/usr/bin/python  </div><div class="line"># -*- coding:utf-8 -*-  </div><div class="line"></div><div class="line">import boto.s3.connection  </div><div class="line">   </div><div class="line">access_key = &apos;1MWH3LWM1BS4ZF4HN5IH&apos;     </div><div class="line">secret_key =&apos;cuObxYgtl1lJgqNxOIpENycVqXfxLxZ8z5IXDM0O&apos;  </div><div class="line">conn = boto.connect_s3(  </div><div class="line">        aws_access_key_id=access_key,  </div><div class="line">        aws_secret_access_key=secret_key,  </div><div class="line">        host=&apos;&#123;hostname&#125;&apos;,port=&#123;port&#125;,  </div><div class="line">        is_secure=False,calling_format=boto.s3.connection.OrdinaryCallingFormat(),  </div><div class="line">        )  </div><div class="line">   </div><div class="line">bucket = conn.create_bucket(&apos;my-new-bucket&apos;)  </div><div class="line">for bucket in conn.get_all_buckets():  </div><div class="line">    print&quot;&#123;name&#125; &#123;created&#125;&quot;.format(  </div><div class="line">            name=bucket.name,  </div><div class="line">            created=bucket.creation_date,  </div><div class="line">            )</div></pre></td></tr></table></figure>
-<p>需要将上面的<code>{hostname}</code>替换成对应的<code>hostname</code>或者<code>IP</code>,例如<code>192.168.1.1</code>；将<code>{port}</code>替换成<code>RGW</code>运行的端口，默认为<code>7480</code>；前者为字符串，后者为数字</p>
-<h3 id="执行脚本测试"><a href="#执行脚本测试" class="headerlink" title="执行脚本测试"></a>执行脚本测试</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">[root@node1 ceph]# python s3test.py </div><div class="line">my-new-bucket 2017-11-01T10:58:53.670Z</div></pre></td></tr></table></figure>
-<h2 id="测试-Swift-接口"><a href="#测试-Swift-接口" class="headerlink" title="测试 Swift 接口"></a>测试 Swift 接口</h2><h3 id="安装相关软件包"><a href="#安装相关软件包" class="headerlink" title="安装相关软件包"></a>安装相关软件包</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">pip installpython-setuptools    </div><div class="line">pip installpython-swiftclient</div></pre></td></tr></table></figure>
-<h3 id="命令行访问"><a href="#命令行访问" class="headerlink" title="命令行访问"></a>命令行访问</h3><p>替换<code>{ip}</code>，<code>{port}</code>和<code>{swift_secret_key}</code>，其中<code>{swift_secret_key}</code>为创建<code>Swift</code>用户时，<code>radosgw-admin</code>命令返回的<code>swift_keys-&gt;secret_key</code>的值</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">swift -A http://&#123;ip&#125;:&#123;port&#125;/auth/1.0 -Utestuser:swift -K &apos;&#123;swift_secret_key&#125;&apos; list</div></pre></td></tr></table></figure>
-<p>正常输出应该如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">[root@node1 ceph]# swift -Ahttp://192.168.1.1:7480/auth/1.0 -U admin:swift -K &apos;PKRXACd8Ysgx7MCTjd9gHnL3sdpJ2J6wsuy2IS0P&apos; list  </div><div class="line">my-new-bucket</div></pre></td></tr></table></figure>
-<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p><code>ceph-deploy</code>命令，大大地简化了对<code>Ceph</code>集群和<code>RGW的</code>安装和配置，可以很快速的搭建测试环境，达到测试效果，但如果要在生产环境中应用的话，可能需要手动做一些配置就，不能完全依赖<code>ceph-deploy</code>了。</p>
+<h2 id="集群状况："><a href="#集群状况：" class="headerlink" title="集群状况："></a>集群状况：</h2><p><code>Cluster</code>：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">root@gigabyte:~# ceph -s</div><div class="line">    cluster de3627bb-c748-4623-8cb1-b88c646ff5d5</div><div class="line">     health HEALTH_WARN 42 pgs degraded; 1 pgs down; 1 pgs peering; 17 pgs recovering; 25 pgs recovery_wait; 359 pgs stale; 42 pgs stuck degraded; 1 pgs stuck inactive; 359 pgs stuck stale; 244 pgs stuck unclean; recovery 6665/163785 objects degraded (4.069%); 6665/163785 unfound (4.069%); 2/23 in osds are down</div><div class="line">     monmap e1: 1 mons at &#123;erxdl=10.16.180.28:6789/0&#125;, election epoch 2, quorum 0 erxdl</div><div class="line">     mdsmap e654: 1/1/1 up &#123;0=irlhy=up:active&#125;</div><div class="line">     osdmap e218: 23 osds: 21 up, 23 in</div><div class="line">      pgmap v8943: 7936 pgs, 16 pools, 639 GB data, 159 kobjects</div><div class="line">            105 GB used, 76827 GB / 76933 GB avail</div><div class="line">            6665/163785 objects degraded (4.069%); 6665/163785 unfound (4.069%)</div><div class="line">                 359 stale+active+clean</div><div class="line">                 201 active+remapped</div><div class="line">                7333 active+clean</div><div class="line">                  25 active+recovery_wait+degraded</div><div class="line">                  17 active+recovering+degraded</div><div class="line">                   1 down+peering</div></pre></td></tr></table></figure>
+<p><code>OSD</code>：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">root@test:/data# ceph osd tree</div><div class="line"># id	weight	type name	up/down	reweight</div><div class="line">-3	82.29	pool 4T</div><div class="line">-4	82.29		host test1</div><div class="line">0	0			osd.0	up	    1	</div><div class="line">8	3.578			osd.8	up	    1	</div><div class="line">17	3.578			osd.17	up	    1	</div><div class="line">5	3.578			osd.5	up	    1	    </div><div class="line">...</div><div class="line">...</div><div class="line">16	3.578			osd.16	up	    1	</div><div class="line">10	3.578			osd.10	up	    1	</div><div class="line">15	3.578			osd.15	up	    1	</div><div class="line">13	0			osd.13	down	1</div></pre></td></tr></table></figure>
+<p>由上可知：<code>osd.0</code>和<code>osd.13</code>已经被集群剔除，并且权重变为了<code>0</code></p>
+<h2 id="报错日志："><a href="#报错日志：" class="headerlink" title="报错日志："></a>报错日志：</h2><h3 id="报错1："><a href="#报错1：" class="headerlink" title="报错1："></a>报错1：</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">2017-12-06 10:18:05.180802 7f4809ae07c0 -1 osd.13 234 set_disk_tp_priority(22) Invalid argument: osd_disk_thread_ioprio_class is  but only the following values are allowed: idle, be or rt</div><div class="line"></div><div class="line">2017-12-06 10:10:44.974634 7f4cbcfff700 -1 os/FileStore.cc: In function &apos;virtual int FileStore::read(coll_t, const ghobject_t&amp;, uint64_t, size_t, ceph::bufferlist&amp;, bool)&apos; thread 7f4cbcfff700</div><div class="line"></div><div class="line">2017-12-06 10:10:44.972299 os/FileStore.cc: 2851: FAILED assert(allow_eio || !m_filestore_fail_eio || got != -5)</div></pre></td></tr></table></figure>
+<h3 id="报错2"><a href="#报错2" class="headerlink" title="报错2:"></a>报错2:</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">2017-12-06 10:32:56.602065 7f576071b7c0  0 genericfilestorebackend(/ceph/osd.13) detect_features: FIEMAP ioctl is supported and appears to work</div><div class="line"></div><div class="line">2017-12-06 10:32:56.602095 7f576071b7c0  0 genericfilestorebackend(/ceph/osd.13) detect_features: FIEMAP ioctl is disabled via &apos;filestore fiemap&apos; config option</div><div class="line"> </div><div class="line">2017-12-06 10:32:56.620337 7f576071b7c0  0 genericfilestorebackend(/ceph/osd.13) detect_features: syncfs(2) syscall fully supported (by glibc and kernel)</div><div class="line"></div><div class="line">2017-12-06 10:32:56.739219 7f576071b7c0  0 filestore(/ceph/osd.13) limited size xattrs</div></pre></td></tr></table></figure>
+<h3 id="报错3："><a href="#报错3：" class="headerlink" title="报错3："></a>报错3：</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">2017-12-06 10:16:32.442815 7f06cddf2700 -1 journal aio to 1398235136~434176 got (5) Input/output error</div><div class="line"></div><div class="line">2017-12-06 10:16:32.443787 7f06cddf2700 -1 os/FileJournal.cc: In function &apos;void FileJournal::write_finish_thread_entry()&apos; thread 7f06cddf2700</div><div class="line"></div><div class="line">2017-12-06 10:16:32.442867 os/FileJournal.cc: 1383: FAILED assert(0 == &quot;unexpected aio error&quot;)</div></pre></td></tr></table></figure>
+<h3 id="报错4："><a href="#报错4：" class="headerlink" title="报错4："></a>报错4：</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">2017-12-06 00:52:33.814785 7fb24be877c0 -1 filestore(/ceph/osd.13) FileStore::mount: unable to access basedir &apos;/ceph/osd.0&apos;: (30) Read-only file system</div><div class="line"></div><div class="line">2017-12-06 00:52:33.814801 7fb24be877c0 -1 osd.13 0 OSD:init: unable to mount object store</div><div class="line"></div><div class="line">2017-12-06 00:52:33.814806 7fb24be877c0 -1 ^[[0;31m ** ERROR: osd init failed: (30) Read-only file system</div></pre></td></tr></table></figure>
+<h2 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h2><p>首先我们肯定是要尝试把<code>OSD</code>起来嘛，所以要做的就是先给<code>osd</code>加权重，接着加入集群，最后再启动。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">ceph osd crush add osd.0 3.578 host=test1</div><div class="line">ceph osd in osd.0</div><div class="line">service ceph start osd.0</div><div class="line"></div><div class="line">ceph osd crush add osd.13 3.578 host=test1</div><div class="line">ceph osd in osd.13</div><div class="line">service ceph start osd.13</div></pre></td></tr></table></figure>
+<p>这时候发现<code>OSD</code>还是起不来，我们就去看<code>osd.0</code>和<code>osd.13</code>的<code>log</code>，也就会发现以上一系列的报错日志，错误较多；</p>
+<p><code>filesystem</code>出现较多<code>limited size xattrs</code>这一行引起了我的注意，由于此环境<code>osd</code>用的文件系统是<code>ext4</code>，而<code>ext4</code>对存储<code>xattr</code>的大小有限制，使得OSD信息不能安全的保存。</p>
+<p>所以在<code>ceph</code>中如果<code>osd</code>采用<code>ext4</code>文件系统时，需要在配置项里面加入相关配置实现用<code>omap</code>来存储<code>xattr</code>，而<code>xfs</code>文件系统由于对<code>xattr</code>的存储是足够的，所以不存在这个问题。</p>
+<p>所以解决这个问题有三个方案：</p>
+<h3 id="方案1"><a href="#方案1" class="headerlink" title="方案1"></a>方案1</h3><p>更改文件系统，将<code>ext4</code>改成<code>xfs</code></p>
+<h3 id="方案2"><a href="#方案2" class="headerlink" title="方案2"></a>方案2</h3><p>文件系统还是采用<code>ext4</code>，配置让<code>Ceph filestore</code>中的<code>omap</code>存储<code>xattr</code>，在<code>/etc/ceph/ceph.conf</code>中<code>global section</code>或<code>osd section</code>中插入一行以下配置：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">filestore xattr use omap = true</div></pre></td></tr></table></figure>
+<h3 id="方案3"><a href="#方案3" class="headerlink" title="方案3"></a>方案3</h3><p>限制对象的长度大小，同样是修改<code>ceph.conf</code>，在<code>global section</code>或者<code>osd section</code>中加入以下配置：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">osd max object name len = 256 </div><div class="line">osd max object namespace len = 64</div></pre></td></tr></table></figure>
+<p>然后再次重启以下对应的<code>osd</code>服务就OK了！</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>在<code>Ceph</code>中如果用<code>ext4</code>文件系统的话，一定要注意配置将<code>xattr</code>存在<code>omap</code>中。</p>
 
       
     </div>
@@ -369,13 +357,13 @@
   
     
     <div class="copyright">
-        <p><span>本文标题:</span><a  href="/2017/11/08/Ceph-RGW/">RGW 安装和创建</a></p>
+        <p><span>本文标题:</span><a  href="/2017/12/08/Filesystem-Bug-Fix/">故障修复：文件系统导致OSD启动失败</a></p>
         <p><span>文章作者:</span><a  href="/" title="访问 Tony 的个人博客">Tony</a></p>
-        <p><span>发布时间:</span>2017年11月08日 - 23时11分</p>
-        <p><span>最后更新:</span>2017年11月30日 - 11时09分</p>
+        <p><span>发布时间:</span>2017年12月08日 - 20时54分</p>
+        <p><span>最后更新:</span>2017年12月10日 - 20时59分</p>
         <p>
-            <span>原始链接:</span><a class="post-url" href="/2017/11/08/Ceph-RGW/" title="RGW 安装和创建">https://tony-yin.github.io/2017/11/08/Ceph-RGW/</a>
-            <span class="copy-path" data-clipboard-text="原文: https://tony-yin.github.io/2017/11/08/Ceph-RGW/　　作者: Tony" title=""></span>
+            <span>原始链接:</span><a class="post-url" href="/2017/12/08/Filesystem-Bug-Fix/" title="故障修复：文件系统导致OSD启动失败">https://tony-yin.github.io/2017/12/08/Filesystem-Bug-Fix/</a>
+            <span class="copy-path" data-clipboard-text="原文: https://tony-yin.github.io/2017/12/08/Filesystem-Bug-Fix/　　作者: Tony" title=""></span>
         </p>
         <p>
             <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/cn/" title="中国大陆 (CC BY-NC-SA 3.0 CN)" target = "_blank">"署名-非商用-相同方式共享 3.0"</a> 转载请保留原文链接及作者。
@@ -386,18 +374,18 @@
 
 <nav id="article-nav">
   
-    <a  href="/2017/11/08/Ceph-NFS-Ganesha/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a  href="/2017/12/10/Into-Withe-Night/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption"><</strong>
       <div class="article-nav-title">
         
-          通过ganesha-nfs导出Ceph为NFS（Luminous）
+          阅读感悟：《白夜行》
         
       </div>
     </a>
   
   
-    <a  href="/2017/10/31/RBD-Mount-NFS/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">使用NFS挂载RBD</div>
+    <a  href="/2017/12/07/RBD-HA/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">通过 Keepalived 实现 Ceph RBD 的高可用</div>
       <strong class="article-nav-caption">></strong>
     </a>
   
@@ -409,7 +397,7 @@
 
     <div id="toc" class="toc-article">
     <strong class="toc-title">文章目录</strong>
-    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#部署-RGW"><span class="toc-number">1.</span> <span class="toc-text">部署 RGW</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#进入-ceph-目录"><span class="toc-number">1.1.</span> <span class="toc-text">进入 ceph 目录</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#安装-ceph-object-gateway"><span class="toc-number">1.2.</span> <span class="toc-text">安装 ceph object gateway</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Gather-keys"><span class="toc-number">1.3.</span> <span class="toc-text">Gather keys</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#创建-rgw-实例"><span class="toc-number">1.4.</span> <span class="toc-text">创建 rgw 实例</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Ceph-CLI"><span class="toc-number">1.5.</span> <span class="toc-text">Ceph CLI</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#测试是否安装成功"><span class="toc-number">1.6.</span> <span class="toc-text">测试是否安装成功</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#创建-S3-用户"><span class="toc-number">2.</span> <span class="toc-text">创建 S3 用户</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#创建-Swift-用户"><span class="toc-number">3.</span> <span class="toc-text">创建 Swift 用户</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#测试-S3-接口"><span class="toc-number">4.</span> <span class="toc-text">测试 S3 接口</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#安装-python-boto库"><span class="toc-number">4.1.</span> <span class="toc-text">安装 python-boto库</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#创建脚本"><span class="toc-number">4.2.</span> <span class="toc-text">创建脚本</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#执行脚本测试"><span class="toc-number">4.3.</span> <span class="toc-text">执行脚本测试</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#测试-Swift-接口"><span class="toc-number">5.</span> <span class="toc-text">测试 Swift 接口</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#安装相关软件包"><span class="toc-number">5.1.</span> <span class="toc-text">安装相关软件包</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#命令行访问"><span class="toc-number">5.2.</span> <span class="toc-text">命令行访问</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#小结"><span class="toc-number">6.</span> <span class="toc-text">小结</span></a></li></ol>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#集群状况："><span class="toc-number">1.</span> <span class="toc-text">集群状况：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#报错日志："><span class="toc-number">2.</span> <span class="toc-text">报错日志：</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#报错1："><span class="toc-number">2.1.</span> <span class="toc-text">报错1：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#报错2"><span class="toc-number">2.2.</span> <span class="toc-text">报错2:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#报错3："><span class="toc-number">2.3.</span> <span class="toc-text">报错3：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#报错4："><span class="toc-number">2.4.</span> <span class="toc-text">报错4：</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#解决方案"><span class="toc-number">3.</span> <span class="toc-text">解决方案</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#方案1"><span class="toc-number">3.1.</span> <span class="toc-text">方案1</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#方案2"><span class="toc-number">3.2.</span> <span class="toc-text">方案2</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#方案3"><span class="toc-number">3.3.</span> <span class="toc-text">方案3</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-number">4.</span> <span class="toc-text">总结</span></a></li></ol>
 </div>
 <style>
     .left-col .switch-btn {
@@ -469,13 +457,13 @@
 
     <div class="scroll" id="post-nav-button">
         
-            <a  href="/2017/11/08/Ceph-NFS-Ganesha/" title="上一篇: 通过ganesha-nfs导出Ceph为NFS（Luminous）">
+            <a  href="/2017/12/10/Into-Withe-Night/" title="上一篇: 阅读感悟：《白夜行》">
                 <i class="fa fa-angle-left"></i>
             </a>
         
         <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
         
-            <a  href="/2017/10/31/RBD-Mount-NFS/" title="下一篇: 使用NFS挂载RBD">
+            <a  href="/2017/12/07/RBD-HA/" title="下一篇: 通过 Keepalived 实现 Ceph RBD 的高可用">
                 <i class="fa fa-angle-right"></i>
             </a>
         
