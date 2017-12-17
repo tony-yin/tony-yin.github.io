@@ -7,21 +7,23 @@
   
   
   
-  <title>阅读感悟：《Ceph Cookbook》 | Tony&#39;s blog</title>
+  <title>译：Linux 文件系统介绍 | Tony&#39;s blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="阅读周期：2017/10/15 ～ 2017/11/26阅读人群：拥有ceph基础知识想进阶的同学阅读评分：4.8 这本书和之前一本《ceph分布式存储学习指南》是同一个作者：卡兰.辛格。是ceph界最先出版的学习书籍了，对他表示崇高的敬意和感谢。这本书绝不是上一本书的复制品，我觉得我的运气很好，先阅读了上一本然后才看的这一本，没错，在我看来这本书是上一本的进阶版，内容更加饱满和细致。很多方面">
-<meta name="keywords" content="Ceph,Read">
+  <meta name="description" content="原文地址：https://opensource.com/life/16/10/introduction-linux-filesystems  本文旨在对Linux文件系统概念进行深层次的讨论。本文既不准备对某个特定类型的文件系统（比如ext4）进行基础性的描述，也不打算作为一个讲解文件系统命令的教程。">
+<meta name="keywords" content="Ceph,Linux,Filesystem">
 <meta property="og:type" content="article">
-<meta property="og:title" content="阅读感悟：《Ceph Cookbook》">
-<meta property="og:url" content="https://tony-yin.github.io/2017/11/26/read-ceph-cookbook/index.html">
+<meta property="og:title" content="译：Linux 文件系统介绍">
+<meta property="og:url" content="https://tony-yin.github.io/2017/12/17/Linux-Filesystem/index.html">
 <meta property="og:site_name" content="Tony&#39;s blog">
-<meta property="og:description" content="阅读周期：2017/10/15 ～ 2017/11/26阅读人群：拥有ceph基础知识想进阶的同学阅读评分：4.8 这本书和之前一本《ceph分布式存储学习指南》是同一个作者：卡兰.辛格。是ceph界最先出版的学习书籍了，对他表示崇高的敬意和感谢。这本书绝不是上一本书的复制品，我觉得我的运气很好，先阅读了上一本然后才看的这一本，没错，在我看来这本书是上一本的进阶版，内容更加饱满和细致。很多方面">
-<meta property="og:image" content="http://ow0mgad6r.bkt.clouddn.com/cookbook-600x450.png">
-<meta property="og:updated_time" content="2017-11-26T15:55:54.593Z">
+<meta property="og:description" content="原文地址：https://opensource.com/life/16/10/introduction-linux-filesystems  本文旨在对Linux文件系统概念进行深层次的讨论。本文既不准备对某个特定类型的文件系统（比如ext4）进行基础性的描述，也不打算作为一个讲解文件系统命令的教程。">
+<meta property="og:image" content="http://ow0mgad6r.bkt.clouddn.com/community-penguins-osdc-lead.png">
+<meta property="og:image" content="http://ow0mgad6r.bkt.clouddn.com/filesystem_diagram.png">
+<meta property="og:image" content="http://ow0mgad6r.bkt.clouddn.com/linux-filesystaem.png">
+<meta property="og:updated_time" content="2017-12-17T15:42:41.268Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="阅读感悟：《Ceph Cookbook》">
-<meta name="twitter:description" content="阅读周期：2017/10/15 ～ 2017/11/26阅读人群：拥有ceph基础知识想进阶的同学阅读评分：4.8 这本书和之前一本《ceph分布式存储学习指南》是同一个作者：卡兰.辛格。是ceph界最先出版的学习书籍了，对他表示崇高的敬意和感谢。这本书绝不是上一本书的复制品，我觉得我的运气很好，先阅读了上一本然后才看的这一本，没错，在我看来这本书是上一本的进阶版，内容更加饱满和细致。很多方面">
-<meta name="twitter:image" content="http://ow0mgad6r.bkt.clouddn.com/cookbook-600x450.png">
+<meta name="twitter:title" content="译：Linux 文件系统介绍">
+<meta name="twitter:description" content="原文地址：https://opensource.com/life/16/10/introduction-linux-filesystems  本文旨在对Linux文件系统概念进行深层次的讨论。本文既不准备对某个特定类型的文件系统（比如ext4）进行基础性的描述，也不打算作为一个讲解文件系统命令的教程。">
+<meta name="twitter:image" content="http://ow0mgad6r.bkt.clouddn.com/community-penguins-osdc-lead.png">
   
     <link rel="alternative" href="/atom.xml" title="Tony&#39;s blog" type="application/atom+xml">
   
@@ -279,11 +281,11 @@
     </div>
 </nav>
 
-      <div class="body-wrap"><article id="post-read-ceph-cookbook" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-Linux-Filesystem" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a  href="/2017/11/26/read-ceph-cookbook/" class="article-date">
-      <time datetime="2017-11-26T14:52:45.000Z" itemprop="datePublished">2017-11-26</time>
+      <a  href="/2017/12/17/Linux-Filesystem/" class="article-date">
+      <time datetime="2017-12-17T14:01:15.000Z" itemprop="datePublished">2017-12-17</time>
 </a>
 
     </div>
@@ -297,7 +299,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      阅读感悟：《Ceph Cookbook》
+      译：Linux 文件系统介绍
     </h1>
   
 
@@ -313,7 +315,7 @@
 
         
     <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Ceph/">Ceph</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Read/">Read</a></li></ul>
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Ceph/">Ceph</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Filesystem/">Filesystem</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/">Linux</a></li></ul>
     </div>
 
         <div class="clearfix"></div>
@@ -323,22 +325,76 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <center><img src="http://ow0mgad6r.bkt.clouddn.com/cookbook-600x450.png" alt="ceph cookbook"></center>
+        <center><img src="http://ow0mgad6r.bkt.clouddn.com/community-penguins-osdc-lead.png" alt="Linux Filesystem"></center>
 
-<p>阅读周期：2017/10/15 ～ 2017/11/26<br>阅读人群：拥有<code>ceph</code>基础知识想进阶的同学<br>阅读评分：4.8</p>
-<p>这本书和之前一本《ceph分布式存储学习指南》是同一个作者：卡兰.辛格。是<code>ceph</code>界最先出版的学习书籍了，对他表示崇高的敬意和感谢。这本书绝不是上一本书的复制品，我觉得我的运气很好，先阅读了上一本然后才看的这一本，没错，在我看来这本书是上一本的进阶版，内容更加饱满和细致。很多方面还是讲解的比较全面的，而不是笼统的说那些道理，基本上每个章节都可以让读者进行实战代码演练。这本书让我对<code>cookbook</code>系列的书籍有着很好的印象。</p>
+<blockquote>
+<p>原文地址：<a href="https://opensource.com/life/16/10/introduction-linux-filesystems" target="_blank" rel="external">https://opensource.com/life/16/10/introduction-linux-filesystems</a></p>
+</blockquote>
+<p>本文旨在对<code>Linux</code>文件系统概念进行深层次的讨论。本文既不准备对某个特定类型的文件系统（比如<code>ext4</code>）进行基础性的描述，也不打算作为一个讲解文件系统命令的教程。</p>
 <a id="more"></a>
-<h2 id="第1章-Ceph介绍和其他"><a href="#第1章-Ceph介绍和其他" class="headerlink" title="第1章 Ceph介绍和其他"></a>第1章 Ceph介绍和其他</h2><p>第1章没什么好说的，就是传统的介绍和与其他存储做比较。然后第一章还把<code>ceph</code>的部署也插入了进来，估计是不想浪费过多的章节讲解这么基础的 东西吧，嗯，很棒。</p>
-<h2 id="第2章-使用Ceph块存储"><a href="#第2章-使用Ceph块存储" class="headerlink" title="第2章 使用Ceph块存储"></a>第2章 使用Ceph块存储</h2><p>哇，我只想说讲的太全面了，第一本讲解的方式永远是三个存储方式放在一起介绍一下，而这本书是每一个存储方式分了一章。从讲解块设备的创建、映射、调整、快照、克隆到和<code>openstack</code>的集成，面面俱到，为了阐述<code>rbd</code>是<code>openstack</code>的最佳匹配，分别就<code>openstack</code>的<code>glance</code>、<code>cinder</code>和<code>nova</code>讲解了详细的对接挂载方式，过程是可以自己实操的。</p>
-<h2 id="第3章-使用Ceph对象存储"><a href="#第3章-使用Ceph对象存储" class="headerlink" title="第3章 使用Ceph对象存储"></a>第3章 使用Ceph对象存储</h2><p>这一章除了讲解老一套的<code>rados</code>网关配置与<code>S3</code>和<code>Swift</code>对接之外，还讲了<code>rados</code>网关和<code>openstack keystone</code>的集成。最大的特色是讲解了<code>radosgw</code>多区域网关配置和测试，无限逼近线上大规模生产环境的场景。最后就<code>RGW</code>创建文件同步和共享服务进行了介绍，干货多多。</p>
-<h2 id="第4章-使用Ceph文件系统"><a href="#第4章-使用Ceph文件系统" class="headerlink" title="第4章 使用Ceph文件系统"></a>第4章 使用Ceph文件系统</h2><p>借着<code>cephfs</code>介绍了<code>mds</code>一番，然后讲解了多种访问<code>cephfs</code>的方式，然后就是熟悉的将<code>cephfs</code>导出为<code>nfs</code>，这算是很常见的场景了，但是据我所知目前<code>ceph</code>版本的<code>cephfs</code>的性能堪忧，以至于用的比较多的还是<code>rbd</code>，希望<code>ceph</code>可以在之后的版本中将<code>cephfs</code>做的越开越好。最后介绍了<code>ceph-dokan</code>的<code>cephfs</code>的<code>windows</code>客户端，很牛逼，还在持续迭代中。还介绍了如何使得<code>cephfs</code>替换<code>hdfs</code>，这个我之前在<code>ceph</code>线下沙龙南京站听那位中兴的工程师讲的<code>cephfs</code>和<code>hadoop</code>的恋爱史印象非常深刻，讲的蛮好的。</p>
-<h2 id="第5章-用Calamari监控Ceph集群"><a href="#第5章-用Calamari监控Ceph集群" class="headerlink" title="第5章 用Calamari监控Ceph集群"></a>第5章 用Calamari监控Ceph集群</h2><p>先科普了一下各大监控命令和手段，然后介绍了<code>Calamari</code>这个工具的编译和搭建，这个工具主要就是一个<code>dashboard</code>，并不是那种能在<code>UI</code>上操作和管理集群的工具，并且已经很久没再更新了，用于生产环境的请注意，自己玩玩倒是还可以。</p>
-<h2 id="第6章-操作和管理Ceph集群"><a href="#第6章-操作和管理Ceph集群" class="headerlink" title="第6章 操作和管理Ceph集群"></a>第6章 操作和管理Ceph集群</h2><p>先是介绍了两种方式管理各种守护进程和服务。然后讲解了横向扩展和纵向扩展。最后介绍了集群的升级。</p>
-<h2 id="第7章-深入Ceph"><a href="#第7章-深入Ceph" class="headerlink" title="第7章 深入Ceph"></a>第7章 深入Ceph</h2><p>这一章蛮重要的，首先讲解了<code>crush</code>的机制和算法，然后介绍了<code>ceph</code>的身份验证，也就是<code>cephx</code>，最后结合<code>crush</code>和<code>pg</code>创建了定制化的<code>osd</code>和<code>pool</code>。</p>
-<h2 id="第8章-Ceph生产计划和性能优化"><a href="#第8章-Ceph生产计划和性能优化" class="headerlink" title="第8章 Ceph生产计划和性能优化"></a>第8章 Ceph生产计划和性能优化</h2><p>这本书在讲解这一部分明显要比上本书要全面的多，分别针对操作系统、<code>osd</code>、<code>filestore</code>、<code>cilent</code>等性能优化给出参数配置建议。然后介绍了纠删码的各种插件，配了结构图很好理解，最后还是缓存分层，做了测试，更能清楚了了解分层的原理。</p>
-<h2 id="第9章-Ceph虚拟存储管理器（VSM）"><a href="#第9章-Ceph虚拟存储管理器（VSM）" class="headerlink" title="第9章 Ceph虚拟存储管理器（VSM）"></a>第9章 Ceph虚拟存储管理器（VSM）</h2><p>这个工具就要比上面提到的<code>calamari</code>之类的工具要强得多了，不仅有<code>dashboard</code>可以监控集群，还可以操作和管理集群，还有牛逼的是升级<code>ceph</code>方面，你也只需要修改配置要升级版本的网址，便可以实现自动升级，这是<code>intel</code>开发并提供开源的一款产品，值得去尝试一番。</p>
-<h2 id="第10章"><a href="#第10章" class="headerlink" title="第10章"></a>第10章</h2><p>同样的基准测试，不一样的味道。这一章提供了<code>n</code>多种的方式。有<code>dd</code>，有<code>rados bench</code>，有<code>rados load-gen</code>，<code>rdb bench-write</code>和<code>fio</code>等等。从测试网络，池，块设备和模拟负载应有尽有，关键这些都是<code>ceph</code>自带的除了<code>fio</code>。然后介绍了<code>ceph daemon</code>和<code>ceph tell</code>两个高校操作手段，最后介绍了使用<code>Ansible</code>部署<code>Ceph</code>，它可以通过配置文件配置集群信息而搭建集群，也就是说不需要手动的一个一个创建了，这样就显得很高效了。</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p><code>ceph</code>已经看完两本书了，按理来说不应该再是那种一无所知的小白了，我觉得我缺少的还是大量的实践，所以之后我会对着这两本书照着例子再把代码敲一遍加深印象，然后对<code>ceph</code>应该会有另一番理解吧。接下来的进阶路线应该是中兴出版的《ceph原理和源码分析》了把，这本今年才出版的书我已经入手了，看了第一章，总体觉得还是蛮深入的，大量的源码，需要一定的知识铺垫，正好之后我也有看<code>ceph</code>源码和提供贡献的想法，所以正好那这本书过渡一下，加油！</p>
+<p>每台通用的计算机都需要把各种类型的数据存储在硬盘驱动器(<code>HDD</code>)或者一些同样功能的设备上，比如<code>USB</code>。存储在这些设备上有几个原因，首先,<code>RAM</code>会在计算机电源关闭时丢失内容，虽然也有非易失性类型的内存，可以在电源关闭后维持数据存储不丢失(如<code>flash</code>内存也就是闪存使用的<code>USB</code>和固态硬盘)，但<code>flash</code>内存要比一些标准的、挥发性的内存比如<code>DDR3</code>和其他类似的类型昂贵的多。</p>
+<p>数据需要存储在硬盘驱动器上的第二个原因是，即使是标准的<code>RAM</code>也要比磁盘空间更昂贵。<code>RAM</code>和磁盘成本都在迅速下降，但如果按每字节的成本来算的话还是<code>RAM</code>更高。我们就基于<code>16GB RAM</code>和<code>2TB</code>硬盘的成本，快速计算其每个字节的成本，结果显示  <code>RAM</code>比硬盘驱动器的价格高约<code>71</code>倍。目前，<code>RAM</code>的典型成本大约每字节<code>0.0000000043743750</code>。</p>
+<p>更加直截了当说的话，在计算机的早期，一种内存是基于<code>CRT</code>屏幕上的点的，每一比特大约<code>1</code>美元，这是非常非常昂贵的!</p>
+<h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><p>你也许会听到人们经常以不同的或者混淆的方式谈论文件系统这个词。这个词本身可能有多重含义，你可能需要从讨论或文档的语境中辨别真正的意思。</p>
+<p>我将尝试根据我在不同情况下使用它的方式来定义“文件系统”的各种含义。注意，在试图遵循标准的“official”含义时，我的意图是根据它的各种用法定义术语。在本文后面的小节中，将更详细地讨论这些含义。</p>
+<ol>
+<li>整个<code>Linux</code>目录结构从顶部(/)根目录开始。</li>
+<li>各种特定类型的数据存储格式，如<code>EXT3</code>、<code>EXT4</code>、<code>BTRFS</code>、<code>XFS</code>等。<code>Linux</code>支持近<code>100</code>种类型的文件系统，包括一些非常古老的文件系统，以及一些最新的文件系统。每个文件系统类型都使用自己的元数据结构来定义如何存储和访问数据。</li>
+<li>一个分区或被格式化为特定类型文件系统的逻辑卷，可以被挂载到<code>Linux</code>文件系统上的指定挂载点上。</li>
+</ol>
+<h2 id="基本的文件系统功能"><a href="#基本的文件系统功能" class="headerlink" title="基本的文件系统功能"></a>基本的文件系统功能</h2><p>磁盘存储是必需的，它带来了一些有趣且不可避免的细节。显然，文件系统的设计目的是为数据的非易失性存储提供空间，这是它的最根本的功能。但是它还有许多其他重要的功能满足不同的需求。</p>
+<p>所有文件系统都需要提供一个命名空间（<code>namespace</code>）——即一个命名和组织的方法。它定义了如何命名文件，具体来说是文件名的长度和可用于文件名的字符的子集，这些字符可以从全部字符集中获取。它还定义了磁盘上数据的逻辑结构，例如使用目录来组织文件，而不是将它们集中在一个单一的、巨大的文件集中。</p>
+<p>一旦定义了名称空间，就需要一个元数据结构来为该名称空间提供逻辑基础。其中元数据包括支持分层目录结构所需的数据结构；用于确定磁盘上哪些块空间已经被使用和哪些可用的结构；允许维护文件和目录名称的结构；文件相关的信息，比如它们的大小和时间，比如创建时间、修改时间或最后访问时间等等；以及属于文件的数据在磁盘上面的位置。还有一些其他元数据用于存储关于磁盘划分的高级信息，如逻辑卷和分区。这个更高级别的元数据和它所代表的结构包含了描述存储在驱动器或分区上的文件系统的信息，这些元数据独立于上面提到的一般文件系统元数据。</p>
+<p>文件系统还需要<code>API</code>接口为系统函数调用提供访问，这些系统函数调用操作文件和目录等文件系统对象。<code>APIs</code>提供诸如创建、移动和删除文件之类的接口。它还提供了一些算法来确定文件放置在文件系统上的位置。这些算法还有确定速度或最小化磁盘碎片等作用。</p>
+<p>现代文件系统还提供了一个安全模式，它是一个为文件和目录定义访问权限的方案。<code>Linux</code>文件系统安全模式有助于确保用户只能访问他们自己的文件，而不是其他人或操作系统本身的文件。</p>
+<p>最后的构建块是实现所有这些功能所需的软件。为了改提高系统和程序员效率，<code>Linux</code>使用了一种<code>two-part</code>的软件实现方式。</p>
+<center><img src="http://ow0mgad6r.bkt.clouddn.com/filesystem_diagram.png" alt="filesystem diagram"></center><br><center>图1：Linux two-part 文件系统软件实现方式</center>
+
+<p>这两部分实现的第一部分是<code>Linux</code>虚拟文件系统。这个虚拟文件系统为内核和开发人员提供了访问<strong>所有类型</strong>文件系统的一组命令。虚拟文件系统软件调用特定的设备驱动程序来连接到各种类型的文件系统。文件系统特定的设备驱动程序是实现的第二部分。设备驱动程序将文件系统命令的标准集根据特定分区或逻辑卷上的文件系统类型做转换和解释。</p>
+<h2 id="目录结构"><a href="#目录结构" class="headerlink" title="目录结构"></a>目录结构</h2><p>作为一个通常很有条理的处女座，我喜欢把东西放在那些小而有组织的地方，而不是一个大的桶。使用目录可以帮助我存储和定位我想找的文件。目录也被称为文件夹，因为它们可以被看作实际生活中办公桌上保存文件的文件夹。</p>
+<p>在<code>Linux</code>和许多其他操作系统中，目录可以以树状的层次结构来构造。<code>Linux</code>目录结构在<a href="http://www.pathname.com/fhs/" target="_blank" rel="external">Linux文件系统层次标准(FHS)</a>中得到了很好的定义和记录。在访问它们时引用这些目录是通过使用由前斜杠(<code>/</code>)连接的顺序较深的目录名称(<code>/</code>)来实现的，例如<code>/var/log</code>和<code>/var/spool/mail</code>。这些被称为路径。</p>
+<p>下表提供了一个非常简短的标准、众所周知的和定义在顶层上的<code>Linux</code>目录及其用途的列表。</p>
+<center><img src="http://ow0mgad6r.bkt.clouddn.com/linux-filesystaem.png" alt="top level directory"></center><br><center>表1：Linux文件系统层次结构的顶层</center>
+
+<p>表<code>1</code>中显示的目录及其子目录及其子目录的子目录，其中背景色为蓝色的目录被认为是根文件系统中不能缺少的组成部分。也就是说，它们不能作为单独的文件系统创建，并且在启动时安装。这是因为它们(特别是它们的内容)必须在引导时出现，以便系统正确引导。</p>
+<p><code>/media</code>和<code>/mnt</code>目录是根文件系统的一部分，但它们不应该包含任何数据。相反，它们只是临时的挂载点。<br>其余的目录，在表<code>1</code>中没有背景颜色的目录不需要在引导序列中出现，但是会在以后安装，在启动序列中准备主机来执行有用的工作。</p>
+<p>可以通过参考官方的<a href="http://www.pathname.com/fhs/" target="_blank" rel="external">Linux文件系统层次标准</a><code>(FHS)web</code>页面，以了解这些目录及其许多子目录的详细信息。维基百科对<code>FHS</code>的描述也很好。应尽可能密切地遵循这一标准，以确保业务和职能的一致性。不管主机上使用的文件系统类型是什么，这个分层目录结构都是相同的。</p>
+<h2 id="Linux-统一目录结构"><a href="#Linux-统一目录结构" class="headerlink" title="Linux 统一目录结构"></a>Linux 统一目录结构</h2><p>在一些非<code>linux PC</code>操作系统中，如果有多个物理硬盘或多个分区，每个磁盘或分区都被分配一个驱动器号。想定位到文件或程序所在的硬盘的位置，驱动器号是必需的，比如<code>C:</code>或<code>D:</code>。然后，以命令的形式发出驱动器字母<code>D:</code>例如，要更改到<code>D:</code>驱动器，然后使用<code>cd</code>命令更改到正确的目录来定位所需的文件。每个硬盘都有自己独立的和完整的目录树。</p>
+<p><code>Linux</code>文件系统将所有物理硬盘和分区统一到一个目录结构中。这一切都是从顶部(<code>/</code>)目录开始的。所有其他目录及其子目录都位于<code>Linux</code>根目录下。这意味着只有一个单独的目录树来搜索文件和程序。</p>
+<p>它们之所以能工作,都是因为文件系统,如<code>/home</code>、<code>/tmp</code>、<code>/var</code>、<code>/opt</code>、<code>/usr</code>可以被创建在单独的物理硬盘上一个不同的分区,或一个不同的逻辑卷<code>/</code>(根)文件系统,然后安装在一个挂载点(目录)作为根文件系统树的一部分。即使是可移动的驱动器，如闪存盘或外部<code>USB</code>或<code>ESATA</code>硬盘驱动器也将安装到根文件系统中，并成为该目录树的一个不可分割的部分。</p>
+<p>在从一个版本的<code>Linux</code>发行版升级到另一个版本，或者从一个发行版切换成到另一个发行版时，文件系统有一个很好的理由可以做到这一点。一般来说，除了<code>Fedora</code>的<code>dnf</code>升级之类的升级工具之外，偶尔重新格式化包含操作系统的硬盘驱动器是明智的，因为在升级过程中，硬盘驱动器会清除任何随时间积累的东西。如果<code>/home</code>是根文件系统的一部分，它将被重新格式化，然后必须从备份中恢复。通过将<code>/home</code>格式化为一个单独的文件系统，那么在根文件系统格式化时它将识别成一个单独的文件系统，并且可以跳过当前步骤。这也适用于数据库、电子邮件收件箱、网站和其他可变用户和系统数据存储的目录<code>/var</code>。</p>
+<p>维护<code>Linux</code>目录树的某些部分作为单独的文件系统还有其他原因。例如，很久以前，当我还没有意识到围绕着所有需要的<code>Linux</code>目录都作为<code>/(root)</code>文件系统的一部分的潜在问题时，我曾用大量非常大的文件填充了我的主目录。由于<code>/home</code>目录和<code>/tmp</code>目录都不是独立的文件系统，而只是根文件系统的子目录，所以整个根文件系统都被填满了。操作系统没有空间创建临时文件或扩展现有的数据文件。起初，应用程序开始抱怨没有空间保存文件，然后操作系统本身开始变得非常奇怪。引导到单用户模式，并清除我的主目录中的问题文件，这让我可以重新开始。然后，我使用一个相当标准的多文件系统设置重新安装了<code>Linux</code>，并能够防止完全的系统崩溃再次发生。</p>
+<p>我曾经还遇到过一个情况，<code>Linux</code>主机继续运行，但是阻止用户使用<code>GUI</code>桌面登录。我能够使用一个<a href="https://en.wikipedia.org/wiki/Virtual_console" target="_blank" rel="external">虚拟控制台</a>本地使用命令行接口(<code>CLI</code>)，并远程使用<code>SSH</code>。问题是，<code>/tmp</code>文件系统已经填满了，而<code>GUI</code>桌面所需的一些临时文件在登录时无法创建。由于<code>CLI</code>登录不需要在<code>/tmp</code>中创建文件，因此缺少空间并没有阻止我使用<code>CLI</code>进行登录。在这种情况下，<code>/tmp</code>目录是一个单独的文件系统，在卷组中有大量可用的空间，<code>/tmp</code>逻辑卷是其中的一部分。我只是将<code>/tmp</code><a href="https://opensource.com/business/16/9/linux-users-guide-lvm" target="_blank" rel="external">逻辑卷扩展</a>到一个够大的容量（其实就是<code>LVM</code>扩容），以适应我对该主机所需要的临时文件空间数量的新需求，并解决了问题。请注意，此解决方案不需要重新启动，并且当<code>/tmp</code>文件系统被放大后，用户可以登录到桌面。</p>
+<blockquote>
+<p>逻辑卷扩展也可以参考我之前总结的一篇文章，简洁明了：<a href="http://www.tony-yin.top/2017/11/14/LVM-Space-Expansion/" target="_blank" rel="external">LVM动态扩展</a></p>
+</blockquote>
+<p>另一种情况发生在我在一家大型科技公司做实验室管理员的时候。我们的一个开发人员在错误的位置（<code>/var</code>）安装了应用程序（我个人认为不能说是装在错误的位置，只能说装的位置的可用空间不合适）。应用程序崩溃是因为<code>/var</code>文件系统已经满了，而存储在<code>/var/log/</code>上的日志文件由于缺少空间，不能添加新的消息。但是，由于关键的<code>/(root)</code>和<code>/tmp</code>文件系统没有填充，系统仍然保持运行。删除违规应用程序并将其重新安装到<code>/opt</code>文件系统中解决了这个问题。（其实通过<code>LVM</code>动态扩容也是可以解决这个问题，要么扩展空间大小，要么换大空间的文件系统）</p>
+<h2 id="文件系统类型"><a href="#文件系统类型" class="headerlink" title="文件系统类型"></a>文件系统类型</h2><p><code>Linux</code>支持读取大约<code>100</code>个分区类型，它只可以在其中的几个而不是所有的分区上创建或写文件。但是，在同一个根文件系统上的不同类型的挂载文件系统是可以做到的，也是非常常见的。在此上下文中，我们讨论的是在硬盘或逻辑卷的分区上存储和管理用户数据所需的结构和元数据。这里提供了<code>Linux fdisk</code>命令识别的文件系统分区类型的完整列表，这样您就可以了解<code>Linux</code>与许多类型的系统之间的高度兼容性。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">0 Empty 24 NEC DOS 81 Minix / old Lin bf Solaris 1 FAT12 27 Hidden NTFS Win 82 Linux swap / So c1 DRDOS/sec (FAT- 2 XENIX root 39 Plan 9 83 Linux c4 DRDOS/sec (FAT- 3 XENIX usr 3c PartitionMagic 84 OS/2 hidden or c6 DRDOS/sec (FAT- 4 FAT16 &lt;32M 40 Venix 80286 85 Linux extended c7 Syrinx 5 Extended 41 PPC PReP Boot 86 NTFS volume set da Non-FS data 6 FAT16 42 SFS 87 NTFS volume set db CP/M / CTOS / . 7 HPFS/NTFS/exFAT 4d QNX4.x 88 Linux plaintext de Dell Utility 8 AIX 4e QNX4.x 2nd part 8e Linux LVM df BootIt 9 AIX bootable 4f QNX4.x 3rd part 93 Amoeba e1 DOS access a OS/2 Boot Manag 50 OnTrack DM 94 Amoeba BBT e3 DOS R/O b W95 FAT32 51 OnTrack DM6 Aux 9f BSD/OS e4 SpeedStor c W95 FAT32 (LBA) 52 CP/M a0 IBM Thinkpad hi ea Rufus alignment e W95 FAT16 (LBA) 53 OnTrack DM6 Aux a5 FreeBSD eb BeOS fs f W95 Ext&apos;d (LBA) 54 OnTrackDM6 a6 OpenBSD ee GPT 10 OPUS 55 EZ-Drive a7 NeXTSTEP ef EFI (FAT-12/16/ 11 Hidden FAT12 56 Golden Bow a8 Darwin UFS f0 Linux/PA-RISC b 12 Compaq diagnost 5c Priam Edisk a9 NetBSD f1 SpeedStor 14 Hidden FAT16 &lt;3 61 SpeedStor ab Darwin boot f4 SpeedStor 16 Hidden FAT16 63 GNU HURD or Sys af HFS / HFS+ f2 DOS secondary 17 Hidden HPFS/NTF 64 Novell Netware b7 BSDI fs fb VMware VMFS 18 AST SmartSleep 65 Novell Netware b8 BSDI swap fc VMware VMKCORE 1b Hidden W95 FAT3 70 DiskSecure Mult bb Boot Wizard hid fd Linux raid auto 1c Hidden W95 FAT3 75 PC/IX bc Acronis FAT32 L fe LANstep 1e Hidden W95 FAT1 80 Old Minix be Solaris boot ff BBT</div></pre></td></tr></table></figure>
+<p>拥有支持读取这么多分区类型的能力的主要目的是允许兼容性和与其他计算机系统的文件系统的某些互操作性。使用<code>Fedora</code>创建新文件系统时可用的选项如下所示。</p>
+<ul>
+<li>btrfs</li>
+<li><strong>cramfs</strong></li>
+<li><strong>ext2</strong></li>
+<li><strong>ext3</strong></li>
+<li><strong>ext4</strong></li>
+<li>fat</li>
+<li>gfs2</li>
+<li>hfsplus</li>
+<li>minix</li>
+<li><strong>msdos</strong></li>
+<li>ntfs</li>
+<li>reiserfs</li>
+<li><strong>vfat</strong></li>
+<li>xfs</li>
+</ul>
+<p>其他发行版支持创建不同的文件系统类型。例如，<code>CentOS 6</code>只支持创建上面列表中粗体显示的文件系统。</p>
+<h2 id="挂载"><a href="#挂载" class="headerlink" title="挂载"></a>挂载</h2><p>在<code>Linux</code>中，<code>to mount</code>一词指的是早期的计算机中，当一个磁带或可移动的磁盘包需要在适当的驱动器上进行物理安装时。在物理上放置磁盘之后，磁盘包上的文件系统将由操作系统逻辑上挂载，以使操作系统、应用程序和用户能够访问这些内容。</p>
+<p>挂载点仅仅是一个目录，就像任何其他的目录一样，它是作为根文件系统的一部分创建的。例如，<code>home</code>文件系统安装在目录<code>/home</code>上。文件系统可以安装在其他非根文件系统上的挂载点上，但这并不常见。<br><code>Linux</code>根文件系统安装在根目录上(<code>/</code>)非常早的引导序列。其他文件系统会被安装在后面，由<code>Linux</code>启动程序，无论是在<code>SystemV</code>下的<code>rc</code>，还是在新的<code>Linux</code>版本中的<code>systemd</code>，在启动过程中挂载文件系统是由<code>/ etc/fstab</code>配置文件管理的。一个容易记住的方法是<code>fstab</code>表示“文件系统表”，它是要挂载的文件系统的列表，还有它们指定的挂载点，以及特定文件系统可能需要的任何选项。</p>
+<p>文件系统安装在现有的目录（挂载点）上，使用<code>mount</code>命令。一般来说，任何被用作挂载点的目录都应该是空的，并且没有包含其中的任何其他文件。<code>Linux</code>不会阻止用户将一个文件系统安装到一个已经存在的文件系统上，或者在一个包含文件的目录上。如果你在现有的目录或文件系统上安装了一个文件系统，那么原始的内容将会被隐藏，只有新挂载的文件系统的内容才会可见。</p>
+<h2 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h2><p>我希望本文能够把围绕“文件系统”这个术语的一些可能的混淆给理清楚。我花了很长时间才真正理解并理解<code>Linux</code>文件系统的复杂性、优雅和功能。</p>
+<p>如果你有问题，请把它们加到下面的评论中，我会尽量回答。</p>
+<h2 id="下个月"><a href="#下个月" class="headerlink" title="下个月"></a>下个月</h2><p>另一个重要的概念是，对于<code>Linux</code>，一切都是文件。这个概念为用户和系统管理员提供了一些有趣且重要的实际应用程序。我之所以提到这一点，是因为您可能想在我下个月的<code>/dev</code>目录下的文章前阅读我的<a href="https://opensource.com/life/15/9/everything-is-a-file" target="_blank" rel="external">一切都是文件</a>的文章。</p>
 
       
     </div>
@@ -347,13 +403,13 @@
   
     
     <div class="copyright">
-        <p><span>本文标题:</span><a  href="/2017/11/26/read-ceph-cookbook/">阅读感悟：《Ceph Cookbook》</a></p>
+        <p><span>本文标题:</span><a  href="/2017/12/17/Linux-Filesystem/">译：Linux 文件系统介绍</a></p>
         <p><span>文章作者:</span><a  href="/" title="访问 Tony 的个人博客">Tony</a></p>
-        <p><span>发布时间:</span>2017年11月26日 - 22时52分</p>
-        <p><span>最后更新:</span>2017年11月26日 - 23时55分</p>
+        <p><span>发布时间:</span>2017年12月17日 - 22时01分</p>
+        <p><span>最后更新:</span>2017年12月17日 - 23时42分</p>
         <p>
-            <span>原始链接:</span><a class="post-url" href="/2017/11/26/read-ceph-cookbook/" title="阅读感悟：《Ceph Cookbook》">https://tony-yin.github.io/2017/11/26/read-ceph-cookbook/</a>
-            <span class="copy-path" data-clipboard-text="原文: https://tony-yin.github.io/2017/11/26/read-ceph-cookbook/　　作者: Tony" title=""></span>
+            <span>原始链接:</span><a class="post-url" href="/2017/12/17/Linux-Filesystem/" title="译：Linux 文件系统介绍">https://tony-yin.github.io/2017/12/17/Linux-Filesystem/</a>
+            <span class="copy-path" data-clipboard-text="原文: https://tony-yin.github.io/2017/12/17/Linux-Filesystem/　　作者: Tony" title=""></span>
         </p>
         <p>
             <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/cn/" title="中国大陆 (CC BY-NC-SA 3.0 CN)" target = "_blank">"署名-非商用-相同方式共享 3.0"</a> 转载请保留原文链接及作者。
@@ -364,18 +420,9 @@
 
 <nav id="article-nav">
   
-    <a  href="/2017/11/30/Cephx-practice/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption"><</strong>
-      <div class="article-nav-title">
-        
-          Cephx 实战演练
-        
-      </div>
-    </a>
   
-  
-    <a  href="/2017/11/26/read-ceph-guide/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">阅读感悟：《Ceph分布式存储学习指南》</div>
+    <a  href="/2017/12/10/Into-Withe-Night/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">阅读感悟：《白夜行》</div>
       <strong class="article-nav-caption">></strong>
     </a>
   
@@ -387,7 +434,7 @@
 
     <div id="toc" class="toc-article">
     <strong class="toc-title">文章目录</strong>
-    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#第1章-Ceph介绍和其他"><span class="toc-number">1.</span> <span class="toc-text">第1章 Ceph介绍和其他</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#第2章-使用Ceph块存储"><span class="toc-number">2.</span> <span class="toc-text">第2章 使用Ceph块存储</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#第3章-使用Ceph对象存储"><span class="toc-number">3.</span> <span class="toc-text">第3章 使用Ceph对象存储</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#第4章-使用Ceph文件系统"><span class="toc-number">4.</span> <span class="toc-text">第4章 使用Ceph文件系统</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#第5章-用Calamari监控Ceph集群"><span class="toc-number">5.</span> <span class="toc-text">第5章 用Calamari监控Ceph集群</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#第6章-操作和管理Ceph集群"><span class="toc-number">6.</span> <span class="toc-text">第6章 操作和管理Ceph集群</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#第7章-深入Ceph"><span class="toc-number">7.</span> <span class="toc-text">第7章 深入Ceph</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#第8章-Ceph生产计划和性能优化"><span class="toc-number">8.</span> <span class="toc-text">第8章 Ceph生产计划和性能优化</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#第9章-Ceph虚拟存储管理器（VSM）"><span class="toc-number">9.</span> <span class="toc-text">第9章 Ceph虚拟存储管理器（VSM）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#第10章"><span class="toc-number">10.</span> <span class="toc-text">第10章</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-number">11.</span> <span class="toc-text">总结</span></a></li></ol>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#定义"><span class="toc-number">1.</span> <span class="toc-text">定义</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#基本的文件系统功能"><span class="toc-number">2.</span> <span class="toc-text">基本的文件系统功能</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#目录结构"><span class="toc-number">3.</span> <span class="toc-text">目录结构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Linux-统一目录结构"><span class="toc-number">4.</span> <span class="toc-text">Linux 统一目录结构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#文件系统类型"><span class="toc-number">5.</span> <span class="toc-text">文件系统类型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#挂载"><span class="toc-number">6.</span> <span class="toc-text">挂载</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#结论"><span class="toc-number">7.</span> <span class="toc-text">结论</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#下个月"><span class="toc-number">8.</span> <span class="toc-text">下个月</span></a></li></ol>
 </div>
 <style>
     .left-col .switch-btn {
@@ -447,13 +494,11 @@
 
     <div class="scroll" id="post-nav-button">
         
-            <a  href="/2017/11/30/Cephx-practice/" title="上一篇: Cephx 实战演练">
-                <i class="fa fa-angle-left"></i>
-            </a>
+            <a  href="/" title="回到主页"><i class="fa fa-home"></i></a>
         
         <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
         
-            <a  href="/2017/11/26/read-ceph-guide/" title="下一篇: 阅读感悟：《Ceph分布式存储学习指南》">
+            <a  href="/2017/12/10/Into-Withe-Night/" title="下一篇: 阅读感悟：《白夜行》">
                 <i class="fa fa-angle-right"></i>
             </a>
         
