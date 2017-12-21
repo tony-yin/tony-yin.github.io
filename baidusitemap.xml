@@ -5,7 +5,7 @@
     
   <url>
     <loc>https://tony-yin.github.io/2017/12/17/Linux-Filesystem/</loc>
-    <lastmod>2017-12-17T15:42:41.268Z</lastmod>
+    <lastmod>2017-12-21T07:42:57.680Z</lastmod>
     <data>
         <display>
         <title>译：Linux 文件系统介绍</title>
@@ -13,6 +13,28 @@
         
         <tag>Ceph</tag>
          
+        <tag>Linux</tag>
+         
+        <tag>Filesystem</tag>
+         
+         
+           
+             
+              <breadCrumb title="read" url="https://tony-yin.github.io/categories/read/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://tony-yin.github.io/2017/12/21/Everything-is-a-file/</loc>
+    <lastmod>2017-12-21T07:36:22.516Z</lastmod>
+    <data>
+        <display>
+        <title>译：一切皆文件</title>
+        <pubTime>2017-12-21T07:34:32.000Z</pubTime>
+        
         <tag>Linux</tag>
          
         <tag>Filesystem</tag>

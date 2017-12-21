@@ -9,21 +9,21 @@
   
   <title>译：Linux 文件系统介绍 | Tony&#39;s blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="原文地址：https://opensource.com/life/16/10/introduction-linux-filesystems  本文旨在对Linux文件系统概念进行深层次的讨论。本文既不准备对某个特定类型的文件系统（比如ext4）进行基础性的描述，也不打算作为一个讲解文件系统命令的教程。">
+  <meta name="description" content="本文旨在对Linux文件系统概念进行深层次的讨论。本文既不准备对某个特定类型的文件系统（比如ext4）进行基础性的描述，也不打算作为一个讲解文件系统命令的教程。">
 <meta name="keywords" content="Ceph,Linux,Filesystem">
 <meta property="og:type" content="article">
 <meta property="og:title" content="译：Linux 文件系统介绍">
 <meta property="og:url" content="https://tony-yin.github.io/2017/12/17/Linux-Filesystem/index.html">
 <meta property="og:site_name" content="Tony&#39;s blog">
-<meta property="og:description" content="原文地址：https://opensource.com/life/16/10/introduction-linux-filesystems  本文旨在对Linux文件系统概念进行深层次的讨论。本文既不准备对某个特定类型的文件系统（比如ext4）进行基础性的描述，也不打算作为一个讲解文件系统命令的教程。">
-<meta property="og:image" content="http://ow0mgad6r.bkt.clouddn.com/community-penguins-osdc-lead.png">
+<meta property="og:description" content="本文旨在对Linux文件系统概念进行深层次的讨论。本文既不准备对某个特定类型的文件系统（比如ext4）进行基础性的描述，也不打算作为一个讲解文件系统命令的教程。">
+<meta property="og:image" content="http://ow0mgad6r.bkt.clouddn.com/filesystem-600x450.png">
 <meta property="og:image" content="http://ow0mgad6r.bkt.clouddn.com/filesystem_diagram.png">
 <meta property="og:image" content="http://ow0mgad6r.bkt.clouddn.com/linux-filesystaem.png">
-<meta property="og:updated_time" content="2017-12-17T15:42:41.268Z">
+<meta property="og:updated_time" content="2017-12-21T07:42:57.680Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="译：Linux 文件系统介绍">
-<meta name="twitter:description" content="原文地址：https://opensource.com/life/16/10/introduction-linux-filesystems  本文旨在对Linux文件系统概念进行深层次的讨论。本文既不准备对某个特定类型的文件系统（比如ext4）进行基础性的描述，也不打算作为一个讲解文件系统命令的教程。">
-<meta name="twitter:image" content="http://ow0mgad6r.bkt.clouddn.com/community-penguins-osdc-lead.png">
+<meta name="twitter:description" content="本文旨在对Linux文件系统概念进行深层次的讨论。本文既不准备对某个特定类型的文件系统（比如ext4）进行基础性的描述，也不打算作为一个讲解文件系统命令的教程。">
+<meta name="twitter:image" content="http://ow0mgad6r.bkt.clouddn.com/filesystem-600x450.png">
   
     <link rel="alternative" href="/atom.xml" title="Tony&#39;s blog" type="application/atom+xml">
   
@@ -203,7 +203,7 @@
                 
                 <section class="switch-part switch-part2">
                     <div class="widget tagcloud" id="js-tagcloud">
-                        <a href="/tags/Bugfix/" style="font-size: 10px;">Bugfix</a> <a href="/tags/Ceph/" style="font-size: 20px;">Ceph</a> <a href="/tags/Cephx/" style="font-size: 10px;">Cephx</a> <a href="/tags/Disk/" style="font-size: 12.5px;">Disk</a> <a href="/tags/Filesystem/" style="font-size: 10px;">Filesystem</a> <a href="/tags/HA/" style="font-size: 10px;">HA</a> <a href="/tags/Javascript/" style="font-size: 10px;">Javascript</a> <a href="/tags/Keepalived/" style="font-size: 10px;">Keepalived</a> <a href="/tags/LVM/" style="font-size: 10px;">LVM</a> <a href="/tags/Linux/" style="font-size: 17.5px;">Linux</a> <a href="/tags/Luminous/" style="font-size: 10px;">Luminous</a> <a href="/tags/Moodle/" style="font-size: 10px;">Moodle</a> <a href="/tags/NFS/" style="font-size: 12.5px;">NFS</a> <a href="/tags/NFS-Ganesha/" style="font-size: 10px;">NFS-Ganesha</a> <a href="/tags/Network/" style="font-size: 10px;">Network</a> <a href="/tags/Notification/" style="font-size: 10px;">Notification</a> <a href="/tags/OSD/" style="font-size: 15px;">OSD</a> <a href="/tags/Oracle/" style="font-size: 12.5px;">Oracle</a> <a href="/tags/Oracle-11g-R2/" style="font-size: 10px;">Oracle 11g R2</a> <a href="/tags/Oracle-Linux/" style="font-size: 10px;">Oracle Linux</a> <a href="/tags/PHP/" style="font-size: 12.5px;">PHP</a> <a href="/tags/PHPExcel/" style="font-size: 10px;">PHPExcel</a> <a href="/tags/Partition/" style="font-size: 10px;">Partition</a> <a href="/tags/Profile/" style="font-size: 12.5px;">Profile</a> <a href="/tags/Python/" style="font-size: 15px;">Python</a> <a href="/tags/RBD/" style="font-size: 12.5px;">RBD</a> <a href="/tags/RGW/" style="font-size: 10px;">RGW</a> <a href="/tags/Read/" style="font-size: 17.5px;">Read</a> <a href="/tags/Script/" style="font-size: 12.5px;">Script</a> <a href="/tags/Udev/" style="font-size: 12.5px;">Udev</a> <a href="/tags/产品/" style="font-size: 10px;">产品</a> <a href="/tags/博客/" style="font-size: 10px;">博客</a> <a href="/tags/性能优化/" style="font-size: 10px;">性能优化</a> <a href="/tags/编译/" style="font-size: 10px;">编译</a>
+                        <a href="/tags/Bugfix/" style="font-size: 10px;">Bugfix</a> <a href="/tags/Ceph/" style="font-size: 20px;">Ceph</a> <a href="/tags/Cephx/" style="font-size: 10px;">Cephx</a> <a href="/tags/Disk/" style="font-size: 12px;">Disk</a> <a href="/tags/Filesystem/" style="font-size: 12px;">Filesystem</a> <a href="/tags/HA/" style="font-size: 10px;">HA</a> <a href="/tags/Javascript/" style="font-size: 10px;">Javascript</a> <a href="/tags/Keepalived/" style="font-size: 10px;">Keepalived</a> <a href="/tags/LVM/" style="font-size: 10px;">LVM</a> <a href="/tags/Linux/" style="font-size: 18px;">Linux</a> <a href="/tags/Luminous/" style="font-size: 10px;">Luminous</a> <a href="/tags/Moodle/" style="font-size: 10px;">Moodle</a> <a href="/tags/NFS/" style="font-size: 12px;">NFS</a> <a href="/tags/NFS-Ganesha/" style="font-size: 10px;">NFS-Ganesha</a> <a href="/tags/Network/" style="font-size: 10px;">Network</a> <a href="/tags/Notification/" style="font-size: 10px;">Notification</a> <a href="/tags/OSD/" style="font-size: 14px;">OSD</a> <a href="/tags/Oracle/" style="font-size: 12px;">Oracle</a> <a href="/tags/Oracle-11g-R2/" style="font-size: 10px;">Oracle 11g R2</a> <a href="/tags/Oracle-Linux/" style="font-size: 10px;">Oracle Linux</a> <a href="/tags/PHP/" style="font-size: 12px;">PHP</a> <a href="/tags/PHPExcel/" style="font-size: 10px;">PHPExcel</a> <a href="/tags/Partition/" style="font-size: 10px;">Partition</a> <a href="/tags/Profile/" style="font-size: 12px;">Profile</a> <a href="/tags/Python/" style="font-size: 14px;">Python</a> <a href="/tags/RBD/" style="font-size: 12px;">RBD</a> <a href="/tags/RGW/" style="font-size: 10px;">RGW</a> <a href="/tags/Read/" style="font-size: 16px;">Read</a> <a href="/tags/Script/" style="font-size: 12px;">Script</a> <a href="/tags/Udev/" style="font-size: 12px;">Udev</a> <a href="/tags/产品/" style="font-size: 10px;">产品</a> <a href="/tags/博客/" style="font-size: 10px;">博客</a> <a href="/tags/性能优化/" style="font-size: 10px;">性能优化</a> <a href="/tags/编译/" style="font-size: 10px;">编译</a>
                     </div>
                 </section>
                 
@@ -325,11 +325,8 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <center><img src="http://ow0mgad6r.bkt.clouddn.com/community-penguins-osdc-lead.png" alt="Linux Filesystem"></center>
+        <center><img src="http://ow0mgad6r.bkt.clouddn.com/filesystem-600x450.png" alt="Linux Filesystem"></center>
 
-<blockquote>
-<p>原文地址：<a href="https://opensource.com/life/16/10/introduction-linux-filesystems" target="_blank" rel="external">https://opensource.com/life/16/10/introduction-linux-filesystems</a></p>
-</blockquote>
 <p>本文旨在对<code>Linux</code>文件系统概念进行深层次的讨论。本文既不准备对某个特定类型的文件系统（比如<code>ext4</code>）进行基础性的描述，也不打算作为一个讲解文件系统命令的教程。</p>
 <a id="more"></a>
 <p>每台通用的计算机都需要把各种类型的数据存储在硬盘驱动器(<code>HDD</code>)或者一些同样功能的设备上，比如<code>USB</code>。存储在这些设备上有几个原因，首先,<code>RAM</code>会在计算机电源关闭时丢失内容，虽然也有非易失性类型的内存，可以在电源关闭后维持数据存储不丢失(如<code>flash</code>内存也就是闪存使用的<code>USB</code>和固态硬盘)，但<code>flash</code>内存要比一些标准的、挥发性的内存比如<code>DDR3</code>和其他类似的类型昂贵的多。</p>
@@ -394,7 +391,14 @@
 <p>文件系统安装在现有的目录（挂载点）上，使用<code>mount</code>命令。一般来说，任何被用作挂载点的目录都应该是空的，并且没有包含其中的任何其他文件。<code>Linux</code>不会阻止用户将一个文件系统安装到一个已经存在的文件系统上，或者在一个包含文件的目录上。如果你在现有的目录或文件系统上安装了一个文件系统，那么原始的内容将会被隐藏，只有新挂载的文件系统的内容才会可见。</p>
 <h2 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h2><p>我希望本文能够把围绕“文件系统”这个术语的一些可能的混淆给理清楚。我花了很长时间才真正理解并理解<code>Linux</code>文件系统的复杂性、优雅和功能。</p>
 <p>如果你有问题，请把它们加到下面的评论中，我会尽量回答。</p>
-<h2 id="下个月"><a href="#下个月" class="headerlink" title="下个月"></a>下个月</h2><p>另一个重要的概念是，对于<code>Linux</code>，一切都是文件。这个概念为用户和系统管理员提供了一些有趣且重要的实际应用程序。我之所以提到这一点，是因为您可能想在我下个月的<code>/dev</code>目录下的文章前阅读我的<a href="https://opensource.com/life/15/9/everything-is-a-file" target="_blank" rel="external">一切都是文件</a>的文章。</p>
+<h2 id="下个月"><a href="#下个月" class="headerlink" title="下个月"></a>下个月</h2><p>另一个重要的概念是，对于<code>Linux</code>，一切都是文件。这个概念为用户和系统管理员提供了一些有趣且重要的实际应用程序。我之所以提到这一点，是因为您可能想在我下个月的<code>/dev</code>目录下的文章前阅读我的<a href="https://opensource.com/life/15/9/everything-is-a-file" target="_blank" rel="external">一切皆文件</a>的文章。</p>
+<blockquote>
+<p>原文地址：<a href="https://opensource.com/life/16/10/introduction-linux-filesystems" target="_blank" rel="external">https://opensource.com/life/16/10/introduction-linux-filesystems</a></p>
+</blockquote>
+<p>“一切皆文件”这篇文章我也进行了翻译</p>
+<blockquote>
+<p>翻译地址：<a href="http://www.tony-yin.top/2017/12/21/Everything-is-a-file" target="_blank" rel="external">http://www.tony-yin.top/2017/12/21/Everything-is-a-file</a></p>
+</blockquote>
 
       
     </div>
@@ -406,7 +410,7 @@
         <p><span>本文标题:</span><a  href="/2017/12/17/Linux-Filesystem/">译：Linux 文件系统介绍</a></p>
         <p><span>文章作者:</span><a  href="/" title="访问 Tony 的个人博客">Tony</a></p>
         <p><span>发布时间:</span>2017年12月17日 - 22时01分</p>
-        <p><span>最后更新:</span>2017年12月17日 - 23时42分</p>
+        <p><span>最后更新:</span>2017年12月21日 - 15时42分</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2017/12/17/Linux-Filesystem/" title="译：Linux 文件系统介绍">https://tony-yin.github.io/2017/12/17/Linux-Filesystem/</a>
             <span class="copy-path" data-clipboard-text="原文: https://tony-yin.github.io/2017/12/17/Linux-Filesystem/　　作者: Tony" title=""></span>
@@ -419,6 +423,15 @@
 
 
 <nav id="article-nav">
+  
+    <a  href="/2017/12/21/Everything-is-a-file/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption"><</strong>
+      <div class="article-nav-title">
+        
+          译：一切皆文件
+        
+      </div>
+    </a>
   
   
     <a  href="/2017/12/10/Into-Withe-Night/" id="article-nav-older" class="article-nav-link-wrap">
@@ -506,7 +519,9 @@
 
     <div class="scroll" id="post-nav-button">
         
-            <a  href="/" title="回到主页"><i class="fa fa-home"></i></a>
+            <a  href="/2017/12/21/Everything-is-a-file/" title="上一篇: 译：一切皆文件">
+                <i class="fa fa-angle-left"></i>
+            </a>
         
         <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
         
@@ -515,7 +530,7 @@
             </a>
         
     </div>
-    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2017/12/17/Linux-Filesystem/">译：Linux 文件系统介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/10/Into-Withe-Night/">阅读感悟：《白夜行》</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/08/Filesystem-Bug-Fix/">故障修复：文件系统导致OSD启动失败</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/07/RBD-HA/">通过 Keepalived 实现 Ceph RBD 的高可用</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/30/Cephx-practice/">Cephx 实战演练</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/26/read-ceph-cookbook/">阅读感悟：《Ceph Cookbook》</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/26/read-ceph-guide/">阅读感悟：《Ceph分布式存储学习指南》</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/26/read-python-automation/">阅读感悟：《Python编程快速上手---让繁琐工作自动化》</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/19/hexo-theme-shadow/">博客主题 shadow</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/14/LVM-Space-Expansion/">LVM动态扩展</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/14/Ceph-Compile/">Ceph 编译（Giant版本）</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/08/Ceph-NFS-Ganesha/">通过ganesha-nfs导出Ceph为NFS（Luminous）</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/08/Ceph-RGW/">RGW 安装和创建</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/31/RBD-Mount-NFS/">使用NFS挂载RBD</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/10/Python-Profiler/">Python Profiler</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/10/Enable-OSD-Profile-Script/">启用OSD性能剖析脚本</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/02/Batch-Create-And-Delete-Disk-Partition-Script/">批量创建和删除磁盘分区脚本</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/28/JS-Object-Null/">JS判断对象是否为空</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/27/OSD-Create-And-Delete/">OSD创建和删除全过程</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/21/How-To-Forge-Product/">如何打造一个好的产品</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/18/PHP-Excel/">PHP-Excel 开发解决方案</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/10/Disk-pull-and-plug-record/">磁盘反复拔插记录</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/10/Linux-Udev/">Linux Udev</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/10/network-down-notification/">Network Down Notification</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/10/Python-Oracle/">Python操作Oracle</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/10/oracle_install/">Oracle Linux And Oracle Database 11g R2 Intsallation</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/09/Moodle-Local-Plugin/">Moodle Local插件</a></li></ul>
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2017/12/21/Everything-is-a-file/">译：一切皆文件</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/17/Linux-Filesystem/">译：Linux 文件系统介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/10/Into-Withe-Night/">阅读感悟：《白夜行》</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/08/Filesystem-Bug-Fix/">故障修复：文件系统导致OSD启动失败</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/07/RBD-HA/">通过 Keepalived 实现 Ceph RBD 的高可用</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/30/Cephx-practice/">Cephx 实战演练</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/26/read-ceph-cookbook/">阅读感悟：《Ceph Cookbook》</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/26/read-ceph-guide/">阅读感悟：《Ceph分布式存储学习指南》</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/26/read-python-automation/">阅读感悟：《Python编程快速上手---让繁琐工作自动化》</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/19/hexo-theme-shadow/">博客主题 shadow</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/14/LVM-Space-Expansion/">LVM动态扩展</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/14/Ceph-Compile/">Ceph 编译（Giant版本）</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/08/Ceph-NFS-Ganesha/">通过ganesha-nfs导出Ceph为NFS（Luminous）</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/08/Ceph-RGW/">RGW 安装和创建</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/31/RBD-Mount-NFS/">使用NFS挂载RBD</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/10/Python-Profiler/">Python Profiler</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/10/Enable-OSD-Profile-Script/">启用OSD性能剖析脚本</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/02/Batch-Create-And-Delete-Disk-Partition-Script/">批量创建和删除磁盘分区脚本</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/28/JS-Object-Null/">JS判断对象是否为空</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/27/OSD-Create-And-Delete/">OSD创建和删除全过程</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/21/How-To-Forge-Product/">如何打造一个好的产品</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/18/PHP-Excel/">PHP-Excel 开发解决方案</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/10/Disk-pull-and-plug-record/">磁盘反复拔插记录</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/10/Linux-Udev/">Linux Udev</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/10/network-down-notification/">Network Down Notification</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/10/Python-Oracle/">Python操作Oracle</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/10/oracle_install/">Oracle Linux And Oracle Database 11g R2 Intsallation</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/09/Moodle-Local-Plugin/">Moodle Local插件</a></li></ul>
     <script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
     <script>
         $(".post-list").addClass("toc-article");
