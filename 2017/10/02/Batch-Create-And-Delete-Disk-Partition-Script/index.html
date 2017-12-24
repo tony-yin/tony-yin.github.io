@@ -192,10 +192,9 @@
                                 <a class="fl segmentfault"  target="_blank" href="https://segmentfault.com/u/qzuser_57fb1d5db527e" title="segmentfault">segmentfault</a>
                             
                         </ul>
-			<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=0 height=0 src="//music.163.com/outchain/player?type=0&id=2021839040&auto=1&height=32"></iframe>
-			<!--
-			<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=200 height=52 src="//music.163.com/outchain/player?type=0&id=148402843&auto=1&height=32"></iframe>
-			-->
+			
+			    <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=0 height=0 src=//music.163.com/outchain/player?type=0&amp;id=2021839040&amp;auto=1&amp;height=32></iframe>
+			
                     </nav>
                 </section>
                 
@@ -372,6 +371,11 @@
 <h3 id="脚本代码-1"><a href="#脚本代码-1" class="headerlink" title="脚本代码"></a>脚本代码</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line">import sys</div><div class="line">import do_exec</div><div class="line"></div><div class="line">size = sys.argv[1]</div><div class="line">num = sys.argv[2]</div><div class="line">mount_info = do_exec(&apos;mount&apos;)</div><div class="line">sys_disk_name = mount_info[5:8]</div><div class="line"></div><div class="line">def parted_disks(num, size, disk):</div><div class="line">    for i in range(int(num)):</div><div class="line">        do_exec(&apos;sgdisk -n &#123;&#125;:0:+&#123;&#125; /dev/&#123;&#125;&apos;.format(i+1, size, disk))</div><div class="line">        print &apos;disk &#123;&#125; partition &#123;&#125; done ...&apos;.format(disk, i+1)</div><div class="line"></div><div class="line">if len(sys.argv) &gt; 3:</div><div class="line">    disks = sys.argv[3:]</div><div class="line">    for disk in disks:</div><div class="line">        if disk == sys_disk_name:</div><div class="line">            print &apos;&#123;&#125; is system disk, can\&apos;t be parted!&apos;.format(disk)</div><div class="line">        else:</div><div class="line">            parted_disks(num, size, disk)</div><div class="line">else:</div><div class="line">    all_disks = do_exec(&apos;lsblk&apos;).splitlines()</div><div class="line">    for disk in all_disks:</div><div class="line">        if (disk.startswith(&apos;sd&apos;)):</div><div class="line">            disk_name = disk.split()[0]</div><div class="line">            if disk_name != sys_disk_name:</div><div class="line">                parted_disks(num, size, disk)</div></pre></td></tr></table></figure>
 
       
+      
+	  <div id="cyReward" role="cylabs" data-use="reward" style="text-align:center"></div>
+	  <script type="text/javascript" charset="utf-8" src="https://changyan.itc.cn/js/lib/jquery.js"></script>
+	  <script type="text/javascript" charset="utf-8" src="https://changyan.sohu.com/js/changyan.labs.https.js?appid=cytncUiAO"></script>
+      
     </div>
     
   </div>
@@ -473,8 +477,7 @@
 
 
     
-        <section class="changyan" id="comments">
-  <!--<div id="uyan_frame"></div>-->
+          <!--<div id="uyan_frame"></div>-->
   <div id="SOHUCS"></div>
   <script charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/changyan.js"></script>
   <script type="text/javascript">
@@ -484,6 +487,7 @@
     });
   </script>
 </section>
+
     
 
 
