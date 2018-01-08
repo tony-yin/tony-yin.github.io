@@ -5,10 +5,10 @@
     
   <url>
     <loc>https://tony-yin.github.io/2018/01/01/Daily-Article-2017/</loc>
-    <lastmod>2018-01-02T02:38:13.072Z</lastmod>
+    <lastmod>2018-01-08T06:00:28.779Z</lastmod>
     <data>
         <display>
-        <title>Daily Article</title>
+        <title>Daily Article Vol 1 - (2017/11/1 ~ 2017/12/31)</title>
         <pubTime>2018-01-01T02:13:25.000Z</pubTime>
         
         <tag>Read</tag>
@@ -239,9 +239,9 @@
         
         <tag>Ceph</tag>
          
-        <tag>NFS</tag>
-         
         <tag>RBD</tag>
+         
+        <tag>NFS</tag>
          
          
            
@@ -307,9 +307,9 @@
         
         <tag>Ceph</tag>
          
-        <tag>NFS-Ganesha</tag>
-         
         <tag>NFS</tag>
+         
+        <tag>NFS-Ganesha</tag>
          
         <tag>Luminous</tag>
          
