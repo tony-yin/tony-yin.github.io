@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://tony-yin.github.io/"/>
-  <updated>2018-01-08T06:00:28.779Z</updated>
+  <updated>2018-01-10T15:44:03.647Z</updated>
   <id>https://tony-yin.github.io/</id>
   
   <author>
@@ -15,6 +15,36 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>scp 免交互式和 ssh 免交互式脚本</title>
+    <link href="https://tony-yin.github.io/2018/01/10/scp-and-ssh/"/>
+    <id>https://tony-yin.github.io/2018/01/10/scp-and-ssh/</id>
+    <published>2018-01-10T15:40:46.000Z</published>
+    <updated>2018-01-10T15:44:03.647Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="scp"><a href="#scp" class="headerlink" title="scp"></a>scp</h2><p>场景：</p><p>需要将以下源主机上的三个文件拷贝到以下目的主机的对应目录下</p><blockquote><p>src host: 192.168.1.1<br>dist host: 192.168.1.2<br>files: ／root/1/1.txt, /root/2/2.txt, /root/3/3.txt</p></blockquote><p>这时候如果手动做的话，将会很繁琐，所以这时候需要一个脚本能够实现文件的自动复制，并且脚本需要自动把密码验证的步骤也覆盖。</p><p>这里的关键就是如何实现<code>shell</code>交互式命令行的自动化，这边可以用分界符<code>EOF</code>，<code>EOF</code>范围中的字符将会被作为命令输入到交互式命令行中，具体脚本如下：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">SOURCEHOST=192.168.1.1</div><div class="line">DISTHOST=$1</div><div class="line">FILE1=/root/1/1.txt</div><div class="line">FILE2=/root/2/2.txt</div><div class="line">FILE3=/root/3/3.txt</div><div class="line">FOLDER1=/root/1/</div><div class="line">FOLDER2=/root/2/</div><div class="line">FOLDER3=/root/3/</div><div class="line">PASSWORD=123456</div><div class="line">scp FILE1 $&#123;DISTHOST&#125;$&#123;Folder1&#125; &lt;&lt; EOF</div><div class="line">$PASSWORD</div><div class="line">EOF</div><div class="line">scp FILE2 $&#123;DISTHOST&#125;$&#123;Folder2&#125; &lt;&lt; EOF</div><div class="line">$PASSWORD</div><div class="line">EOF</div><div class="line">scp FILE3 $&#123;DISTHOST&#125;$&#123;Folder3&#125; &lt;&lt; EOF</div><div class="line">$PASSWORD</div><div class="line">EOF</div></pre></td></tr></table></figure><p>调用方式：<code>sh scp.sh 192.168.1.2</code></p><h2 id="ssh"><a href="#ssh" class="headerlink" title="ssh"></a>ssh</h2><p>场景：</p><p>上面的场景是建立在登陆<code>192.168.1</code>主机的基础上，现在我想我在任意主机上都可以实现上面将<code>192.168.1.1</code>的上述文件拷贝到<code>192.168.1.2</code>的对应目录下</p><p>这里的关键是实现<code>ssh</code>的免密登陆，这时我们需要用到<code>sshpass</code>，具体介绍可以自行搜索下，用法如下：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">#! /bin/bash</div><div class="line"></div><div class="line">SOURCEHOST=192.168.1.1</div><div class="line">DISTHOST=$1</div><div class="line">FILE1=/root/1/1.txt</div><div class="line">FILE2=/root/2/2.txt</div><div class="line">FILE3=/root/3/3.txt</div><div class="line">FOLDER1=/root/1/</div><div class="line">FOLDER2=/root/2/</div><div class="line">FOLDER3=/root/3/</div><div class="line">PASSWORD=123456</div><div class="line"></div><div class="line">sshpass -p $PASSWORD ssh $SOURCEHOST \</div><div class="line">    sshpass -p $PASSWORD scp $&#123;FILE1&#125; $&#123;DISTHOST&#125;$&#123;FOLDER1&#125; &amp;&amp; \</div><div class="line">    sshpass -p $PASSWORD scp $&#123;FILE2&#125; $&#123;DISTHOST&#125;$&#123;FOLDER2&#125; &amp;&amp; \</div><div class="line">    sshpass -p $PASSWORD scp $&#123;FILE3&#125; $&#123;DISTHOST&#125;$&#123;FOLDER3&#125;</div></pre></td></tr></table></figure><p>调用方式：<code>sh scp.sh 192.168.1.2</code></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h2 id=&quot;scp&quot;&gt;&lt;a href=&quot;#scp&quot; class=&quot;headerlink&quot; title=&quot;scp&quot;&gt;&lt;/a&gt;scp&lt;/h2&gt;&lt;p&gt;场景：&lt;/p&gt;
+&lt;p&gt;需要将以下源主机上的三个文件拷贝到以下目的主机的对应目录下&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;src h
+      
+    
+    </summary>
+    
+      <category term="tech" scheme="https://tony-yin.github.io/categories/tech/"/>
+    
+    
+      <category term="Script" scheme="https://tony-yin.github.io/tags/Script/"/>
+    
+      <category term="Linux" scheme="https://tony-yin.github.io/tags/Linux/"/>
+    
+  </entry>
   
   <entry>
     <title>Daily Article Vol 1 - (2017/11/1 ~ 2017/12/31)</title>
@@ -411,9 +441,9 @@ good&lt;/code&gt;，说明这篇文章内容很好，有深度有广度，是一
     
       <category term="Ceph" scheme="https://tony-yin.github.io/tags/Ceph/"/>
     
-      <category term="NFS" scheme="https://tony-yin.github.io/tags/NFS/"/>
-    
       <category term="NFS-Ganesha" scheme="https://tony-yin.github.io/tags/NFS-Ganesha/"/>
+    
+      <category term="NFS" scheme="https://tony-yin.github.io/tags/NFS/"/>
     
       <category term="Luminous" scheme="https://tony-yin.github.io/tags/Luminous/"/>
     
@@ -481,9 +511,9 @@ good&lt;/code&gt;，说明这篇文章内容很好，有深度有广度，是一
     
       <category term="Ceph" scheme="https://tony-yin.github.io/tags/Ceph/"/>
     
-      <category term="RBD" scheme="https://tony-yin.github.io/tags/RBD/"/>
-    
       <category term="NFS" scheme="https://tony-yin.github.io/tags/NFS/"/>
+    
+      <category term="RBD" scheme="https://tony-yin.github.io/tags/RBD/"/>
     
   </entry>
   
@@ -570,30 +600,6 @@ good&lt;/code&gt;，说明这篇文章内容很好，有深度有广度，是一
       <category term="Partition" scheme="https://tony-yin.github.io/tags/Partition/"/>
     
       <category term="Script" scheme="https://tony-yin.github.io/tags/Script/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>JS判断对象是否为空</title>
-    <link href="https://tony-yin.github.io/2017/09/28/JS-Object-Null/"/>
-    <id>https://tony-yin.github.io/2017/09/28/JS-Object-Null/</id>
-    <published>2017-09-28T06:01:42.000Z</published>
-    <updated>2017-11-22T01:37:59.939Z</updated>
-    
-    <content type="html"><![CDATA[<center><img src="http://ow0mgad6r.bkt.clouddn.com/jsbanana-600-450.png" alt="JS"></center><p>今天在改代码的时候中发现一个<code>Bug</code>，通过<code>debug</code>发现最终的原因便是判断对象是否为空导致的错误，一个小小的错误反映出<code>Javascript</code>这门语言的不严谨性，也提醒我们得熟悉它的一些技巧和原理，避免经常在一些问题上踩坑</p><a id="more"></a><p>场景还原：通过<code>if(object)</code>判断对象内容不为空，</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">obj = &#123;&#125;;   // obj其实是通过其他方式获得，但是它的内容为空</div><div class="line">if (obj) &#123;</div><div class="line">        xxx;    // 判断当obj不为空的时候，执行判断内的代码</div><div class="line">&#125;</div></pre></td></tr></table></figure><p>那么问题就出现了，即使对象内容为空，这个判断代码块里面的代码还是会被执行<br>用<code>chrome</code>简单的验证了一下：</p><center><img src="http://ow0mgad6r.bkt.clouddn.com/object_empty.png" alt="object empty"></center><p>这和一些其他语言不一样，比如<code>php</code>,<code>python</code>是可以通过<code>if(object)</code>来检查对象是否为空的，但是<code>JS</code>不可以，这个问题要不是遇到了肯定想不到</p><p>那么<code>JS</code>如何判断对象内容是否为空呢？网上搜了下，大概有以下方式：</p><h3 id="通过JSON-stringify将对象转换成字符串进行判断"><a href="#通过JSON-stringify将对象转换成字符串进行判断" class="headerlink" title="通过JSON.stringify将对象转换成字符串进行判断"></a>通过JSON.stringify将对象转换成字符串进行判断</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">var tt = &#123;&#125;;</div><div class="line">if (JSON.stringify(tt) == &quot;&#123;&#125;&quot;) &#123;</div><div class="line">        console.log(&apos;tt is not empty!&apos;);</div><div class="line">&#125;</div></pre></td></tr></table></figure><h3 id="通过读取对象元素"><a href="#通过读取对象元素" class="headerlink" title="通过读取对象元素"></a>通过读取对象元素</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">var tt = &#123;&#125;;</div><div class="line">var t = &#123;id: 1&#125;;</div><div class="line">if (tt.id) &#123;</div><div class="line">        console.log(&apos;tt is not empty!&apos;);</div><div class="line">&#125; </div><div class="line">if (t.id) &#123;</div><div class="line">        console.log(&apos;t is not empty&apos;);</div><div class="line">&#125;</div></pre></td></tr></table></figure><h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>方法1相对于方法2来说更加严谨，阅读性高，而方法2的效率却比方法1高</p><h3 id="jQuery提供了判断对象是否为空的API"><a href="#jQuery提供了判断对象是否为空的API" class="headerlink" title="jQuery提供了判断对象是否为空的API"></a>jQuery提供了判断对象是否为空的API</h3><p>如果用的是<code>jquery</code>的话，可以使用其提供的现有方法：<code>isEmptyObject</code>,这是<code>jQuery1.4</code>版本后加入的功能，具体用法：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">var tt = &#123;&#125;; </div><div class="line">if ($.isEmptyObject(tt)) &#123;  // jQuery.isEmptyObject(tt)这样调用也可以</div><div class="line">        console.log(&apos;tt is empty!&apos;);</div><div class="line">&#125;</div></pre></td></tr></table></figure><h3 id="判断对象是否存在"><a href="#判断对象是否存在" class="headerlink" title="判断对象是否存在"></a>判断对象是否存在</h3><p>借助上面的问题，顺便了解了一下：<a href="http://www.ruanyifeng.com/blog/2011/05/how_to_judge_the_existence_of_a_global_object_in_javascript.html" target="_blank" rel="external">如何判断Javascript对象是否存在</a></p><p>这篇文章里面讲的还是比较全面的，针对不同场景给出了不同的方案</p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;center&gt;&lt;img src=&quot;http://ow0mgad6r.bkt.clouddn.com/jsbanana-600-450.png&quot; alt=&quot;JS&quot;&gt;&lt;/center&gt;
-
-&lt;p&gt;今天在改代码的时候中发现一个&lt;code&gt;Bug&lt;/code&gt;，通过&lt;code&gt;debug&lt;/code&gt;发现最终的原因便是判断对象是否为空导致的错误，一个小小的错误反映出&lt;code&gt;Javascript&lt;/code&gt;这门语言的不严谨性，也提醒我们得熟悉它的一些技巧和原理，避免经常在一些问题上踩坑&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="tech" scheme="https://tony-yin.github.io/categories/tech/"/>
-    
-    
-      <category term="Javascript" scheme="https://tony-yin.github.io/tags/Javascript/"/>
     
   </entry>
   

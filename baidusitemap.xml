@@ -4,6 +4,28 @@
 
     
   <url>
+    <loc>https://tony-yin.github.io/2018/01/10/scp-and-ssh/</loc>
+    <lastmod>2018-01-10T15:44:03.647Z</lastmod>
+    <data>
+        <display>
+        <title>scp 免交互式和 ssh 免交互式脚本</title>
+        <pubTime>2018-01-10T15:40:46.000Z</pubTime>
+        
+        <tag>Script</tag>
+         
+        <tag>Linux</tag>
+         
+         
+           
+             
+              <breadCrumb title="tech" url="https://tony-yin.github.io/categories/tech/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>https://tony-yin.github.io/2018/01/01/Daily-Article-2017/</loc>
     <lastmod>2018-01-08T06:00:28.779Z</lastmod>
     <data>
@@ -239,9 +261,9 @@
         
         <tag>Ceph</tag>
          
-        <tag>RBD</tag>
-         
         <tag>NFS</tag>
+         
+        <tag>RBD</tag>
          
          
            
@@ -307,9 +329,9 @@
         
         <tag>Ceph</tag>
          
-        <tag>NFS</tag>
-         
         <tag>NFS-Ganesha</tag>
+         
+        <tag>NFS</tag>
          
         <tag>Luminous</tag>
          

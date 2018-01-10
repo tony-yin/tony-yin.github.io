@@ -7,24 +7,19 @@
   
   
   
-  <title>Python Profiler | Tony&#39;s blog</title>
+  <title>scp 免交互式和 ssh 免交互式脚本 | Tony&#39;s blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="OSD启用过程耗时较长，需要进行性能优化。期间通过python profilers对代码进行性能分析和数据统计，有坑，有收获，总而言之，这是一个不错的工具">
-<meta name="keywords" content="Profile,Python,性能优化">
+  <meta name="description" content="scp场景： 需要将以下源主机上的三个文件拷贝到以下目的主机的对应目录下  src host: 192.168.1.1dist host: 192.168.1.2files: ／root/1/1.txt, /root/2/2.txt, /root/3/3.txt  这时候如果手动做的话，将会很繁琐，所以这时候需要一个脚本能够实现文件的自动复制，并且脚本需要自动把密码验证的步骤也覆盖。 这里的关键就">
+<meta name="keywords" content="Script,Linux">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Python Profiler">
-<meta property="og:url" content="https://tony-yin.github.io/2017/10/10/Python-Profiler/index.html">
+<meta property="og:title" content="scp 免交互式和 ssh 免交互式脚本">
+<meta property="og:url" content="https://tony-yin.github.io/2018/01/10/scp-and-ssh/index.html">
 <meta property="og:site_name" content="Tony&#39;s blog">
-<meta property="og:description" content="OSD启用过程耗时较长，需要进行性能优化。期间通过python profilers对代码进行性能分析和数据统计，有坑，有收获，总而言之，这是一个不错的工具">
-<meta property="og:image" content="http://ovv1r40we.bkt.clouddn.com/publicenemyno1-600x400.png">
-<meta property="og:image" content="http://images.cnblogs.com/cnblogs_com/btchenguang/201202/201202031502512968.png">
-<meta property="og:image" content="http://ovv1r40we.bkt.clouddn.com/enable_osd3.png">
-<meta property="og:image" content="http://ovv1r40we.bkt.clouddn.com/enable_osd3-2.png">
-<meta property="og:updated_time" content="2017-11-22T01:39:43.232Z">
+<meta property="og:description" content="scp场景： 需要将以下源主机上的三个文件拷贝到以下目的主机的对应目录下  src host: 192.168.1.1dist host: 192.168.1.2files: ／root/1/1.txt, /root/2/2.txt, /root/3/3.txt  这时候如果手动做的话，将会很繁琐，所以这时候需要一个脚本能够实现文件的自动复制，并且脚本需要自动把密码验证的步骤也覆盖。 这里的关键就">
+<meta property="og:updated_time" content="2018-01-10T15:44:03.647Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Python Profiler">
-<meta name="twitter:description" content="OSD启用过程耗时较长，需要进行性能优化。期间通过python profilers对代码进行性能分析和数据统计，有坑，有收获，总而言之，这是一个不错的工具">
-<meta name="twitter:image" content="http://ovv1r40we.bkt.clouddn.com/publicenemyno1-600x400.png">
+<meta name="twitter:title" content="scp 免交互式和 ssh 免交互式脚本">
+<meta name="twitter:description" content="scp场景： 需要将以下源主机上的三个文件拷贝到以下目的主机的对应目录下  src host: 192.168.1.1dist host: 192.168.1.2files: ／root/1/1.txt, /root/2/2.txt, /root/3/3.txt  这时候如果手动做的话，将会很繁琐，所以这时候需要一个脚本能够实现文件的自动复制，并且脚本需要自动把密码验证的步骤也覆盖。 这里的关键就">
   
     <link rel="alternative" href="/atom.xml" title="Tony&#39;s blog" type="application/atom+xml">
   
@@ -281,11 +276,11 @@
     </div>
 </nav>
 
-      <div class="body-wrap"><article id="post-Python-Profiler" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-scp-and-ssh" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a  href="/2017/10/10/Python-Profiler/" class="article-date">
-      <time datetime="2017-10-10T13:46:24.000Z" itemprop="datePublished">2017-10-10</time>
+      <a  href="/2018/01/10/scp-and-ssh/" class="article-date">
+      <time datetime="2018-01-10T15:40:46.000Z" itemprop="datePublished">2018-01-10</time>
 </a>
 
     </div>
@@ -299,7 +294,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      Python Profiler
+      scp 免交互式和 ssh 免交互式脚本
     </h1>
   
 
@@ -315,7 +310,7 @@
 
         
     <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Profile/">Profile</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Python/">Python</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/性能优化/">性能优化</a></li></ul>
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/">Linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Script/">Script</a></li></ul>
     </div>
 
         <div class="clearfix"></div>
@@ -325,73 +320,20 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <center><img src="http://ovv1r40we.bkt.clouddn.com/publicenemyno1-600x400.png" alt="Python Profiler"></center>
-
-<p><code>OSD</code>启用过程耗时较长，需要进行性能优化。期间通过<code>python profilers</code>对代码进行性能分析和数据统计，有坑，有收获，总而言之，这是一个不错的工具</p>
-<a id="more"></a>
-<h2 id="Profilers简介"><a href="#Profilers简介" class="headerlink" title="Profilers简介"></a>Profilers简介</h2><p><code>python profilers</code>内置的主要有三种<code>cprofile</code>, <code>profile</code>和<code>hotshot</code>,<code>cprofile</code>是基于<code>profile</code>之上做的扩展，性能要比后者好很多，所以我用的就是<code>cprofile</code></p>
-<p>更详细的介绍可以查看官网，<code>python profilers</code>的好处在于不用看教程，只要看着官网简短的概述，就能掌握其使用方法</p>
-<ul>
-<li><a href="https://docs.python.org/2/library/profile.html" target="_blank" rel="external">Python Profile</a></li>
-<li><a href="http://www.cnblogs.com/btchenguang/archive/2012/02/03/2337112.html" target="_blank" rel="external">关于Python Profilers性能分析器</a></li>
-</ul>
-<h2 id="Cprofile快速使用"><a href="#Cprofile快速使用" class="headerlink" title="Cprofile快速使用"></a>Cprofile快速使用</h2><h3 id="官网例子"><a href="#官网例子" class="headerlink" title="官网例子"></a>官网例子</h3><h4 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> cProfile</div><div class="line"><span class="keyword">import</span> re</div><div class="line">cProfile.run(<span class="string">'re.compile("foo|bar")'</span>)</div></pre></td></tr></table></figure>
-<h4 id="分析结果"><a href="#分析结果" class="headerlink" title="分析结果"></a>分析结果</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">197 function calls (192 primitive calls) in 0.002 seconds</div><div class="line">Ordered by: standard name</div><div class="line">ncalls  tottime  percall  cumtime  percall filename:lineno(function)</div><div class="line">     1    0.000    0.000    0.001    0.001 &lt;string&gt;:1(&lt;module&gt;)</div><div class="line">     1    0.000    0.000    0.001    0.001 re.py:212(compile)</div><div class="line">     1    0.000    0.000    0.001    0.001 re.py:268(_compile)</div><div class="line">     1    0.000    0.000    0.000    0.000 sre_compile.py:172(_compile_charset)</div><div class="line">     1    0.000    0.000    0.000    0.000 sre_compile.py:201(_optimize_charset)</div><div class="line">     4    0.000    0.000    0.000    0.000 sre_compile.py:25(_identityfunction)</div><div class="line">   3/1    0.000    0.000    0.000    0.000 sre_compile.py:33(_compile)</div></pre></td></tr></table></figure>
-<h4 id="图解"><a href="#图解" class="headerlink" title="图解"></a>图解</h4><center><img src="http://images.cnblogs.com/cnblogs_com/btchenguang/201202/201202031502512968.png" alt="cprofile"></center>
-
-<h2 id="Cprofile深入"><a href="#Cprofile深入" class="headerlink" title="Cprofile深入"></a>Cprofile深入</h2><p>上面的基本用法可以在脚本中测试某个语句或者函数，然后打印到控制台。<code>cprofile</code>也可以将结果输出到文件中，这是比较常见的做法，因为打印到控制台，第一不能保存结果，第二如果数据量多没法全部浏览，并且影响阅读效果。而放在文件中还可以对结果进行按需排序、筛选等操作</p>
-<h3 id="输出文件"><a href="#输出文件" class="headerlink" title="输出文件"></a>输出文件</h3><ol>
-<li>参数方式</li>
-</ol>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> cProfile</div><div class="line"><span class="keyword">import</span> re</div><div class="line">cProfile.run(<span class="string">'re.compile("foo|bar")'</span>, <span class="string">'restats'</span>)</div></pre></td></tr></table></figure>
-<ol>
-<li>CLI方式</li>
-</ol>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">python -m cProfile [-o output_file] [-s sort_order] myscript.py</div></pre></td></tr></table></figure>
-<h2 id="Cprofile优雅使用"><a href="#Cprofile优雅使用" class="headerlink" title="Cprofile优雅使用"></a>Cprofile优雅使用</h2><p>上述方式可以使得<code>cprofile</code>在一些测试环境中受用，但是在一些复杂的环境中不能很好的<code>work</code>。由于<code>cprofile</code>是根据<code>python</code>在每个事件中存放的<code>hook</code>进行性能分析，所以在<code>cprofile.run()</code>的时候，要保证他就是最上层，他是调用的源头。</p>
-<p>但是实际场景中，我们经常会对一些<code>API</code>中的某个方法进行性能分析，如果在被调用处使用<code>cprofile</code>，会出现变量或者模块<code>undefined</code>的现象，模块不能识别还可以在<code>run</code>方法中引入，然后通过分号分隔，例如<code>cprofile.run(import re, re.compile(&quot;foo|bar&quot;))</code>，具体可以参考这篇文章：<a href="http://ju.outofmemory.cn/entry/46805" target="_blank" rel="external">Python Profile 工具性能分析</a></p>
-<p>变量无法识别更是让人头疼，所以为了达到测试效果，你会不得不修改一些并不是很少量的源代码，并且测一个方法就要搞一次很麻烦。还有一些多进程或者跨机器的场景导致代码异步执行，这样<code>cprofile</code>更不能达到用户的需求</p>
-<p>还好我们可以通过<code>python</code>装饰器的机制来做，这样既不用改动源代码，也可以很方便的切换函数分析</p>
-<h3 id="装饰器接口"><a href="#装饰器接口" class="headerlink" title="装饰器接口"></a>装饰器接口</h3><p>这里要注意设置全局变量</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">export PROFILING=y</div></pre></td></tr></table></figure>
-<p>接口定义：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> cProfile</div><div class="line"><span class="keyword">import</span> pstats</div><div class="line"><span class="keyword">import</span> os</div><div class="line"><span class="comment"># 性能分析装饰器定义</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">do_cprofile</span><span class="params">(filename)</span>:</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">wrapper</span><span class="params">(func)</span>:</span></div><div class="line">        <span class="function"><span class="keyword">def</span> <span class="title">profiled_func</span><span class="params">(*args, **kwargs)</span>:</span></div><div class="line">            <span class="comment"># Flag for do profiling or not.</span></div><div class="line">            DO_PROF = os.getenv(<span class="string">"PROFILING"</span>)</div><div class="line">            <span class="keyword">if</span> DO_PROF:</div><div class="line">                profile = cProfile.Profile()</div><div class="line">                profile.enable()</div><div class="line">                result = func(*args, **kwargs)</div><div class="line">                profile.disable()</div><div class="line">                <span class="comment"># Sort stat by internal time.</span></div><div class="line">                sortby = <span class="string">"tottime"</span></div><div class="line">                ps = pstats.Stats(profile).sort_stats(sortby)</div><div class="line">                ps.dump_stats(filename)</div><div class="line">            <span class="keyword">else</span>:</div><div class="line">                result = func(*args, **kwargs)</div><div class="line">            <span class="keyword">return</span> result</div><div class="line">        <span class="keyword">return</span> profiled_func</div><div class="line">    <span class="keyword">return</span> wrapper</div></pre></td></tr></table></figure>
-<h3 id="分析使用"><a href="#分析使用" class="headerlink" title="分析使用"></a>分析使用</h3><p>这时候只需要在调用的函数上面加一个装饰器即可</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@do_cprofile('filename')</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">run</span><span class="params">()</span>:</span></div><div class="line">    <span class="keyword">print</span> <span class="string">'hello world'</span></div></pre></td></tr></table></figure>
-<h2 id="pstats分析工具"><a href="#pstats分析工具" class="headerlink" title="pstats分析工具"></a>pstats分析工具</h2><p><code>pstats</code>可以根据<code>cprofile</code>生成的文件进行排序、筛选等处理，呈现更主要的结果</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> pstats</div><div class="line"> </div><div class="line"><span class="comment"># 创建Stats对象</span></div><div class="line">p = pstats.Stats(<span class="string">"result.out"</span>)</div><div class="line"> </div><div class="line"><span class="comment"># strip_dirs(): 去掉无关的路径信息</span></div><div class="line"><span class="comment"># sort_stats(): 排序，支持的方式和上述的一致</span></div><div class="line"><span class="comment"># print_stats(): 打印分析结果，可以指定打印前几行</span></div><div class="line"> </div><div class="line"><span class="comment"># 和直接运行cProfile.run("test()")的结果是一样的</span></div><div class="line">p.strip_dirs().sort_stats(<span class="number">-1</span>).print_stats()</div><div class="line"> </div><div class="line"><span class="comment"># 按照函数名排序，只打印前3行函数的信息, 参数还可为小数,表示前百分之几的函数信息 </span></div><div class="line">p.strip_dirs().sort_stats(<span class="string">"name"</span>).print_stats(<span class="number">3</span>)</div><div class="line"> </div><div class="line"><span class="comment"># 按照运行时间和函数名进行排序</span></div><div class="line">p.strip_dirs().sort_stats(<span class="string">"cumulative"</span>, <span class="string">"name"</span>).print_stats(<span class="number">0.5</span>)</div><div class="line"> </div><div class="line"><span class="comment"># 如果想知道有哪些函数调用了sum_num</span></div><div class="line">p.print_callers(<span class="number">0.5</span>, <span class="string">"sum_num"</span>)</div><div class="line"> </div><div class="line"><span class="comment"># 查看test()函数中调用了哪些函数</span></div><div class="line">p.print_callees(<span class="string">"test"</span>)</div></pre></td></tr></table></figure>
-<p>上述代码摘自：<a href="http://xianglong.me/article/analysis-python-application-performance-using-cProfile/" target="_blank" rel="external">使用cProfile分析Python程序性能</a>，原文还提供了<code>pstats</code>命令行交互工具方式</p>
-<h2 id="图形可视化"><a href="#图形可视化" class="headerlink" title="图形可视化"></a>图形可视化</h2><p>上面的命令行界面的确是有点反人类，不易一下子清晰地分析性能瓶颈，有很多图形可视化工具可以帮助我们生成简洁明了的图片</p>
-<p>工具有：</p>
-<ul>
-<li>gprof2dot</li>
-<li>vprof</li>
-<li>RunSnakeRun</li>
-<li>KCacheGrind &amp; pyprof2calltree</li>
-</ul>
-<p>最终我选择了<code>gprof2dot</code>，比较符合我的口味</p>
-<h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><p>我的机器是<code>ubuntu</code>，其他类型机器找对应方式，具体参考：<a href="https://github.com/jrfonseca/gprof2dot" target="_blank" rel="external">Github gprof2dot</a></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">apt-get install python graphviz</div><div class="line">pip install gprof2dot</div></pre></td></tr></table></figure>
-<p>注意：</p>
-<p>如果<code>pip</code>安装软件包报错：’Cannot fetch index base URL  <a href="http://pypi.python.org/simple/" target="_blank" rel="external">http://pypi.python.org/simple/</a>‘</p>
-<p>解决办法</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">1. windows下创建/%user%/pip/pop.ini，并添加以下内容。</div><div class="line">[global]  </div><div class="line">index-url=http://pypi.douban.com/simple/</div><div class="line">2. linux创建文件~/.pip/pip.conf，并添加一下内容。</div><div class="line">[global]  </div><div class="line">index-url=http://pypi.douban.com/simple/</div><div class="line">3. 再次使用pip安装相应的包即可。</div></pre></td></tr></table></figure>
-<h3 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h3><p>根据<code>cpofile</code>输出的文件生成图片，这边输出的文件名为<code>osd.out</code>，生成的图片名为<code>osd.png</code></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">gprof2dot -f pstats osd.out | dot -Tpng -o osd.png</div></pre></td></tr></table></figure>
-<p>具体参考这篇文章：<a href="https://zhuanlan.zhihu.com/p/24495603/" target="_blank" rel="external">Python优化第一步: 性能分析实践</a>，写的很好，也很具体</p>
-<h3 id="效果图"><a href="#效果图" class="headerlink" title="效果图"></a>效果图</h3><p>这是我进行性能分析产生的两张图</p>
-<p>Picture 1：</p>
-<center><img src="http://ovv1r40we.bkt.clouddn.com/enable_osd3.png" alt="enable_osd1"></center>
-
-<p>Picture 2：</p>
-<center><img src="http://ovv1r40we.bkt.clouddn.com/enable_osd3-2.png" alt="enable_osd2"></center>
-
-<h2 id="继续深入"><a href="#继续深入" class="headerlink" title="继续深入"></a>继续深入</h2><ul>
-<li><code>pstats</code>深入了解</li>
-<li><code>gprof2dot</code>深入了解</li>
-<li>其他的可视化工具</li>
-</ul>
-<p>不过最终的目的都是通过性能分析找到性能瓶颈，然后进行优化，适合自己的就好</p>
+        <h2 id="scp"><a href="#scp" class="headerlink" title="scp"></a>scp</h2><p>场景：</p>
+<p>需要将以下源主机上的三个文件拷贝到以下目的主机的对应目录下</p>
+<blockquote>
+<p>src host: 192.168.1.1<br>dist host: 192.168.1.2<br>files: ／root/1/1.txt, /root/2/2.txt, /root/3/3.txt</p>
+</blockquote>
+<p>这时候如果手动做的话，将会很繁琐，所以这时候需要一个脚本能够实现文件的自动复制，并且脚本需要自动把密码验证的步骤也覆盖。</p>
+<p>这里的关键就是如何实现<code>shell</code>交互式命令行的自动化，这边可以用分界符<code>EOF</code>，<code>EOF</code>范围中的字符将会被作为命令输入到交互式命令行中，具体脚本如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">SOURCEHOST=192.168.1.1</div><div class="line">DISTHOST=$1</div><div class="line">FILE1=/root/1/1.txt</div><div class="line">FILE2=/root/2/2.txt</div><div class="line">FILE3=/root/3/3.txt</div><div class="line">FOLDER1=/root/1/</div><div class="line">FOLDER2=/root/2/</div><div class="line">FOLDER3=/root/3/</div><div class="line">PASSWORD=123456</div><div class="line">scp FILE1 $&#123;DISTHOST&#125;$&#123;Folder1&#125; &lt;&lt; EOF</div><div class="line">$PASSWORD</div><div class="line">EOF</div><div class="line">scp FILE2 $&#123;DISTHOST&#125;$&#123;Folder2&#125; &lt;&lt; EOF</div><div class="line">$PASSWORD</div><div class="line">EOF</div><div class="line">scp FILE3 $&#123;DISTHOST&#125;$&#123;Folder3&#125; &lt;&lt; EOF</div><div class="line">$PASSWORD</div><div class="line">EOF</div></pre></td></tr></table></figure>
+<p>调用方式：<code>sh scp.sh 192.168.1.2</code></p>
+<h2 id="ssh"><a href="#ssh" class="headerlink" title="ssh"></a>ssh</h2><p>场景：</p>
+<p>上面的场景是建立在登陆<code>192.168.1</code>主机的基础上，现在我想我在任意主机上都可以实现上面将<code>192.168.1.1</code>的上述文件拷贝到<code>192.168.1.2</code>的对应目录下</p>
+<p>这里的关键是实现<code>ssh</code>的免密登陆，这时我们需要用到<code>sshpass</code>，具体介绍可以自行搜索下，用法如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">#! /bin/bash</div><div class="line"></div><div class="line">SOURCEHOST=192.168.1.1</div><div class="line">DISTHOST=$1</div><div class="line">FILE1=/root/1/1.txt</div><div class="line">FILE2=/root/2/2.txt</div><div class="line">FILE3=/root/3/3.txt</div><div class="line">FOLDER1=/root/1/</div><div class="line">FOLDER2=/root/2/</div><div class="line">FOLDER3=/root/3/</div><div class="line">PASSWORD=123456</div><div class="line"></div><div class="line">sshpass -p $PASSWORD ssh $SOURCEHOST \</div><div class="line">    sshpass -p $PASSWORD scp $&#123;FILE1&#125; $&#123;DISTHOST&#125;$&#123;FOLDER1&#125; &amp;&amp; \</div><div class="line">    sshpass -p $PASSWORD scp $&#123;FILE2&#125; $&#123;DISTHOST&#125;$&#123;FOLDER2&#125; &amp;&amp; \</div><div class="line">    sshpass -p $PASSWORD scp $&#123;FILE3&#125; $&#123;DISTHOST&#125;$&#123;FOLDER3&#125;</div></pre></td></tr></table></figure>
+<p>调用方式：<code>sh scp.sh 192.168.1.2</code></p>
 
       
 
@@ -401,13 +343,13 @@
   
     
     <div class="copyright">
-        <p><span>本文标题:</span><a  href="/2017/10/10/Python-Profiler/">Python Profiler</a></p>
+        <p><span>本文标题:</span><a  href="/2018/01/10/scp-and-ssh/">scp 免交互式和 ssh 免交互式脚本</a></p>
         <p><span>文章作者:</span><a  href="/" title="访问 Tony 的个人博客">Tony</a></p>
-        <p><span>发布时间:</span>2017年10月10日 - 21时46分</p>
-        <p><span>最后更新:</span>2017年11月22日 - 09时39分</p>
+        <p><span>发布时间:</span>2018年01月10日 - 23时40分</p>
+        <p><span>最后更新:</span>2018年01月10日 - 23时44分</p>
         <p>
-            <span>原始链接:</span><a class="post-url" href="/2017/10/10/Python-Profiler/" title="Python Profiler">https://tony-yin.github.io/2017/10/10/Python-Profiler/</a>
-            <span class="copy-path" data-clipboard-text="原文: https://tony-yin.github.io/2017/10/10/Python-Profiler/　　作者: Tony" title=""></span>
+            <span>原始链接:</span><a class="post-url" href="/2018/01/10/scp-and-ssh/" title="scp 免交互式和 ssh 免交互式脚本">https://tony-yin.github.io/2018/01/10/scp-and-ssh/</a>
+            <span class="copy-path" data-clipboard-text="原文: https://tony-yin.github.io/2018/01/10/scp-and-ssh/　　作者: Tony" title=""></span>
         </p>
         <p>
             <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/cn/" title="中国大陆 (CC BY-NC-SA 3.0 CN)" target = "_blank">"署名-非商用-相同方式共享 3.0"</a> 转载请保留原文链接及作者。
@@ -418,18 +360,9 @@
 
 <nav id="article-nav">
   
-    <a  href="/2017/10/31/RBD-Mount-NFS/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption"><</strong>
-      <div class="article-nav-title">
-        
-          使用NFS挂载RBD
-        
-      </div>
-    </a>
   
-  
-    <a  href="/2017/10/10/Enable-OSD-Profile-Script/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">启用OSD性能剖析脚本</div>
+    <a  href="/2018/01/01/Daily-Article-2017/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Daily Article Vol 1 - (2017/11/1 ~ 2017/12/31)</div>
       <strong class="article-nav-caption">></strong>
     </a>
   
@@ -441,7 +374,7 @@
 
     <div id="toc" class="toc-article">
     <strong class="toc-title">文章目录</strong>
-    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Profilers简介"><span class="toc-number">1.</span> <span class="toc-text">Profilers简介</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Cprofile快速使用"><span class="toc-number">2.</span> <span class="toc-text">Cprofile快速使用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#官网例子"><span class="toc-number">2.1.</span> <span class="toc-text">官网例子</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#代码"><span class="toc-number">2.1.1.</span> <span class="toc-text">代码</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#分析结果"><span class="toc-number">2.1.2.</span> <span class="toc-text">分析结果</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#图解"><span class="toc-number">2.1.3.</span> <span class="toc-text">图解</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Cprofile深入"><span class="toc-number">3.</span> <span class="toc-text">Cprofile深入</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#输出文件"><span class="toc-number">3.1.</span> <span class="toc-text">输出文件</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Cprofile优雅使用"><span class="toc-number">4.</span> <span class="toc-text">Cprofile优雅使用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#装饰器接口"><span class="toc-number">4.1.</span> <span class="toc-text">装饰器接口</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#分析使用"><span class="toc-number">4.2.</span> <span class="toc-text">分析使用</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#pstats分析工具"><span class="toc-number">5.</span> <span class="toc-text">pstats分析工具</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#图形可视化"><span class="toc-number">6.</span> <span class="toc-text">图形可视化</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#安装"><span class="toc-number">6.1.</span> <span class="toc-text">安装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#使用"><span class="toc-number">6.2.</span> <span class="toc-text">使用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#效果图"><span class="toc-number">6.3.</span> <span class="toc-text">效果图</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#继续深入"><span class="toc-number">7.</span> <span class="toc-text">继续深入</span></a></li></ol>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#scp"><span class="toc-number">1.</span> <span class="toc-text">scp</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ssh"><span class="toc-number">2.</span> <span class="toc-text">ssh</span></a></li></ol>
 </div>
 <style>
     .left-col .switch-btn {
@@ -523,13 +456,11 @@
 
     <div class="scroll" id="post-nav-button">
         
-            <a  href="/2017/10/31/RBD-Mount-NFS/" title="上一篇: 使用NFS挂载RBD">
-                <i class="fa fa-angle-left"></i>
-            </a>
+            <a  href="/" title="回到主页"><i class="fa fa-home"></i></a>
         
         <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
         
-            <a  href="/2017/10/10/Enable-OSD-Profile-Script/" title="下一篇: 启用OSD性能剖析脚本">
+            <a  href="/2018/01/01/Daily-Article-2017/" title="下一篇: Daily Article Vol 1 - (2017/11/1 ~ 2017/12/31)">
                 <i class="fa fa-angle-right"></i>
             </a>
         
