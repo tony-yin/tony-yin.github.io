@@ -5,7 +5,7 @@
     
   <url>
     <loc>https://tony-yin.github.io/2018/01/10/scp-and-ssh/</loc>
-    <lastmod>2018-01-10T15:44:03.647Z</lastmod>
+    <lastmod>2018-01-26T16:09:37.129Z</lastmod>
     <data>
         <display>
         <title>scp 免交互式和 ssh 免交互式脚本</title>
@@ -14,6 +14,28 @@
         <tag>Script</tag>
          
         <tag>Linux</tag>
+         
+         
+           
+             
+              <breadCrumb title="tech" url="https://tony-yin.github.io/categories/tech/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://tony-yin.github.io/2018/01/05/RaidCardToolUtils/</loc>
+    <lastmod>2018-01-26T16:06:26.457Z</lastmod>
+    <data>
+        <display>
+        <title>利用Raid卡工具获取逻辑盘是否为SSD</title>
+        <pubTime>2018-01-05T05:07:06.000Z</pubTime>
+        
+        <tag>Ceph</tag>
+         
+        <tag>Raidcard</tag>
          
          
            

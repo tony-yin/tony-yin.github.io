@@ -7,21 +7,19 @@
   
   
   
-  <title>通过ganesha-nfs导出Ceph为NFS（Luminous） | Tony&#39;s blog</title>
+  <title>利用Raid卡工具获取逻辑盘是否为SSD | Tony&#39;s blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="自从Jewel版本，nfs-ganesha开始支持ceph，并且把对接点选择了rados。Ganesha支持两种方式将Ceph导出为NFS，一种通过RGW，一种通过CephFS，通过FSAL模块 连接到RGW或者CephFS， 其中，FSAL_RGW调用librgw2将NFS协议转义为S3协议再通过RGW存入到Ceph中，FSAL_CEPH 调用libcephfs1将NFS转义为Cephfs协">
-<meta name="keywords" content="Ceph,NFS-Ganesha,NFS,Luminous">
+  <meta name="description" content="网上很多获取一块盘是否为SSD的方式都是不靠谱的，不能覆盖到所有情况。一般我们在操作系统上的硬盘都是虚拟出来的逻辑盘，比如/dev/sda这种，它可能对应一块单独的物理硬盘，也有可能对应的是几块盘组成的raid。我们有时候想获取一块盘的具体信息，比如磁盘类型、插槽号、序列号等等，这时候我们就得借助对应的raid卡工具了，最常见的如Megacli，通过逻辑盘找到对应的物理盘，然后读取信息。">
+<meta name="keywords" content="Ceph,Raidcard">
 <meta property="og:type" content="article">
-<meta property="og:title" content="通过ganesha-nfs导出Ceph为NFS（Luminous）">
-<meta property="og:url" content="https://tony-yin.github.io/2017/11/08/Ceph-NFS-Ganesha/index.html">
+<meta property="og:title" content="利用Raid卡工具获取逻辑盘是否为SSD">
+<meta property="og:url" content="https://tony-yin.github.io/2018/01/05/RaidCardToolUtils/index.html">
 <meta property="og:site_name" content="Tony&#39;s blog">
-<meta property="og:description" content="自从Jewel版本，nfs-ganesha开始支持ceph，并且把对接点选择了rados。Ganesha支持两种方式将Ceph导出为NFS，一种通过RGW，一种通过CephFS，通过FSAL模块 连接到RGW或者CephFS， 其中，FSAL_RGW调用librgw2将NFS协议转义为S3协议再通过RGW存入到Ceph中，FSAL_CEPH 调用libcephfs1将NFS转义为Cephfs协">
-<meta property="og:image" content="http://ow0mgad6r.bkt.clouddn.com/ganesha-600x450.png">
-<meta property="og:updated_time" content="2017-11-30T03:09:29.197Z">
+<meta property="og:description" content="网上很多获取一块盘是否为SSD的方式都是不靠谱的，不能覆盖到所有情况。一般我们在操作系统上的硬盘都是虚拟出来的逻辑盘，比如/dev/sda这种，它可能对应一块单独的物理硬盘，也有可能对应的是几块盘组成的raid。我们有时候想获取一块盘的具体信息，比如磁盘类型、插槽号、序列号等等，这时候我们就得借助对应的raid卡工具了，最常见的如Megacli，通过逻辑盘找到对应的物理盘，然后读取信息。">
+<meta property="og:updated_time" content="2018-01-26T16:06:26.457Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="通过ganesha-nfs导出Ceph为NFS（Luminous）">
-<meta name="twitter:description" content="自从Jewel版本，nfs-ganesha开始支持ceph，并且把对接点选择了rados。Ganesha支持两种方式将Ceph导出为NFS，一种通过RGW，一种通过CephFS，通过FSAL模块 连接到RGW或者CephFS， 其中，FSAL_RGW调用librgw2将NFS协议转义为S3协议再通过RGW存入到Ceph中，FSAL_CEPH 调用libcephfs1将NFS转义为Cephfs协">
-<meta name="twitter:image" content="http://ow0mgad6r.bkt.clouddn.com/ganesha-600x450.png">
+<meta name="twitter:title" content="利用Raid卡工具获取逻辑盘是否为SSD">
+<meta name="twitter:description" content="网上很多获取一块盘是否为SSD的方式都是不靠谱的，不能覆盖到所有情况。一般我们在操作系统上的硬盘都是虚拟出来的逻辑盘，比如/dev/sda这种，它可能对应一块单独的物理硬盘，也有可能对应的是几块盘组成的raid。我们有时候想获取一块盘的具体信息，比如磁盘类型、插槽号、序列号等等，这时候我们就得借助对应的raid卡工具了，最常见的如Megacli，通过逻辑盘找到对应的物理盘，然后读取信息。">
   
     <link rel="alternative" href="/atom.xml" title="Tony&#39;s blog" type="application/atom+xml">
   
@@ -278,11 +276,11 @@
     </div>
 </nav>
 
-      <div class="body-wrap"><article id="post-Ceph-NFS-Ganesha" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-RaidCardToolUtils" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a  href="/2017/11/08/Ceph-NFS-Ganesha/" class="article-date">
-      <time datetime="2017-11-08T15:15:26.000Z" itemprop="datePublished">2017-11-08</time>
+      <a  href="/2018/01/05/RaidCardToolUtils/" class="article-date">
+      <time datetime="2018-01-05T05:07:06.000Z" itemprop="datePublished">2018-01-05</time>
 </a>
 
     </div>
@@ -296,7 +294,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      通过ganesha-nfs导出Ceph为NFS（Luminous）
+      利用Raid卡工具获取逻辑盘是否为SSD
     </h1>
   
 
@@ -312,7 +310,7 @@
 
         
     <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Ceph/">Ceph</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Luminous/">Luminous</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/NFS/">NFS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/NFS-Ganesha/">NFS-Ganesha</a></li></ul>
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Ceph/">Ceph</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Raidcard/">Raidcard</a></li></ul>
     </div>
 
         <div class="clearfix"></div>
@@ -322,85 +320,42 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <center><img src="http://ow0mgad6r.bkt.clouddn.com/ganesha-600x450.png" alt="ganesha"></center>
-
-<p>自从<code>Jewel</code>版本，<code>nfs-ganesha</code>开始支持<code>ceph</code>，并且把对接点选择了<code>rados</code>。<code>Ganesha</code>支持两种方式将<code>Ceph</code>导出为<code>NFS</code>，一种通过<code>RGW</code>，一种通过<code>CephFS</code>，通过<code>FSAL</code>模块 连接到<code>RGW</code>或者<code>CephFS</code>， 其中，<code>FSAL_RGW</code>调用<code>librgw2</code>将<code>NFS</code>协议转义为<code>S3</code>协议再通过<code>RGW</code>存入到<code>Ceph</code>中，<code>FSAL_CEPH</code> 调用<code>libcephfs1</code>将<code>NFS</code>转义为<code>Cephfs</code>协议再存入到<code>Ceph</code> 中。所以需要额外安装这两个包。</p>
-<p>本文就<code>Luminous</code>版本的<code>ceph</code>基于<code>ganesha</code>导出<code>nfs</code>部署，并且测试一下<code>rgw</code>和<code>cephfs</code>的性能。<a href="http://www.xuxiaopang.com/2017/03/27/ganesha-nfs-deploy/#more" target="_blank" rel="external">@徐小胖</a>已经就<code>jewel</code>版本的过程进行了大致的讲解，我这边主要分享一下我遇到他文章没提到的和<code>Luminous</code>场景导致的问题。</p>
+        <p>网上很多获取一块盘是否为<code>SSD</code>的方式都是不靠谱的，不能覆盖到所有情况。一般我们在操作系统上的硬盘都是虚拟出来的逻辑盘，比如<code>/dev/sda</code>这种，它可能对应一块单独的物理硬盘，也有可能对应的是几块盘组成的<code>raid</code>。我们有时候想获取一块盘的具体信息，比如磁盘类型、插槽号、序列号等等，这时候我们就得借助对应的<code>raid</code>卡工具了，最常见的如<code>Megacli</code>，通过逻辑盘找到对应的物理盘，然后读取信息。</p>
 <a id="more"></a>
-<h2 id="参考链接："><a href="#参考链接：" class="headerlink" title="参考链接："></a>参考链接：</h2><ul>
-<li><a href="http://www.xuxiaopang.com/2017/03/27/ganesha-nfs-deploy/#more" target="_blank" rel="external">通过ganesha-nfs将 Ceph 导出为 NFS</a></li>
-<li><a href="http://blog.csdn.net/younger_china/article/details/73432726" target="_blank" rel="external">RGW+Ganesha环境部署</a></li>
-</ul>
-<h2 id="环境声明"><a href="#环境声明" class="headerlink" title="环境声明"></a>环境声明</h2><ul>
-<li>os： centos7</li>
-<li>ceph： luminous</li>
-<li>nfs-gnesha： <strong>v2.5 stable</strong>（important）</li>
-</ul>
-<h2 id="安装依赖"><a href="#安装依赖" class="headerlink" title="安装依赖"></a>安装依赖</h2><p>一些编译需要的公共库</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">yum install gcc git cmake autoconf libtool bison flex doxygen openssl-devel gcc-c++ krb5-libs krb5-devel libuuid-devel nfs-utils -y</div></pre></td></tr></table></figure>
-<p><code>ubuntu</code>的我也试了一下，主要有以下几个包不同：</p>
-<ul>
-<li><code>gcc-c++</code>   -&gt;   <code>g++</code></li>
-<li><code>libuuid-devel</code> -&gt;  <code>uuid-dev</code></li>
-<li><code>nfs-utils</code>   -&gt;  <code>nfs-kernel-server</code> </li>
-</ul>
-<p>如果要生成<code>FSAL_RGW</code>模块，需要安装<code>librgw2-devel</code>（我装的<code>librgw-devel</code>也可以<code>work</code>，看了<code>so</code>文件发现就是<code>2</code>，只是建立了映射关系，这个看了源码知道了是因为<code>K</code>版本对<code>librgw</code>编译这块做了升级，加了<code>2</code>标识一下）</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">yum install librgw2-devel -y</div></pre></td></tr></table></figure>
-<p>如果要生成<code>FSAL_CEPH</code>模块，需要安装<code>libcephfs1-devel</code></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">yum install libcephfs1-devel -y</div></pre></td></tr></table></figure>
-<h2 id="源码下载"><a href="#源码下载" class="headerlink" title="源码下载"></a>源码下载</h2><p>上面两篇文章一个下载的是<code>v2.3 stable</code>，一个是<code>v2.4 stable</code>，两个我都试过，都会在<code>make</code>到<code>80%</code>左右的时候报错，应该是源码版本和库的版本有冲突导致的，这个问题耽误我挺长时间的，后来猜想可能是版本问题，尝试了一下<code>v2.5 stable</code>的源码就可以了</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git clone -b V2.5-stable https://github.com/nfs-ganesha/nfs-ganesha.git --recursive</div></pre></td></tr></table></figure>
-<p><strong>注意：（重要）</strong></p>
-<p>最近我同事根据这篇文档部署<code>nfs-ganesha</code>的时候，发现之后<code>cmake</code>的操作后<code>USE_FSAL_RGW</code>始终是<code>OFF</code>的状态，一开始检查了一下环境发现<code>ganesha</code>是<code>v2.5</code>，然后<code>ceph</code>也是<code>L</code>版本，<code>centos</code>也是<code>7</code>。</p>
-<p>报错如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">local RGW version is 1.1.4 not suitable match, but required latest RGW version is 1.1.6</div></pre></td></tr></table></figure>
-<p>很好理解，就是我们安装的<code>RGW</code>达不到<code>nfs-ganesha</code>的要求，首先我们尝试去安装新的版本，但是<code>yum</code>的源已经配置了<code>luminous</code>，并且网上搜索了一圈并没有找到更新的。</p>
-<p>ok，那就第二步，那就找原因同样的环境为啥我可以成功？而这位同事却不行？莫非因为我帅？不能这么逆天吧^_^ （明明可以靠脸吃饭，偏偏靠才华，哎……）</p>
-<p>言归正传，通过报错信息查看源代码？定位到了报错文件<code>src/CMakeLists.txt</code>，然后代码中对<code>RGW</code>的版本要求也的确是<code>1.1.6</code>，回过头再看我之前下载下来的源代码，怪异的现象发生了，我代码中对<code>RGW</code>的版本要求只有<code>1.1.3</code>，此时我的第一反应就是应该这个文件被修改过导致两份代码不一样，出于本能直接上了<code>github</code>，果不其然，发现了<code>mattbenjamin</code>同学在<code>10</code>月<code>17</code>号在<code>v2.5</code>的分支上提交了一个<code>commit</code>针对<code>RGW</code>版本做出了修改！具体参看<a href="https://github.com/nfs-ganesha/nfs-ganesha/commit/8d039cd139ea1dcfbe316b7e93e96efe755669ef" target="_blank" rel="external">commit详情</a>，而这位贡献者几乎同时也在<code>ceph</code>提交了相关代码。这样想想就说得通了，我在搭建<code>nfs-ganesha</code>的时候恰好是在他提交之前的，所以我本地<code>RGW</code>本地版本是<code>1.1.4</code>是比要求版本<code>1.1.3</code>要高的，虽然不是完全<code>match</code>，但是也基本符合了要求，而我这位同事脸就比较黑了。。。</p>
-<p>那该怎么解决这个问题呢？</p>
-<p>有两种解决方案：</p>
-<ol>
-<li>手动编译<code>Luminous Ceph</code>把最新的<code>RGW</code>包编译出来，因为现在这个资源还没被公开分享出来；</li>
-<li>克隆这个改动之前的代码</li>
-</ol>
-<p>这么看来第二种更为简单一些，我们也是采用的这种方式，<code>git clone v2.5 stable</code>后，然后<code>git checkout</code>恰当的版本号即可。</p>
-<p><strong>总结：</strong></p>
-<p>其实直接<code>clone</code>实时的代码这是不合理的，因为你不知道他什么时候会更新。正确的方式是我们应该找到稳定的<code>release</code>版本，<code>nfs-ganesha</code>也有提供<a href="https://github.com/nfs-ganesha/nfs-ganesha/releases" target="_blank" rel="external">一系列的release</a>，而我们通过查看<code>2.5 tree</code>上面的<code>commit</code>信息，可以知道<code>RGW</code>的改动是介于<code>2.5.3</code>和<code>2.5.4</code>之间的，所以我们下载<code>2.5.3</code>较为合适，下载地址在<a href="https://github.com/nfs-ganesha/nfs-ganesha/releases/tag/V2.5.3" target="_blank" rel="external">这里</a>。</p>
-<p>这边还需要注意一个问题，这边<code>release</code>包下载下来你会发现<code>libntrirpc</code>这个文件夹没有内容，出现这个问题是因为<code>libntrirpc</code>对应的也是一个<code>git</code>仓库，我们需要去<a href="https://github.com/nfs-ganesha/nfs-ganesha/tree/next/src" target="_blank" rel="external">ntrirpc</a>手动克隆，然后通过<code>nfs-ganesha</code>的目录发现对<code>ntrirpc</code>的版本要求是<code>fadcbde</code>（这些都是上<code>github</code>可以看到的），我们需要做的就是在下载下来的<code>ntrirpc</code>目录下切到<code>fadcbde</code>这个<code>commit</code>上，并把当前的内容拷贝到<code>nfs-ganesha</code>的<code>libntrirpc</code>目录下。</p>
-<p>实在搞不定的童鞋，我提供一个我克隆的<code>nfs-ganesha</code>的代码包，你们可以对比一下，这个我是可以成功部署的</p>
-<p>附：我的<code>nfs-ganesha</code><a href="http://ovv1r40we.bkt.clouddn.com/nfs-ganesha.tar.gz" target="_blank" rel="external">下载地址</a></p>
-<h2 id="编译"><a href="#编译" class="headerlink" title="编译"></a>编译</h2><p>编译<code>nfs-ganesha</code>， <strong>注意打开对应的模块：</strong></p>
-<ul>
-<li>如果需要生成<code>FSAL_RGW</code>模块，则在编译选项中添加： <code>-DUSE_FSAL_RGW=ON</code></li>
-<li>如果需要生成<code>FSAL_CEPH</code>模块，则在编译选项中添加： <code>-DUSE_FSAL_CEPH=ON</code></li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">cd src/</div><div class="line">mkdir build</div><div class="line">cd /build/</div><div class="line">cmake -DUSE_FSAL_RGW=ON -DUSE_FSAL_CEPH=ON ../</div></pre></td></tr></table></figure>
-<p><code>cmake</code>的过程中会有以下输出：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">-- Looking for ceph_ll_lookup_root in cephfs - found</div><div class="line">-- Found cephfs libraries: /usr/lib64/libcephfs.so</div><div class="line">-- Found CEPHFS: /usr/include  </div><div class="line">-- Looking for rgw_mount in rgw</div><div class="line">-- Looking for rgw_mount in rgw - found</div><div class="line">-- Found rgw libraries: /usr/lib64/librgw.so</div><div class="line">-- Found RGW: /usr (found suitable version &quot;1.1&quot;, minimum required is &quot;1.1&quot;) </div><div class="line">...</div><div class="line">-- USE_FSAL_CEPH = ON</div><div class="line">-- USE_FSAL_CEPH_MKNOD = OFF</div><div class="line">-- USE_FSAL_CEPH_SETLK = OFF</div><div class="line">-- USE_FSAL_CEPH_LL_LOOKUP_ROOT = ON</div><div class="line">-- USE_FSAL_RGW = ON</div></pre></td></tr></table></figure>
-<p>这一步，很重要，很多时候会因为没有装好的<code>librgw2-devel</code>或者<code>libcephfs1-devel</code>导致这边的<code>USE_FSAL_RGW</code>或者<code>USE_FSAL_CEPH</code>状态为<code>OFF</code></p>
-<p><strong>确保，确保，确保：</strong> <code>-- USE_FSAL_CEPH</code>为<code>ON</code>，以及<code>-- USE_FSAL_RGW</code>为<code>ON</code>。</p>
-<p>如果是<code>OFF</code>，请检查下<code>librgw2-devel</code>或者<code>libcephfs1-devel</code>是否有安装，如果这两个包都已经安装了，还显示为<code>OFF</code>， 可以尝试下清空编译目录：<code>rm -rf build/*</code>，再进行编译，如果依旧为 <code>OFF</code>，可以尝试下删除所有的<code>Ceph</code>包，再重新<code>yum install ceph librgw2-devel libcephfs1-devel -y</code>。</p>
-<p>编译和安装，在<code>build</code>目录下</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">make</div><div class="line">make install</div></pre></td></tr></table></figure>
+<h2 id="Raid卡简介"><a href="#Raid卡简介" class="headerlink" title="Raid卡简介"></a>Raid卡简介</h2><p>所谓<code>raid</code>卡，就是为了更好的统一管理物理硬盘而存在的，在出现单独的<code>raid</code>卡之前，对硬盘做<code>raid</code>操作，需要<code>cpu</code>完成其中的计算操作，这个会很影响其他依赖<code>cpu</code>的应用或进程的性能，后来就将<code>raid</code>卡单独提取出来，并且在其之上存在一个小型<code>cpu</code>供来完成<code>raid</code>相关操作的计算，这其中最常见的<code>raid</code>工具应该非<code>Megacli</code>莫属了。</p>
+<p>为什么说最常见的呢？因为<code>raid</code>卡工具对应不同型号的<code>raid</code>卡是不一样，<code>LSI</code>只是一个半导体厂商，负责提供<code>raid</code>芯片，最后还需要集成到服务器厂商的机器上，所以最后的工具还是由厂商决定和提供，也可以理解为特定型号的<code>raid</code>对应各自的工具。</p>
+<h2 id="HBA卡简介"><a href="#HBA卡简介" class="headerlink" title="HBA卡简介"></a>HBA卡简介</h2><p>近来，又出现了一种<code>HBA</code>卡，只从<code>HBA</code>的英文解释<code>HOST BUS ADAPTER</code>（主机总线适配器）就能看出来，他肯定是给主机用的，一般<code>HBA</code>就是给主机插上后，给主机扩展出更多的接口，来连接外部的设备。大多数讲到<code>HBA</code>卡都是指光纤的<code>HBA</code>卡，给主机提供光纤接口的。也有<code>ISCSI</code>的<code>HBA</code>卡，链接<code>ISCSI</code>设备的，从这种功能上说，我们也可以把独立网卡称为<code>HBA</code>卡，通过独立网卡扩展出网口来连接外部网络设备或主机。不过习惯上大部分<code>HBA</code>只是称光纤卡或者<code>iscsi</code>卡。</p>
+<p>简而言之，这种<code>HBA</code>卡本身是为了扩展外部连接设备而存在的，但是它具有部分<code>raid</code>功能，与<code>raid</code>卡相比它的优势在于它价格便宜，性价比高；劣势在于虽然具有<code>raid</code>功能，但是都是基础的功能，没有<code>raid</code>卡那么完善。</p>
 <blockquote>
-<p>PS:<br>在<code>make install</code>生成的输出中，可以看到:</p>
-<p>– Up-to-date: /usr/share/doc/ganesha/config_samples/rgw.conf<br>…<br>– Up-to-date: /usr/share/doc/ganesha/config_samples/ceph.conf</p>
-<p>这两个文件就是配置将<code>RGW</code>和<code>CephFS</code>配置为<code>ganesha-nfs</code>的配置模板。</p>
+<p>这篇文章讲<code>raid</code>卡和<code>HBA</code>卡讲的挺好的：<a href="http://www.cnblogs.com/weikunzz/p/6707395.html" target="_blank" rel="external">HBA卡 和 RAID卡</a></p>
 </blockquote>
-<h2 id="编辑配置文件"><a href="#编辑配置文件" class="headerlink" title="编辑配置文件"></a>编辑配置文件</h2><p>注意<code>Path</code>后面的路径需要加引号，<code>rgw</code>替换成创建<code>S3</code>用户生成的用户信息</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line">cat /etc/ganesha/ganesha.conf</div><div class="line">EXPORT</div><div class="line">&#123;</div><div class="line">        Export_ID=1;</div><div class="line">        Path = &quot;/&quot;;</div><div class="line">        Pseudo = /cephfs;</div><div class="line">        Access_Type = RW;</div><div class="line">        NFS_Protocols = 4;</div><div class="line">        Transport_Protocols = TCP;</div><div class="line">        FSAL &#123;</div><div class="line">                Name = CEPH;</div><div class="line">        &#125;</div><div class="line">&#125;</div><div class="line">EXPORT</div><div class="line">&#123;</div><div class="line">        Export_ID=2;</div><div class="line">        Path = &quot;/&quot;;</div><div class="line">        Pseudo = /rgw;</div><div class="line">        Access_Type = RW;</div><div class="line">        Squash = No_root_squash;</div><div class="line">        NFS_Protocols = 4;</div><div class="line">        Transport_Protocols = TCP;</div><div class="line">        FSAL &#123;</div><div class="line">                Name = RGW;</div><div class="line">                User_Id = &quot;admin&quot;;</div><div class="line">                Access_Key_Id =&quot;1MWH3LWM1BS4ZF4HN5IH&quot;;</div><div class="line">                Secret_Access_Key = &quot;cuObxYgtl1lJgqNxOIpENycVqXfxLxZ8z5IXDM0O&quot;;</div><div class="line">        &#125;</div><div class="line">&#125;</div><div class="line">RGW &#123;</div><div class="line">    ceph_conf = &quot;/etc/ceph/ceph.conf&quot;;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h2 id="启动-Ganesha"><a href="#启动-Ganesha" class="headerlink" title="启动 Ganesha"></a>启动 Ganesha</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ganesha.nfsd -f /etc/ganesha/ganesha.conf -L /var/log/nfs-ganesha.log -N NIV_DEBUG</div></pre></td></tr></table></figure>
-<p>如果一切顺利，你应该可以看到<code>ganesha.nfsd</code> 进程在那，如果进程不在，那么查看<code>Log</code>，记得在启动进程前，关闭所有<code>CephX</code>配置。</p>
-<p><strong>重要</strong>：<code>librgw init failed (-5)</code> 解决方法</p>
-<p>报错内容如下</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">RGW-1 : nfs-ganesha-2232083[main] create_export :FSAL :CRIT :RGW module: librgw init failed (-5)</div><div class="line">RGW-1 : nfs-ganesha-2232083[main] mdcache_fsal_create_export :FSAL :MAJ :Failed to call create_export on underlying FSAL</div></pre></td></tr></table></figure>
-<p>经过多次尝试，包括在<code>ganesha.conf</code>内添加<code>init_args</code>指定秘钥和<code>Ceph</code>的用户，<code>ganesha-nfs</code> 均无法启动，报的错如标题，解决方法就是关闭<code>CephX</code>，将<code>/etc/ceph/ceph.conf</code>内的三个 <code>cephx</code>改为<code>none</code>，然后重启<code>ceph-mon</code>，<code>ceph-osd</code>，<code>ceph-radosgw</code>，<code>ceph-mds</code> 进程，再启动<code>ganesha-nfs</code>，即可正常运行。</p>
-<p><strong>需要注意的是：</strong></p>
-<p>当你在当前节点上，关闭<code>cephx</code>后，你用<code>ceph -s</code>查看集群状态时，这时候会报错说明由于没有<code>auth</code>认证导致无法连接集群，所以我当时试了很久，尽管<code>nfs-ganesha</code>已经运行了，但是<code>mount</code>都没有成功<code>export</code>，查看<code>log</code>才发现原来在<code>init</code>配置的时候就失败了，导致这个问题的原因是我只关闭了一个节点的<code>cephx</code>，所以需要做的就是将集群内所有节点的<code>cephx</code>全部关闭，然后集群就可以正常访问了，并且<code>nfs-ganesha</code>也不会因为<code>cephx</code>导致加载配置出错</p>
-<h2 id="Check-Export"><a href="#Check-Export" class="headerlink" title="Check Export"></a>Check Export</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">[root@node1 build]# showmount -e  </div><div class="line">Export list for node1:  </div><div class="line">/ (everyone)  </div><div class="line">/ (everyone)</div></pre></td></tr></table></figure>
-<h2 id="挂载-NFS"><a href="#挂载-NFS" class="headerlink" title="挂载 NFS"></a>挂载 NFS</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">[root@node1 mnt]# mount -t nfs4 192.168.1.1:/  /mnt/ceph/  </div><div class="line">root@node1 mnt]# ls ceph/*  </div><div class="line">ceph/cephfs:  </div><div class="line">test  </div><div class="line">   </div><div class="line">ceph/rgw:  </div><div class="line">my-new-bucket</div></pre></td></tr></table></figure>
-<p>说明<code>CephFS</code>和<code>RGW</code>都已经正常对接。<br>如果，你所使用的<code>admin</code>用户名下有很多的桶，那么这些桶都会以<code>/mnt/rgw/xxbucket</code>的结构显示出来，如果你在<code>/mnt/rgw/</code>下建立的一个目录，那么就相当于通过<code>RGW</code>建立了一个桶，所以，你执行<code>touch /mnt/rgw/123</code>是会报错的，因为不符合<code>S3</code>的对象必须位于桶内的规定，简单点说，就是把<code>/mnt/rgw/</code>和<code>S3</code>的根目录一一对应即可。</p>
-<p>同样，<code>CephFS</code>内的内容都会显示在<code>/mnt/cephfs/</code>目录下。可以开始愉快的玩耍了！！</p>
+<h2 id="需求和背景"><a href="#需求和背景" class="headerlink" title="需求和背景"></a>需求和背景</h2><p>据我所知，这类工具往往是运维人员用的居多，但是往往开发中也会需要用到。本文通过获取逻辑盘对应盘的类型展开描述，并借此讲解获取逻辑盘的一类信息或通过逻辑盘操作对应物理盘。因为这其中的关键就是找到逻辑盘和物理盘之间的对应关系。无论是<code>raid</code>卡工具还是<code>HBA</code>卡工具都是罗列所有硬盘的信息，所以你要从中找到你选择的逻辑盘所对应的便是重中之重。</p>
+<p>逻辑盘对应的物理盘可能为单独的硬盘，也可能是<code>raid</code>，单独的可以直接读取硬盘类型，<code>raid</code>的话我们认为只会将同样类型的盘做<code>raid</code>，混合的情况不考虑。</p>
+<p><code>raid</code>卡工具的话，我只对<code>Megacli</code>和<code>Sas3ircu</code>进行讲解，所以阅读本文前最好有使用以上两个工具的相关经验。首先我会根据目前存在的<code>raid</code>卡类型建立一个<code>map</code>关系，然后通过<code>raid</code>卡类型自动获取对应<code>raid</code>卡工具，每个<code>raid</code>卡都是一个类，然后里面的方法都是为该工具定制化的操作。</p>
+<h2 id="获取raid卡工具"><a href="#获取raid卡工具" class="headerlink" title="获取raid卡工具"></a>获取raid卡工具</h2><p>目前就考虑两种型号的<code>raid</code>卡，以后有新的再往<code>map</code>里面填充就好了。<code>NotSupport</code>指的是其他不支持型号的<code>raid</code>卡和虚拟机。</p>
+<blockquote>
+<p><code>do_shell</code>是本人封装的一个在<code>python</code>中执行<code>shell</code>命令的方法，大家可以根据自己的情况对该方法进行转换</p>
+</blockquote>
+<p>通过获取的<code>card mode</code>，根据<code>map</code>找到对应的<code>tool</code>，然后实例化对应的工具类</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">class RaidCardToolFactory():</div><div class="line">    RaidCardMap = &#123;</div><div class="line">        &apos;SAS2208&apos;: MegaraidTool,</div><div class="line">        &apos;SAS3008&apos;: HBATool,</div><div class="line">        &apos;NotSupport&apos;: NotSupport</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    def getTool(self):</div><div class="line">        card_model = self.get_raidcard_model()</div><div class="line">        tool = self.RaidCardMap[card_model]()</div><div class="line">        return tool</div><div class="line">        </div><div class="line">    def get_raidcard_model(self):</div><div class="line">        card_model = &apos;NotSupport&apos;</div><div class="line">        card_info = do_shell(&quot;lspci | grep &apos;LSI Logic&apos;&quot;)</div><div class="line">        if card_info == &apos;&apos;:</div><div class="line">            return card_model</div><div class="line">        card = card_info.strip().splitlines()[0].split()</div><div class="line">        if &apos;RAID bus controller&apos; in card_info:</div><div class="line">            card_model = card[10] + card[11]</div><div class="line">        elif &apos;Attached SCSI controller&apos; in card_info:</div><div class="line">            card_model = card[10]</div><div class="line">        return card_model</div></pre></td></tr></table></figure>
+<h2 id="Megaraid工具类"><a href="#Megaraid工具类" class="headerlink" title="Megaraid工具类"></a>Megaraid工具类</h2><ol>
+<li>先通过<code>lsscsi</code>命令获取逻辑盘是否为<code>raid</code>；</li>
+<li>如果是<code>raid</code>，那么直接根据<code>lsscsi</code>获取当前逻辑盘的<code>target id</code>，也就是第三个号，然后通过<code>megacli cfgdsply -aALL</code>获取所有<code>raid</code>信息，根据逻辑盘的<code>target id</code>对应物理盘中的<code>Target Id</code>找到对应<code>raid</code>，然后只要获取<code>raid</code>中第一块物理盘的硬盘类型即可，也就是<code>Media Type</code>，具体参见下方<code>API</code>: <code>get_ld_type</code></li>
+<li>如果不是<code>raid</code>，那么直接根据<code>lsscsi</code>获取当前逻辑盘的<code>target id</code>，也就是第三个号，这边的<code>target id</code>直接对应<code>megacli</code>中每一块单盘中的<code>Device Id</code>字段，所以根据<code>target id</code>匹配<code>megacli pdlist aAll</code>获取磁盘列表的每一项的<code>Device Id</code>便可以找到对应的物理盘，具体参见下方<code>API</code>: <code>get_pd_type</code>。</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div></pre></td><td class="code"><pre><div class="line">class MegaraidTool():</div><div class="line">    def get_disk_type(self, disk_name):</div><div class="line">        scsi_info = do_shell(&quot;lsscsi | grep &#123;&#125; -w&quot;.format(disk_name))</div><div class="line">        target_id = scsi_info.split()[0].split(&quot;:&quot;)[2]</div><div class="line">        serial_nu = scsi_info.split()[3].strip()[2:]</div><div class="line">        if &quot;LSI&quot; in scsi_info:</div><div class="line">            disk_type = self.get_ld_type(target_id, serial_nu)</div><div class="line">        else:</div><div class="line">            disk_type = self.get_pd_type(target_id)</div><div class="line">        return disk_type</div><div class="line">        </div><div class="line">    def get_ld_type(self, target_id, serial_nu):</div><div class="line">        disk_type = &apos;&apos;</div><div class="line">        cmd = MEGACLI + &apos; cfgdsply -aALL -NoLog|grep -E &quot;Product Name|Target Id|Media Type&quot;&apos;</div><div class="line">        output = do_shell(cmd)</div><div class="line">        adapters = output.split(&apos;Product Name&apos;)</div><div class="line">        for adapter in adapters:</div><div class="line">            if serial_nu not in adapter:</div><div class="line">                continue</div><div class="line">            lines = adapter.split(&apos;\n&apos;)</div><div class="line">            for line in lines:</div><div class="line">                if &quot;Target Id: &#123;&#125;&quot;.format(target_id) in line:</div><div class="line">                    index = lines.index(line)</div><div class="line">                    if &apos;Solid State Device&apos; in lines[index + 1]:</div><div class="line">                        disk_type = &quot;SSD&quot;</div><div class="line">                    else:</div><div class="line">                        disk_type = &quot;HDD&quot;</div><div class="line">                    break</div><div class="line">            if disk_type != &apos;&apos;:</div><div class="line">                break</div><div class="line">        return disk_type</div><div class="line">        </div><div class="line">    def get_pd_type(self, target_id):</div><div class="line">        disk_type = &apos;&apos;</div><div class="line">        cmd = MEGACLI + &apos; pdlist aAll | grep -E &quot;Device Id|Media Type&quot;&apos;</div><div class="line">        output = do_shell(cmd)</div><div class="line">        lines = output.split(&apos;\n&apos;)</div><div class="line">        if &apos;Device Id: &#123;&#125;&apos;.format(target_id) not in lines:</div><div class="line">            return &apos;&apos;</div><div class="line">        index = lines.index(&apos;Device Id: &#123;&#125;&apos;.format(target_id))</div><div class="line">        if &apos;Solid State Device&apos; in lines[index + 1]:</div><div class="line">            disk_type = &quot;SSD&quot;</div><div class="line">        else :</div><div class="line">            disk_type = &quot;HDD&quot;</div><div class="line">        return disk_type</div></pre></td></tr></table></figure>
+<h2 id="HBA工具类"><a href="#HBA工具类" class="headerlink" title="HBA工具类"></a>HBA工具类</h2><ol>
+<li><code>HBA</code>类用的工具是<code>sas3ircu</code>，首先我们需要根据命令<code>sas3ircu list</code>获取所有的<code>controller</code>，然后每次获取信息都需要遍历所有<code>controller</code>；</li>
+<li>第一步依旧是判断逻辑盘是否为<code>raid</code>；</li>
+<li>如果是<code>raid</code>，获取逻辑盘的<code>target id</code>，与之匹配的是<code>sas3ircu</code>中的<code>Initiator at ID</code>字段，找到对应的<code>raid</code>，然后通过获取其下第一个物理盘的类型，这边类型字段变成了<code>Drive Type</code>，具体参考下方<code>API</code>: <code>get_ld_type</code>；</li>
+<li>如果非<code>raid</code>，我匹配的是<code>sas3ircu</code>中的<code>Sas Address</code>字段，那么逻辑盘的<code>Sas Address</code>如何获取呢？这边我用的方式是通过<code>udev</code>获取逻辑盘的<code>symlink</code>，这里面有很多<code>address</code>，而我们需要的是<code>by-path</code>，我这边就简单做了，看<code>sas3ircu</code>每个盘的<code>Sas Address</code>是否被<code>udev</code>获取的<code>symlink</code>包含，如果包含了，那么也就匹配到了，然后直接获取<code>Drive Type</code>字段就可以得到磁盘类型类；具体参考下方<code>API</code>: <code>get_pd_type</code></li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div></pre></td><td class="code"><pre><div class="line">class HBATool():</div><div class="line">    def get_disk_type(self, disk_name):</div><div class="line">        scsi_info = do_shell(&quot;lsscsi | grep &#123;&#125; -w&quot;.format(disk_name))</div><div class="line">        if &quot;LSI&quot; in scsi_info:</div><div class="line">            target_id = scsi_info.split()[0].split(&quot;:&quot;)[2]</div><div class="line">            disk_type = self.get_ld_type(target_id)</div><div class="line">        else:</div><div class="line">            sas_address = do_cmd(&apos;udevadm info --query=symlink --name=&#123;&#125;&apos;.format(disk_name))</div><div class="line">            disk_type = self.get_pd_type(sas_address)</div><div class="line">        return disk_type</div><div class="line">        </div><div class="line">    def get_ld_type(self, target_id):</div><div class="line">        disk_type = &apos;&apos;</div><div class="line">        controllers = self.get_controllers()</div><div class="line">        for controller in controllers:</div><div class="line">            cmd = &apos;sas3ircu &#123;&#125; display|grep -E &quot;Initiator at ID|Drive Type&quot;&apos;.format(controller)</div><div class="line">            output = do_shell(cmd)</div><div class="line">            if &apos;Initiator at ID #&#123;&#125;&apos;.format(target_id) in output:</div><div class="line">                lines = output.splitlines()</div><div class="line">                index = lines.index(&apos;Initiator at ID #&#123;&#125;&apos;.format(target_id))</div><div class="line">                if &apos;HDD&apos; in lines[index + 1]:</div><div class="line">                    disk_type = &apos;HDD&apos;</div><div class="line">                else:</div><div class="line">                    disk_type = &apos;SSD&apos;</div><div class="line">                break</div><div class="line">        return disk_type</div><div class="line">        </div><div class="line">    def get_pd_type(self, sas_address):</div><div class="line">        disk_type = &apos;&apos;</div><div class="line">        controllers = self.get_controllers()</div><div class="line">        for controller in controllers:</div><div class="line">            cmd = &apos;sas3ircu &#123;&#125; display|grep -E &quot;SAS Address|Drive Type&quot;&apos;.format(controller)</div><div class="line">            output = do_shell(cmd)</div><div class="line">            lines = output.splitlines()</div><div class="line">            for i in xrange(0, len(lines), 2):</div><div class="line">                address = lines[i].split()[-1].replace(&apos;-&apos;, &apos;&apos;)</div><div class="line">                if address in sas_address:</div><div class="line">                    if &apos;HDD&apos; in lines[i + 1]:</div><div class="line">                        disk_type = &apos;HDD&apos;</div><div class="line">                    else:</div><div class="line">                        disk_type = &apos;SSD&apos;</div><div class="line">                    break</div><div class="line">            if disk_type != &apos;&apos;:</div><div class="line">                break</div><div class="line">        return disk_type</div><div class="line">        </div><div class="line">    def get_controllers(self):</div><div class="line">        cmd = &apos;sas3ircu list | awk \&apos;&#123;print $1&#125;\&apos;&apos;</div><div class="line">        list = do_shell(cmd).splitlines()</div><div class="line">        index = list.index(&apos;Index&apos;) + 2</div><div class="line">        controllers = []</div><div class="line">        for i in range(index, len(list) - 1):</div><div class="line">            controllers.append(list[i])</div><div class="line">        return controllers</div></pre></td></tr></table></figure>
+<h2 id="调用方式"><a href="#调用方式" class="headerlink" title="调用方式"></a>调用方式</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">from mcs3.raidcardutils import RaidCardToolFactory</div><div class="line"></div><div class="line">tool = RaidCardToolFactory().getTool()</div><div class="line">disk_type = tool.get_disk_type(disk_name)</div></pre></td></tr></table></figure>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>其实这其中的关键就是先找到每一块物理盘的唯一标识，然后我们根据工具获取列表中的唯一标识字段，获取逻辑盘对应的信息，就比如上面的<code>Device Id</code>，对应的是逻辑盘的<code>target id</code>。</p>
+<blockquote>
+<p>完整代码地址：<a href="https://github.com/tony-yin/RaidCardTool/" target="_blank" rel="external">https://github.com/tony-yin/RaidCardTool/</a><br>如果有所帮助的话，帮忙<code>star</code>一下哦 ^_^</p>
+</blockquote>
 
       
 
@@ -410,13 +365,13 @@
   
     
     <div class="copyright">
-        <p><span>本文标题:</span><a  href="/2017/11/08/Ceph-NFS-Ganesha/">通过ganesha-nfs导出Ceph为NFS（Luminous）</a></p>
+        <p><span>本文标题:</span><a  href="/2018/01/05/RaidCardToolUtils/">利用Raid卡工具获取逻辑盘是否为SSD</a></p>
         <p><span>文章作者:</span><a  href="/" title="访问 Tony 的个人博客">Tony</a></p>
-        <p><span>发布时间:</span>2017年11月08日 - 23时15分</p>
-        <p><span>最后更新:</span>2017年11月30日 - 11时09分</p>
+        <p><span>发布时间:</span>2018年01月05日 - 13时07分</p>
+        <p><span>最后更新:</span>2018年01月27日 - 00时06分</p>
         <p>
-            <span>原始链接:</span><a class="post-url" href="/2017/11/08/Ceph-NFS-Ganesha/" title="通过ganesha-nfs导出Ceph为NFS（Luminous）">https://tony-yin.github.io/2017/11/08/Ceph-NFS-Ganesha/</a>
-            <span class="copy-path" data-clipboard-text="原文: https://tony-yin.github.io/2017/11/08/Ceph-NFS-Ganesha/　　作者: Tony" title=""></span>
+            <span>原始链接:</span><a class="post-url" href="/2018/01/05/RaidCardToolUtils/" title="利用Raid卡工具获取逻辑盘是否为SSD">https://tony-yin.github.io/2018/01/05/RaidCardToolUtils/</a>
+            <span class="copy-path" data-clipboard-text="原文: https://tony-yin.github.io/2018/01/05/RaidCardToolUtils/　　作者: Tony" title=""></span>
         </p>
         <p>
             <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/cn/" title="中国大陆 (CC BY-NC-SA 3.0 CN)" target = "_blank">"署名-非商用-相同方式共享 3.0"</a> 转载请保留原文链接及作者。
@@ -427,18 +382,18 @@
 
 <nav id="article-nav">
   
-    <a  href="/2017/11/14/Ceph-Compile/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a  href="/2018/01/10/scp-and-ssh/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption"><</strong>
       <div class="article-nav-title">
         
-          Ceph 编译（Giant版本）
+          scp 免交互式和 ssh 免交互式脚本
         
       </div>
     </a>
   
   
-    <a  href="/2017/11/08/Ceph-RGW/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">RGW 安装和创建</div>
+    <a  href="/2018/01/01/Daily-Article-2017/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Daily Article Vol 1 - (2017/11/1 ~ 2017/12/31)</div>
       <strong class="article-nav-caption">></strong>
     </a>
   
@@ -450,7 +405,7 @@
 
     <div id="toc" class="toc-article">
     <strong class="toc-title">文章目录</strong>
-    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#参考链接："><span class="toc-number">1.</span> <span class="toc-text">参考链接：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#环境声明"><span class="toc-number">2.</span> <span class="toc-text">环境声明</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#安装依赖"><span class="toc-number">3.</span> <span class="toc-text">安装依赖</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#源码下载"><span class="toc-number">4.</span> <span class="toc-text">源码下载</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#编译"><span class="toc-number">5.</span> <span class="toc-text">编译</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#编辑配置文件"><span class="toc-number">6.</span> <span class="toc-text">编辑配置文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#启动-Ganesha"><span class="toc-number">7.</span> <span class="toc-text">启动 Ganesha</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Check-Export"><span class="toc-number">8.</span> <span class="toc-text">Check Export</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#挂载-NFS"><span class="toc-number">9.</span> <span class="toc-text">挂载 NFS</span></a></li></ol>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Raid卡简介"><span class="toc-number">1.</span> <span class="toc-text">Raid卡简介</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#HBA卡简介"><span class="toc-number">2.</span> <span class="toc-text">HBA卡简介</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#需求和背景"><span class="toc-number">3.</span> <span class="toc-text">需求和背景</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#获取raid卡工具"><span class="toc-number">4.</span> <span class="toc-text">获取raid卡工具</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Megaraid工具类"><span class="toc-number">5.</span> <span class="toc-text">Megaraid工具类</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#HBA工具类"><span class="toc-number">6.</span> <span class="toc-text">HBA工具类</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#调用方式"><span class="toc-number">7.</span> <span class="toc-text">调用方式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-number">8.</span> <span class="toc-text">总结</span></a></li></ol>
 </div>
 <style>
     .left-col .switch-btn {
@@ -532,13 +487,13 @@
 
     <div class="scroll" id="post-nav-button">
         
-            <a  href="/2017/11/14/Ceph-Compile/" title="上一篇: Ceph 编译（Giant版本）">
+            <a  href="/2018/01/10/scp-and-ssh/" title="上一篇: scp 免交互式和 ssh 免交互式脚本">
                 <i class="fa fa-angle-left"></i>
             </a>
         
         <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
         
-            <a  href="/2017/11/08/Ceph-RGW/" title="下一篇: RGW 安装和创建">
+            <a  href="/2018/01/01/Daily-Article-2017/" title="下一篇: Daily Article Vol 1 - (2017/11/1 ~ 2017/12/31)">
                 <i class="fa fa-angle-right"></i>
             </a>
         
