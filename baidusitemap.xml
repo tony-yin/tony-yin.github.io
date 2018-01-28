@@ -4,6 +4,34 @@
 
     
   <url>
+    <loc>https://tony-yin.github.io/2017/01/28/RBD-HA-2/</loc>
+    <lastmod>2018-01-28T06:36:28.045Z</lastmod>
+    <data>
+        <display>
+        <title>实现RBD导出NFS高可用（二）：提供多虚拟IP访问</title>
+        <pubTime>2017-01-28T05:07:06.000Z</pubTime>
+        
+        <tag>Ceph</tag>
+         
+        <tag>NFS</tag>
+         
+        <tag>RBD</tag>
+         
+        <tag>HA</tag>
+         
+        <tag>Keepalived</tag>
+         
+         
+           
+             
+              <breadCrumb title="tech" url="https://tony-yin.github.io/categories/tech/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>https://tony-yin.github.io/2018/01/05/RaidCardToolUtils/</loc>
     <lastmod>2018-01-26T16:13:55.534Z</lastmod>
     <data>
