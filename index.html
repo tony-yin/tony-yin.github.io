@@ -276,6 +276,78 @@
 
       <div class="body-wrap">
   
+    <article id="post-RBD-HA-2" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a  href="/2018/01/28/RBD-HA-2/" class="article-date">
+      <time datetime="2018-01-28T05:07:06.000Z" itemprop="datePublished">2018-01-28</time>
+</a>
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a  class="article-title" href="/2018/01/28/RBD-HA-2/">实现RBD导出NFS高可用（二）：提供多虚拟IP访问</a>
+    </h1>
+  
+
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+              <p>之前分享过一篇<a href="http://www.tony-yin.top/2017/12/07/RBD-HA/" target="_blank" rel="external">【通过 Keepalived 实现 Ceph RBD 的高可用】</a>，主要讲解了将<code>RBD</code>导出为<code>NFS</code>，然后通过<code>keepalived</code>实现高可用，保证当提供虚拟<code>IP</code>节点发生故障时，可以自动切换节点，使得业务不发生中断。</p>
+<p>这样可以基本使用<code>RBD</code>代替<code>CephFS</code>对外提供<code>Ceph</code>服务，至于为什么不用<code>CephFS</code>就不多说了，不清楚的可以去看上一篇。虽然说这样可以保证无单点故障，但是有一点还是不如<code>CephFS</code>，那就是<code>CephFS</code>可以实现多节点同时提供服务，而<code>RBD</code>说白了其实同时只有一个节点能提供服务，当客户端流量高的时候，<code>RBD</code>方式的带宽并不能满足需求。就比如都是三个节点，<code>CephFS</code>可以将客户端流量分流到三个节点，而<code>RBD</code>只能用一个节点，而带宽上限又取决与网卡、磁盘和<code>IO</code>等等原因，所以同样的硬件设施<code>RBD</code>的带宽性能是跟不上的，本文就多虚拟<code>IP</code>暴露访问方式进行分享。</p>
+          
+      
+
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/tech/">tech</a>
+    </div>
+
+
+      
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Ceph/">Ceph</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/HA/">HA</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Keepalived/">Keepalived</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/NFS/">NFS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/RBD/">RBD</a></li></ul>
+    </div>
+
+      
+        <p class="article-more-link">
+          <a   href="/2018/01/28/RBD-HA-2/#more">阅读全文 >></a>
+        </p>
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+
+
+  
     <article id="post-scp-and-ssh" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -561,79 +633,6 @@ good</code>，说明这篇文章内容很好，有深度有广度，是一篇很
       
         <p class="article-more-link">
           <a   href="/2017/12/21/Everything-is-a-file/#more">阅读全文 >></a>
-        </p>
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-Linux-Filesystem" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a  href="/2017/12/17/Linux-Filesystem/" class="article-date">
-      <time datetime="2017-12-17T14:01:15.000Z" itemprop="datePublished">2017-12-17</time>
-</a>
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a  class="article-title" href="/2017/12/17/Linux-Filesystem/">译：Linux 文件系统介绍</a>
-    </h1>
-  
-
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-              <center><img src="http://ow0mgad6r.bkt.clouddn.com/filesystem-600x450.png" alt="Linux Filesystem"></center>
-
-<p>本文旨在对<code>Linux</code>文件系统概念进行深层次的讨论。本文既不准备对某个特定类型的文件系统（比如<code>ext4</code>）进行基础性的描述，也不打算作为一个讲解文件系统命令的教程。</p>
-          
-      
-
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-    <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/read/">read</a>
-    </div>
-
-
-      
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Ceph/">Ceph</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Filesystem/">Filesystem</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/">Linux</a></li></ul>
-    </div>
-
-      
-        <p class="article-more-link">
-          <a   href="/2017/12/17/Linux-Filesystem/#more">阅读全文 >></a>
         </p>
       
       <div class="clearfix"></div>
