@@ -16,10 +16,12 @@
 <meta property="og:url" content="https://tony-yin.github.io/2018/01/05/RaidCardToolUtils/index.html">
 <meta property="og:site_name" content="Tony&#39;s blog">
 <meta property="og:description" content="网上很多获取一块盘是否为SSD的方式都是不靠谱的，不能覆盖到所有情况。一般我们在操作系统上的硬盘都是虚拟出来的逻辑盘，比如/dev/sda这种，它可能对应一块单独的物理硬盘，也有可能对应的是几块盘组成的raid。我们有时候想获取一块盘的具体信息，比如磁盘类型、插槽号、序列号等等，这时候我们就得借助对应的raid卡工具了，最常见的如Megacli，通过逻辑盘找到对应的物理盘，然后读取信息。">
-<meta property="og:updated_time" content="2018-01-26T16:13:55.534Z">
+<meta property="og:image" content="http://ow0mgad6r.bkt.clouddn.com/raid-600x450.png">
+<meta property="og:updated_time" content="2018-01-30T12:50:22.464Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="利用Raid卡工具获取逻辑盘是否为SSD">
 <meta name="twitter:description" content="网上很多获取一块盘是否为SSD的方式都是不靠谱的，不能覆盖到所有情况。一般我们在操作系统上的硬盘都是虚拟出来的逻辑盘，比如/dev/sda这种，它可能对应一块单独的物理硬盘，也有可能对应的是几块盘组成的raid。我们有时候想获取一块盘的具体信息，比如磁盘类型、插槽号、序列号等等，这时候我们就得借助对应的raid卡工具了，最常见的如Megacli，通过逻辑盘找到对应的物理盘，然后读取信息。">
+<meta name="twitter:image" content="http://ow0mgad6r.bkt.clouddn.com/raid-600x450.png">
   
     <link rel="alternative" href="/atom.xml" title="Tony&#39;s blog" type="application/atom+xml">
   
@@ -191,8 +193,6 @@
                             
                         </ul>
 			
-			    <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=0 height=0 src=//music.163.com/outchain/player?type=0&amp;id=2021839040&amp;auto=1&amp;height=32></iframe>
-			
                     </nav>
                 </section>
                 
@@ -320,7 +320,9 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p>网上很多获取一块盘是否为<code>SSD</code>的方式都是不靠谱的，不能覆盖到所有情况。一般我们在操作系统上的硬盘都是虚拟出来的逻辑盘，比如<code>/dev/sda</code>这种，它可能对应一块单独的物理硬盘，也有可能对应的是几块盘组成的<code>raid</code>。我们有时候想获取一块盘的具体信息，比如磁盘类型、插槽号、序列号等等，这时候我们就得借助对应的<code>raid</code>卡工具了，最常见的如<code>Megacli</code>，通过逻辑盘找到对应的物理盘，然后读取信息。</p>
+        <center><img src="http://ow0mgad6r.bkt.clouddn.com/raid-600x450.png" alt="RaidCardToolUtils"></center>
+
+<p>网上很多获取一块盘是否为<code>SSD</code>的方式都是不靠谱的，不能覆盖到所有情况。一般我们在操作系统上的硬盘都是虚拟出来的逻辑盘，比如<code>/dev/sda</code>这种，它可能对应一块单独的物理硬盘，也有可能对应的是几块盘组成的<code>raid</code>。我们有时候想获取一块盘的具体信息，比如磁盘类型、插槽号、序列号等等，这时候我们就得借助对应的<code>raid</code>卡工具了，最常见的如<code>Megacli</code>，通过逻辑盘找到对应的物理盘，然后读取信息。</p>
 <a id="more"></a>
 <h2 id="Raid卡简介"><a href="#Raid卡简介" class="headerlink" title="Raid卡简介"></a>Raid卡简介</h2><p>所谓<code>raid</code>卡，就是为了更好的统一管理物理硬盘而存在的，在出现单独的<code>raid</code>卡之前，对硬盘做<code>raid</code>操作，需要<code>cpu</code>完成其中的计算操作，这个会很影响其他依赖<code>cpu</code>的应用或进程的性能，后来就将<code>raid</code>卡单独提取出来，并且在其之上存在一个小型<code>cpu</code>供来完成<code>raid</code>相关操作的计算，这其中最常见的<code>raid</code>工具应该非<code>Megacli</code>莫属了。</p>
 <p>为什么说最常见的呢？因为<code>raid</code>卡工具对应不同型号的<code>raid</code>卡是不一样，<code>LSI</code>只是一个半导体厂商，负责提供<code>raid</code>芯片，最后还需要集成到服务器厂商的机器上，所以最后的工具还是由厂商决定和提供，也可以理解为特定型号的<code>raid</code>对应各自的工具。</p>
@@ -368,7 +370,7 @@
         <p><span>本文标题:</span><a  href="/2018/01/05/RaidCardToolUtils/">利用Raid卡工具获取逻辑盘是否为SSD</a></p>
         <p><span>文章作者:</span><a  href="/" title="访问 Tony 的个人博客">Tony</a></p>
         <p><span>发布时间:</span>2018年01月05日 - 13时07分</p>
-        <p><span>最后更新:</span>2018年01月27日 - 00时13分</p>
+        <p><span>最后更新:</span>2018年01月30日 - 20时50分</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2018/01/05/RaidCardToolUtils/" title="利用Raid卡工具获取逻辑盘是否为SSD">https://tony-yin.github.io/2018/01/05/RaidCardToolUtils/</a>
             <span class="copy-path" data-clipboard-text="原文: https://tony-yin.github.io/2018/01/05/RaidCardToolUtils/　　作者: Tony" title=""></span>

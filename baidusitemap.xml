@@ -4,22 +4,16 @@
 
     
   <url>
-    <loc>https://tony-yin.github.io/2018/01/28/RBD-HA-2/</loc>
-    <lastmod>2018-01-28T06:47:15.208Z</lastmod>
+    <loc>https://tony-yin.github.io/2018/01/10/scp-and-ssh/</loc>
+    <lastmod>2018-01-30T12:51:35.223Z</lastmod>
     <data>
         <display>
-        <title>实现RBD导出NFS高可用（二）：提供多虚拟IP访问</title>
-        <pubTime>2018-01-28T05:07:06.000Z</pubTime>
+        <title>scp 免交互式和 ssh 免交互式脚本</title>
+        <pubTime>2018-01-10T15:40:46.000Z</pubTime>
         
-        <tag>Ceph</tag>
+        <tag>Script</tag>
          
-        <tag>NFS</tag>
-         
-        <tag>RBD</tag>
-         
-        <tag>HA</tag>
-         
-        <tag>Keepalived</tag>
+        <tag>Linux</tag>
          
          
            
@@ -33,7 +27,7 @@
     
   <url>
     <loc>https://tony-yin.github.io/2018/01/05/RaidCardToolUtils/</loc>
-    <lastmod>2018-01-26T16:13:55.534Z</lastmod>
+    <lastmod>2018-01-30T12:50:22.464Z</lastmod>
     <data>
         <display>
         <title>利用Raid卡工具获取逻辑盘是否为SSD</title>
@@ -54,16 +48,22 @@
 
     
   <url>
-    <loc>https://tony-yin.github.io/2018/01/10/scp-and-ssh/</loc>
-    <lastmod>2018-01-26T16:09:37.129Z</lastmod>
+    <loc>https://tony-yin.github.io/2018/01/28/RBD-HA-2/</loc>
+    <lastmod>2018-01-30T12:48:51.245Z</lastmod>
     <data>
         <display>
-        <title>scp 免交互式和 ssh 免交互式脚本</title>
-        <pubTime>2018-01-10T15:40:46.000Z</pubTime>
+        <title>实现RBD导出NFS高可用（二）：提供多虚拟IP访问</title>
+        <pubTime>2018-01-28T05:07:06.000Z</pubTime>
         
-        <tag>Script</tag>
+        <tag>Ceph</tag>
          
-        <tag>Linux</tag>
+        <tag>NFS</tag>
+         
+        <tag>RBD</tag>
+         
+        <tag>HA</tag>
+         
+        <tag>Keepalived</tag>
          
          
            

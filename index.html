@@ -189,8 +189,6 @@
                             
                         </ul>
 			
-			    <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=0 height=0 src=//music.163.com/outchain/player?type=0&amp;id=2021839040&amp;auto=1&amp;height=32></iframe>
-			
                     </nav>
                 </section>
                 
@@ -305,7 +303,9 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-              <p>之前分享过一篇<a href="http://www.tony-yin.top/2017/12/07/RBD-HA/" target="_blank" rel="external">【通过 Keepalived 实现 Ceph RBD 的高可用】</a>，主要讲解了将<code>RBD</code>导出为<code>NFS</code>，然后通过<code>keepalived</code>实现高可用，保证当提供虚拟<code>IP</code>节点发生故障时，可以自动切换节点，使得业务不发生中断。</p>
+              <center><img src="http://ow0mgad6r.bkt.clouddn.com/rbd2-600x450.jpg" alt="RBD-HA-2"></center>
+
+<p>之前分享过一篇<a href="http://www.tony-yin.top/2017/12/07/RBD-HA/" target="_blank" rel="external">【通过 Keepalived 实现 Ceph RBD 的高可用】</a>，主要讲解了将<code>RBD</code>导出为<code>NFS</code>，然后通过<code>keepalived</code>实现高可用，保证当提供虚拟<code>IP</code>节点发生故障时，可以自动切换节点，使得业务不发生中断。</p>
 <p>这样可以基本使用<code>RBD</code>代替<code>CephFS</code>对外提供<code>Ceph</code>服务，至于为什么不用<code>CephFS</code>就不多说了，不清楚的可以去看上一篇。虽然说这样可以保证无单点故障，但是有一点还是不如<code>CephFS</code>，那就是<code>CephFS</code>可以实现多节点同时提供服务，而<code>RBD</code>说白了其实同时只有一个节点能提供服务，当客户端流量高的时候，<code>RBD</code>方式的带宽并不能满足需求。就比如都是三个节点，<code>CephFS</code>可以将客户端流量分流到三个节点，而<code>RBD</code>只能用一个节点，而带宽上限又取决与网卡、磁盘和<code>IO</code>等等原因，所以同样的硬件设施<code>RBD</code>的带宽性能是跟不上的，本文就多虚拟<code>IP</code>暴露访问方式进行分享。</p>
           
       
@@ -377,7 +377,9 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-              <p>简单实现了<code>scp</code>的免交互式脚本和<code>ssh</code>免交互式脚本。</p>
+              <center><img src="http://ow0mgad6r.bkt.clouddn.com/open_ssh-600x450.png" alt="Scp-And-Ssh"></center>
+
+<p>简单实现了<code>scp</code>的免交互式脚本和<code>ssh</code>免交互式脚本。</p>
           
       
 
@@ -448,7 +450,9 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-              <p>网上很多获取一块盘是否为<code>SSD</code>的方式都是不靠谱的，不能覆盖到所有情况。一般我们在操作系统上的硬盘都是虚拟出来的逻辑盘，比如<code>/dev/sda</code>这种，它可能对应一块单独的物理硬盘，也有可能对应的是几块盘组成的<code>raid</code>。我们有时候想获取一块盘的具体信息，比如磁盘类型、插槽号、序列号等等，这时候我们就得借助对应的<code>raid</code>卡工具了，最常见的如<code>Megacli</code>，通过逻辑盘找到对应的物理盘，然后读取信息。</p>
+              <center><img src="http://ow0mgad6r.bkt.clouddn.com/raid-600x450.png" alt="RaidCardToolUtils"></center>
+
+<p>网上很多获取一块盘是否为<code>SSD</code>的方式都是不靠谱的，不能覆盖到所有情况。一般我们在操作系统上的硬盘都是虚拟出来的逻辑盘，比如<code>/dev/sda</code>这种，它可能对应一块单独的物理硬盘，也有可能对应的是几块盘组成的<code>raid</code>。我们有时候想获取一块盘的具体信息，比如磁盘类型、插槽号、序列号等等，这时候我们就得借助对应的<code>raid</code>卡工具了，最常见的如<code>Megacli</code>，通过逻辑盘找到对应的物理盘，然后读取信息。</p>
           
       
 

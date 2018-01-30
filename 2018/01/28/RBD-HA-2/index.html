@@ -9,17 +9,19 @@
   
   <title>实现RBD导出NFS高可用（二）：提供多虚拟IP访问 | Tony&#39;s blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="之前分享过一篇【通过 Keepalived 实现 Ceph RBD 的高可用】，主要讲解了将RBD导出为NFS，然后通过keepalived实现高可用，保证当提供虚拟IP节点发生故障时，可以自动切换节点，使得业务不发生中断。 这样可以基本使用RBD代替CephFS对外提供Ceph服务，至于为什么不用CephFS就不多说了，不清楚的可以去看上一篇。虽然说这样可以保证无单点故障，但是有一点还是不如Ce">
+  <meta name="description" content="之前分享过一篇【通过 Keepalived 实现 Ceph RBD 的高可用】，主要讲解了将RBD导出为NFS，然后通过keepalived实现高可用，保证当提供虚拟IP节点发生故障时，可以自动切换节点，使得业务不发生中断。 这样可以基本使用RBD代替CephFS对外提供Ceph服务，至于为什么不用CephFS就不多说了，不清楚的可以去看上一篇。虽然说这样可以保证无单点故障，但是有一点还是不如">
 <meta name="keywords" content="Ceph,NFS,RBD,HA,Keepalived">
 <meta property="og:type" content="article">
 <meta property="og:title" content="实现RBD导出NFS高可用（二）：提供多虚拟IP访问">
 <meta property="og:url" content="https://tony-yin.github.io/2018/01/28/RBD-HA-2/index.html">
 <meta property="og:site_name" content="Tony&#39;s blog">
-<meta property="og:description" content="之前分享过一篇【通过 Keepalived 实现 Ceph RBD 的高可用】，主要讲解了将RBD导出为NFS，然后通过keepalived实现高可用，保证当提供虚拟IP节点发生故障时，可以自动切换节点，使得业务不发生中断。 这样可以基本使用RBD代替CephFS对外提供Ceph服务，至于为什么不用CephFS就不多说了，不清楚的可以去看上一篇。虽然说这样可以保证无单点故障，但是有一点还是不如Ce">
-<meta property="og:updated_time" content="2018-01-28T06:47:15.208Z">
+<meta property="og:description" content="之前分享过一篇【通过 Keepalived 实现 Ceph RBD 的高可用】，主要讲解了将RBD导出为NFS，然后通过keepalived实现高可用，保证当提供虚拟IP节点发生故障时，可以自动切换节点，使得业务不发生中断。 这样可以基本使用RBD代替CephFS对外提供Ceph服务，至于为什么不用CephFS就不多说了，不清楚的可以去看上一篇。虽然说这样可以保证无单点故障，但是有一点还是不如">
+<meta property="og:image" content="http://ow0mgad6r.bkt.clouddn.com/rbd2-600x450.jpg">
+<meta property="og:updated_time" content="2018-01-30T12:48:51.245Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="实现RBD导出NFS高可用（二）：提供多虚拟IP访问">
-<meta name="twitter:description" content="之前分享过一篇【通过 Keepalived 实现 Ceph RBD 的高可用】，主要讲解了将RBD导出为NFS，然后通过keepalived实现高可用，保证当提供虚拟IP节点发生故障时，可以自动切换节点，使得业务不发生中断。 这样可以基本使用RBD代替CephFS对外提供Ceph服务，至于为什么不用CephFS就不多说了，不清楚的可以去看上一篇。虽然说这样可以保证无单点故障，但是有一点还是不如Ce">
+<meta name="twitter:description" content="之前分享过一篇【通过 Keepalived 实现 Ceph RBD 的高可用】，主要讲解了将RBD导出为NFS，然后通过keepalived实现高可用，保证当提供虚拟IP节点发生故障时，可以自动切换节点，使得业务不发生中断。 这样可以基本使用RBD代替CephFS对外提供Ceph服务，至于为什么不用CephFS就不多说了，不清楚的可以去看上一篇。虽然说这样可以保证无单点故障，但是有一点还是不如">
+<meta name="twitter:image" content="http://ow0mgad6r.bkt.clouddn.com/rbd2-600x450.jpg">
   
     <link rel="alternative" href="/atom.xml" title="Tony&#39;s blog" type="application/atom+xml">
   
@@ -191,8 +193,6 @@
                             
                         </ul>
 			
-			    <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=0 height=0 src=//music.163.com/outchain/player?type=0&amp;id=2021839040&amp;auto=1&amp;height=32></iframe>
-			
                     </nav>
                 </section>
                 
@@ -320,7 +320,9 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p>之前分享过一篇<a href="http://www.tony-yin.top/2017/12/07/RBD-HA/" target="_blank" rel="external">【通过 Keepalived 实现 Ceph RBD 的高可用】</a>，主要讲解了将<code>RBD</code>导出为<code>NFS</code>，然后通过<code>keepalived</code>实现高可用，保证当提供虚拟<code>IP</code>节点发生故障时，可以自动切换节点，使得业务不发生中断。</p>
+        <center><img src="http://ow0mgad6r.bkt.clouddn.com/rbd2-600x450.jpg" alt="RBD-HA-2"></center>
+
+<p>之前分享过一篇<a href="http://www.tony-yin.top/2017/12/07/RBD-HA/" target="_blank" rel="external">【通过 Keepalived 实现 Ceph RBD 的高可用】</a>，主要讲解了将<code>RBD</code>导出为<code>NFS</code>，然后通过<code>keepalived</code>实现高可用，保证当提供虚拟<code>IP</code>节点发生故障时，可以自动切换节点，使得业务不发生中断。</p>
 <p>这样可以基本使用<code>RBD</code>代替<code>CephFS</code>对外提供<code>Ceph</code>服务，至于为什么不用<code>CephFS</code>就不多说了，不清楚的可以去看上一篇。虽然说这样可以保证无单点故障，但是有一点还是不如<code>CephFS</code>，那就是<code>CephFS</code>可以实现多节点同时提供服务，而<code>RBD</code>说白了其实同时只有一个节点能提供服务，当客户端流量高的时候，<code>RBD</code>方式的带宽并不能满足需求。就比如都是三个节点，<code>CephFS</code>可以将客户端流量分流到三个节点，而<code>RBD</code>只能用一个节点，而带宽上限又取决与网卡、磁盘和<code>IO</code>等等原因，所以同样的硬件设施<code>RBD</code>的带宽性能是跟不上的，本文就多虚拟<code>IP</code>暴露访问方式进行分享。</p>
 <a id="more"></a>
 <h2 id="CephFS-amp-RBD"><a href="#CephFS-amp-RBD" class="headerlink" title="CephFS &amp; RBD"></a>CephFS &amp; RBD</h2><p>此前的文章我们<code>Ceph</code>集群只有一个<code>RBD image</code>，并且只通过一个<code>vip</code>暴露这个<code>image</code>让客户端通过<code>NFS</code>访问。这与<code>CephFS</code>的差距就在没有充分利用每个节点的资源，所以我们可以大胆设想一下是否可以通过<code>RBD</code>对外提供多个<code>vip</code>，每个节点都能被<code>NFS</code>访问呢？理想很美好，现实很残酷。如果一个<code>RBD</code>对多个节点同时提供读写的话，会导致不一致的后果，现在<code>RBD</code>并不能做到<code>CephFS</code>那样多个节点同时提供服务且保证读写一致。那怎么办呢？</p>
@@ -384,7 +386,7 @@
         <p><span>本文标题:</span><a  href="/2018/01/28/RBD-HA-2/">实现RBD导出NFS高可用（二）：提供多虚拟IP访问</a></p>
         <p><span>文章作者:</span><a  href="/" title="访问 Tony 的个人博客">Tony</a></p>
         <p><span>发布时间:</span>2018年01月28日 - 13时07分</p>
-        <p><span>最后更新:</span>2018年01月28日 - 14时47分</p>
+        <p><span>最后更新:</span>2018年01月30日 - 20时48分</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2018/01/28/RBD-HA-2/" title="实现RBD导出NFS高可用（二）：提供多虚拟IP访问">https://tony-yin.github.io/2018/01/28/RBD-HA-2/</a>
             <span class="copy-path" data-clipboard-text="原文: https://tony-yin.github.io/2018/01/28/RBD-HA-2/　　作者: Tony" title=""></span>
