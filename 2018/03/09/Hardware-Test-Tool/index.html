@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="baidu-site-verification" content="L6Lm9d5Crl"/>
+  
+  
+  
+  
+  <title>硬件环境测试环境模拟 | Tony&#39;s blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="最近在做一个feature，测试的时候需要硬件环境的支撑。一般我们开发环境都是虚拟机，所以针对这种开发工作的自测无法进行，比如虚拟机上没有物理磁盘，没有raid卡等，为了一个小功能的测试，需要出build，需要硬件环境的部署和安装，这个工作量着实不小。 往往针对这种情况，作为开发人员可以针对硬件环境的具体需求，尽可能在自己的环境上做模拟，也就是我们俗称的“打桩”。">
+<meta name="keywords" content="Ceph,Test">
+<meta property="og:type" content="article">
+<meta property="og:title" content="硬件环境测试环境模拟">
+<meta property="og:url" content="https://tony-yin.github.io/2018/03/09/Hardware-Test-Tool/index.html">
+<meta property="og:site_name" content="Tony&#39;s blog">
+<meta property="og:description" content="最近在做一个feature，测试的时候需要硬件环境的支撑。一般我们开发环境都是虚拟机，所以针对这种开发工作的自测无法进行，比如虚拟机上没有物理磁盘，没有raid卡等，为了一个小功能的测试，需要出build，需要硬件环境的部署和安装，这个工作量着实不小。 往往针对这种情况，作为开发人员可以针对硬件环境的具体需求，尽可能在自己的环境上做模拟，也就是我们俗称的“打桩”。">
+<meta property="og:image" content="http://ow0mgad6r.bkt.clouddn.com/hardware-600x450.jpg">
+<meta property="og:updated_time" content="2018-03-09T07:19:26.564Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="硬件环境测试环境模拟">
+<meta name="twitter:description" content="最近在做一个feature，测试的时候需要硬件环境的支撑。一般我们开发环境都是虚拟机，所以针对这种开发工作的自测无法进行，比如虚拟机上没有物理磁盘，没有raid卡等，为了一个小功能的测试，需要出build，需要硬件环境的部署和安装，这个工作量着实不小。 往往针对这种情况，作为开发人员可以针对硬件环境的具体需求，尽可能在自己的环境上做模拟，也就是我们俗称的“打桩”。">
+<meta name="twitter:image" content="http://ow0mgad6r.bkt.clouddn.com/hardware-600x450.jpg">
+  
+    <link rel="alternative" href="/atom.xml" title="Tony&#39;s blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/img/favicon.png">
+  
+  
+  <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  
+  
+      <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  
+  <!-- 加载特效 -->
+    <script src="/js/pace.js"></script>
+    <link href="/css/pace/pace-theme-flash.css" rel="stylesheet" />
+  <script>
+      var yiliaConfig = {
+          fancybox: true,
+          animate: true,
+          isHome: false,
+          isPost: true,
+          isArchive: false,
+          isTag: false,
+          isCategory: false,
+          open_in_new: false
+      }
+  </script>
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+        <a href="/" class="profilepic">
+            
+            <img src="/img/tony.jpg" class="js-avatar">
+            
+        </a>
+        <hgroup>
+          <h1 class="header-author"><a href="/">Tony</a></h1>
+        </hgroup>
+        
+        
+            <form>
+	        <input type="text" class="st-default-search-input search" id="local-search-input" placeholder="搜索一下" autocomplete="off">
+            </form>
+            <div id="local-search-result"></div>
+        
+        
+            <script type="text/javascript">
+                (function() {
+                    'use strict';
+                    function getMatchData(keyword, data) {
+                        var matchData = [];
+                        for(var i =0;i<data.length;i++){
+                            if(data[i].title.toLowerCase().indexOf(keyword)>=0) 
+                                matchData.push(data[i])
+                        }
+                        return matchData;
+                    }
+                    var $input = $('#local-search-input');
+                    var $resultContent = $('#local-search-result');
+                    $input.keyup(function(){
+                        $.ajax({
+                            url: '/search.json',
+                            dataType: "json",
+                            success: function( json ) {
+                                var str='<ul class=\"search-result-list\">';                
+                                var keyword = $input.val().trim().toLowerCase();
+                                $resultContent.innerHTML = "";
+                                if ($input.val().trim().length <= 0) {
+                                    $resultContent.empty();
+                                    $('#switch-area').show();
+                                    return;
+                                }
+                                var results = getMatchData(keyword, json);
+                                if(results.length === 0){
+                                    $resultContent.empty();
+                                    $('#switch-area').show();
+                                    return;
+                                } 
+                                for(var i =0; i<results.length; i++){
+                                    str += "<li><a href='"+ results[i].url +"' class='search-result-title'>"+ results[i].title +"</a></li>";
+                                }
+                                str += "</ul>";
+                                $resultContent.empty();
+                                $resultContent.append(str);
+                                $('#switch-area').hide();
+                            }
+                        });
+                    });
+                })();
+            </script>
+        
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                        <div class="icon-wrap icon-me hide" data-idx="3">
+                            <div class="user"></div>
+                            <div class="shoulder"></div>
+                        </div>
+                        
+                    </div>
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                        <li>关于我</li>
+                        
+                    </ul>
+                </div>
+            </div>
+        
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a  href="/archives/">所有文章</a></li>
+                        
+                            <li><a  href="/categories/tech">技术文章</a></li>
+                        
+                            <li><a  href="/tags/Ceph">Ceph修炼之路</a></li>
+                        
+                            <li><a  href="/categories/summary">感悟总结</a></li>
+                        
+                            <li><a  href="/categories/read">阅读翻译</a></li>
+                        
+                            <li><a  href="/categories/life">生活随笔</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fl github"  target="_blank" href="https://github.com/tony-yin" title="github">github</a>
+                            
+                                <a class="fl weibo"  target="_blank" href="https://weibo.com/3832044210/profile?rightmod=1&wvr=6&mod=personinfo" title="weibo">weibo</a>
+                            
+                                <a class="fl segmentfault"  target="_blank" href="https://segmentfault.com/u/qzuser_57fb1d5db527e" title="segmentfault">segmentfault</a>
+                            
+                        </ul>
+			
+                    </nav>
+                </section>
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <a href="/tags/Bugfix/" style="font-size: 10px;">Bugfix</a> <a href="/tags/Ceph/" style="font-size: 20px;">Ceph</a> <a href="/tags/Cephx/" style="font-size: 10px;">Cephx</a> <a href="/tags/Daily-Article/" style="font-size: 14px;">Daily-Article</a> <a href="/tags/Disk/" style="font-size: 12px;">Disk</a> <a href="/tags/Filesystem/" style="font-size: 12px;">Filesystem</a> <a href="/tags/HA/" style="font-size: 12px;">HA</a> <a href="/tags/Javascript/" style="font-size: 10px;">Javascript</a> <a href="/tags/Keepalived/" style="font-size: 12px;">Keepalived</a> <a href="/tags/LVM/" style="font-size: 10px;">LVM</a> <a href="/tags/Linux/" style="font-size: 16px;">Linux</a> <a href="/tags/Luminous/" style="font-size: 10px;">Luminous</a> <a href="/tags/Moodle/" style="font-size: 10px;">Moodle</a> <a href="/tags/NFS/" style="font-size: 14px;">NFS</a> <a href="/tags/NFS-Ganesha/" style="font-size: 10px;">NFS-Ganesha</a> <a href="/tags/Network/" style="font-size: 10px;">Network</a> <a href="/tags/Notification/" style="font-size: 10px;">Notification</a> <a href="/tags/OSD/" style="font-size: 14px;">OSD</a> <a href="/tags/Oracle/" style="font-size: 12px;">Oracle</a> <a href="/tags/Oracle-11g-R2/" style="font-size: 10px;">Oracle 11g R2</a> <a href="/tags/Oracle-Linux/" style="font-size: 10px;">Oracle Linux</a> <a href="/tags/PHP/" style="font-size: 12px;">PHP</a> <a href="/tags/PHPExcel/" style="font-size: 10px;">PHPExcel</a> <a href="/tags/Partition/" style="font-size: 10px;">Partition</a> <a href="/tags/Profile/" style="font-size: 12px;">Profile</a> <a href="/tags/Python/" style="font-size: 14px;">Python</a> <a href="/tags/RBD/" style="font-size: 14px;">RBD</a> <a href="/tags/RGW/" style="font-size: 10px;">RGW</a> <a href="/tags/Raidcard/" style="font-size: 10px;">Raidcard</a> <a href="/tags/Read/" style="font-size: 18px;">Read</a> <a href="/tags/Script/" style="font-size: 14px;">Script</a> <a href="/tags/Test/" style="font-size: 10px;">Test</a> <a href="/tags/Udev/" style="font-size: 12px;">Udev</a> <a href="/tags/产品/" style="font-size: 10px;">产品</a> <a href="/tags/博客/" style="font-size: 10px;">博客</a> <a href="/tags/性能优化/" style="font-size: 10px;">性能优化</a> <a href="/tags/编译/" style="font-size: 10px;">编译</a>
+                    </div>
+                </section>
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a target="_blank"  class="main-nav-link switch-friends-link" href="https://greenlightt.github.io">redgo的博客</a>
+                    
+                      <a target="_blank"  class="main-nav-link switch-friends-link" href="http://www.xuxiaopang.com">徐小胖的博客</a>
+                    
+                    </div>
+                </section>
+                
+                
+                
+                <section class="switch-part switch-part4">
+                
+                    <div id="js-aboutme">江苏南京，熟悉Python/PHP，目前研究Ceph分布式存储，邮箱：1241484989@qq.com</div>
+                </section>
+                
+            </div>
+        </div>
+    </header>
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">Tony</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                
+                    <img src="/img/tony.jpg" class="js-avatar">
+                
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">Tony</a></h1>
+            </hgroup>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/archives/">所有文章</a></li>
+                
+                    <li><a href="/categories/tech">技术文章</a></li>
+                
+                    <li><a href="/tags/Ceph">Ceph修炼之路</a></li>
+                
+                    <li><a href="/categories/summary">感悟总结</a></li>
+                
+                    <li><a href="/categories/read">阅读翻译</a></li>
+                
+                    <li><a href="/categories/life">生活随笔</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a class="github" target="_blank" href="https://github.com/tony-yin" title="github">github</a>
+                    
+                        <a class="weibo" target="_blank" href="https://weibo.com/3832044210/profile?rightmod=1&wvr=6&mod=personinfo" title="weibo">weibo</a>
+                    
+                        <a class="segmentfault" target="_blank" href="https://segmentfault.com/u/qzuser_57fb1d5db527e" title="segmentfault">segmentfault</a>
+                    
+                </div>
+            </nav>
+        </header>                
+    </div>
+</nav>
+
+      <div class="body-wrap"><article id="post-Hardware-Test-Tool" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a  href="/2018/03/09/Hardware-Test-Tool/" class="article-date">
+      <time datetime="2018-03-09T06:35:06.000Z" itemprop="datePublished">2018-03-09</time>
+</a>
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      硬件环境测试环境模拟
+    </h1>
+  
+
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/tech/">tech</a>
+    </div>
+
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Ceph/">Ceph</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Test/">Test</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <center><img src="http://ow0mgad6r.bkt.clouddn.com/hardware-600x450.jpg" alt="hardware"></center>
+
+<p>最近在做一个<code>feature</code>，测试的时候需要硬件环境的支撑。一般我们开发环境都是虚拟机，所以针对这种开发工作的自测无法进行，比如虚拟机上没有物理磁盘，没有<code>raid</code>卡等，为了一个小功能的测试，需要出<code>build</code>，需要硬件环境的部署和安装，这个工作量着实不小。</p>
+<p>往往针对这种情况，作为开发人员可以针对硬件环境的具体需求，尽可能在自己的环境上做模拟，也就是我们俗称的“打桩”。</p>
+<a id="more"></a>
+<p>就拿我这次做的需求来说吧，我想获取磁盘的相关信息，获取方式是通过<code>raid</code>卡工具，可能是<code>megacli</code>，也可能是<code>sas3ircu</code>等等，这个取决于<code>lspci</code>查看<code>raid</code>卡的型号，然后还要通过<code>lsblk</code>和<code>lsscsi</code>工具获取相关信息。</p>
+<p>我的做法是针对这些工具，自己写一个简易的小工具，就比如<code>lsblk</code>我也写一个<code>lsblk</code>的脚本，里面的代码也很简单，先找一个硬件环境，将<code>lsblk</code>读取的内容重定向到文件中，这时候我们自己写的脚本直接去读这个文件就可以了。务必要保证各个软件工具的一致性。</p>
+<p>以<code>lsblk</code>为例，我可能需求两种情况<code>lsblk</code>和<code>lsblk -l</code>：</p>
+<p><code>lsblk</code>：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">#! /bin/bash                                                        </div><div class="line"></div><div class="line">lsblk_path=$(dirname $0)</div><div class="line">if [ $# -eq 0 ]; then</div><div class="line">    echo &quot;$(cat $lsblk_path&quot;/lsblk.txt&quot;)&quot;</div><div class="line">fi</div><div class="line"></div><div class="line">while getopts &quot;:l&quot; opt; do</div><div class="line">    case $opt in  </div><div class="line">        l)  </div><div class="line">            echo &quot;$(cat $lsblk_path&quot;/lsblk_list.txt&quot;)&quot;</div><div class="line">            ;;  </div><div class="line">        \?) </div><div class="line">            echo &quot;Invalid option: -$OPTARG&quot;</div><div class="line">            ;;  </div><div class="line">    esac</div><div class="line">done</div></pre></td></tr></table></figure>
+<p><code>lsblk.txt</code>：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div></pre></td><td class="code"><pre><div class="line">NAME     MAJ:MIN RM   SIZE RO TYPE MOUNTPOINT </div><div class="line">sda        8:0    0   3.7T  0 disk </div><div class="line">├─sda1     8:1    0  30.5M  0 part ar</div><div class="line">├─sda2     8:2    0 488.3M  0 part ar</div><div class="line">├─sda3     8:3    0  93.1G  0 part /rt</div><div class="line">├─sda4     8:4    0   256G  0 part [SWAP]WA</div><div class="line">└─sda5     8:5    0   3.3T  0 part /data/osd.0sd</div><div class="line">sdb        8:16   0 372.1G  0 disk </div><div class="line">└─sdb1     8:17   0 372.1G  0 part ar</div><div class="line">sdc        8:32   0   2.7T  0 disk </div><div class="line">└─sdc1     8:33   0   2.7T  0 part /data/osd.1sd</div><div class="line">sdd        8:48   0   2.7T  0 disk </div><div class="line">└─sdd1     8:49   0   2.7T  0 part /data/osd.2sd</div><div class="line">sde        8:64   0   2.7T  0 disk </div><div class="line">└─sde1     8:65   0   2.7T  0 part /data/osd.3sd</div><div class="line">sdf        8:80   0   2.7T  0 disk </div><div class="line">└─sdf1     8:81   0   2.7T  0 part /data/osd.11d.</div><div class="line">sdg        8:96   0   2.7T  0 disk </div><div class="line">└─sdg1     8:97   0   2.7T  0 part /data/osd.12d.</div><div class="line">sdh        8:112  0   2.7T  0 disk </div><div class="line">└─sdh1     8:113  0   2.7T  0 part ar</div><div class="line">sdi        8:128  0   2.7T  0 disk </div><div class="line">└─sdi1     8:129  0   2.7T  0 part /data/osd.8sd</div><div class="line">sdj        8:144  0   2.7T  0 disk </div><div class="line">└─sdj1     8:145  0   2.7T  0 part /data/osd.9sd</div><div class="line">sdk        8:160  0   2.7T  0 disk </div><div class="line">└─sdk1     8:161  0   2.7T  0 part /data/osd.10d.</div><div class="line">sdl        8:176  0   2.7T  0 disk </div><div class="line">└─sdl1     8:177  0   2.7T  0 part ar</div><div class="line">sdm        8:192  0   2.7T  0 disk </div><div class="line">└─sdm1     8:193  0   2.7T  0 part ar</div><div class="line">sdn        8:208  0   2.7T  0 disk </div><div class="line">└─sdn1     8:209  0   2.7T  0 part ar</div><div class="line">sdo        8:224  0   2.7T  0 disk </div><div class="line">└─sdo1     8:225  0   2.7T  0 part</div><div class="line">sdp        8:240  0   2.7T  0 disk</div><div class="line">└─sdp1     8:241  0   2.7T  0 part</div><div class="line">sdq       65:0    0   2.7T  0 disk</div><div class="line">└─sdq1    65:1    0   2.7T  0 part</div><div class="line">sdr       65:16   0   2.7T  0 disk</div><div class="line">└─sdr1    65:17   0   2.7T  0 part</div><div class="line">sds       65:32   0   2.7T  0 disk</div><div class="line">└─sds1    65:33   0   2.7T  0 part</div><div class="line">sdt       65:48   0   2.7T  0 disk</div><div class="line">└─sdt1    65:49   0   2.7T  0 part</div><div class="line">sdu       65:64   0   2.7T  0 disk</div><div class="line">└─sdu1    65:65   0   2.7T  0 part</div><div class="line">sdv       65:80   0 744.7G  0 disk</div><div class="line">├─sdv1    65:81   0    50G  0 part</div><div class="line">├─sdv2    65:82   0    50G  0 part</div><div class="line">├─sdv3    65:83   0    50G  0 part</div><div class="line">├─sdv4    65:84   0    50G  0 part</div><div class="line">├─sdv5    65:85   0    50G  0 part</div><div class="line">├─sdv6    65:86   0    50G  0 part</div><div class="line">├─sdv7    65:87   0    50G  0 part</div><div class="line">├─sdv8    65:88   0    50G  0 part</div><div class="line">├─sdv9    65:89   0    50G  0 part</div><div class="line">├─sdv10   65:90   0    50G  0 part</div><div class="line">├─sdv11   65:91   0    50G  0 part</div><div class="line">└─sdv12   65:92   0    50G  0 part</div></pre></td></tr></table></figure>
+<p><code>lsblk_list.txt</code>：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div></pre></td><td class="code"><pre><div class="line">NAME   MAJ:MIN RM   SIZE RO TYPE MOUNTPOINT</div><div class="line">sda      8:0    0   3.7T  0 disk </div><div class="line">sda1     8:1    0  30.5M  0 part </div><div class="line">sda2     8:2    0 488.3M  0 part </div><div class="line">sda3     8:3    0  93.1G  0 part /</div><div class="line">sda4     8:4    0   256G  0 part [SWAP]</div><div class="line">sda5     8:5    0   3.3T  0 part /data/osd.0</div><div class="line">sdb      8:16   0 372.1G  0 disk </div><div class="line">sdb1     8:17   0 372.1G  0 part </div><div class="line">sdc      8:32   0   2.7T  0 disk </div><div class="line">sdc1     8:33   0   2.7T  0 part /data/osd.1</div><div class="line">sdd      8:48   0   2.7T  0 disk </div><div class="line">sdd1     8:49   0   2.7T  0 part /data/osd.2</div><div class="line">sde      8:64   0   2.7T  0 disk </div><div class="line">sde1     8:65   0   2.7T  0 part /data/osd.3</div><div class="line">sdf      8:80   0   2.7T  0 disk </div><div class="line">sdf1     8:81   0   2.7T  0 part /data/osd.11</div><div class="line">sdg      8:96   0   2.7T  0 disk </div><div class="line">sdg1     8:97   0   2.7T  0 part /data/osd.12</div><div class="line">sdh      8:112  0   2.7T  0 disk </div><div class="line">sdh1     8:113  0   2.7T  0 part </div><div class="line">sdi      8:128  0   2.7T  0 disk </div><div class="line">sdi1     8:129  0   2.7T  0 part /data/osd.8</div><div class="line">sdj      8:144  0   2.7T  0 disk </div><div class="line">sdj1     8:145  0   2.7T  0 part /data/osd.9</div><div class="line">sdk      8:160  0   2.7T  0 disk </div><div class="line">sdk1     8:161  0   2.7T  0 part /data/osd.10</div><div class="line">sdl      8:176  0   2.7T  0 disk </div><div class="line">sdl1     8:177  0   2.7T  0 part </div><div class="line">sdm      8:192  0   2.7T  0 disk </div><div class="line">sdm1     8:193  0   2.7T  0 part </div><div class="line">sdn      8:208  0   2.7T  0 disk </div><div class="line">sdn1     8:209  0   2.7T  0 part </div><div class="line">sdo      8:224  0   2.7T  0 disk </div><div class="line">sdo1     8:225  0   2.7T  0 part</div><div class="line">sdp      8:240  0   2.7T  0 disk</div><div class="line">sdp1     8:241  0   2.7T  0 part</div><div class="line">sdq     65:0    0   2.7T  0 disk</div><div class="line">sdq1    65:1    0   2.7T  0 part</div><div class="line">sdr     65:16   0   2.7T  0 disk</div><div class="line">sdr1    65:17   0   2.7T  0 part</div><div class="line">sds     65:32   0   2.7T  0 disk</div><div class="line">sds1    65:33   0   2.7T  0 part</div><div class="line">sdt     65:48   0   2.7T  0 disk</div><div class="line">sdt1    65:49   0   2.7T  0 part</div><div class="line">sdu     65:64   0   2.7T  0 disk</div><div class="line">sdu1    65:65   0   2.7T  0 part</div><div class="line">sdv     65:80   0 744.7G  0 disk</div><div class="line">sdv1    65:81   0    50G  0 part</div><div class="line">sdv2    65:82   0    50G  0 part</div><div class="line">sdv3    65:83   0    50G  0 part</div><div class="line">sdv4    65:84   0    50G  0 part</div><div class="line">sdv5    65:85   0    50G  0 part</div><div class="line">sdv6    65:86   0    50G  0 part</div><div class="line">sdv7    65:87   0    50G  0 part</div><div class="line">sdv8    65:88   0    50G  0 part</div><div class="line">sdv9    65:89   0    50G  0 part</div><div class="line">sdv10   65:90   0    50G  0 part</div><div class="line">sdv11   65:91   0    50G  0 part</div><div class="line">sdv12   65:92   0    50G  0 part</div></pre></td></tr></table></figure>
+<p>还有一些其他工具我就不详细贴代码了，具体请去<code>github</code>上查看。</p>
+<p>项目地址：<a href="https://github.com/tony-yin/Hardware_Test_Tool" target="_blank" rel="external">https://github.com/tony-yin/Hardware_Test_Tool</a></p>
+<p>操作步骤：</p>
+<p>1.下载代码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git clone git@github.com:tony-yin/Hardware_Test_Tool.git</div></pre></td></tr></table></figure>
+<p>2.安装工具</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">./build install</div></pre></td></tr></table></figure>
+<p>3.卸载工具</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">./build uninstall</div></pre></td></tr></table></figure>
+
+      
+
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a  href="/2018/03/09/Hardware-Test-Tool/">硬件环境测试环境模拟</a></p>
+        <p><span>文章作者:</span><a  href="/" title="访问 Tony 的个人博客">Tony</a></p>
+        <p><span>发布时间:</span>2018年03月09日 - 14时35分</p>
+        <p><span>最后更新:</span>2018年03月09日 - 15时19分</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2018/03/09/Hardware-Test-Tool/" title="硬件环境测试环境模拟">https://tony-yin.github.io/2018/03/09/Hardware-Test-Tool/</a>
+            <span class="copy-path" data-clipboard-text="原文: https://tony-yin.github.io/2018/03/09/Hardware-Test-Tool/　　作者: Tony" title=""></span>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/cn/" title="中国大陆 (CC BY-NC-SA 3.0 CN)" target = "_blank">"署名-非商用-相同方式共享 3.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+<nav id="article-nav">
+  
+  
+    <a  href="/2018/03/01/Daily-Article-Vol3/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Daily Article Vol 3 - (2018/2/1 ~ 2018/2/28)</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    
+</div>
+<style>
+    .left-col .switch-btn {
+        display: none;
+    }
+    .left-col .switch-area {
+        display: none;
+    }
+</style>
+<input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+<script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script>
+    var valueHide = "隐藏目录";
+    var valueShow = "显示目录";
+    if ($(".left-col").is(":hidden")) {
+        $("#tocButton").attr("value", valueShow);
+    }
+    $("#tocButton").click(function() {
+        if ($("#toc").is(":hidden")) {
+            $("#tocButton").attr("value", valueHide);
+            $("#toc").slideDown(320);
+            $(".switch-btn, .switch-area").fadeOut(300);
+        }
+        else {
+            $("#tocButton").attr("value", valueShow);
+            $("#toc").slideUp(350);
+            $(".switch-btn, .switch-area").fadeIn(500);
+        }
+    })
+    if ($(".toc").length < 1) {
+        $("#toc, #tocButton").hide();
+        $(".switch-btn, .switch-area").show();
+    }
+</script>
+
+
+
+
+
+<div class="bdsharebuttonbox">
+	<a href="#" class="fx fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+	<a href="#" class="fx fa-weixin bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+	<a href="#" class="fx fa-qq bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a>
+	<a href="#" class="fx fa-facebook-official bds_fbook" data-cmd="fbook" title="分享到Facebook"></a>
+	<a href="#" class="fx fa-twitter bds_twi" data-cmd="twi" title="分享到Twitter"></a>
+	<a href="#" class="fx fa-linkedin bds_linkedin" data-cmd="linkedin" title="分享到linkedin"></a>
+	<a href="#" class="fx fa-files-o bds_copy" data-cmd="copy" title="分享到复制网址"></a>
+</div>
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"2","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='/static/api/js/share.js?cdnversion=' + ~ (-new Date() / 36e5)];</script>
+
+
+
+
+    
+        
+    <div id="cyReward" role="cylabs" data-use="reward" style="text-align:center;margin-top:50px"></div>
+
+
+<section class="changyan" id="comments">
+  <!--<div id="uyan_frame"></div>-->
+  <div id="SOHUCS"></div>
+  <script charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/changyan.js"></script>
+  <script type="text/javascript">
+    window.changyan.api.config({
+      appid: 'cytncUiAO',
+      conf: 'prod_50cb4de09ef44034f63977dcfcfa1e4b'
+    });
+  </script>
+</section>
+
+    <script type="text/javascript" charset="utf-8" src="https://changyan.itc.cn/js/lib/jquery.js"></script>
+    <script type="text/javascript" charset="utf-8" src="https://changyan.sohu.com/js/changyan.labs.https.js?appid=cytncUiAO"></script>
+
+
+
+    
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a  href="/" title="回到主页"><i class="fa fa-home"></i></a>
+        
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+        
+            <a  href="/2018/03/01/Daily-Article-Vol3/" title="下一篇: Daily Article Vol 3 - (2018/2/1 ~ 2018/2/28)">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2018/03/09/Hardware-Test-Tool/">硬件环境测试环境模拟</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/03/01/Daily-Article-Vol3/">Daily Article Vol 3 - (2018/2/1 ~ 2018/2/28)</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/02/01/Daily-Article-Vol2/">Daily Article Vol 2 - (2018/1/1 ~ 2018/1/31)</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/28/RBD-HA-2/">实现RBD导出NFS高可用（二）：提供多虚拟IP访问</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/10/scp-and-ssh/">scp 免交互式和 ssh 免交互式脚本</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/05/RaidCardToolUtils/">利用Raid卡工具获取逻辑盘是否为SSD</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/01/Daily-Article-2017/">Daily Article Vol 1 - (2017/11/1 ~ 2017/12/31)</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/21/Everything-is-a-file/">译：一切皆文件</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/17/Linux-Filesystem/">译：Linux 文件系统介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/10/Into-Withe-Night/">阅读感悟：《白夜行》</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/08/Filesystem-Bug-Fix/">故障修复：文件系统导致OSD启动失败</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/07/RBD-HA/">通过 Keepalived 实现 Ceph RBD 的高可用</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/30/Cephx-practice/">Cephx 实战演练</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/26/read-ceph-cookbook/">阅读感悟：《Ceph Cookbook》</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/26/read-ceph-guide/">阅读感悟：《Ceph分布式存储学习指南》</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/26/read-python-automation/">阅读感悟：《Python编程快速上手---让繁琐工作自动化》</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/19/hexo-theme-shadow/">博客主题 shadow</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/14/LVM-Space-Expansion/">LVM动态扩展</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/14/Ceph-Compile/">Ceph 编译（Giant版本）</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/08/Ceph-NFS-Ganesha/">通过ganesha-nfs导出Ceph为NFS（Luminous）</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/08/Ceph-RGW/">RGW 安装和创建</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/31/RBD-Mount-NFS/">使用NFS挂载RBD</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/10/Python-Profiler/">Python Profiler</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/10/Enable-OSD-Profile-Script/">启用OSD性能剖析脚本</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/02/Batch-Create-And-Delete-Disk-Partition-Script/">批量创建和删除磁盘分区脚本</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/28/JS-Object-Null/">JS判断对象是否为空</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/27/OSD-Create-And-Delete/">OSD创建和删除全过程</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/21/How-To-Forge-Product/">如何打造一个好的产品</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/18/PHP-Excel/">PHP-Excel 开发解决方案</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/10/Disk-pull-and-plug-record/">磁盘反复拔插记录</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/10/Linux-Udev/">Linux Udev</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/10/network-down-notification/">Network Down Notification</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/10/Python-Oracle/">Python操作Oracle</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/10/oracle_install/">Oracle Linux And Oracle Database 11g R2 Intsallation</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/09/Moodle-Local-Plugin/">Moodle Local插件</a></li></ul>
+    <script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+    <script>
+        $(".post-list").addClass("toc-article");
+        // $(".post-list-item a").attr("target","_blank");
+        $("#post-nav-button > a:nth-child(2)").click(function() {
+            $(".fa-bars, .fa-times").toggle();
+            $(".post-list").toggle(300);
+            if ($(".toc").length > 0) {
+                $("#toc, #tocButton").toggle(200, function() {
+                    if ($(".switch-area").is(":visible")) {
+                        $("#toc, .switch-btn, .switch-area").toggle();
+                        $("#tocButton").attr("value", valueHide);
+                        }
+                    })
+            }
+            else {
+                $(".switch-btn, .switch-area").fadeToggle(300);
+            }
+        })
+    </script>
+
+
+
+
+    <script>
+        
+    </script>
+
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                &copy; 2018 Tony
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank">Hexo &nbsp;&nbsp;</a><a href="https://github.com/tony-yin/hexo-theme-shadow" target="_blank">Shadow</a> by tony
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" >极客到访数: 
+                            <span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>, </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit">本页阅读量: 
+                            <span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+
+    </div>
+    <script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script src="/js/main.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var backgroundnum = 4;
+            var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+            $("#mobile-nav").css({"background-image": backgroundimg,"background-size": "cover","background-position": "center"});
+            $(".left-col").css({"background-image": backgroundimg,"background-size": "cover","background-position": "center"});
+        })
+    </script>
+
+
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'xxxxx', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+
+	<script>
+	var _hmt = _hmt || [];
+	(function() {
+	  var hm = document.createElement("script");
+	  hm.src = "//hm.baidu.com/hm.js?xxxxxx";
+	  var s = document.getElementsByTagName("script")[0]; 
+	  s.parentNode.insertBefore(hm, s);
+	})();
+	</script>
+
+
+
+<div class="scroll" id="scroll">
+    <a href="#"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    $(document).ready(function() {
+        if ($("#comments").length < 1) {
+            $("#scroll > a:nth-child(2)").hide();
+        };
+    })
+</script>
+
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+  <script language="javascript">
+    $(function() {
+        $("a[title]").each(function() {
+            var a = $(this);
+            var title = a.attr('title');
+            if (title == undefined || title == "") return;
+            a.data('title', title).removeAttr('title').hover(
+            function() {
+                var offset = a.offset();
+                $("<div id=\"anchortitlecontainer\"></div>").appendTo($("body")).html(title).css({
+                    top: offset.top - a.outerHeight() - 15,
+                    left: offset.left + a.outerWidth()/2 + 1
+                }).fadeIn(function() {
+                    var pop = $(this);
+                    setTimeout(function() {
+                        pop.remove();
+                    }, pop.text().length * 800);
+                });
+            }, function() {
+                $("#anchortitlecontainer").remove();
+            });
+        });
+    });
+</script>
+
+
+  </div>
+</body>
+</html>
