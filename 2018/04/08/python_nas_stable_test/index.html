@@ -7,21 +7,23 @@
   
   
   
-  <title>Daily Article Vol 1 - (2017/11/1 ~ 2017/12/31) | Tony&#39;s blog</title>
+  <title>基于Python的NAS稳定性测试框架 | Tony&#39;s blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="书籍可以系统的学习一些知识，并且需要比较长的时间集中注意力学习。而现在网络越来越发达，各种社区的流行，还有开源分享精神的传播，导致现在互联网上很多优秀文章、博客、微信公众号等出现，这些文章贴近热点，往往都很新，并且篇幅有长有短，我们可以利用一些碎片时间来吸收这些知识。优秀文章很多，所以每天读个一两篇文章可以作为一个习惯养成，这样日积月累相信会获益良多。 Daily Article系列就是为了记">
-<meta name="keywords" content="Read,Daily-Article">
+  <meta name="description" content="最近公司有个集群一直在跑着，领导想要测测它上面NAS服务的稳定性，也就是看看正常持续的读写会不会导致NAS服务异常，这个其实通过fio或者cosbench这类的工具测试起来很容易，但是这样一是没有挑战性，二是比较机械，可扩展性低。比如并行测试、进程保护和异常通知等等这些是机械地运用工具测试所做不到的，所以我们尝试做了一套基于NAS稳定性测试的框架。">
+<meta name="keywords" content="Ceph,Python,NAS">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Daily Article Vol 1 - (2017&#x2F;11&#x2F;1 ~ 2017&#x2F;12&#x2F;31)">
-<meta property="og:url" content="https://tony-yin.github.io/2018/01/01/Daily-Article-2017/index.html">
+<meta property="og:title" content="基于Python的NAS稳定性测试框架">
+<meta property="og:url" content="https://tony-yin.github.io/2018/04/08/python_nas_stable_test/index.html">
 <meta property="og:site_name" content="Tony&#39;s blog">
-<meta property="og:description" content="书籍可以系统的学习一些知识，并且需要比较长的时间集中注意力学习。而现在网络越来越发达，各种社区的流行，还有开源分享精神的传播，导致现在互联网上很多优秀文章、博客、微信公众号等出现，这些文章贴近热点，往往都很新，并且篇幅有长有短，我们可以利用一些碎片时间来吸收这些知识。优秀文章很多，所以每天读个一两篇文章可以作为一个习惯养成，这样日积月累相信会获益良多。 Daily Article系列就是为了记">
-<meta property="og:image" content="http://ow0mgad6r.bkt.clouddn.com/2018-1b.png">
-<meta property="og:updated_time" content="2018-03-09T07:16:20.311Z">
+<meta property="og:description" content="最近公司有个集群一直在跑着，领导想要测测它上面NAS服务的稳定性，也就是看看正常持续的读写会不会导致NAS服务异常，这个其实通过fio或者cosbench这类的工具测试起来很容易，但是这样一是没有挑战性，二是比较机械，可扩展性低。比如并行测试、进程保护和异常通知等等这些是机械地运用工具测试所做不到的，所以我们尝试做了一套基于NAS稳定性测试的框架。">
+<meta property="og:image" content="http://ow0mgad6r.bkt.clouddn.com/nas.jpg">
+<meta property="og:image" content="http://ow0mgad6r.bkt.clouddn.com/NAS_Stable_Test%E6%A1%86%E6%9E%B6%E5%9B%BE.png">
+<meta property="og:image" content="http://ow0mgad6r.bkt.clouddn.com/NAS_Stable_Test%E8%AF%BB%E5%86%99%E6%B5%81%E7%A8%8B%E5%9B%BE.png">
+<meta property="og:updated_time" content="2018-04-20T02:02:58.449Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Daily Article Vol 1 - (2017&#x2F;11&#x2F;1 ~ 2017&#x2F;12&#x2F;31)">
-<meta name="twitter:description" content="书籍可以系统的学习一些知识，并且需要比较长的时间集中注意力学习。而现在网络越来越发达，各种社区的流行，还有开源分享精神的传播，导致现在互联网上很多优秀文章、博客、微信公众号等出现，这些文章贴近热点，往往都很新，并且篇幅有长有短，我们可以利用一些碎片时间来吸收这些知识。优秀文章很多，所以每天读个一两篇文章可以作为一个习惯养成，这样日积月累相信会获益良多。 Daily Article系列就是为了记">
-<meta name="twitter:image" content="http://ow0mgad6r.bkt.clouddn.com/2018-1b.png">
+<meta name="twitter:title" content="基于Python的NAS稳定性测试框架">
+<meta name="twitter:description" content="最近公司有个集群一直在跑着，领导想要测测它上面NAS服务的稳定性，也就是看看正常持续的读写会不会导致NAS服务异常，这个其实通过fio或者cosbench这类的工具测试起来很容易，但是这样一是没有挑战性，二是比较机械，可扩展性低。比如并行测试、进程保护和异常通知等等这些是机械地运用工具测试所做不到的，所以我们尝试做了一套基于NAS稳定性测试的框架。">
+<meta name="twitter:image" content="http://ow0mgad6r.bkt.clouddn.com/nas.jpg">
   
     <link rel="alternative" href="/atom.xml" title="Tony&#39;s blog" type="application/atom+xml">
   
@@ -276,11 +278,11 @@
     </div>
 </nav>
 
-      <div class="body-wrap"><article id="post-Daily-Article-2017" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-python_nas_stable_test" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a  href="/2018/01/01/Daily-Article-2017/" class="article-date">
-      <time datetime="2018-01-01T02:13:25.000Z" itemprop="datePublished">2018-01-01</time>
+      <a  href="/2018/04/08/python_nas_stable_test/" class="article-date">
+      <time datetime="2018-04-08T05:07:06.000Z" itemprop="datePublished">2018-04-08</time>
 </a>
 
     </div>
@@ -294,7 +296,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      Daily Article Vol 1 - (2017/11/1 ~ 2017/12/31)
+      基于Python的NAS稳定性测试框架
     </h1>
   
 
@@ -304,13 +306,13 @@
       <div class="article-info article-info-post">
         
     <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/read/">read</a>
+    <a class="article-category-link" href="/categories/tech/">tech</a>
     </div>
 
 
         
     <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Daily-Article/">Daily-Article</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Read/">Read</a></li></ul>
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Ceph/">Ceph</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/NAS/">NAS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Python/">Python</a></li></ul>
     </div>
 
         <div class="clearfix"></div>
@@ -320,78 +322,47 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <center><img src="http://ow0mgad6r.bkt.clouddn.com/2018-1b.png" alt="Daily Article 2"></center>
+        <center><img src="http://ow0mgad6r.bkt.clouddn.com/nas.jpg" alt="NAS Stable Test"></center>
 
-<p>书籍可以系统的学习一些知识，并且需要比较长的时间集中注意力学习。而现在网络越来越发达，各种社区的流行，还有开源分享精神的传播，导致现在互联网上很多优秀文章、博客、微信公众号等出现，这些文章贴近热点，往往都很新，并且篇幅有长有短，我们可以利用一些碎片时间来吸收这些知识。优秀文章很多，所以每天读个一两篇文章可以作为一个习惯养成，这样日积月累相信会获益良多。</p>
-<p><code>Daily Article</code>系列就是为了记录我每天的阅读历程，以月为单位，每个月出一篇大的总结，一是为了约束自己每天按时按量阅读，也给自己打气，二是给自己每个月的阅读内容做一个总结，用于回头阅读，三是将其中有质量的内容分享给有需要的人。由于我是从<code>2017</code>九月才可以记录，所以趁着年底索性把十一和十二月的记录一次性发出来。</p>
-<p>目前我采取星星的方式给文章评级，最高三颗星，最低没有星星，一般我放上来的都不会是太水的文章，所以如果是一般的工具类或者没有很大特色的文章我不会进行标记。一颗星表示<code>good</code>，即这篇文章有特色，对自己有帮助；两颗星表示<code>very
-good</code>，说明这篇文章内容很好，有深度有广度，是一篇很有质量的文章；三颗星表示<code>excellent</code>，说明这篇文章不仅内容技术讲的很到位，文章文笔也很出色，实践结合理论，让人很容易理解，看完后收获很大或者是顿悟，总而言之是一片很优秀的文章。当然我还会在这三个等级中结合半个星星进行调节，反正就是对文章的一个个人看法而已，仁者见仁，智者见智吧。</p>
+<p>最近公司有个集群一直在跑着，领导想要测测它上面<code>NAS</code>服务的稳定性，也就是看看正常持续的读写会不会导致<code>NAS</code>服务异常，这个其实通过<code>fio</code>或者<code>cosbench</code>这类的工具测试起来很容易，但是这样一是没有挑战性，二是比较机械，可扩展性低。比如并行测试、进程保护和异常通知等等这些是机械地运用工具测试所做不到的，所以我们尝试做了一套基于<code>NAS</code>稳定性测试的框架。</p>
 <a id="more"></a>
-<h2 id="十一月"><a href="#十一月" class="headerlink" title="十一月"></a>十一月</h2><ol>
-<li><a href="http://www.xuxiaopang.com/08/23/easy-ceph-CephX/" target="_blank" rel="external">大话 Ceph – CephX 那点事儿</a>(11/15-11/17) <i class="fa fa-star"></i><i class="fa fa-star"></i></li>
-<li><a href="http://mp.weixin.qq.com/s/UiDd-1zwrqIsk3-KEcAQaA" target="_blank" rel="external">互联网架构为什么要做服务化？</a>(11/18) <i class="fa fa-star"></i></li>
-<li><a href="http://blog.csdn.net/liuaigui/article/details/7163482" target="_blank" rel="external">基于开源软件构建高性能集群NAS系统</a>(11/20)</li>
-<li><a href="http://blog.csdn.net/whycold/article/details/11898249" target="_blank" rel="external">虚拟IP原理</a>(11/21)</li>
-<li><a href="http://mp.weixin.qq.com/s/8aI9jS0SXJl5NdcM3TPYuQ" target="_blank" rel="external">究竟为什么要引入数据库中间件</a>(11/27) <i class="fa fa-star"></i><i class="fa fa-star-half-full"></i></li>
-<li><a href="https://time.geekbang.org/column/article/183" target="_blank" rel="external">程序员如何用技术变现（上）</a>(11/28)</li>
-<li><a href="https://time.geekbang.org/column/article/294" target="_blank" rel="external">Go语言，Docker和新技术</a>(11/28)</li>
-<li><a href="https://h5.ele.me/hongbao/#hardware_id=&amp;is_lucky_group=True&amp;lucky_number=10&amp;track_id=&amp;platform=0&amp;sn=29dad164ef30a0c9&amp;theme_id=1745&amp;device_id=" target="_blank" rel="external">秒杀系统架构优化思路</a>(11/29) <i class="fa fa-star"></i></li>
-</ol>
-<h2 id="十二月"><a href="#十二月" class="headerlink" title="十二月"></a>十二月</h2><ol>
-<li><a href="https://time.geekbang.org/column/article/294" target="_blank" rel="external">Ceph开发每周谈首发</a>(12/1)</li>
-<li><a href="https://www.xsky.com/tec/ceph-weekly-vol-1/" target="_blank" rel="external">Ceph开发每周谈Vol2</a>(12/4)</li>
-<li><a href="https://www.xsky.com/tec/ceph-weekly-vol-1/" target="_blank" rel="external">Ceph开发每周谈Vol3</a>(12/5)</li>
-<li><a href="https://www.xsky.com/tec/ceph-weekly-vol-1/" target="_blank" rel="external">Ceph开发每周谈Vol4</a>(12/5)</li>
-<li><a href="https://www.thomas-krenn.com/en/wiki/Ext4_Filesystem" target="_blank" rel="external">Ext4 Filesystem</a>(12/11)</li>
-<li><a href="https://www.hecticgeek.com/2015/01/ext4-external-hard-disk-busy-at-idle-fix/" target="_blank" rel="external">Formatted ‘Ext4’ External Hard Disk is Busy</a>(12/12)</li>
-<li><a href="https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=bfff68738f1cb5c93dab1114634cea02aae9e7ba" target="_blank" rel="external">Ext4lazyinit detail</a>(12/12)</li>
-<li><a href="https://www.xsky.com/tec/ceph-weekly-vol-5/" target="_blank" rel="external">Ceph开发每周谈Vol5</a>(12/13)</li>
-<li><a href="https://www.xsky.com/tec/ceph-weekly-vol-6/" target="_blank" rel="external">Ceph开发每周谈Vol6</a>(12/13)</li>
-<li><a href="https://www.xsky.com/tec/ceph-weekly-vol-7/" target="_blank" rel="external">Ceph开发每周谈Vol7</a>(12/13)</li>
-<li><a href="https://www.xsky.com/tec/ceph-weekly-vol-8/" target="_blank" rel="external">Ceph开发每周谈Vol8—社区加快开发节奏, CDS 变更为 CDM, Firefly 结束版本支持</a>(12/13)</li>
-<li><a href="https://www.xsky.com/tec/ceph-weekly-vol-9/" target="_blank" rel="external">Ceph开发每周谈Vol9—Ceph开发每周谈 Vol 9—加密、压缩、EC 全场景支持</a>(12/13)</li>
-<li><a href="https://www.xsky.com/tec/ceph-weekly-vol-10/" target="_blank" rel="external">Ceph开发每周谈 Vol 10—NFS 已经被 RadosGW 支持|用户态</a>(12/13)</li>
-<li><a href="https://www.xsky.com/tec/ceph-weekly-vol-11/" target="_blank" rel="external">Ceph开发每周谈 Vol 11—RadosGW 支持 KeyStone V3, AWS v4, 多站点多活</a>(12/13)</li>
-<li><a href="https://www.xsky.com/tec/ceph-weekly-vol-12/" target="_blank" rel="external">Ceph开发每周谈 Vol 12—Scrub 增强，Jewel 小结</a>(12/13)</li>
-<li><a href="http://link.zhihu.com/?target=https%3A//opensource.com/life/16/10/introduction-linux-filesystems" target="_blank" rel="external">An introduction to Linux filesystems</a>(12/15 ~ 12/17) <i class="fa fa-star"></i><i class="fa fa-star"></i></li>
-<li><a href="http://www.cnblogs.com/ggjucheng/archive/2012/01/08/2316599.html" target="_blank" rel="external">linux lsof命令详解</a>(12/18)</li>
-<li><a href="http://blog.csdn.net/stpeace/article/details/47069215" target="_blank" rel="external">linux中的ldd命令简介</a>(12/18)</li>
-<li><a href="http://blog.csdn.net/qq_26819733/article/details/50610129" target="_blank" rel="external">linux–&gt;ldd命令的介绍</a>(12/18)</li>
-<li><a href="http://www.cnblogs.com/lyongde/p/4190588.html" target="_blank" rel="external">【Linux笔记】ldconfig、ldd</a>(12/18)</li>
-<li><a href="https://zhuanlan.zhihu.com/p/27875337" target="_blank" rel="external">Linux 的 EXT4 文件系统的历史、特性以及最佳实践</a>(12/18) <i class="fa fa-star"></i><i class="fa fa-star"></i> </li>
-<li><a href="http://www.ruanyifeng.com/blog/2011/12/inode.html" target="_blank" rel="external">理解inode</a>(12/18)</li>
-<li><a href="https://www.xsky.com/tec/ceph-weekly-vol-13/" target="_blank" rel="external">Ceph开发每周谈 Vol 13 — Cache on SPDK / bufferlist</a>(12/19)</li>
-<li><a href="https://www.xsky.com/tec/ceph-weekly-vol-14/" target="_blank" rel="external">Ceph开发每周谈 Vol 14 — LDAP/ BlueStore SMR</a>(12/19)</li>
-<li><a href="https://www.xsky.com/tec/ceph-weekly-vol-15/" target="_blank" rel="external">Ceph开发每周谈 Vol 15—Unix Socket / BlueStore 压缩和 Checksum</a>(12/19)</li>
-<li><a href="https://opensource.com/life/15/9/everything-is-a-file" target="_blank" rel="external">Everything is a file</a>(12/21) <i class="fa fa-star"></i><i class="fa fa-star"></i></li>
-<li><a href="http://www.tldp.org/LDP/sag/html/dev-fs.html" target="_blank" rel="external">Overview of the Directory Tree</a>(12/21)</li>
-<li><a href="https://www.xsky.com/news/20171218/" target="_blank" rel="external">没错，它就是存储界的“大胃王”</a>(12/22)</li>
-<li><a href="https://www.xsky.com/tec/ceph-weekly-vol-16/" target="_blank" rel="external">Ceph开发每周谈 Vol 16—Jewel RC Release!</a>(12/22)</li>
-<li><a href="https://www.xsky.com/tec/ceph-weekly-vol-17/" target="_blank" rel="external">Ceph开发每周谈 Vol 17 — ARM Status | RBD 一致性组合 | 内核模块 转至元数据结尾</a>(12/22)</li>
-<li><a href="https://www.xsky.com/tec/ceph-weekly-vol-18/" target="_blank" rel="external">Ceph开发每周谈 Vol 18 — EXT4 废弃论战? | 去重支持</a>(12/22)</li>
-<li><a href="https://www.xsky.com/tec/ceph-weekly-vol-19/" target="_blank" rel="external">Ceph开发每周谈Vol19 | Ceph Next 2016 闭门会议资讯独家大放送</a>(12/26)</li>
-<li><a href="https://www.xsky.com/tec/ceph-weekly-vol-20/" target="_blank" rel="external">Ceph开发每周谈Vol 20 | NVMe Over Fabric/Kernel Multi Queue</a>(12/26)</li>
-<li><a href="http://mp.weixin.qq.com/s/h9mz5gWN8tKRz8by2-Sn6w" target="_blank" rel="external">Ceph开发每周谈Vol 104 | NFS Ganesha VS Kernel Client</a>(12/27)</li>
-<li><a href="https://www.xsky.com/tec/ceph-weekly-vol-21/" target="_blank" rel="external">Ceph开发每周谈Vol 21 | ZetaScale | CMP/WriteSame</a>(12/27)</li>
-<li><a href="https://www.xsky.com/tec/ceph-weekly-vol-22/" target="_blank" rel="external">Ceph开发每周谈Vol 22 | 全球最大Ceph集群到底有多大？</a>(12/28)</li>
-<li><a href="https://www.xsky.com/tec/ceph-weekly-vol-23/" target="_blank" rel="external">Ceph开发每周谈vol23｜BlueStore新动向</a>(12/28)</li>
-<li><a href="https://www.xsky.com/tec/ceph-weekly-vol-24/" target="_blank" rel="external">Ceph开发每周谈 Vol 24｜Jewel 10.2.1 第一个 Bug 修复版本释出</a>(12/28)</li>
-<li><a href="https://www.xsky.com/tec/ceph-weekly-vol-24-2/" target="_blank" rel="external">Ceph开发每周谈 Vol 25 | Ceph &amp; DPDK 网络插件开源</a>(12/29)</li>
-<li><a href="https://www.xsky.com/tec/ceph-weekly-vol-27/" target="_blank" rel="external">Ceph开发每周谈Vol 27｜主线分支默认启用 AsyncMessenger</a>(12/29)</li>
-<li><a href="https://www.xsky.com/tec/ceph-weekly-vol-28/" target="_blank" rel="external">Ceph开发每周谈 Vol 28 | OSD 心跳 | Jewel RBD 测试</a>(12/30)</li>
-<li><a href="https://www.xsky.com/tec/ceph-weekly-vol-29/" target="_blank" rel="external">Ceph开发每周谈 Vol 29 — RBD Cache 警告: 数据不一致风险</a>(12/30)</li>
-<li><a href="https://www.xsky.com/tec/ceph-weekly-vol-30/" target="_blank" rel="external">Ceph开发每周谈 Vol 30 — ISA-L 和 BlueStore 性能有哪些进展？</a>(12/30)</li>
-<li><a href="http://blog.csdn.net/haoel/article/details/2879" target="_blank" rel="external">用GDB调试程序（一）</a>(12/31) <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i></li>
-<li><a href="http://blog.csdn.net/haoel/article/details/2880" target="_blank" rel="external">用GDB调试程序（二）</a>(12/31) <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i></li>
-<li><a href="http://blog.csdn.net/haoel/article/details/2881" target="_blank" rel="external">用GDB调试程序（三）</a>(12/31) <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i></li>
-<li><a href="http://blog.csdn.net/haoel/article/details/2882" target="_blank" rel="external">用GDB调试程序（四）</a>(12/31) <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i></li>
-<li><a href="http://blog.csdn.net/haoel/article/details/2883" target="_blank" rel="external">用GDB调试程序（五）</a>(12/31) <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i></li>
-<li><a href="http://blog.csdn.net/haoel/article/details/2884" target="_blank" rel="external">用GDB调试程序（六）</a>(12/31) <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i></li>
-<li><a href="http://blog.csdn.net/haoel/article/details/2885" target="_blank" rel="external">用GDB调试程序（七）</a>(12/31) <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i></li>
-<li><a href="http://www.zphj1987.com/2017/04/26/rados-put-strip-debug/" target="_blank" rel="external">rados put striper功能的调试</a>(12/31) <i class="fa fa-star"></i></li>
-<li><a href="https://ivanjobs.github.io/2016/05/11/prepare-ceph-dev-env.html" target="_blank" rel="external">准备Ceph开发环境</a>(12/31) <i class="fa fa-star"></i></li>
-<li><a href="https://my.oschina.net/u/2460844/blog/515353" target="_blank" rel="external">ceph编译源码、单机搭建调试环境</a>(12/31) <i class="fa fa-star"></i></li>
-</ol>
+<h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>整个测试框架打包和发布都是通过RPM的方式，方便测试人员一键部署。部署之后测试工作由<code>supervisor</code>管理，实时监控后台进程的运行状态，发生异常时可以进行重启等自动化操作。所有读写操作都是通过<code>python</code> 连接NAS服务，无需做任何挂载工作。主要测试工作是通过<code>celery</code>实现任务调度，支持并行多个NAS服务的读写测试，<code>broker</code>和<code>backend store</code>都采用了<code>rabbitmq</code>。后端注册了<code>register</code>、<code>nfs</code>、<code>cifs</code>和<code>ftp</code>四个<code>job</code>，定时每<code>10</code>分钟执行一次，设置最大开启<code>worker</code>数为<code>5</code>个。<code>Job</code>注册进消息队列中后，<code>celery worker</code>会自动去消费，针对服务器中不同的<code>NAS</code>服务进行读写操作，每个任务的执行结果最后都会记录在日志中，出了异常通过邮件通知管理员。</p>
+<h2 id="系统架构"><a href="#系统架构" class="headerlink" title="系统架构"></a>系统架构</h2><p>整个项目的框架图如下：</p>
+<p><img src="http://ow0mgad6r.bkt.clouddn.com/NAS_Stable_Test%E6%A1%86%E6%9E%B6%E5%9B%BE.png" alt="Nas_Stable_Test架构图"></p>
+<h2 id="NAS服务读写流程"><a href="#NAS服务读写流程" class="headerlink" title="NAS服务读写流程"></a>NAS服务读写流程</h2><p>由于每个<code>NAS</code>服务的测试方式是一致的，所以下面就以单个<code>NAS</code>服务的流程来介绍。首先<code>client</code>端向<code>server</code>的<code>NAS</code>服务端口发起连接，<code>server</code>端接收到<code>client</code>端的请求后建立连接。<code>Client</code>在<code>/tmp</code>目录下生成固定大小<code>1G</code>的文件，并且记录该文件的<code>MD5</code>值，然后将该文件上传至远端NAS服务目录（即对<code>NAS</code>服务进行写操作），上传完成后将该文件从本地删除。接着对之前上传至<code>NAS</code>服务目录的文件进行下载（即对<code>NAS</code>服务进行读操作），下载完成后再次记录文件<code>MD5</code>值，并删除掉远端<code>NAS</code>服务目录对应的文件。最后对两次记录的<code>MD5</code>值进行比较，判断上传和下载的文件是否一致，并将比较结果记录在日志中，再次删除本地下载的文件。<code>NAS</code>服务读写流程图如下：</p>
+<p><img src="http://ow0mgad6r.bkt.clouddn.com/NAS_Stable_Test%E8%AF%BB%E5%86%99%E6%B5%81%E7%A8%8B%E5%9B%BE.png" alt="Nas_Stable_Test流程图"></p>
+<h2 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h2><h3 id="安装libnfs"><a href="#安装libnfs" class="headerlink" title="安装libnfs"></a>安装libnfs</h3><p>通过<code>pip</code>安装：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">pip install libnfs</div></pre></td></tr></table></figure>
+<p>一般会报这个错：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">libnfs/libnfs_wrap.c:2969:25: fatal error: nfsc/libnfs.h: No such file or directory</div></pre></td></tr></table></figure>
+<p>这个错看起来是缺少这个头文件的包，但是通过<code>yum search libnfs</code>是找不到相关的包的，所以我们只能去官网下载<code>rpm</code>包然后在安装：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">## 下载rpm</div><div class="line">wget http://li.nux.ro/download/nux/dextop/el7/x86_64//libnfs-1.9.8-1.el7.nux.x86_64.rpm</div><div class="line">wget http://li.nux.ro/download/nux/dextop/el7/x86_64//libnfs-devel-1.9.8-1.el7.nux.x86_64.rpm</div><div class="line">## 安装rpm</div><div class="line">yum localinstall libnfs-1.9.8-1.el7.nux.x86_64.rpm</div><div class="line">yum localinstall libnfs-devel-1.9.8-1.el7.nux.x86_64.rpm</div></pre></td></tr></table></figure>
+<h3 id="安装pysmb"><a href="#安装pysmb" class="headerlink" title="安装pysmb"></a>安装pysmb</h3><p>这个比较简单，直接<code>pip</code>安装就可以了，也没遇到什么问题。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">pip install pysmb</div></pre></td></tr></table></figure>
+<h2 id="NAS服务相关代码实现"><a href="#NAS服务相关代码实现" class="headerlink" title="NAS服务相关代码实现"></a>NAS服务相关代码实现</h2><p>这里只贴出部分<code>python</code>连接或者操作具体<code>Nas</code>服务的代码实现，如果想要了解或者贡献整个项目，请关注：<a href="https://github.com/tony-yin/python_nas" target="_blank" rel="external">Github python_nas项目</a></p>
+<h3 id="NFS"><a href="#NFS" class="headerlink" title="NFS"></a>NFS</h3><h4 id="Connect"><a href="#Connect" class="headerlink" title="Connect"></a>Connect</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">def open(self):</div><div class="line">    self.nfs = libnfs.NFS(&apos;nfs://&#123;&#125;&apos;.format(self.mount_point))        </div><div class="line">    log.info(&apos;nfs connect successfully!&apos;)</div></pre></td></tr></table></figure>
+<h4 id="Read"><a href="#Read" class="headerlink" title="Read"></a>Read</h4><p>这里有个关键点就是分段读写文件，避免内存溢出。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">def read(self):</div><div class="line">	log.info(&apos;nfs read start...&apos;)</div><div class="line">	a = self.nfs.open(&apos;/&#123;&#125;&apos;.format(self.filename), mode=&apos;r&apos;)          </div><div class="line">	with open(self.download_path, &apos;a&apos;) as f:                          </div><div class="line">    	while True: </div><div class="line">        	content = a.read(1024*1024)                               </div><div class="line">        	if content == &apos;&apos;:</div><div class="line">            	break</div><div class="line">        	f.write(content)                                          </div><div class="line">	a.close()</div><div class="line">    log.info(&apos;nfs read end...&apos;)</div></pre></td></tr></table></figure>
+<h4 id="Write"><a href="#Write" class="headerlink" title="Write"></a>Write</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">def write(self, content):                                             </div><div class="line">	log.info(&apos;nfs write start...&apos;)                                    </div><div class="line">	a = self.nfs.open(&apos;/&#123;&#125;&apos;.format(self.filename), mode=&apos;w+&apos;)         </div><div class="line">	a.seek(self.file_size)</div><div class="line">	a.write(content)</div><div class="line">	a.close()</div><div class="line">	log.info(&apos;nfs write end...&apos;)</div></pre></td></tr></table></figure>
+<h4 id="Delete"><a href="#Delete" class="headerlink" title="Delete"></a>Delete</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">def delete(self):</div><div class="line">    log.info(&apos;nfs file delete start...&apos;)</div><div class="line">	self.nfs.unlink(&apos;/&#123;&#125;&apos;.format(self.filename))</div><div class="line">	log.info(&apos;nfs file delete end...&apos;)</div></pre></td></tr></table></figure>
+<h3 id="CIFS"><a href="#CIFS" class="headerlink" title="CIFS"></a>CIFS</h3><h4 id="Connect-1"><a href="#Connect-1" class="headerlink" title="Connect"></a>Connect</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">def open(self):</div><div class="line">    self.smb = SMBConnection(</div><div class="line">        self.username,</div><div class="line">        self.password,</div><div class="line">        self.my_name.encode(&apos;utf-8&apos;),</div><div class="line">        self.remote_name.encode(&apos;utf-8&apos;),</div><div class="line">        use_ntlm_v2=True</div><div class="line">    )</div><div class="line">    self.smb.connect(self.host, self.port)</div><div class="line">    log.info(&apos;cifs connect successfully!&apos;)</div></pre></td></tr></table></figure>
+<h4 id="Read-1"><a href="#Read-1" class="headerlink" title="Read"></a>Read</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">def read(self):</div><div class="line">    log.info(&apos;cifs read start...&apos;)</div><div class="line">    file_obj = open(self.download_path, &apos;wb&apos;)</div><div class="line">    self.smb.retrieveFile(</div><div class="line">        self.directory,</div><div class="line">        self.filename,</div><div class="line">        file_obj</div><div class="line">    )</div><div class="line">    file_obj.close()</div><div class="line">    log.info(&apos;cifs read end...&apos;)</div></pre></td></tr></table></figure>
+<h4 id="Write-1"><a href="#Write-1" class="headerlink" title="Write"></a>Write</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">def write(self):</div><div class="line">	log.info(&apos;cifs write start...&apos;)</div><div class="line">	file_obj = open(self.client_path, &apos;rb&apos;)</div><div class="line">	self.smb.storeFile(</div><div class="line">    	self.directory,</div><div class="line">    	self.filename,</div><div class="line">    	file_obj</div><div class="line"> 	)</div><div class="line">	file_obj.close()</div><div class="line">	log.info(&apos;cifs write end...&apos;)</div></pre></td></tr></table></figure>
+<h4 id="Delete-1"><a href="#Delete-1" class="headerlink" title="Delete"></a>Delete</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">def delete(self):</div><div class="line">	log.info(&apos;cifs delete start...&apos;)</div><div class="line">	self.smb.deleteFiles(&apos;path3&apos;, self.filename)</div><div class="line">	log.info(&apos;cifs delete end...&apos;)</div></pre></td></tr></table></figure>
+<h4 id="Close"><a href="#Close" class="headerlink" title="Close"></a>Close</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">def close(self):</div><div class="line">    self.smb.close()</div></pre></td></tr></table></figure>
+<h3 id="FTP"><a href="#FTP" class="headerlink" title="FTP"></a>FTP</h3><h4 id="Connect-2"><a href="#Connect-2" class="headerlink" title="Connect"></a>Connect</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">def open(self):</div><div class="line">    self.ftp = FTP()</div><div class="line">    self.ftp.connect(</div><div class="line">        host=self.host.encode(&apos;utf-8&apos;),</div><div class="line">        port=self.port.encode(&apos;utf-8&apos;)</div><div class="line">    )</div><div class="line">    self.ftp.login(self.username, self.password)</div><div class="line">    log.info(&apos;ftp connect successfully!&apos;)</div></pre></td></tr></table></figure>
+<h4 id="Read-2"><a href="#Read-2" class="headerlink" title="Read"></a>Read</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">def read(self):</div><div class="line">	log.info(&apos;ftp read start...&apos;)                                     </div><div class="line">	buff_size = 1024</div><div class="line">	fp = open(self.download_path, &quot;wb&quot;)                               </div><div class="line">	self.ftp.retrbinary(</div><div class="line">    	&quot;RETR &#123;&#125;&quot;.format(self.filename),</div><div class="line">    	fp.write,</div><div class="line">    	buff_size                                                     </div><div class="line">	)   </div><div class="line">	fp.close()</div><div class="line">	log.info(&apos;ftp read end...&apos;)</div></pre></td></tr></table></figure>
+<h4 id="Write-2"><a href="#Write-2" class="headerlink" title="Write"></a>Write</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">def write(self):</div><div class="line">	log.info(&apos;ftp write start...&apos;)                                    </div><div class="line">	buff_size = 1024</div><div class="line"> 	fp = open(self.client_path, &quot;rb&quot;)</div><div class="line">	self.ftp.storbinary(</div><div class="line">    	&quot;STOR &#123;&#125;&quot;.format(self.filename),</div><div class="line">    	fp,</div><div class="line">   		buff_size</div><div class="line">	)</div><div class="line">	fp.close()</div><div class="line">	log.info(&apos;ftp write end...&apos;)</div></pre></td></tr></table></figure>
+<h4 id="Delete-2"><a href="#Delete-2" class="headerlink" title="Delete"></a>Delete</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">def delete(self):</div><div class="line">	log.info(&apos;ftp delete start...&apos;)</div><div class="line">	self.ftp.delete(self.filename)</div><div class="line">	log.info(&apos;ftp delete end...&apos;)</div></pre></td></tr></table></figure>
+<h4 id="Close-1"><a href="#Close-1" class="headerlink" title="Close"></a>Close</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">def close(self):</div><div class="line">    self.ftp.quit(self.filename)</div></pre></td></tr></table></figure>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>还有一些其他的<code>API</code>接口就不一一赘述了，具体实现细节大家可以查看<code>github</code>上面的项目代码，具体地址我会在文末贴出。整个项目的核心是通过<code>celery</code>实现任务的调度，还有全程通过<code>python</code>连接和操作<code>nas</code>服务，后续还会不断完善~~~</p>
+<blockquote>
+<p><strong>项目地址：</strong><a href="https://github.com/tony-yin/python_nas" target="_blank" rel="external">https://github.com/tony-yin/python_nas</a></p>
+</blockquote>
+<p><br></p>
+<blockquote>
+<p>参考列表：<br><a href="https://pypi.org/project/libnfs/" target="_blank" rel="external">python 操作samba文件服务器</a><br><a href="https://blog.csdn.net/u014245412/article/details/72286348" target="_blank" rel="external">python libnfs</a></p>
+</blockquote>
 
       
 
@@ -401,13 +372,13 @@ good</code>，说明这篇文章内容很好，有深度有广度，是一篇很
   
     
     <div class="copyright">
-        <p><span>本文标题:</span><a  href="/2018/01/01/Daily-Article-2017/">Daily Article Vol 1 - (2017/11/1 ~ 2017/12/31)</a></p>
+        <p><span>本文标题:</span><a  href="/2018/04/08/python_nas_stable_test/">基于Python的NAS稳定性测试框架</a></p>
         <p><span>文章作者:</span><a  href="/" title="访问 Tony 的个人博客">Tony</a></p>
-        <p><span>发布时间:</span>2018年01月01日 - 10时13分</p>
-        <p><span>最后更新:</span>2018年03月09日 - 15时16分</p>
+        <p><span>发布时间:</span>2018年04月08日 - 13时07分</p>
+        <p><span>最后更新:</span>2018年04月20日 - 10时02分</p>
         <p>
-            <span>原始链接:</span><a class="post-url" href="/2018/01/01/Daily-Article-2017/" title="Daily Article Vol 1 - (2017/11/1 ~ 2017/12/31)">https://tony-yin.github.io/2018/01/01/Daily-Article-2017/</a>
-            <span class="copy-path" data-clipboard-text="原文: https://tony-yin.github.io/2018/01/01/Daily-Article-2017/　　作者: Tony" title=""></span>
+            <span>原始链接:</span><a class="post-url" href="/2018/04/08/python_nas_stable_test/" title="基于Python的NAS稳定性测试框架">https://tony-yin.github.io/2018/04/08/python_nas_stable_test/</a>
+            <span class="copy-path" data-clipboard-text="原文: https://tony-yin.github.io/2018/04/08/python_nas_stable_test/　　作者: Tony" title=""></span>
         </p>
         <p>
             <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/cn/" title="中国大陆 (CC BY-NC-SA 3.0 CN)" target = "_blank">"署名-非商用-相同方式共享 3.0"</a> 转载请保留原文链接及作者。
@@ -418,18 +389,9 @@ good</code>，说明这篇文章内容很好，有深度有广度，是一篇很
 
 <nav id="article-nav">
   
-    <a  href="/2018/01/05/RaidCardToolUtils/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption"><</strong>
-      <div class="article-nav-title">
-        
-          利用Raid卡工具获取逻辑盘是否为SSD
-        
-      </div>
-    </a>
   
-  
-    <a  href="/2017/12/21/Everything-is-a-file/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">译：一切皆文件</div>
+    <a  href="/2018/04/01/Daily_Article_Vol4/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Daily Article Vol 4 - (2018/3/1 ~ 2018/3/31)</div>
       <strong class="article-nav-caption">></strong>
     </a>
   
@@ -441,7 +403,7 @@ good</code>，说明这篇文章内容很好，有深度有广度，是一篇很
 
     <div id="toc" class="toc-article">
     <strong class="toc-title">文章目录</strong>
-    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#十一月"><span class="toc-number">1.</span> <span class="toc-text">十一月</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#十二月"><span class="toc-number">2.</span> <span class="toc-text">十二月</span></a></li></ol>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#概述"><span class="toc-number">1.</span> <span class="toc-text">概述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#系统架构"><span class="toc-number">2.</span> <span class="toc-text">系统架构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#NAS服务读写流程"><span class="toc-number">3.</span> <span class="toc-text">NAS服务读写流程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#准备工作"><span class="toc-number">4.</span> <span class="toc-text">准备工作</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#安装libnfs"><span class="toc-number">4.1.</span> <span class="toc-text">安装libnfs</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#安装pysmb"><span class="toc-number">4.2.</span> <span class="toc-text">安装pysmb</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#NAS服务相关代码实现"><span class="toc-number">5.</span> <span class="toc-text">NAS服务相关代码实现</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#NFS"><span class="toc-number">5.1.</span> <span class="toc-text">NFS</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Connect"><span class="toc-number">5.1.1.</span> <span class="toc-text">Connect</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Read"><span class="toc-number">5.1.2.</span> <span class="toc-text">Read</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Write"><span class="toc-number">5.1.3.</span> <span class="toc-text">Write</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Delete"><span class="toc-number">5.1.4.</span> <span class="toc-text">Delete</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CIFS"><span class="toc-number">5.2.</span> <span class="toc-text">CIFS</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Connect-1"><span class="toc-number">5.2.1.</span> <span class="toc-text">Connect</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Read-1"><span class="toc-number">5.2.2.</span> <span class="toc-text">Read</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Write-1"><span class="toc-number">5.2.3.</span> <span class="toc-text">Write</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Delete-1"><span class="toc-number">5.2.4.</span> <span class="toc-text">Delete</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Close"><span class="toc-number">5.2.5.</span> <span class="toc-text">Close</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#FTP"><span class="toc-number">5.3.</span> <span class="toc-text">FTP</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Connect-2"><span class="toc-number">5.3.1.</span> <span class="toc-text">Connect</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Read-2"><span class="toc-number">5.3.2.</span> <span class="toc-text">Read</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Write-2"><span class="toc-number">5.3.3.</span> <span class="toc-text">Write</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Delete-2"><span class="toc-number">5.3.4.</span> <span class="toc-text">Delete</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Close-1"><span class="toc-number">5.3.5.</span> <span class="toc-text">Close</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-number">6.</span> <span class="toc-text">总结</span></a></li></ol>
 </div>
 <style>
     .left-col .switch-btn {
@@ -523,13 +485,11 @@ good</code>，说明这篇文章内容很好，有深度有广度，是一篇很
 
     <div class="scroll" id="post-nav-button">
         
-            <a  href="/2018/01/05/RaidCardToolUtils/" title="上一篇: 利用Raid卡工具获取逻辑盘是否为SSD">
-                <i class="fa fa-angle-left"></i>
-            </a>
+            <a  href="/" title="回到主页"><i class="fa fa-home"></i></a>
         
         <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
         
-            <a  href="/2017/12/21/Everything-is-a-file/" title="下一篇: 译：一切皆文件">
+            <a  href="/2018/04/01/Daily_Article_Vol4/" title="下一篇: Daily Article Vol 4 - (2018/3/1 ~ 2018/3/31)">
                 <i class="fa fa-angle-right"></i>
             </a>
         
