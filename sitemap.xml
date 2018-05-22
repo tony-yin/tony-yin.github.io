@@ -2,16 +2,23 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>https://tony-yin.github.io/2018/05/02/Django_CAS_Token_Solution/</loc>
+    <loc>https://tony-yin.github.io/2018/05/12/Megaraid_Location/</loc>
     
-    <lastmod>2018-05-21T02:11:06.462Z</lastmod>
+    <lastmod>2018-05-22T02:17:29.635Z</lastmod>
     
   </url>
   
   <url>
-    <loc>https://tony-yin.github.io/2018/05/12/Megaraid_Location/</loc>
+    <loc>https://tony-yin.github.io/2018/05/20/Ctdb-Rados-2/</loc>
     
-    <lastmod>2018-05-21T02:09:02.533Z</lastmod>
+    <lastmod>2018-05-22T02:09:31.594Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://tony-yin.github.io/2018/05/02/Django_CAS_Token_Solution/</loc>
+    
+    <lastmod>2018-05-21T02:11:06.462Z</lastmod>
     
   </url>
   

@@ -4,16 +4,16 @@
 
     
   <url>
-    <loc>https://tony-yin.github.io/2018/05/02/Django_CAS_Token_Solution/</loc>
-    <lastmod>2018-05-21T02:11:06.462Z</lastmod>
+    <loc>https://tony-yin.github.io/2018/05/12/Megaraid_Location/</loc>
+    <lastmod>2018-05-22T02:17:29.635Z</lastmod>
     <data>
         <display>
-        <title>Django CAS Token 解决方案</title>
-        <pubTime>2018-05-02T05:07:06.000Z</pubTime>
+        <title>Megaraid 磁盘定位</title>
+        <pubTime>2018-05-12T05:07:06.000Z</pubTime>
         
-        <tag>Django</tag>
+        <tag>Ceph</tag>
          
-        <tag>CAS</tag>
+        <tag>Megaraid</tag>
          
          
            
@@ -26,16 +26,38 @@
 
     
   <url>
-    <loc>https://tony-yin.github.io/2018/05/12/Megaraid_Location/</loc>
-    <lastmod>2018-05-21T02:09:02.533Z</lastmod>
+    <loc>https://tony-yin.github.io/2018/05/20/Ctdb-Rados-2/</loc>
+    <lastmod>2018-05-22T02:09:31.594Z</lastmod>
     <data>
         <display>
-        <title>Megaraid 磁盘定位</title>
-        <pubTime>2018-05-12T05:07:06.000Z</pubTime>
+        <title>Ctdb Rados（二）：多场景断网高可用</title>
+        <pubTime>2018-05-20T05:07:06.000Z</pubTime>
         
         <tag>Ceph</tag>
          
-        <tag>Megaraid</tag>
+        <tag>Ctdb</tag>
+         
+         
+           
+             
+              <breadCrumb title="tech" url="https://tony-yin.github.io/categories/tech/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://tony-yin.github.io/2018/05/02/Django_CAS_Token_Solution/</loc>
+    <lastmod>2018-05-21T02:11:06.462Z</lastmod>
+    <data>
+        <display>
+        <title>Django CAS Token 解决方案</title>
+        <pubTime>2018-05-02T05:07:06.000Z</pubTime>
+        
+        <tag>Django</tag>
+         
+        <tag>CAS</tag>
          
          
            

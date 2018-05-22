@@ -7,21 +7,21 @@
   
   
   
-  <title>Daily Article Vol 1 - (2017/11/1 ~ 2017/12/31) | Tony&#39;s blog</title>
+  <title>Ctdb Rados（二）：多场景断网高可用 | Tony&#39;s blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="书籍可以系统的学习一些知识，并且需要比较长的时间集中注意力学习。而现在网络越来越发达，各种社区的流行，还有开源分享精神的传播，导致现在互联网上很多优秀文章、博客、微信公众号等出现，这些文章贴近热点，往往都很新，并且篇幅有长有短，我们可以利用一些碎片时间来吸收这些知识。优秀文章很多，所以每天读个一两篇文章可以作为一个习惯养成，这样日积月累相信会获益良多。 Daily Article系列就是为了记">
-<meta name="keywords" content="Read,Daily-Article">
+  <meta name="description" content="之前写过一篇文章【Ctdb Rados方式导致All Banned的问题】，谈到了当ctdb将recovery lock设置成rados的方式后，断网master节点会造成所有ctdb节点All Banned，主要原因是master意外断网没有释放锁，其他节点无法获取到锁，当时的解决方案是每5分钟检查一次ctdb状态，如果连续两次发生了All Banned的情况，则手动删除lock，这种做法在">
+<meta name="keywords" content="Ceph,Ctdb">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Daily Article Vol 1 - (2017&#x2F;11&#x2F;1 ~ 2017&#x2F;12&#x2F;31)">
-<meta property="og:url" content="https://tony-yin.github.io/2018/01/01/Daily-Article-2017/index.html">
+<meta property="og:title" content="Ctdb Rados（二）：多场景断网高可用">
+<meta property="og:url" content="https://tony-yin.github.io/2018/05/20/Ctdb-Rados-2/index.html">
 <meta property="og:site_name" content="Tony&#39;s blog">
-<meta property="og:description" content="书籍可以系统的学习一些知识，并且需要比较长的时间集中注意力学习。而现在网络越来越发达，各种社区的流行，还有开源分享精神的传播，导致现在互联网上很多优秀文章、博客、微信公众号等出现，这些文章贴近热点，往往都很新，并且篇幅有长有短，我们可以利用一些碎片时间来吸收这些知识。优秀文章很多，所以每天读个一两篇文章可以作为一个习惯养成，这样日积月累相信会获益良多。 Daily Article系列就是为了记">
-<meta property="og:image" content="http://ow0mgad6r.bkt.clouddn.com/2018-1b.png">
-<meta property="og:updated_time" content="2018-03-09T07:16:20.311Z">
+<meta property="og:description" content="之前写过一篇文章【Ctdb Rados方式导致All Banned的问题】，谈到了当ctdb将recovery lock设置成rados的方式后，断网master节点会造成所有ctdb节点All Banned，主要原因是master意外断网没有释放锁，其他节点无法获取到锁，当时的解决方案是每5分钟检查一次ctdb状态，如果连续两次发生了All Banned的情况，则手动删除lock，这种做法在">
+<meta property="og:image" content="http://ow0mgad6r.bkt.clouddn.com/ping-600x450.png">
+<meta property="og:updated_time" content="2018-05-22T02:09:31.594Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Daily Article Vol 1 - (2017&#x2F;11&#x2F;1 ~ 2017&#x2F;12&#x2F;31)">
-<meta name="twitter:description" content="书籍可以系统的学习一些知识，并且需要比较长的时间集中注意力学习。而现在网络越来越发达，各种社区的流行，还有开源分享精神的传播，导致现在互联网上很多优秀文章、博客、微信公众号等出现，这些文章贴近热点，往往都很新，并且篇幅有长有短，我们可以利用一些碎片时间来吸收这些知识。优秀文章很多，所以每天读个一两篇文章可以作为一个习惯养成，这样日积月累相信会获益良多。 Daily Article系列就是为了记">
-<meta name="twitter:image" content="http://ow0mgad6r.bkt.clouddn.com/2018-1b.png">
+<meta name="twitter:title" content="Ctdb Rados（二）：多场景断网高可用">
+<meta name="twitter:description" content="之前写过一篇文章【Ctdb Rados方式导致All Banned的问题】，谈到了当ctdb将recovery lock设置成rados的方式后，断网master节点会造成所有ctdb节点All Banned，主要原因是master意外断网没有释放锁，其他节点无法获取到锁，当时的解决方案是每5分钟检查一次ctdb状态，如果连续两次发生了All Banned的情况，则手动删除lock，这种做法在">
+<meta name="twitter:image" content="http://ow0mgad6r.bkt.clouddn.com/ping-600x450.png">
   
     <link rel="alternative" href="/atom.xml" title="Tony&#39;s blog" type="application/atom+xml">
   
@@ -276,11 +276,11 @@
     </div>
 </nav>
 
-      <div class="body-wrap"><article id="post-Daily-Article-2017" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-Ctdb-Rados-2" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a  href="/2018/01/01/Daily-Article-2017/" class="article-date">
-      <time datetime="2018-01-01T02:13:25.000Z" itemprop="datePublished">2018-01-01</time>
+      <a  href="/2018/05/20/Ctdb-Rados-2/" class="article-date">
+      <time datetime="2018-05-20T05:07:06.000Z" itemprop="datePublished">2018-05-20</time>
 </a>
 
     </div>
@@ -294,7 +294,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      Daily Article Vol 1 - (2017/11/1 ~ 2017/12/31)
+      Ctdb Rados（二）：多场景断网高可用
     </h1>
   
 
@@ -304,13 +304,13 @@
       <div class="article-info article-info-post">
         
     <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/read/">read</a>
+    <a class="article-category-link" href="/categories/tech/">tech</a>
     </div>
 
 
         
     <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Daily-Article/">Daily-Article</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Read/">Read</a></li></ul>
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Ceph/">Ceph</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Ctdb/">Ctdb</a></li></ul>
     </div>
 
         <div class="clearfix"></div>
@@ -320,78 +320,44 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <center><img src="http://ow0mgad6r.bkt.clouddn.com/2018-1b.png" alt="Daily Article 2"></center>
+        <center><img src="http://ow0mgad6r.bkt.clouddn.com/ping-600x450.png" alt="ping"></center>
 
-<p>书籍可以系统的学习一些知识，并且需要比较长的时间集中注意力学习。而现在网络越来越发达，各种社区的流行，还有开源分享精神的传播，导致现在互联网上很多优秀文章、博客、微信公众号等出现，这些文章贴近热点，往往都很新，并且篇幅有长有短，我们可以利用一些碎片时间来吸收这些知识。优秀文章很多，所以每天读个一两篇文章可以作为一个习惯养成，这样日积月累相信会获益良多。</p>
-<p><code>Daily Article</code>系列就是为了记录我每天的阅读历程，以月为单位，每个月出一篇大的总结，一是为了约束自己每天按时按量阅读，也给自己打气，二是给自己每个月的阅读内容做一个总结，用于回头阅读，三是将其中有质量的内容分享给有需要的人。由于我是从<code>2017</code>九月才可以记录，所以趁着年底索性把十一和十二月的记录一次性发出来。</p>
-<p>目前我采取星星的方式给文章评级，最高三颗星，最低没有星星，一般我放上来的都不会是太水的文章，所以如果是一般的工具类或者没有很大特色的文章我不会进行标记。一颗星表示<code>good</code>，即这篇文章有特色，对自己有帮助；两颗星表示<code>very
-good</code>，说明这篇文章内容很好，有深度有广度，是一篇很有质量的文章；三颗星表示<code>excellent</code>，说明这篇文章不仅内容技术讲的很到位，文章文笔也很出色，实践结合理论，让人很容易理解，看完后收获很大或者是顿悟，总而言之是一片很优秀的文章。当然我还会在这三个等级中结合半个星星进行调节，反正就是对文章的一个个人看法而已，仁者见仁，智者见智吧。</p>
+<p>之前写过一篇文章【<a href="http://www.tony-yin.top/2018/04/20/Ctdb-Rados-All-Banned/" target="_blank" rel="external">Ctdb Rados方式导致All Banned的问题</a>】，谈到了当<code>ctdb</code>将<code>recovery lock</code>设置成<code>rados</code>的方式后，断网<code>master</code>节点会造成所有<code>ctdb</code>节点<code>All Banned</code>，主要原因是<code>master</code>意外断网没有释放锁，其他节点无法获取到锁，当时的解决方案是每<code>5</code>分钟检查一次<code>ctdb</code>状态，如果连续两次发生了<code>All Banned</code>的情况，则手动删除<code>lock</code>，这种做法在最近的测试中遇到了一些问题，本文对这些问题进行剖析并对相应的解决方案进行分享。</p>
 <a id="more"></a>
-<h2 id="十一月"><a href="#十一月" class="headerlink" title="十一月"></a>十一月</h2><ol>
-<li><a href="http://www.xuxiaopang.com/08/23/easy-ceph-CephX/" target="_blank" rel="external">大话 Ceph – CephX 那点事儿</a>(11/15-11/17) <i class="fa fa-star"></i><i class="fa fa-star"></i></li>
-<li><a href="http://mp.weixin.qq.com/s/UiDd-1zwrqIsk3-KEcAQaA" target="_blank" rel="external">互联网架构为什么要做服务化？</a>(11/18) <i class="fa fa-star"></i></li>
-<li><a href="http://blog.csdn.net/liuaigui/article/details/7163482" target="_blank" rel="external">基于开源软件构建高性能集群NAS系统</a>(11/20)</li>
-<li><a href="http://blog.csdn.net/whycold/article/details/11898249" target="_blank" rel="external">虚拟IP原理</a>(11/21)</li>
-<li><a href="http://mp.weixin.qq.com/s/8aI9jS0SXJl5NdcM3TPYuQ" target="_blank" rel="external">究竟为什么要引入数据库中间件</a>(11/27) <i class="fa fa-star"></i><i class="fa fa-star-half-full"></i></li>
-<li><a href="https://time.geekbang.org/column/article/183" target="_blank" rel="external">程序员如何用技术变现（上）</a>(11/28)</li>
-<li><a href="https://time.geekbang.org/column/article/294" target="_blank" rel="external">Go语言，Docker和新技术</a>(11/28)</li>
-<li><a href="https://h5.ele.me/hongbao/#hardware_id=&amp;is_lucky_group=True&amp;lucky_number=10&amp;track_id=&amp;platform=0&amp;sn=29dad164ef30a0c9&amp;theme_id=1745&amp;device_id=" target="_blank" rel="external">秒杀系统架构优化思路</a>(11/29) <i class="fa fa-star"></i></li>
-</ol>
-<h2 id="十二月"><a href="#十二月" class="headerlink" title="十二月"></a>十二月</h2><ol>
-<li><a href="https://time.geekbang.org/column/article/294" target="_blank" rel="external">Ceph开发每周谈首发</a>(12/1)</li>
-<li><a href="https://www.xsky.com/tec/ceph-weekly-vol-1/" target="_blank" rel="external">Ceph开发每周谈Vol2</a>(12/4)</li>
-<li><a href="https://www.xsky.com/tec/ceph-weekly-vol-1/" target="_blank" rel="external">Ceph开发每周谈Vol3</a>(12/5)</li>
-<li><a href="https://www.xsky.com/tec/ceph-weekly-vol-1/" target="_blank" rel="external">Ceph开发每周谈Vol4</a>(12/5)</li>
-<li><a href="https://www.thomas-krenn.com/en/wiki/Ext4_Filesystem" target="_blank" rel="external">Ext4 Filesystem</a>(12/11)</li>
-<li><a href="https://www.hecticgeek.com/2015/01/ext4-external-hard-disk-busy-at-idle-fix/" target="_blank" rel="external">Formatted ‘Ext4’ External Hard Disk is Busy</a>(12/12)</li>
-<li><a href="https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=bfff68738f1cb5c93dab1114634cea02aae9e7ba" target="_blank" rel="external">Ext4lazyinit detail</a>(12/12)</li>
-<li><a href="https://www.xsky.com/tec/ceph-weekly-vol-5/" target="_blank" rel="external">Ceph开发每周谈Vol5</a>(12/13)</li>
-<li><a href="https://www.xsky.com/tec/ceph-weekly-vol-6/" target="_blank" rel="external">Ceph开发每周谈Vol6</a>(12/13)</li>
-<li><a href="https://www.xsky.com/tec/ceph-weekly-vol-7/" target="_blank" rel="external">Ceph开发每周谈Vol7</a>(12/13)</li>
-<li><a href="https://www.xsky.com/tec/ceph-weekly-vol-8/" target="_blank" rel="external">Ceph开发每周谈Vol8—社区加快开发节奏, CDS 变更为 CDM, Firefly 结束版本支持</a>(12/13)</li>
-<li><a href="https://www.xsky.com/tec/ceph-weekly-vol-9/" target="_blank" rel="external">Ceph开发每周谈Vol9—Ceph开发每周谈 Vol 9—加密、压缩、EC 全场景支持</a>(12/13)</li>
-<li><a href="https://www.xsky.com/tec/ceph-weekly-vol-10/" target="_blank" rel="external">Ceph开发每周谈 Vol 10—NFS 已经被 RadosGW 支持|用户态</a>(12/13)</li>
-<li><a href="https://www.xsky.com/tec/ceph-weekly-vol-11/" target="_blank" rel="external">Ceph开发每周谈 Vol 11—RadosGW 支持 KeyStone V3, AWS v4, 多站点多活</a>(12/13)</li>
-<li><a href="https://www.xsky.com/tec/ceph-weekly-vol-12/" target="_blank" rel="external">Ceph开发每周谈 Vol 12—Scrub 增强，Jewel 小结</a>(12/13)</li>
-<li><a href="http://link.zhihu.com/?target=https%3A//opensource.com/life/16/10/introduction-linux-filesystems" target="_blank" rel="external">An introduction to Linux filesystems</a>(12/15 ~ 12/17) <i class="fa fa-star"></i><i class="fa fa-star"></i></li>
-<li><a href="http://www.cnblogs.com/ggjucheng/archive/2012/01/08/2316599.html" target="_blank" rel="external">linux lsof命令详解</a>(12/18)</li>
-<li><a href="http://blog.csdn.net/stpeace/article/details/47069215" target="_blank" rel="external">linux中的ldd命令简介</a>(12/18)</li>
-<li><a href="http://blog.csdn.net/qq_26819733/article/details/50610129" target="_blank" rel="external">linux–&gt;ldd命令的介绍</a>(12/18)</li>
-<li><a href="http://www.cnblogs.com/lyongde/p/4190588.html" target="_blank" rel="external">【Linux笔记】ldconfig、ldd</a>(12/18)</li>
-<li><a href="https://zhuanlan.zhihu.com/p/27875337" target="_blank" rel="external">Linux 的 EXT4 文件系统的历史、特性以及最佳实践</a>(12/18) <i class="fa fa-star"></i><i class="fa fa-star"></i> </li>
-<li><a href="http://www.ruanyifeng.com/blog/2011/12/inode.html" target="_blank" rel="external">理解inode</a>(12/18)</li>
-<li><a href="https://www.xsky.com/tec/ceph-weekly-vol-13/" target="_blank" rel="external">Ceph开发每周谈 Vol 13 — Cache on SPDK / bufferlist</a>(12/19)</li>
-<li><a href="https://www.xsky.com/tec/ceph-weekly-vol-14/" target="_blank" rel="external">Ceph开发每周谈 Vol 14 — LDAP/ BlueStore SMR</a>(12/19)</li>
-<li><a href="https://www.xsky.com/tec/ceph-weekly-vol-15/" target="_blank" rel="external">Ceph开发每周谈 Vol 15—Unix Socket / BlueStore 压缩和 Checksum</a>(12/19)</li>
-<li><a href="https://opensource.com/life/15/9/everything-is-a-file" target="_blank" rel="external">Everything is a file</a>(12/21) <i class="fa fa-star"></i><i class="fa fa-star"></i></li>
-<li><a href="http://www.tldp.org/LDP/sag/html/dev-fs.html" target="_blank" rel="external">Overview of the Directory Tree</a>(12/21)</li>
-<li><a href="https://www.xsky.com/news/20171218/" target="_blank" rel="external">没错，它就是存储界的“大胃王”</a>(12/22)</li>
-<li><a href="https://www.xsky.com/tec/ceph-weekly-vol-16/" target="_blank" rel="external">Ceph开发每周谈 Vol 16—Jewel RC Release!</a>(12/22)</li>
-<li><a href="https://www.xsky.com/tec/ceph-weekly-vol-17/" target="_blank" rel="external">Ceph开发每周谈 Vol 17 — ARM Status | RBD 一致性组合 | 内核模块 转至元数据结尾</a>(12/22)</li>
-<li><a href="https://www.xsky.com/tec/ceph-weekly-vol-18/" target="_blank" rel="external">Ceph开发每周谈 Vol 18 — EXT4 废弃论战? | 去重支持</a>(12/22)</li>
-<li><a href="https://www.xsky.com/tec/ceph-weekly-vol-19/" target="_blank" rel="external">Ceph开发每周谈Vol19 | Ceph Next 2016 闭门会议资讯独家大放送</a>(12/26)</li>
-<li><a href="https://www.xsky.com/tec/ceph-weekly-vol-20/" target="_blank" rel="external">Ceph开发每周谈Vol 20 | NVMe Over Fabric/Kernel Multi Queue</a>(12/26)</li>
-<li><a href="http://mp.weixin.qq.com/s/h9mz5gWN8tKRz8by2-Sn6w" target="_blank" rel="external">Ceph开发每周谈Vol 104 | NFS Ganesha VS Kernel Client</a>(12/27)</li>
-<li><a href="https://www.xsky.com/tec/ceph-weekly-vol-21/" target="_blank" rel="external">Ceph开发每周谈Vol 21 | ZetaScale | CMP/WriteSame</a>(12/27)</li>
-<li><a href="https://www.xsky.com/tec/ceph-weekly-vol-22/" target="_blank" rel="external">Ceph开发每周谈Vol 22 | 全球最大Ceph集群到底有多大？</a>(12/28)</li>
-<li><a href="https://www.xsky.com/tec/ceph-weekly-vol-23/" target="_blank" rel="external">Ceph开发每周谈vol23｜BlueStore新动向</a>(12/28)</li>
-<li><a href="https://www.xsky.com/tec/ceph-weekly-vol-24/" target="_blank" rel="external">Ceph开发每周谈 Vol 24｜Jewel 10.2.1 第一个 Bug 修复版本释出</a>(12/28)</li>
-<li><a href="https://www.xsky.com/tec/ceph-weekly-vol-24-2/" target="_blank" rel="external">Ceph开发每周谈 Vol 25 | Ceph &amp; DPDK 网络插件开源</a>(12/29)</li>
-<li><a href="https://www.xsky.com/tec/ceph-weekly-vol-27/" target="_blank" rel="external">Ceph开发每周谈Vol 27｜主线分支默认启用 AsyncMessenger</a>(12/29)</li>
-<li><a href="https://www.xsky.com/tec/ceph-weekly-vol-28/" target="_blank" rel="external">Ceph开发每周谈 Vol 28 | OSD 心跳 | Jewel RBD 测试</a>(12/30)</li>
-<li><a href="https://www.xsky.com/tec/ceph-weekly-vol-29/" target="_blank" rel="external">Ceph开发每周谈 Vol 29 — RBD Cache 警告: 数据不一致风险</a>(12/30)</li>
-<li><a href="https://www.xsky.com/tec/ceph-weekly-vol-30/" target="_blank" rel="external">Ceph开发每周谈 Vol 30 — ISA-L 和 BlueStore 性能有哪些进展？</a>(12/30)</li>
-<li><a href="http://blog.csdn.net/haoel/article/details/2879" target="_blank" rel="external">用GDB调试程序（一）</a>(12/31) <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i></li>
-<li><a href="http://blog.csdn.net/haoel/article/details/2880" target="_blank" rel="external">用GDB调试程序（二）</a>(12/31) <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i></li>
-<li><a href="http://blog.csdn.net/haoel/article/details/2881" target="_blank" rel="external">用GDB调试程序（三）</a>(12/31) <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i></li>
-<li><a href="http://blog.csdn.net/haoel/article/details/2882" target="_blank" rel="external">用GDB调试程序（四）</a>(12/31) <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i></li>
-<li><a href="http://blog.csdn.net/haoel/article/details/2883" target="_blank" rel="external">用GDB调试程序（五）</a>(12/31) <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i></li>
-<li><a href="http://blog.csdn.net/haoel/article/details/2884" target="_blank" rel="external">用GDB调试程序（六）</a>(12/31) <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i></li>
-<li><a href="http://blog.csdn.net/haoel/article/details/2885" target="_blank" rel="external">用GDB调试程序（七）</a>(12/31) <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i></li>
-<li><a href="http://www.zphj1987.com/2017/04/26/rados-put-strip-debug/" target="_blank" rel="external">rados put striper功能的调试</a>(12/31) <i class="fa fa-star"></i></li>
-<li><a href="https://ivanjobs.github.io/2016/05/11/prepare-ceph-dev-env.html" target="_blank" rel="external">准备Ceph开发环境</a>(12/31) <i class="fa fa-star"></i></li>
-<li><a href="https://my.oschina.net/u/2460844/blog/515353" target="_blank" rel="external">ceph编译源码、单机搭建调试环境</a>(12/31) <i class="fa fa-star"></i></li>
-</ol>
+<blockquote>
+<p>完整代码地址：<a href="https://github.com/tony-yin/Ctdb-Rados-Monitor" target="_blank" rel="external">https://github.com/tony-yin/Ctdb-Rados-Monitor</a></p>
+</blockquote>
+<h2 id="场景一"><a href="#场景一" class="headerlink" title="场景一"></a>场景一</h2><p>如果基于原来的做法，<code>ctdb</code>发生<code>All Banned</code>的情况，需要十分钟的监控时间加上两分钟左右的<code>recovery</code>时间，也就是说大概需要十二分钟才能恢复<code>ctdb</code>服务，这样看来高可用有点名实其副了，这个也会明显地影响存储业务的正常运行。后来，我们讨论出新的方案：每<code>5s</code>检查一次<code>ctdb</code>的状态，<code>All Banned</code>的次数累计到<code>5</code>次才确定为该故障场景，然后手动删除<code>lock</code>，最终要保证<code>ctdb</code>能够在<code>2min</code>内完成恢复。</p>
+<h3 id="问题1"><a href="#问题1" class="headerlink" title="问题1"></a>问题1</h3><p><code>cron tab</code>最短周期只支持分钟级别，所以如何<code>5s</code>检查一次便是一个问题。</p>
+<p>代码是死的，人是活的，虽然<code>cron tab</code>只支持分钟级别，但是我们可以每分钟调用一个脚本，然后在这个脚本中遍历<code>12</code>次，每次调用<code>ctdb monitor</code>脚本，然后<code>sleep 5s</code>，这样就可以达到每<code>5s</code>检查一次<code>ctdb</code>的效果了。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"># ctdb_monitor</div><div class="line">* * * * * root /etc/ctdb/cron-seconds</div><div class="line"></div><div class="line"># cron-seconds</div><div class="line">#!/bin/bash</div><div class="line">for((i=1;i&lt;=12;i++));do</div><div class="line">    ../monitor_ctdb</div><div class="line">sleep 5</div><div class="line">done</div></pre></td></tr></table></figure>
+<p>这样检查到<code>ctdb</code>发生<code>All Banned</code>情况，只需要花费<code>25s</code>，剩下的就是<code>recovery</code>的时间了。</p>
+<h2 id="问题2"><a href="#问题2" class="headerlink" title="问题2"></a>问题2</h2><p>当<code>ctdb master</code>节点的<code>network</code>服务断掉，其他两个节点（我的开发环境是三节点的虚拟机环境）便会选举一个为<code>master</code>节点，然后去获取<code>lock</code>，因为原<code>master</code>没有释放锁，导致所有节点<code>All Banned</code>，即使我们手动删除了锁，但是这时候其他两个节点仍然处于<code>Banned</code>的情况，需要等到<code>Ban Timeout</code>才会再次尝试获取锁并开始恢复过程，这个<code>timeout</code>的时间是<code>300s</code>，即<code>5min</code>，这显然是我们不能接受的，所以我们要在删除<code>lock</code>后，重启所有节点的<code>ctdb</code>服务。</p>
+<p>不过该如何触发该重启操作呢？</p>
+<p>我们在删除<code>lock</code>后将<code>ctdb</code>所有节点的<code>ip</code>作为对象存进<code>rados</code>中，然后在每<code>5s</code>监控的脚本中，查看<code>rados</code>中是否存在本节点的<code>ip</code>对象，如果有，则尝试重启<code>ctdb</code>操作，重启后便删除该对象。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line">function save_nodes_ip() &#123;</div><div class="line">    nodes=$(ctdb listnodes)</div><div class="line">    for node in $nodes; do</div><div class="line">        echo &quot;$node&quot; &gt; $node</div><div class="line">        rados -p rbd put $node $node</div><div class="line">        rm -f $node</div><div class="line">    done</div><div class="line">&#125;</div><div class="line"></div><div class="line">function get_current_node_ips() &#123;</div><div class="line">    ips=$(/usr/sbin/ip addr | grep &quot;inet &quot; | awk &apos;&#123;print $2&#125;&apos;)</div><div class="line">    echo $ips</div><div class="line">&#125;</div><div class="line"></div><div class="line">function monitor_nodes_ip_in_rados() &#123;</div><div class="line">    ips=$(get_current_node_ips)</div><div class="line">    for ipinfo in $ips; do</div><div class="line">        ip=$&#123;ipinfo%/*&#125;</div><div class="line">        if $(timeout 10 rados -p rbd ls | grep &quot;$ip&quot; -qw); then</div><div class="line">            systemctl restart ctdb</div><div class="line">            rados -p rbd rm $ip</div><div class="line">        fi</div><div class="line">    done</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>至于为什么三个节点的<code>ip</code>都要存入<code>rados</code>，这个是因为原<code>master</code>节点恢复网络后，<code>ctdb</code>服务的状态为<code>failed</code>，同样需要重启<code>ctdb</code>服务才能正常恢复原<code>master</code>节点。 </p>
+<p><strong>注意：</strong></p>
+<p>这边有两个问题，当时浪费了我不少时间，问题不是多么深奥，但是不易发现。。。</p>
+<p>第一个问题便是<code>ips=$(/usr/sbin/ip addr | grep &quot;inet &quot; | awk &#39;{print $2}&#39;)</code>这行代码，原来的写法是<code>ips=$(ip addr | grep &quot;inet &quot; | awk &#39;{print $2}&#39;)</code>，当时发现<code>ip</code>总是获取不到，然后无论是命令行还是脚本运行都可以正常获取到，后来还是同事提醒才发现在<code>crontab</code>脚本中，<code>shell</code>命令默认是<code>/usr/bin/</code>下的，而<code>ip</code>命令则是<code>/usr/sbin/</code>下，所以这里的命令我们需要全路径。（这个需要格外注意！！！被坑的不要不要的。。。）</p>
+<p>第二个问题便是<code>rados -p rbd ls | grep &quot;$ip&quot; -qw</code>这行代码，当时没注意写成了<code>rados -p rbd ls | grep &quot;$ip&quot; -w</code>，发现<code>if</code>判断时常有问题，一开始还以为不能<code>grep</code>数字什么的，后来才发现没有加<code>q</code>，<code>q</code>表示安静模式，不打印任何标准输出，如果有匹配的内容则立即返回状态值0。</p>
+<h2 id="场景二"><a href="#场景二" class="headerlink" title="场景二"></a>场景二</h2><p>“断网”这个词不够具体，在实际生产环境中，一个集群中，一般都会有多个网络，就拿本人的<code>ceph</code>集群环境来说（物理机环境，并非前文提及的虚拟机开发环境），<code>ceph</code>有个<code>public network</code>和<code>cluster network</code>，而<code>ctdb</code>也有它的<code>node network</code>和<code>public network</code>，<code>ceph</code>的<code>public</code>和<code>ctdb</code>的<code>public</code>是同一网段，<code>ceph</code>的<code>cluster</code>是单独网段，<code>ctdb</code>的<code>node</code>是单独的网段。所以<code>ctdb master</code>断网可以分为三种情况：</p>
+<ul>
+<li>拔掉<code>ctdb master node</code>网段网线</li>
+<li>拔掉<code>ctdb master public</code>网段网线</li>
+<li>断掉<code>ctdb master network</code>服务</li>
+</ul>
+<p>当拔掉<code>ctdb master public</code>网段网线，这没有什么好说的，<code>ctdb master</code>节点服务还存在，只是<code>master</code>节点上的<code>public address</code>不可用了，会漂移到其他节点上。</p>
+<h3 id="问题1-1"><a href="#问题1-1" class="headerlink" title="问题1"></a>问题1</h3><p>当拔掉<code>ctdb master node</code>网段网线后，<code>master</code>节点仍然有<code>public</code>网卡，（<strong>这里注意</strong>）它仍然可以获取其他<code>ctdb</code>节点的状态，而其他节点却不可以获取它的状态，因为<code>master</code>的<code>node</code>节点<code>ip</code>不存在。所以造成的结果就是原<code>master</code>节点还默认自己是<code>master</code>节点，而其他的节点却又选举出了新的<code>master</code>，我们的脚本因为<code>All Banned</code>手动删除了<code>lock</code>，这时候其他节点可以正常恢复<code>ctdb</code>服务，但是当<code>ctdb master</code>节点断网再恢复后，它还以为自己是<code>master</code>，会不断去获取锁，而原来的锁已经被我们手动删除，这时候新的锁被新的<code>master</code>掌握，所以此时产生脑裂，我们要牺牲原<code>master</code>节点，也就是断网节点，所以需要重启它。这个重启触发机制我们是通过在每次删除<code>lock</code>之后在<code>rados</code>中存入<code>ctdb</code>所有节点的<code>ip</code>作为<code>object</code>（这就是为什么要存入所有节点的<code>ip</code>），然后只要发现有这个<code>object</code>便执行<code>ctdb</code>重启操作，然后便删除这个对象。至于为什么要存所有对象是因为除了原<code>master</code>需要重启之外，另外两个正常节点发生<code>All Banned</code>的情况，默认<code>timeout</code>时间是<code>300s</code>（这个上面也提到过），我们为了减少恢复时间，直接在删除<code>lock</code>后重启<code>ctdb</code>；</p>
+<h2 id="问题2-1"><a href="#问题2-1" class="headerlink" title="问题2"></a>问题2</h2><p>由于现在<code>ctdb</code>的锁是放在<code>rados</code>中，而不是以前的<code>cephfs</code>的方式了。所以当<code>master</code>断网再恢复时，它会不断地去<code>rados</code>获取他原来的锁，这是获取锁的进程越来越多，会阻塞住<code>rados</code>服务，我们可以通过<code>ps -ef | grep rados_helper</code>看到进程不断变多，那么<code>rados</code>服务不能正常读写就影响到我们上一条的机制，不能读<code>rados</code>中是否含有本节点<code>ip</code>的对象，就没办法进行重启操作，那么这样它就会不断地继续获取<code>lock</code>，所以我们在这里又加了一个机制，如果<code>ps -ef | grep rados_helper</code>的数目超过<code>6</code>个，就默认启动重启<code>ctdb</code>服务。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">function monitor_get_lock_timeout() &#123;</div><div class="line">    count=$(ps -ef | grep rados_helper | wc -l)</div><div class="line">    if [ $count -ge $RADOS_HELPER_PROCESS_MAX ]; then</div><div class="line">        systemctl restart ctdb</div><div class="line">        update_last_ctdb_restart_time</div><div class="line">    fi</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="问题3"><a href="#问题3" class="headerlink" title="问题3"></a>问题3</h2><p><code>ctdb</code>目前重启的机制有点多，有自身自带的故障重启，也有我们监控脚本的异常情况，很容易发生重复重启，还有可能<code>rados_helper</code>堆积的进程很多，比如<code>20</code>个，我们的脚本是<code>5s</code>一次，也许<code>20</code>个的时候重启了，过<code>5s</code>，进程释放也需要时间，可能此时还有<code>10</code>个，那么大于我们规定的<code>6</code>个，就会继续重启，这种重复重启没有必要，所以我们要加上<code>ctdb</code>重启的周期限定<code>2min</code>。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">function get_ctdb_restart_interval() &#123;</div><div class="line">    last_time=$(get_ctdb_restart_last_time)</div><div class="line">    if [ -z &quot;$last_time&quot; ]; then</div><div class="line">        interval=$(expr $RESTART_CTDB_INTERVAL_MAX + 1)</div><div class="line">    else</div><div class="line">        current_time=$(date +%s)</div><div class="line">        interval=$(expr $current_time - $last_time)</div><div class="line">    fi</div><div class="line">    echo $interval</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>考虑并解决以上提到的问题，基本上可以覆盖以上三种断网的场景了，在监控和管理<code>ctdb</code>的过程中，一定要小心，不能影响到业务正常运行。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>生产环境网络结构错综复杂，往往在虚拟机上开发的功能当时好好的，到了物理机上面测试会发生各种问题，此时，我们首先要搞清楚网络拓扑结构，熟悉硬件配置，各网段的作用和相互之间的关联，这样遇到问题我们可以顺藤摸瓜，同样<code>ctdb</code>的原理也需要掌握才能了解它各种行为的触发机制，才能更好的定制化监控和管理。之后我会花点时间好好地研究一下<code>ctdb</code>，然后再单独做分享。</p>
+<blockquote>
+<p>完整代码地址：<a href="https://github.com/tony-yin/Ctdb-Rados-Monitor" target="_blank" rel="external">https://github.com/tony-yin/Ctdb-Rados-Monitor</a></p>
+</blockquote>
 
       
 
@@ -401,13 +367,13 @@ good</code>，说明这篇文章内容很好，有深度有广度，是一篇很
   
     
     <div class="copyright">
-        <p><span>本文标题:</span><a  href="/2018/01/01/Daily-Article-2017/">Daily Article Vol 1 - (2017/11/1 ~ 2017/12/31)</a></p>
+        <p><span>本文标题:</span><a  href="/2018/05/20/Ctdb-Rados-2/">Ctdb Rados（二）：多场景断网高可用</a></p>
         <p><span>文章作者:</span><a  href="/" title="访问 Tony 的个人博客">Tony</a></p>
-        <p><span>发布时间:</span>2018年01月01日 - 10时13分</p>
-        <p><span>最后更新:</span>2018年03月09日 - 15时16分</p>
+        <p><span>发布时间:</span>2018年05月20日 - 13时07分</p>
+        <p><span>最后更新:</span>2018年05月22日 - 10时09分</p>
         <p>
-            <span>原始链接:</span><a class="post-url" href="/2018/01/01/Daily-Article-2017/" title="Daily Article Vol 1 - (2017/11/1 ~ 2017/12/31)">https://tony-yin.github.io/2018/01/01/Daily-Article-2017/</a>
-            <span class="copy-path" data-clipboard-text="原文: https://tony-yin.github.io/2018/01/01/Daily-Article-2017/　　作者: Tony" title=""></span>
+            <span>原始链接:</span><a class="post-url" href="/2018/05/20/Ctdb-Rados-2/" title="Ctdb Rados（二）：多场景断网高可用">https://tony-yin.github.io/2018/05/20/Ctdb-Rados-2/</a>
+            <span class="copy-path" data-clipboard-text="原文: https://tony-yin.github.io/2018/05/20/Ctdb-Rados-2/　　作者: Tony" title=""></span>
         </p>
         <p>
             <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/cn/" title="中国大陆 (CC BY-NC-SA 3.0 CN)" target = "_blank">"署名-非商用-相同方式共享 3.0"</a> 转载请保留原文链接及作者。
@@ -418,18 +384,9 @@ good</code>，说明这篇文章内容很好，有深度有广度，是一篇很
 
 <nav id="article-nav">
   
-    <a  href="/2018/01/05/RaidCardToolUtils/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption"><</strong>
-      <div class="article-nav-title">
-        
-          利用Raid卡工具获取逻辑盘是否为SSD
-        
-      </div>
-    </a>
   
-  
-    <a  href="/2017/12/21/Everything-is-a-file/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">译：一切皆文件</div>
+    <a  href="/2018/05/12/Megaraid_Location/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Megaraid 磁盘定位</div>
       <strong class="article-nav-caption">></strong>
     </a>
   
@@ -441,7 +398,7 @@ good</code>，说明这篇文章内容很好，有深度有广度，是一篇很
 
     <div id="toc" class="toc-article">
     <strong class="toc-title">文章目录</strong>
-    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#十一月"><span class="toc-number">1.</span> <span class="toc-text">十一月</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#十二月"><span class="toc-number">2.</span> <span class="toc-text">十二月</span></a></li></ol>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#场景一"><span class="toc-number">1.</span> <span class="toc-text">场景一</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#问题1"><span class="toc-number">1.1.</span> <span class="toc-text">问题1</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#问题2"><span class="toc-number">2.</span> <span class="toc-text">问题2</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#场景二"><span class="toc-number">3.</span> <span class="toc-text">场景二</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#问题1-1"><span class="toc-number">3.1.</span> <span class="toc-text">问题1</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#问题2-1"><span class="toc-number">4.</span> <span class="toc-text">问题2</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#问题3"><span class="toc-number">5.</span> <span class="toc-text">问题3</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-number">6.</span> <span class="toc-text">总结</span></a></li></ol>
 </div>
 <style>
     .left-col .switch-btn {
@@ -523,13 +480,11 @@ good</code>，说明这篇文章内容很好，有深度有广度，是一篇很
 
     <div class="scroll" id="post-nav-button">
         
-            <a  href="/2018/01/05/RaidCardToolUtils/" title="上一篇: 利用Raid卡工具获取逻辑盘是否为SSD">
-                <i class="fa fa-angle-left"></i>
-            </a>
+            <a  href="/" title="回到主页"><i class="fa fa-home"></i></a>
         
         <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
         
-            <a  href="/2017/12/21/Everything-is-a-file/" title="下一篇: 译：一切皆文件">
+            <a  href="/2018/05/12/Megaraid_Location/" title="下一篇: Megaraid 磁盘定位">
                 <i class="fa fa-angle-right"></i>
             </a>
         
