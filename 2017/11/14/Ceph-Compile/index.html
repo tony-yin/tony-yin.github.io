@@ -17,7 +17,7 @@
 <meta property="og:site_name" content="Tony&#39;s blog">
 <meta property="og:description" content="如今入门Ceph的时候，大家一般用ceph-deploy工具比较多，这个工具的确很强大，很方便，对应的也就是很无脑。如果之后想深入Ceph或者想在生产环境中部署Ceph的话，就得熟悉Ceph源码编译了。这对我们熟悉Ceph的feature的变化，component的相互关系以及围绕Ceph各种定制化扩展都大有裨益。本文就笔者Ceph源码编译过程和遇到的问题作出分享，希望有人能够得益于此。">
 <meta property="og:image" content="http://ow0mgad6r.bkt.clouddn.com/ceph-600x450.png">
-<meta property="og:updated_time" content="2017-11-30T03:09:12.602Z">
+<meta property="og:updated_time" content="2018-05-22T02:40:41.560Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Ceph 编译（Giant版本）">
 <meta name="twitter:description" content="如今入门Ceph的时候，大家一般用ceph-deploy工具比较多，这个工具的确很强大，很方便，对应的也就是很无脑。如果之后想深入Ceph或者想在生产环境中部署Ceph的话，就得熟悉Ceph源码编译了。这对我们熟悉Ceph的feature的变化，component的相互关系以及围绕Ceph各种定制化扩展都大有裨益。本文就笔者Ceph源码编译过程和遇到的问题作出分享，希望有人能够得益于此。">
@@ -328,90 +328,90 @@
 <li>OS： Centos 6.8</li>
 <li>Ceph： Giant</li>
 </ul>
-<h2 id="源码下载"><a href="#源码下载" class="headerlink" title="源码下载"></a>源码下载</h2><h3 id="指定-giant-分支"><a href="#指定-giant-分支" class="headerlink" title="指定 giant 分支"></a>指定 giant 分支</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git clone -b giant git://github.com/ceph/ceph.git</div></pre></td></tr></table></figure>
-<h3 id="下载子模块"><a href="#下载子模块" class="headerlink" title="下载子模块"></a>下载子模块</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git submodule update --init --recursive</div></pre></td></tr></table></figure>
+<h2 id="源码下载"><a href="#源码下载" class="headerlink" title="源码下载"></a>源码下载</h2><h3 id="指定-giant-分支"><a href="#指定-giant-分支" class="headerlink" title="指定 giant 分支"></a>指定 giant 分支</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git clone -b giant git://github.com/ceph/ceph.git</div></pre></td></tr></table></figure>
+<h3 id="下载子模块"><a href="#下载子模块" class="headerlink" title="下载子模块"></a>下载子模块</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git submodule update --init --recursive</div></pre></td></tr></table></figure>
 <p>这一步我始终更新不了，尝试了一些办法未果，所以就去直接手动下载了源码，这个问题以后有时间看下</p>
-<h2 id="预检"><a href="#预检" class="headerlink" title="预检"></a>预检</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">cd ceph </div><div class="line">./autogen.sh </div><div class="line">./configure</div></pre></td></tr></table></figure>
+<h2 id="预检"><a href="#预检" class="headerlink" title="预检"></a>预检</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">cd ceph </div><div class="line">./autogen.sh </div><div class="line">./configure</div></pre></td></tr></table></figure>
 <h3 id="Autogen"><a href="#Autogen" class="headerlink" title="Autogen"></a>Autogen</h3><p>这一步会频繁的报错一些<code>m4</code>文件没有，这需要我们手动创建这些<code>m4</code>文件夹即可，</p>
 <p>一开始我在<code>ceph</code>根目录创建了<code>m4</code>文件夹，并生成了包括<code>acx_pthread.m4</code>在内的文件，但是还是报错：<code>acx_pthread.m4 not exist</code>，后来发现这时候已经<strong>切换目录</strong>了，不止一个地方需要<code>m4</code>文件夹，一共有这几个地方需要手动创建目录：<code>mkdir m4</code></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">./src/rocksdb/m4</div><div class="line">./src/gtest/m4</div><div class="line">./src/erasure-code/jerasure/jerasure/m4</div><div class="line">./src/erasure-code/jerasure/gf-complete/m4</div><div class="line">./m4</div></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">./src/rocksdb/m4</div><div class="line">./src/gtest/m4</div><div class="line">./src/erasure-code/jerasure/jerasure/m4</div><div class="line">./src/erasure-code/jerasure/gf-complete/m4</div><div class="line">./m4</div></pre></td></tr></table></figure>
 <p>如果还是报错一些文件不存在，并且通过上述方法不能自行初始化生成的话，可以从网上或者已经编译过的<code>ceph</code>环境拷贝过来</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">报错：umdefined macro</div></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">报错：umdefined macro</div></pre></td></tr></table></figure>
 <p>下载地址：<a href="https://www.gnu.org/software/autoconf-archive/ax_check_classpath.html#ax_check_classpath" target="_blank" rel="external">https://www.gnu.org/software/autoconf-archive/ax_check_classpath.html#ax_check_classpath</a></p>
 <h3 id="Configure"><a href="#Configure" class="headerlink" title="Configure"></a>Configure</h3><p>这一步是编译过程中可能出错的次数最多的，因为可能会因为你的环境缺少相应的包不断报错。不过数量虽多，解决起来还是比较容易的，就根据报错的缺包对应下载安装就好了，下面我先给出一个所有包的安装步骤，然后再针对每个报错环节给出具体的解决方案</p>
-<h4 id="总体解决方案"><a href="#总体解决方案" class="headerlink" title="总体解决方案"></a>总体解决方案</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"># 1. 通过yum安装所有可以安装的包</div><div class="line">yum install -y yasm libuuid-devel libblkid-devel libudev-devel cryptopp-devel fuse-devel libunwind-devel libedit-devel libatomic_ops-devel snappy-devel leveldb-devel libaio-devel xfsprogs-devel boost*</div><div class="line"></div><div class="line"># 2. 部分yum不能安装的可以通过rpm安装</div><div class="line">wget https://github.com/gperftools/gperftools/releases/download/gperftools-2.2.1/gperftools-2.2.1.tar.gz</div><div class="line">tar -zxvf gperftools-2.2.1.tar.g</div><div class="line">cd gperftools-2.2.1</div><div class="line">./configure</div><div class="line">make</div><div class="line">make install</div></pre></td></tr></table></figure>
+<h4 id="总体解决方案"><a href="#总体解决方案" class="headerlink" title="总体解决方案"></a>总体解决方案</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#</span> 1. 通过yum安装所有可以安装的包</div><div class="line">yum install -y yasm libuuid-devel libblkid-devel libudev-devel cryptopp-devel fuse-devel libunwind-devel libedit-devel libatomic_ops-devel snappy-devel leveldb-devel libaio-devel xfsprogs-devel boost*</div><div class="line"></div><div class="line"><span class="meta">#</span> 2. 部分yum不能安装的可以通过rpm安装</div><div class="line">wget https://github.com/gperftools/gperftools/releases/download/gperftools-2.2.1/gperftools-2.2.1.tar.gz</div><div class="line">tar -zxvf gperftools-2.2.1.tar.g</div><div class="line">cd gperftools-2.2.1</div><div class="line">./configure</div><div class="line">make</div><div class="line">make install</div></pre></td></tr></table></figure>
 <h4 id="具体解决方案"><a href="#具体解决方案" class="headerlink" title="具体解决方案"></a>具体解决方案</h4><p>1.yasm</p>
 <p>报错：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">yasm command not found</div></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">yasm command not found</div></pre></td></tr></table></figure>
 <p>解决：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">yum install yasm -y</div></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">yum install yasm -y</div></pre></td></tr></table></figure>
 <p>2.libuuid</p>
 <p>报错：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">configure: error: libuuid not found</div></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">configure: error: libuuid not found</div></pre></td></tr></table></figure>
 <p>解决：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">yum install libuuid-devel -y</div></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">yum install libuuid-devel -y</div></pre></td></tr></table></figure>
 <p>3.libblkid</p>
 <p>报错：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">configure: error: blkid/blkid.h not found (libblkid-dev, libblkid-devel)</div></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">configure: error: blkid/blkid.h not found (libblkid-dev, libblkid-devel)</div></pre></td></tr></table></figure>
 <p>解决：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">yum install libblkid-devel -y</div></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">yum install libblkid-devel -y</div></pre></td></tr></table></figure>
 <p>4.libudev</p>
 <p>报错</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">configure: error: libudev.h not found (libudev-dev, libudev-devel)</div></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">configure: error: libudev.h not found (libudev-dev, libudev-devel)</div></pre></td></tr></table></figure>
 <p>解决：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">yum install libudev-devel -y</div></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">yum install libudev-devel -y</div></pre></td></tr></table></figure>
 <p>5.crypto</p>
 <p>报错：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">configure: error: no suitable crypto library found</div></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">configure: error: no suitable crypto library found</div></pre></td></tr></table></figure>
 <p> 解决：</p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">yum install cryptopp-devel -y</div></pre></td></tr></table></figure>
+ <figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">yum install cryptopp-devel -y</div></pre></td></tr></table></figure>
 <p> 6.fuse</p>
 <p> 报错：</p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">configure: error: no FUSE found (use --without-fuse to disable)</div></pre></td></tr></table></figure>
+ <figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">configure: error: no FUSE found (use --without-fuse to disable)</div></pre></td></tr></table></figure>
 <p> 解决：</p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">yum install fuse-devel -y</div></pre></td></tr></table></figure>
+ <figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">yum install fuse-devel -y</div></pre></td></tr></table></figure>
 <p> 7.tcmalloc</p>
 <p> 报错：</p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">configure: error: no tcmalloc found (use --without-tcmalloc to disable)</div></pre></td></tr></table></figure>
+ <figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">configure: error: no tcmalloc found (use --without-tcmalloc to disable)</div></pre></td></tr></table></figure>
 <p> 解决：</p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"># 1. 需要先安装libunwind-devel，被gperftools依赖</div><div class="line"> yum install libunwind-devel -y</div><div class="line"></div><div class="line"># 2. 安装tcmalloc（yum无法安装，需要通过rpm的方式）</div><div class="line">wget https://github.com/gperftools/gperftools/releases/download/gperftools-2.2.1/gperftools-2.2.1.tar.gz</div><div class="line">tar -zxvf gperftools-2.2.1.tar.g</div><div class="line">cd gperftools-2.2.1</div><div class="line">./configure</div><div class="line">make</div><div class="line">make install</div></pre></td></tr></table></figure>
+ <figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#</span> 1. 需要先安装libunwind-devel，被gperftools依赖</div><div class="line"> yum install libunwind-devel -y</div><div class="line"></div><div class="line"><span class="meta">#</span> 2. 安装tcmalloc（yum无法安装，需要通过rpm的方式）</div><div class="line">wget https://github.com/gperftools/gperftools/releases/download/gperftools-2.2.1/gperftools-2.2.1.tar.gz</div><div class="line">tar -zxvf gperftools-2.2.1.tar.g</div><div class="line">cd gperftools-2.2.1</div><div class="line">./configure</div><div class="line">make</div><div class="line">make install</div></pre></td></tr></table></figure>
 <p>8.libedit</p>
 <p>报错：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">configure: error: No usable version of libedit found.</div></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">configure: error: No usable version of libedit found.</div></pre></td></tr></table></figure>
 <p>解决：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">yum install  libedit-devel -y</div></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">yum install  libedit-devel -y</div></pre></td></tr></table></figure>
 <p>9.libatomic-ops</p>
 <p>报错：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">configure: error: no libatomic-ops found (use --without-libatomic-ops to disable)</div></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">configure: error: no libatomic-ops found (use --without-libatomic-ops to disable)</div></pre></td></tr></table></figure>
 <p>解决：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">yum install libatomic_ops-devel  -y</div></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">yum install libatomic_ops-devel  -y</div></pre></td></tr></table></figure>
 <p>10.libsnappy</p>
 <p>报错：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">configure: error: libsnappy not found</div></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">configure: error: libsnappy not found</div></pre></td></tr></table></figure>
 <p>解决：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">yum install snappy-devel -y</div><div class="line"></div><div class="line">or </div><div class="line"></div><div class="line">wget ftp://195.220.108.108/linux/centos/6.9/os/x86_64/Packages/snappy-devel-1.1.0-1.el6.x86_64.rpm</div><div class="line">rpm -ivh snappy-devel-1.1.0-1.el6.x86_64.rpm</div></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">yum install snappy-devel -y</div><div class="line"></div><div class="line">or </div><div class="line"></div><div class="line">wget ftp://195.220.108.108/linux/centos/6.9/os/x86_64/Packages/snappy-devel-1.1.0-1.el6.x86_64.rpm</div><div class="line">rpm -ivh snappy-devel-1.1.0-1.el6.x86_64.rpm</div></pre></td></tr></table></figure>
 <p>11.libleveldb</p>
 <p>报错：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">configure: error: libleveldb not found</div></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">configure: error: libleveldb not found</div></pre></td></tr></table></figure>
 <p>解决：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">yum install leveldb-devel</div></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">yum install leveldb-devel</div></pre></td></tr></table></figure>
 <p>12.libaio</p>
 <p>报错：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">configure: error: libaio not found</div></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">configure: error: libaio not found</div></pre></td></tr></table></figure>
 <p>解决：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">yum install libaio-devel -y</div></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">yum install libaio-devel -y</div></pre></td></tr></table></figure>
 <p>13.libxfs</p>
 <p>报错：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">configure: error: xfs/xfs.h not found (--without-libxfs to disable)</div></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">configure: error: xfs/xfs.h not found (--without-libxfs to disable)</div></pre></td></tr></table></figure>
 <p>解决：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">yum -y install xfsprogs-devel</div></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">yum -y install xfsprogs-devel</div></pre></td></tr></table></figure>
 <p>14.boost</p>
 <p>报错：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Can&apos;t find boost spirit headers</div></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Can't find boost spirit headers</div></pre></td></tr></table></figure>
 <p>解决：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">yum install boost* -y</div></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">yum install boost* -y</div></pre></td></tr></table></figure>
 <h2 id="编译安装"><a href="#编译安装" class="headerlink" title="编译安装"></a>编译安装</h2><p>机器配置不好的话，编译需要时间比较长。可以使用<code>make -j</code>增加并发度，<code>4</code>表示同时执行的<code>make</code>方法数。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">make -j4</div><div class="line">make install（可选）</div></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">make -j4</div><div class="line">make install（可选）</div></pre></td></tr></table></figure>
 <h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p><code>ceph</code>手动源码编译遇到的问题还是蛮多的，如果不自己动手经历一下的话很多东西都不知道，当然这都是经验的积累，不断地锻炼自己解决问题的能力，要学会见招拆招，通过问题发现原理和本质。</p>
 
       
@@ -425,7 +425,7 @@
         <p><span>本文标题:</span><a  href="/2017/11/14/Ceph-Compile/">Ceph 编译（Giant版本）</a></p>
         <p><span>文章作者:</span><a  href="/" title="访问 Tony 的个人博客">Tony</a></p>
         <p><span>发布时间:</span>2017年11月14日 - 09时30分</p>
-        <p><span>最后更新:</span>2017年11月30日 - 11时09分</p>
+        <p><span>最后更新:</span>2018年05月22日 - 10时40分</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2017/11/14/Ceph-Compile/" title="Ceph 编译（Giant版本）">https://tony-yin.github.io/2017/11/14/Ceph-Compile/</a>
             <span class="copy-path" data-clipboard-text="原文: https://tony-yin.github.io/2017/11/14/Ceph-Compile/　　作者: Tony" title=""></span>

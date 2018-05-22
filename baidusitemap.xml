@@ -4,8 +4,74 @@
 
     
   <url>
+    <loc>https://tony-yin.github.io/2017/11/14/Ceph-Compile/</loc>
+    <lastmod>2018-05-22T02:40:41.560Z</lastmod>
+    <data>
+        <display>
+        <title>Ceph 编译（Giant版本）</title>
+        <pubTime>2017-11-14T01:30:29.000Z</pubTime>
+        
+        <tag>Ceph</tag>
+         
+        <tag>编译</tag>
+         
+         
+           
+             
+              <breadCrumb title="tech" url="https://tony-yin.github.io/categories/tech/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://tony-yin.github.io/2018/01/10/scp-and-ssh/</loc>
+    <lastmod>2018-05-22T02:38:06.246Z</lastmod>
+    <data>
+        <display>
+        <title>scp 免交互式和 ssh 免交互式脚本</title>
+        <pubTime>2018-01-10T15:40:46.000Z</pubTime>
+        
+        <tag>Script</tag>
+         
+        <tag>Linux</tag>
+         
+         
+           
+             
+              <breadCrumb title="tech" url="https://tony-yin.github.io/categories/tech/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://tony-yin.github.io/2018/03/09/Hardware-Test-Tool/</loc>
+    <lastmod>2018-05-22T02:37:23.917Z</lastmod>
+    <data>
+        <display>
+        <title>硬件环境测试环境模拟</title>
+        <pubTime>2018-03-09T06:35:06.000Z</pubTime>
+        
+        <tag>Ceph</tag>
+         
+        <tag>Test</tag>
+         
+         
+           
+             
+              <breadCrumb title="tech" url="https://tony-yin.github.io/categories/tech/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>https://tony-yin.github.io/2018/05/12/Megaraid_Location/</loc>
-    <lastmod>2018-05-22T02:17:29.635Z</lastmod>
+    <lastmod>2018-05-22T02:36:32.957Z</lastmod>
     <data>
         <display>
         <title>Megaraid 磁盘定位</title>
@@ -27,7 +93,7 @@
     
   <url>
     <loc>https://tony-yin.github.io/2018/05/20/Ctdb-Rados-2/</loc>
-    <lastmod>2018-05-22T02:09:31.594Z</lastmod>
+    <lastmod>2018-05-22T02:35:35.071Z</lastmod>
     <data>
         <display>
         <title>Ctdb Rados（二）：多场景断网高可用</title>
@@ -48,30 +114,8 @@
 
     
   <url>
-    <loc>https://tony-yin.github.io/2018/05/02/Django_CAS_Token_Solution/</loc>
-    <lastmod>2018-05-21T02:11:06.462Z</lastmod>
-    <data>
-        <display>
-        <title>Django CAS Token 解决方案</title>
-        <pubTime>2018-05-02T05:07:06.000Z</pubTime>
-        
-        <tag>Django</tag>
-         
-        <tag>CAS</tag>
-         
-         
-           
-             
-              <breadCrumb title="tech" url="https://tony-yin.github.io/categories/tech/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
     <loc>https://tony-yin.github.io/2018/04/20/Ctdb-Rados-All-Banned/</loc>
-    <lastmod>2018-05-09T03:07:35.619Z</lastmod>
+    <lastmod>2018-05-22T02:34:56.644Z</lastmod>
     <data>
         <display>
         <title>Ctdb Rados方式导致All Banned的问题</title>
@@ -84,6 +128,28 @@
         <tag>Rados</tag>
          
         <tag>HA</tag>
+         
+         
+           
+             
+              <breadCrumb title="tech" url="https://tony-yin.github.io/categories/tech/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://tony-yin.github.io/2018/05/02/Django_CAS_Token_Solution/</loc>
+    <lastmod>2018-05-22T02:34:12.628Z</lastmod>
+    <data>
+        <display>
+        <title>Django CAS Token 解决方案</title>
+        <pubTime>2018-05-02T05:07:06.000Z</pubTime>
+        
+        <tag>Django</tag>
+         
+        <tag>CAS</tag>
          
          
            
@@ -164,28 +230,6 @@
 
     
   <url>
-    <loc>https://tony-yin.github.io/2018/03/09/Hardware-Test-Tool/</loc>
-    <lastmod>2018-03-09T07:19:26.564Z</lastmod>
-    <data>
-        <display>
-        <title>硬件环境测试环境模拟</title>
-        <pubTime>2018-03-09T06:35:06.000Z</pubTime>
-        
-        <tag>Ceph</tag>
-         
-        <tag>Test</tag>
-         
-         
-           
-             
-              <breadCrumb title="tech" url="https://tony-yin.github.io/categories/tech/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
     <loc>https://tony-yin.github.io/2018/03/01/Daily-Article-Vol3/</loc>
     <lastmod>2018-03-09T07:18:32.159Z</lastmod>
     <data>
@@ -245,28 +289,6 @@
            
              
               <breadCrumb title="read" url="https://tony-yin.github.io/categories/read/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>https://tony-yin.github.io/2018/01/10/scp-and-ssh/</loc>
-    <lastmod>2018-01-30T12:51:35.223Z</lastmod>
-    <data>
-        <display>
-        <title>scp 免交互式和 ssh 免交互式脚本</title>
-        <pubTime>2018-01-10T15:40:46.000Z</pubTime>
-        
-        <tag>Script</tag>
-         
-        <tag>Linux</tag>
-         
-         
-           
-             
-              <breadCrumb title="tech" url="https://tony-yin.github.io/categories/tech/"/>
           
         </display>
     </data>
@@ -610,28 +632,6 @@
         <tag>NFS</tag>
          
         <tag>Luminous</tag>
-         
-         
-           
-             
-              <breadCrumb title="tech" url="https://tony-yin.github.io/categories/tech/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>https://tony-yin.github.io/2017/11/14/Ceph-Compile/</loc>
-    <lastmod>2017-11-30T03:09:12.602Z</lastmod>
-    <data>
-        <display>
-        <title>Ceph 编译（Giant版本）</title>
-        <pubTime>2017-11-14T01:30:29.000Z</pubTime>
-        
-        <tag>Ceph</tag>
-         
-        <tag>编译</tag>
          
          
            
