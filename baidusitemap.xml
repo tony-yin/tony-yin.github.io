@@ -4,6 +4,58 @@
 
     
   <url>
+    <loc>https://tony-yin.github.io/2018/06/03/Python-Snack-Best-Practice/</loc>
+    <lastmod>2018-06-04T11:13:39.889Z</lastmod>
+    <data>
+        <display>
+        <title>Python Snack 最佳实践</title>
+        <pubTime>2018-06-03T05:07:06.000Z</pubTime>
+        
+        <tag>Linux</tag>
+         
+        <tag>Python</tag>
+         
+        <tag>Snack</tag>
+         
+        <tag>Console</tag>
+         
+         
+           
+             
+              <breadCrumb title="tech" url="https://tony-yin.github.io/categories/tech/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://tony-yin.github.io/2017/10/02/Batch-Create-And-Delete-Disk-Partition-Script/</loc>
+    <lastmod>2018-06-04T11:12:09.161Z</lastmod>
+    <data>
+        <display>
+        <title>批量创建和删除磁盘分区脚本</title>
+        <pubTime>2017-10-02T05:07:06.000Z</pubTime>
+        
+        <tag>Ceph</tag>
+         
+        <tag>Disk</tag>
+         
+        <tag>Partition</tag>
+         
+        <tag>Script</tag>
+         
+         
+           
+             
+              <breadCrumb title="tech" url="https://tony-yin.github.io/categories/tech/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>https://tony-yin.github.io/2017/11/14/Ceph-Compile/</loc>
     <lastmod>2018-05-22T02:40:41.560Z</lastmod>
     <data>
@@ -512,32 +564,6 @@
         <tag>Python</tag>
          
         <tag>Oracle</tag>
-         
-         
-           
-             
-              <breadCrumb title="tech" url="https://tony-yin.github.io/categories/tech/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>https://tony-yin.github.io/2017/10/02/Batch-Create-And-Delete-Disk-Partition-Script/</loc>
-    <lastmod>2017-12-07T04:40:52.705Z</lastmod>
-    <data>
-        <display>
-        <title>批量创建和删除磁盘分区脚本</title>
-        <pubTime>2017-10-02T05:07:06.000Z</pubTime>
-        
-        <tag>Ceph</tag>
-         
-        <tag>Disk</tag>
-         
-        <tag>Partition</tag>
-         
-        <tag>Script</tag>
          
          
            

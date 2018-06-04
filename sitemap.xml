@@ -2,6 +2,20 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://tony-yin.github.io/2018/06/03/Python-Snack-Best-Practice/</loc>
+    
+    <lastmod>2018-06-04T11:13:39.889Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://tony-yin.github.io/2017/10/02/Batch-Create-And-Delete-Disk-Partition-Script/</loc>
+    
+    <lastmod>2018-06-04T11:12:09.161Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://tony-yin.github.io/2017/11/14/Ceph-Compile/</loc>
     
     <lastmod>2018-05-22T02:40:41.560Z</lastmod>
@@ -159,13 +173,6 @@
     <loc>https://tony-yin.github.io/2017/09/10/Python-Oracle/</loc>
     
     <lastmod>2017-12-07T06:17:51.151Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://tony-yin.github.io/2017/10/02/Batch-Create-And-Delete-Disk-Partition-Script/</loc>
-    
-    <lastmod>2017-12-07T04:40:52.705Z</lastmod>
     
   </url>
   

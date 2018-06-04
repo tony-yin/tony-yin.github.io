@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="baidu-site-verification" content="L6Lm9d5Crl"/>
+  
+  
+  
+  
+  <title>Python Snack 最佳实践 | Tony&#39;s blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="了解linux的人应该听说过Newt，Newt是一个为RedHat安装程序而设计的基于文本的窗口开发工具，它是由c语言编写并不依赖X包，linux下的dialog和whiptail都是基于它。而我们今天讨论的snack则是Newt提供的python接口，redhat的系统都自带这个模块，本文就如何使用snack制作伪终端页面展开讲解，并配合代码展示实现效果。">
+<meta name="keywords" content="Linux,Python,Snack,Console">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python Snack 最佳实践">
+<meta property="og:url" content="https://tony-yin.github.io/2018/06/03/Python-Snack-Best-Practice/index.html">
+<meta property="og:site_name" content="Tony&#39;s blog">
+<meta property="og:description" content="了解linux的人应该听说过Newt，Newt是一个为RedHat安装程序而设计的基于文本的窗口开发工具，它是由c语言编写并不依赖X包，linux下的dialog和whiptail都是基于它。而我们今天讨论的snack则是Newt提供的python接口，redhat的系统都自带这个模块，本文就如何使用snack制作伪终端页面展开讲解，并配合代码展示实现效果。">
+<meta property="og:image" content="http://ow0mgad6r.bkt.clouddn.com/python_snack.jpg">
+<meta property="og:image" content="http://ow0mgad6r.bkt.clouddn.com/deploy_console.gif">
+<meta property="og:updated_time" content="2018-06-04T11:13:39.889Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Python Snack 最佳实践">
+<meta name="twitter:description" content="了解linux的人应该听说过Newt，Newt是一个为RedHat安装程序而设计的基于文本的窗口开发工具，它是由c语言编写并不依赖X包，linux下的dialog和whiptail都是基于它。而我们今天讨论的snack则是Newt提供的python接口，redhat的系统都自带这个模块，本文就如何使用snack制作伪终端页面展开讲解，并配合代码展示实现效果。">
+<meta name="twitter:image" content="http://ow0mgad6r.bkt.clouddn.com/python_snack.jpg">
+  
+    <link rel="alternative" href="/atom.xml" title="Tony&#39;s blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/img/favicon.png">
+  
+  
+  <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  
+  
+      <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  
+  <!-- 加载特效 -->
+    <script src="/js/pace.js"></script>
+    <link href="/css/pace/pace-theme-flash.css" rel="stylesheet" />
+  <script>
+      var yiliaConfig = {
+          fancybox: true,
+          animate: true,
+          isHome: false,
+          isPost: true,
+          isArchive: false,
+          isTag: false,
+          isCategory: false,
+          open_in_new: false
+      }
+  </script>
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+        <a href="/" class="profilepic">
+            
+            <img src="/img/tony.jpg" class="js-avatar">
+            
+        </a>
+        <hgroup>
+          <h1 class="header-author"><a href="/">Tony</a></h1>
+        </hgroup>
+        
+        
+            <form>
+	        <input type="text" class="st-default-search-input search" id="local-search-input" placeholder="搜索一下" autocomplete="off">
+            </form>
+            <div id="local-search-result"></div>
+        
+        
+            <script type="text/javascript">
+                (function() {
+                    'use strict';
+                    function getMatchData(keyword, data) {
+                        var matchData = [];
+                        for(var i =0;i<data.length;i++){
+                            if(data[i].title.toLowerCase().indexOf(keyword)>=0) 
+                                matchData.push(data[i])
+                        }
+                        return matchData;
+                    }
+                    var $input = $('#local-search-input');
+                    var $resultContent = $('#local-search-result');
+                    $input.keyup(function(){
+                        $.ajax({
+                            url: '/search.json',
+                            dataType: "json",
+                            success: function( json ) {
+                                var str='<ul class=\"search-result-list\">';                
+                                var keyword = $input.val().trim().toLowerCase();
+                                $resultContent.innerHTML = "";
+                                if ($input.val().trim().length <= 0) {
+                                    $resultContent.empty();
+                                    $('#switch-area').show();
+                                    return;
+                                }
+                                var results = getMatchData(keyword, json);
+                                if(results.length === 0){
+                                    $resultContent.empty();
+                                    $('#switch-area').show();
+                                    return;
+                                } 
+                                for(var i =0; i<results.length; i++){
+                                    str += "<li><a href='"+ results[i].url +"' class='search-result-title'>"+ results[i].title +"</a></li>";
+                                }
+                                str += "</ul>";
+                                $resultContent.empty();
+                                $resultContent.append(str);
+                                $('#switch-area').hide();
+                            }
+                        });
+                    });
+                })();
+            </script>
+        
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                        <div class="icon-wrap icon-me hide" data-idx="3">
+                            <div class="user"></div>
+                            <div class="shoulder"></div>
+                        </div>
+                        
+                    </div>
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                        <li>关于我</li>
+                        
+                    </ul>
+                </div>
+            </div>
+        
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a  href="/archives/">所有文章</a></li>
+                        
+                            <li><a  href="/categories/tech">技术文章</a></li>
+                        
+                            <li><a  href="/tags/Ceph">Ceph修炼之路</a></li>
+                        
+                            <li><a  href="/categories/summary">感悟总结</a></li>
+                        
+                            <li><a  href="/categories/read">阅读翻译</a></li>
+                        
+                            <li><a  href="/categories/life">生活随笔</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fl github"  target="_blank" href="https://github.com/tony-yin" title="github">github</a>
+                            
+                                <a class="fl weibo"  target="_blank" href="https://weibo.com/3832044210/profile?rightmod=1&wvr=6&mod=personinfo" title="weibo">weibo</a>
+                            
+                                <a class="fl segmentfault"  target="_blank" href="https://segmentfault.com/u/qzuser_57fb1d5db527e" title="segmentfault">segmentfault</a>
+                            
+                        </ul>
+			
+                    </nav>
+                </section>
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <a href="/tags/Bugfix/" style="font-size: 10px;">Bugfix</a> <a href="/tags/CAS/" style="font-size: 10px;">CAS</a> <a href="/tags/Ceph/" style="font-size: 20px;">Ceph</a> <a href="/tags/Cephx/" style="font-size: 10px;">Cephx</a> <a href="/tags/Console/" style="font-size: 10px;">Console</a> <a href="/tags/Ctdb/" style="font-size: 11.67px;">Ctdb</a> <a href="/tags/Daily-Article/" style="font-size: 15px;">Daily-Article</a> <a href="/tags/Disk/" style="font-size: 11.67px;">Disk</a> <a href="/tags/Django/" style="font-size: 10px;">Django</a> <a href="/tags/Filesystem/" style="font-size: 11.67px;">Filesystem</a> <a href="/tags/HA/" style="font-size: 13.33px;">HA</a> <a href="/tags/Javascript/" style="font-size: 10px;">Javascript</a> <a href="/tags/Keepalived/" style="font-size: 11.67px;">Keepalived</a> <a href="/tags/LVM/" style="font-size: 10px;">LVM</a> <a href="/tags/Linux/" style="font-size: 16.67px;">Linux</a> <a href="/tags/Luminous/" style="font-size: 10px;">Luminous</a> <a href="/tags/Megaraid/" style="font-size: 10px;">Megaraid</a> <a href="/tags/Moodle/" style="font-size: 10px;">Moodle</a> <a href="/tags/NAS/" style="font-size: 10px;">NAS</a> <a href="/tags/NFS/" style="font-size: 13.33px;">NFS</a> <a href="/tags/NFS-Ganesha/" style="font-size: 10px;">NFS-Ganesha</a> <a href="/tags/Network/" style="font-size: 10px;">Network</a> <a href="/tags/Notification/" style="font-size: 10px;">Notification</a> <a href="/tags/OSD/" style="font-size: 13.33px;">OSD</a> <a href="/tags/Oracle/" style="font-size: 11.67px;">Oracle</a> <a href="/tags/Oracle-11g-R2/" style="font-size: 10px;">Oracle 11g R2</a> <a href="/tags/Oracle-Linux/" style="font-size: 10px;">Oracle Linux</a> <a href="/tags/PHP/" style="font-size: 11.67px;">PHP</a> <a href="/tags/PHPExcel/" style="font-size: 10px;">PHPExcel</a> <a href="/tags/Partition/" style="font-size: 10px;">Partition</a> <a href="/tags/Profile/" style="font-size: 11.67px;">Profile</a> <a href="/tags/Python/" style="font-size: 15px;">Python</a> <a href="/tags/RBD/" style="font-size: 13.33px;">RBD</a> <a href="/tags/RGW/" style="font-size: 10px;">RGW</a> <a href="/tags/Rados/" style="font-size: 10px;">Rados</a> <a href="/tags/Raidcard/" style="font-size: 10px;">Raidcard</a> <a href="/tags/Read/" style="font-size: 18.33px;">Read</a> <a href="/tags/Script/" style="font-size: 13.33px;">Script</a> <a href="/tags/Snack/" style="font-size: 10px;">Snack</a> <a href="/tags/Test/" style="font-size: 10px;">Test</a> <a href="/tags/Udev/" style="font-size: 11.67px;">Udev</a> <a href="/tags/产品/" style="font-size: 10px;">产品</a> <a href="/tags/博客/" style="font-size: 10px;">博客</a> <a href="/tags/性能优化/" style="font-size: 10px;">性能优化</a> <a href="/tags/编译/" style="font-size: 10px;">编译</a>
+                    </div>
+                </section>
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a target="_blank"  class="main-nav-link switch-friends-link" href="https://greenlightt.github.io">redgo的博客</a>
+                    
+                      <a target="_blank"  class="main-nav-link switch-friends-link" href="http://www.xuxiaopang.com">徐小胖的博客</a>
+                    
+                    </div>
+                </section>
+                
+                
+                
+                <section class="switch-part switch-part4">
+                
+                    <div id="js-aboutme">江苏南京，熟悉Python/PHP，目前研究Ceph分布式存储，邮箱：1241484989@qq.com</div>
+                </section>
+                
+            </div>
+        </div>
+    </header>
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">Tony</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                
+                    <img src="/img/tony.jpg" class="js-avatar">
+                
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">Tony</a></h1>
+            </hgroup>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/archives/">所有文章</a></li>
+                
+                    <li><a href="/categories/tech">技术文章</a></li>
+                
+                    <li><a href="/tags/Ceph">Ceph修炼之路</a></li>
+                
+                    <li><a href="/categories/summary">感悟总结</a></li>
+                
+                    <li><a href="/categories/read">阅读翻译</a></li>
+                
+                    <li><a href="/categories/life">生活随笔</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a class="github" target="_blank" href="https://github.com/tony-yin" title="github">github</a>
+                    
+                        <a class="weibo" target="_blank" href="https://weibo.com/3832044210/profile?rightmod=1&wvr=6&mod=personinfo" title="weibo">weibo</a>
+                    
+                        <a class="segmentfault" target="_blank" href="https://segmentfault.com/u/qzuser_57fb1d5db527e" title="segmentfault">segmentfault</a>
+                    
+                </div>
+            </nav>
+        </header>                
+    </div>
+</nav>
+
+      <div class="body-wrap"><article id="post-Python-Snack-Best-Practice" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a  href="/2018/06/03/Python-Snack-Best-Practice/" class="article-date">
+      <time datetime="2018-06-03T05:07:06.000Z" itemprop="datePublished">2018-06-03</time>
+</a>
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Python Snack 最佳实践
+    </h1>
+  
+
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/tech/">tech</a>
+    </div>
+
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Console/">Console</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/">Linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Python/">Python</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Snack/">Snack</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <center><img src="http://ow0mgad6r.bkt.clouddn.com/python_snack.jpg" alt="python snack"></center>
+
+<p>  了解<code>linux</code>的人应该听说过<code>Newt</code>，<code>Newt</code>是一个为<code>RedHat</code>安装程序而设计的基于文本的窗口开发工具，它是由<code>c</code>语言编写并不依赖<code>X</code>包，<code>linux</code>下的<code>dialog</code>和<code>whiptail</code>都是基于它。而我们今天讨论的<code>snack</code>则是<code>Newt</code>提供的<code>python</code>接口，<code>redhat</code>的系统都自带这个模块，本文就如何使用<code>snack</code>制作伪终端页面展开讲解，并配合代码展示实现效果。</p>
+<a id="more"></a>
+<h2 id="用餐介绍"><a href="#用餐介绍" class="headerlink" title="用餐介绍"></a>用餐介绍</h2><p>为啥说是最佳实践呢？因为我使用<code>snack</code>的过程中，上网查阅相关资料，发现有关信息甚少。偶尔几篇文章都是处于<code>API</code>或者<code>Demo</code>的级别，并且讲的都不全，更别说高级扩展功能了。我正好工作需要给我们的一个系统做一个终端部署控制台<code>UI</code>，所以我就使用了<code>python snack</code>来实现，期间不断新需求，不断迭代，从基本页面到增删改查，再到校验、再到配置导入、再到进度条等等，不断的迭代开发让我对<code>snack</code>不断地加深认知，它支持的或不支持的我都想办法一一解决，所以在这把我这段时间的收货进行总结并分享给需要的人。</p>
+<h2 id="上菜单"><a href="#上菜单" class="headerlink" title="上菜单"></a>上菜单</h2><p>本文实践的需求是做一个部署控制台工具，该工具主要分为三个阶段：基础配置、高级配置和部署进度。基础配置页面需要我们创建一些主机，填写一些主机的信息，比如<code>IP</code>、<code>Hostname</code>和<code>Password</code>，然后高级配置我们也需要创建一些主机，不过我们可以复用基础设置的主机，所以我们的工具要支持在高级配置中导入基础配置的功能，在高级配置中我们还有一个全局配置，也就是不限于单个主机的配置（其中具体部署原理和是非，我就不多展开赘述，这不是本文的重点）。最后就是进度条页面，我们可以展示部署的过程阶段和相关时间信息。</p>
+<center><img src="http://ow0mgad6r.bkt.clouddn.com/deploy_console.gif" alt="deploy console"></center>
+
+<blockquote>
+<p>项目地址：<a href="https://github.com/tony-yin/Best-practice-of-python-snack" target="_blank" rel="external">https://github.com/tony-yin/Best-practice-of-python-snack</a></p>
+</blockquote>
+<h2 id="开胃凉菜"><a href="#开胃凉菜" class="headerlink" title="开胃凉菜"></a>开胃凉菜</h2><h3 id="远古时代"><a href="#远古时代" class="headerlink" title="远古时代"></a>远古时代</h3><p>先上几道凉菜，给大家开开胃。所谓的凉菜就是介绍一下<code>python snack</code>的基础组件，基础组件很多，类似<code>html</code>，主要有：</p>
+<ul>
+<li>Textbox</li>
+<li>TextboxReflowed</li>
+<li>Button</li>
+<li>Compactbutton</li>
+<li>Checkbox</li>
+<li>Listbox</li>
+<li>SingleRadioButton</li>
+<li>Scale</li>
+<li>Entry</li>
+</ul>
+<p>然后就是一些组合组件，也就是基于上述基础组件封装而得到，主要有：</p>
+<ul>
+<li>RadioBar</li>
+<li>ButtonBar</li>
+<li>CheckboxTree</li>
+</ul>
+<p>上面这些组件就是所有的基础组件（组合组件也算基础组件），这些组件最终呈现还需要<code>grid</code>和<code>form</code>这两个组件，<code>grid</code>表示“网格”的意思，跟<code>html</code>中的<code>table</code>类似，由行和列组成，我们的基础组件需要放在网格中来实现页面布局；而<code>form</code>也类似“表单”，我们需要把<code>grid</code>填充到<code>form</code>中，运行后，就可以看到图形化页面了。</p>
+<h3 id="工业革命"><a href="#工业革命" class="headerlink" title="工业革命"></a>工业革命</h3><p>经过上面基础组件的介绍，想必你对<code>snack</code>的组件有了充分的了解，这时候你可以参考文末的<code>refer</code>做几个小<code>demo</code>，做了之后你会发现页面是出来了，emmm… 可是感觉好繁琐哦，很多重复性的代码，而且页面布局也怪怪的，如果要把布局搞好，又需要加很多代码。</p>
+<p>我们把用基础组件的阶段称之为“远古时代”，每做一个<code>window</code>，都得一瓦一砖地慢慢堆砌，这样效率太低了，所以我们急需一波“工业革命”来提高生产力。</p>
+<p><code>python snack</code>似乎考虑到了这个问题，它在上述基础组件之外还提供了<code>dialog</code>相关组件，<code>dialog</code>组件即集大成者，一个<code>dialog</code>组件就是一个<code>window</code>，也就是我们上面所说的<code>form</code>，并且该<code>form</code>中填充了必需的各种基础组件，<code>dialog</code>组件主要有：</p>
+<ul>
+<li>ListboxChoiceWindow</li>
+<li>ButtonChoiceWindow</li>
+<li>EntryWindow</li>
+</ul>
+<h3 id="返璞归真"><a href="#返璞归真" class="headerlink" title="返璞归真"></a>返璞归真</h3><p>当今社会，大家吃惯了大鱼大肉，反而更是想念农村的野味。同理，我们用惯了“工业革命”的产物，发现虽然可用，但是仅仅停留在基础可用级别上，想换换样式，加加自己的定制化需求，都是有限的，完全达不到新需求的技术实现要求。所以，我们不能只知道用别人实现的现成的产物，我们可以尝试着“返璞归真”一下，回归最初的“远古时代”，自己实现一把“工业革命”。所谓的“dialog”组件无非也就是基础组件的封装而已，我们也可以自己实现一套自己的组件库，这个在前端是非常流行的，例如<code>font-awesome</code>、<code>iview</code>、<code>ant-design</code>等等。这里我们自己实现了以下<code>dialog</code>：</p>
+<ul>
+<li>ExtButtonChoiceWindow</li>
+<li>ExtAlert</li>
+<li>ExtCheckboxWindow</li>
+<li>ExtListboxChoiceWindow</li>
+<li>ExtEntryWindow</li>
+<li>ExtPwdEntryWindow</li>
+<li>ExtProgressWindow</li>
+<li>ExtTextWindow</li>
+</ul>
+<p>扩展的功能主要有：</p>
+<ul>
+<li>热键支持扩展</li>
+<li>按钮样式扩展</li>
+<li>布局大小自动化扩展</li>
+<li>暗文输入框扩展</li>
+<li>弹出窗口扩展</li>
+<li>进度条窗口信息展示扩展</li>
+<li>动态展示扩展</li>
+</ul>
+<blockquote>
+<p>扩展组件库地址：<a href="https://github.com/tony-yin/Best-practice-of-python-snack/blob/master/widget_extlib.py" target="_blank" rel="external">widget extend library</a></p>
+</blockquote>
+<h2 id="管饱正菜"><a href="#管饱正菜" class="headerlink" title="管饱正菜"></a>管饱正菜</h2><p>凉菜不够，正菜来凑。上面就是把<code>python snack</code>的<code>API</code>罗列了一下，做个小<code>Demo</code>还行，但是距离产品化还很远，接下来我结合我做部署控制台工具的实践经历分享一下几个“正菜”，必须够硬，不接受反驳，不接受批评， O(∩_∩)O ~</p>
+<h3 id="热键"><a href="#热键" class="headerlink" title="热键"></a>热键</h3><p><code>python snack</code>提供了两种帮助用户使用的途径，一种是窗口下方的操作提示栏，另一个就是热键了。热键就是快捷键，比如我们可以敲击键盘上面的<code>ESC</code>键实现页面的返回。我们可以通过调用<code>grid</code>的<code>runOnce</code>接口获取热键的输入，例如<code>hotkey = g.runOnce()</code>，然后我们根据<code>hotkey</code>的值进行判断并执行对应的操作。</p>
+<h3 id="页面切换"><a href="#页面切换" class="headerlink" title="页面切换"></a>页面切换</h3><p>当我们存在多个页面的时候，我们需要页面切换的功能，翻阅文档，并没有发现提供类似的功能。在我们的工具中，页面切换主要有两种方式，一种是点击<code>button</code>，一种是热键，既然没有原生的页面切换接口，我们就根据触发方式手动切换页面。比如我们想实现页面<code>1</code>点击<code>next</code>按钮想跳转页面<code>2</code>，那我们只需要获取<code>button</code>的返回值，判断是否为<code>next</code>，如果是<code>next</code>，直接调用页面<code>2</code>的方法即可，热键同理，即判断热键内容是否为对应热键。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">ret, button, lb = ExtListboxChoiceWindow(                                  screen, </div><div class="line">    &apos;Distribute Storage Config&apos;,</div><div class="line">    &apos;Distribute Storage Config&apos;,</div><div class="line">    ips,</div><div class="line">    buttons=(&quot;prev&quot;, &quot;next&quot;, &quot;exit&quot;),</div><div class="line">    width=50,</div><div class="line">    height=5,</div><div class="line">)                                                                                                                                        </div><div class="line">if button == &quot;exit&quot; or ret == &quot;ESC&quot;:</div><div class="line">    screen.finish()</div><div class="line">elif button == &quot;prev&quot;:</div><div class="line">    Welcome_Deploy_Window()</div><div class="line">elif button == &quot;next&quot;:</div><div class="line">    Additional_Config_Window()</div><div class="line">elif lb is not None:</div><div class="line">    Basic_Host_Window(lb)</div></pre></td></tr></table></figure>
+<h3 id="增删改查"><a href="#增删改查" class="headerlink" title="增删改查"></a>增删改查</h3><p>增删改查永远是一个软件系统绕不开的基础功能。</p>
+<p><strong>“查”：</strong></p>
+<p>首先是整体查看，我们可以通过一个列表展示所有信息，这时候我们可以用<code>ExtListboxChoiceWindow</code>组件来实现；然后就是单个查看了，我们可能有多条信息，我们想查看单个信息的详细内容时，我们可以通过点击具体的<code>item</code>进入详细信息的<code>dialog</code>，如何实现呢？<code>listbox</code>中有一个<code>current</code>的概念，也就是<code>listbox</code>中每个<code>li</code>的唯一标识，我们可以用列表的<code>index</code>来填充，因为往往列表页面的信息也无非是数组或者是列表的方式，我们获取到当前的<code>current</code>，即获取到数组的索引，然后就是根据索引查值了，我们再调用新增页面，将查到的值赋值到<code>Textbox</code>即可，<code>Textbox</code>有一个<code>setText</code>就是做这个事情的。当然我们的<code>ExtEntryWindow</code>组件也可以做到赋值填充。请参考上述代码中的<code>lb</code>，其实就是<code>listbox</code>的<code>li.current()</code>接口。</p>
+<p><strong>“增”：</strong></p>
+<p>我们可以通过一个新增按钮或者<code>listbox</code>中的一个<code>li</code>作为新增按钮来触发新增操作，点击后出现一个<code>dialog</code>，<code>dialog</code>中有一些<code>Textbox</code>、<code>Radio</code>、<code>Checkbox</code>等。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">def Basic_Host_Window(current, data=None):</div><div class="line">    buttons = [ &apos;save&apos;, &apos;cancel&apos;, &apos;exit&apos;]</div><div class="line">    if not data:</div><div class="line">        data = [&apos;IP Address:&apos;, &apos;Hostname:&apos;, &apos;Password:&apos;]</div><div class="line">        if current != &apos;add&apos;:</div><div class="line">            data = get_format_data(Basic_Config[current], BASIC_TYPE)</div><div class="line">            buttons.insert(1, &apos;Delete&apos;)</div><div class="line"></div><div class="line">    host = ExtEntryWindow(</div><div class="line">        screen,</div><div class="line">        &apos;&#123;&#125; host&apos;.format(&apos;Add&apos; if current == &apos;add&apos; else &apos;Edit&apos;),</div><div class="line">        &apos;Please fill storage host info.&apos;,</div><div class="line">        data,</div><div class="line">        width = 40, </div><div class="line">        entryWidth = 40, </div><div class="line">        buttons = buttons</div><div class="line">    )</div></pre></td></tr></table></figure>
+<p><strong>“改”：</strong></p>
+<p>修改操作的方法是在<code>list</code>页面选中需要修改的项，然后进入详情页面，可以查看之前创建时填写的信息，也就是我们在“查”中查看单个信息提到的方式，我们所要做的就是在用户点击<code>save</code>按钮的时候，获取用户编辑后的数据，再进行一次修改即可，在我们工具中，此操作就是根据索引修改数组中对应索引的数据而已。</p>
+<p><strong>“删”：</strong></p>
+<p>有增就有删，这边我暂时还没实现批量删除的功能，一方面<code>python snack</code>的支持功能有限，一方面时间有限，所以我只实现了单个删除的功能，在新增和编辑的页面添加一个<code>delete</code>按钮即可，为了提醒用户错删，我们还要加上一个确认提示框。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">if host[1] == &quot;delete&quot;:</div><div class="line">    button = ExtButtonChoiceWindow(                                            screen,</div><div class="line">        &apos;Delete host&apos;,</div><div class="line">        &apos;Are you sure to delete current host?&apos;</div><div class="line">    )</div><div class="line">    if button == &quot;ok&quot;:</div><div class="line">        del(Basic_Config[current])</div><div class="line">    else:</div><div class="line">        Basic_Host_Window(current)</div></pre></td></tr></table></figure>
+<h3 id="组件扩展"><a href="#组件扩展" class="headerlink" title="组件扩展"></a>组件扩展</h3><p>构建自己的组件库真的很有必要，对于默认的<code>button</code>样式，我真是吐槽到不想再吐槽，它居然还认为自己的<code>border</code>很<code>nice</code>？！所以最终构建自己的组件库的初衷就是想把各个<code>dialog</code>中的<code>button</code>改为<code>compactbutton</code>，没办法，默认的<code>dialog</code>组件不给改呀，所以我们得自己返璞归真一下。</p>
+<p>当然我们做扩展组件库，也不是仅仅因为一个<code>button</code>样式，还有很多新需求都要依赖自己扩展的组件。比如热键，原生<code>dialog</code>无法支持热键；还有进度条的进度时间和任务信息展示；还有<code>Gridform</code>的动态布局等等。具体就不一一介绍了，想深入了解的直接看代码，做个小<code>Demo</code>，一目了然。</p>
+<h2 id="爽口甜菜"><a href="#爽口甜菜" class="headerlink" title="爽口甜菜"></a>爽口甜菜</h2><p>充实的正菜吃饱了，是时候来一波甜菜漱漱口，解解渴了。</p>
+<p>在做进度条页面的时候，想除了显示进度任务完成信息之外，还想显示一下开始时间和花费时间。发现<code>python</code>的<code>time</code>模块比较坑爹，对于时间差的转换支持不行，查阅资料只发现<code>datetime</code>可以将时间差转换为微秒、秒和小时三个单位，但是我想实现时间差的自动转换，也就是<code>60s</code>自动转换为<code>1min</code>，<code>60min</code>转为<code>1h</code>，<code>24h</code>转为<code>1d</code>，超越天为单位的我就不进行转换了，逻辑不难，只是拿出来分享给有需要的人，不必重复造轮子罢了。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line">def get_time_interval(start_time):</div><div class="line">    start_time = datetime.fromtimestamp(start_time)</div><div class="line">    now_time = datetime.fromtimestamp(time.time())</div><div class="line">    interval = (now_time - start_time).seconds</div><div class="line">    format_interval = get_format_interval(interval)                                                                                          </div><div class="line">    return format_interval</div><div class="line"></div><div class="line"></div><div class="line">def get_format_interval(interval):</div><div class="line">    if interval &lt; 60:</div><div class="line">        format_interval = &quot;&#123;&#125;s&quot;.format(str(interval))</div><div class="line">    elif 60 &lt;= interval &lt; 60*60:</div><div class="line">        format_interval = &quot;&#123;&#125;min &#123;&#125;s&quot;.format(</div><div class="line">            str(interval/60), str(interval%60))</div><div class="line">    elif 60*60 &lt;= interval &lt; 60*60*24:</div><div class="line">        format_interval = &quot;&#123;&#125;h &#123;&#125;min &#123;&#125;s&quot;.format(</div><div class="line">            str(interval/(60*60)),</div><div class="line">            str(interval%(60*60)/60),</div><div class="line">            str(interval%(60*60)%60)</div><div class="line">        )</div><div class="line">    elif 60*60*24 &lt;= interval:</div><div class="line">        format_interval = &quot;&#123;&#125;d &#123;&#125;h &#123;&#125;min &#123;&#125;s&quot;.format( </div><div class="line">			str(interval/(60*60*24)),</div><div class="line">            str(interval%(60*60*24)/60*60),</div><div class="line">            str(interval%(60*60)/60),</div><div class="line">            str(interval%(60*60)%60)</div><div class="line">        )</div><div class="line">        </div><div class="line">    return format_interval</div></pre></td></tr></table></figure>
+<h2 id="用餐总结"><a href="#用餐总结" class="headerlink" title="用餐总结"></a>用餐总结</h2><p>原本只是想做一个终端图形化的进度条页面，但是后续需求越来越多，导致做成了一个部署控制台工具，整个工程开发和优化花了大约两个星期的时间，项目中遇到的很多难点和问题很多都与<code>python snack</code>无关，所以没有做详细解释，就比如上述的甜菜，大家有兴趣的自行翻阅代码即可。</p>
+<p><code>python snack</code>还有很多未知的我没有使用，比如<code>checkbox tree</code>等，但我相信万变不离其宗，有了这次实践，其他组件的使用和扩展应该不会花很多时间，其实做这个东西，我最深的感触就是前端发展的迅速，<code>python snack</code>是<code>2000</code>年初的产物了，很多页面逻辑跟<code>jQuery</code>比起来要弱的多，更别说现在的<code>angular</code>，<code>vue</code>等等了，但是领域不同，毕竟是伪终端页面，能做成这样已经不错了。如果是真正的桌面图形化界面（<code>GUI</code>），有<code>pyqt</code>这种神器，功能貌似很强大。</p>
+<p>我在之前的一个项目中，就使用过<code>python snack</code>做的控制台，当然当时不知道是用这个技术做的，当时觉得蛮牛的，尝试过修改终端文字成汉子，后来没有成功，便不了了之。这次机缘巧合，工作需要做这么一个控制台，在工作中学习和使用自己感兴趣的技术的感觉真是爽呀。工作中运用技术和自己业余时间学习新技术并做个小<code>Demo</code>完全是不一样的，工作中运用会不断有新需求，不断精益求精，不断深入。所以以工作作为平台，实现自己的技术价值，会有很大的成就感，与大家共勉咯。(#^.^#)</p>
+<blockquote>
+<p>完整项目代码地址：<a href="https://github.com/tony-yin/Best-practice-of-python-snack" target="_blank" rel="external">https://github.com/tony-yin/Best-practice-of-python-snack</a></p>
+</blockquote>
+
+      
+
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a  href="/2018/06/03/Python-Snack-Best-Practice/">Python Snack 最佳实践</a></p>
+        <p><span>文章作者:</span><a  href="/" title="访问 Tony 的个人博客">Tony</a></p>
+        <p><span>发布时间:</span>2018年06月03日 - 13时07分</p>
+        <p><span>最后更新:</span>2018年06月04日 - 19时13分</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2018/06/03/Python-Snack-Best-Practice/" title="Python Snack 最佳实践">https://tony-yin.github.io/2018/06/03/Python-Snack-Best-Practice/</a>
+            <span class="copy-path" data-clipboard-text="原文: https://tony-yin.github.io/2018/06/03/Python-Snack-Best-Practice/　　作者: Tony" title=""></span>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/cn/" title="中国大陆 (CC BY-NC-SA 3.0 CN)" target = "_blank">"署名-非商用-相同方式共享 3.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+<nav id="article-nav">
+  
+  
+    <a  href="/2018/05/20/Ctdb-Rados-2/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Ctdb Rados（二）：多场景断网高可用</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#用餐介绍"><span class="toc-number">1.</span> <span class="toc-text">用餐介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#上菜单"><span class="toc-number">2.</span> <span class="toc-text">上菜单</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#开胃凉菜"><span class="toc-number">3.</span> <span class="toc-text">开胃凉菜</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#远古时代"><span class="toc-number">3.1.</span> <span class="toc-text">远古时代</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#工业革命"><span class="toc-number">3.2.</span> <span class="toc-text">工业革命</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#返璞归真"><span class="toc-number">3.3.</span> <span class="toc-text">返璞归真</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#管饱正菜"><span class="toc-number">4.</span> <span class="toc-text">管饱正菜</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#热键"><span class="toc-number">4.1.</span> <span class="toc-text">热键</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#页面切换"><span class="toc-number">4.2.</span> <span class="toc-text">页面切换</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#增删改查"><span class="toc-number">4.3.</span> <span class="toc-text">增删改查</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#组件扩展"><span class="toc-number">4.4.</span> <span class="toc-text">组件扩展</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#爽口甜菜"><span class="toc-number">5.</span> <span class="toc-text">爽口甜菜</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#用餐总结"><span class="toc-number">6.</span> <span class="toc-text">用餐总结</span></a></li></ol>
+</div>
+<style>
+    .left-col .switch-btn {
+        display: none;
+    }
+    .left-col .switch-area {
+        display: none;
+    }
+</style>
+<input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+<script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script>
+    var valueHide = "隐藏目录";
+    var valueShow = "显示目录";
+    if ($(".left-col").is(":hidden")) {
+        $("#tocButton").attr("value", valueShow);
+    }
+    $("#tocButton").click(function() {
+        if ($("#toc").is(":hidden")) {
+            $("#tocButton").attr("value", valueHide);
+            $("#toc").slideDown(320);
+            $(".switch-btn, .switch-area").fadeOut(300);
+        }
+        else {
+            $("#tocButton").attr("value", valueShow);
+            $("#toc").slideUp(350);
+            $(".switch-btn, .switch-area").fadeIn(500);
+        }
+    })
+    if ($(".toc").length < 1) {
+        $("#toc, #tocButton").hide();
+        $(".switch-btn, .switch-area").show();
+    }
+</script>
+
+
+
+
+
+<div class="bdsharebuttonbox">
+	<a href="#" class="fx fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+	<a href="#" class="fx fa-weixin bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+	<a href="#" class="fx fa-qq bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a>
+	<a href="#" class="fx fa-facebook-official bds_fbook" data-cmd="fbook" title="分享到Facebook"></a>
+	<a href="#" class="fx fa-twitter bds_twi" data-cmd="twi" title="分享到Twitter"></a>
+	<a href="#" class="fx fa-linkedin bds_linkedin" data-cmd="linkedin" title="分享到linkedin"></a>
+	<a href="#" class="fx fa-files-o bds_copy" data-cmd="copy" title="分享到复制网址"></a>
+</div>
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"2","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='/static/api/js/share.js?cdnversion=' + ~ (-new Date() / 36e5)];</script>
+
+
+
+
+    
+        
+    <div id="cyReward" role="cylabs" data-use="reward" style="text-align:center;margin-top:50px"></div>
+
+
+<section class="changyan" id="comments">
+  <!--<div id="uyan_frame"></div>-->
+  <div id="SOHUCS"></div>
+  <script charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/changyan.js"></script>
+  <script type="text/javascript">
+    window.changyan.api.config({
+      appid: 'cytncUiAO',
+      conf: 'prod_50cb4de09ef44034f63977dcfcfa1e4b'
+    });
+  </script>
+</section>
+
+    <script type="text/javascript" charset="utf-8" src="https://changyan.itc.cn/js/lib/jquery.js"></script>
+    <script type="text/javascript" charset="utf-8" src="https://changyan.sohu.com/js/changyan.labs.https.js?appid=cytncUiAO"></script>
+
+
+
+    
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a  href="/" title="回到主页"><i class="fa fa-home"></i></a>
+        
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+        
+            <a  href="/2018/05/20/Ctdb-Rados-2/" title="下一篇: Ctdb Rados（二）：多场景断网高可用">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2018/06/03/Python-Snack-Best-Practice/">Python Snack 最佳实践</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/20/Ctdb-Rados-2/">Ctdb Rados（二）：多场景断网高可用</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/12/Megaraid_Location/">Megaraid 磁盘定位</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/02/Django_CAS_Token_Solution/">Django CAS Token 解决方案</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/01/Daily-Article-Vol5/">Daily Article Vol 5 - (2018/4/1 ~ 2018/4/30)</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/20/Ctdb-Rados-All-Banned/">Ctdb Rados方式导致All Banned的问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/08/python_nas_stable_test/">基于Python的NAS稳定性测试框架</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/01/Daily_Article_Vol4/">Daily Article Vol 4 - (2018/3/1 ~ 2018/3/31)</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/03/09/Hardware-Test-Tool/">硬件环境测试环境模拟</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/03/01/Daily-Article-Vol3/">Daily Article Vol 3 - (2018/2/1 ~ 2018/2/28)</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/02/01/Daily-Article-Vol2/">Daily Article Vol 2 - (2018/1/1 ~ 2018/1/31)</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/28/RBD-HA-2/">实现RBD导出NFS高可用（二）：提供多虚拟IP访问</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/10/scp-and-ssh/">scp 免交互式和 ssh 免交互式脚本</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/05/RaidCardToolUtils/">利用Raid卡工具获取逻辑盘是否为SSD</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/01/Daily-Article-2017/">Daily Article Vol 1 - (2017/11/1 ~ 2017/12/31)</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/21/Everything-is-a-file/">译：一切皆文件</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/17/Linux-Filesystem/">译：Linux 文件系统介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/10/Into-Withe-Night/">阅读感悟：《白夜行》</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/08/Filesystem-Bug-Fix/">故障修复：文件系统导致OSD启动失败</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/07/RBD-HA/">通过 Keepalived 实现 Ceph RBD 的高可用</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/30/Cephx-practice/">Cephx 实战演练</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/26/read-ceph-cookbook/">阅读感悟：《Ceph Cookbook》</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/26/read-ceph-guide/">阅读感悟：《Ceph分布式存储学习指南》</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/26/read-python-automation/">阅读感悟：《Python编程快速上手---让繁琐工作自动化》</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/19/hexo-theme-shadow/">博客主题 shadow</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/14/LVM-Space-Expansion/">LVM动态扩展</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/14/Ceph-Compile/">Ceph 编译（Giant版本）</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/08/Ceph-NFS-Ganesha/">通过ganesha-nfs导出Ceph为NFS（Luminous）</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/08/Ceph-RGW/">RGW 安装和创建</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/31/RBD-Mount-NFS/">使用NFS挂载RBD</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/10/Python-Profiler/">Python Profiler</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/10/Enable-OSD-Profile-Script/">启用OSD性能剖析脚本</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/02/Batch-Create-And-Delete-Disk-Partition-Script/">批量创建和删除磁盘分区脚本</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/28/JS-Object-Null/">JS判断对象是否为空</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/27/OSD-Create-And-Delete/">OSD创建和删除全过程</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/21/How-To-Forge-Product/">如何打造一个好的产品</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/18/PHP-Excel/">PHP-Excel 开发解决方案</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/10/Disk-pull-and-plug-record/">磁盘反复拔插记录</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/10/Linux-Udev/">Linux Udev</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/10/network-down-notification/">Network Down Notification</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/10/Python-Oracle/">Python操作Oracle</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/10/oracle_install/">Oracle Linux And Oracle Database 11g R2 Intsallation</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/09/Moodle-Local-Plugin/">Moodle Local插件</a></li></ul>
+    <script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+    <script>
+        $(".post-list").addClass("toc-article");
+        // $(".post-list-item a").attr("target","_blank");
+        $("#post-nav-button > a:nth-child(2)").click(function() {
+            $(".fa-bars, .fa-times").toggle();
+            $(".post-list").toggle(300);
+            if ($(".toc").length > 0) {
+                $("#toc, #tocButton").toggle(200, function() {
+                    if ($(".switch-area").is(":visible")) {
+                        $("#toc, .switch-btn, .switch-area").toggle();
+                        $("#tocButton").attr("value", valueHide);
+                        }
+                    })
+            }
+            else {
+                $(".switch-btn, .switch-area").fadeToggle(300);
+            }
+        })
+    </script>
+
+
+
+
+    <script>
+        
+    </script>
+
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                &copy; 2018 Tony
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank">Hexo &nbsp;&nbsp;</a><a href="https://github.com/tony-yin/hexo-theme-shadow" target="_blank">Shadow</a> by tony
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" >极客到访数: 
+                            <span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>, </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit">本页阅读量: 
+                            <span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+
+    </div>
+    <script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script src="/js/main.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var backgroundnum = 4;
+            var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+            $("#mobile-nav").css({"background-image": backgroundimg,"background-size": "cover","background-position": "center"});
+            $(".left-col").css({"background-image": backgroundimg,"background-size": "cover","background-position": "center"});
+        })
+    </script>
+
+
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'xxxxx', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+
+	<script>
+	var _hmt = _hmt || [];
+	(function() {
+	  var hm = document.createElement("script");
+	  hm.src = "//hm.baidu.com/hm.js?xxxxxx";
+	  var s = document.getElementsByTagName("script")[0]; 
+	  s.parentNode.insertBefore(hm, s);
+	})();
+	</script>
+
+
+
+<div class="scroll" id="scroll">
+    <a href="#"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    $(document).ready(function() {
+        if ($("#comments").length < 1) {
+            $("#scroll > a:nth-child(2)").hide();
+        };
+    })
+</script>
+
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+  <script language="javascript">
+    $(function() {
+        $("a[title]").each(function() {
+            var a = $(this);
+            var title = a.attr('title');
+            if (title == undefined || title == "") return;
+            a.data('title', title).removeAttr('title').hover(
+            function() {
+                var offset = a.offset();
+                $("<div id=\"anchortitlecontainer\"></div>").appendTo($("body")).html(title).css({
+                    top: offset.top - a.outerHeight() - 15,
+                    left: offset.left + a.outerWidth()/2 + 1
+                }).fadeIn(function() {
+                    var pop = $(this);
+                    setTimeout(function() {
+                        pop.remove();
+                    }, pop.text().length * 800);
+                });
+            }, function() {
+                $("#anchortitlecontainer").remove();
+            });
+        });
+    });
+</script>
+
+
+  </div>
+</body>
+</html>
