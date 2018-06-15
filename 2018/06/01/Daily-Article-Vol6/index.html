@@ -7,21 +7,21 @@
   
   
   
-  <title>Ctdb Rados（二）：多场景断网高可用 | Tony&#39;s blog</title>
+  <title>Daily Article Vol6(2018/5/1 ~ 2018/5/31) | Tony&#39;s blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="之前写过一篇文章【Ctdb Rados方式导致All Banned的问题】，谈到了当ctdb将recovery lock设置成rados的方式后，断网master节点会造成所有ctdb节点All Banned，主要原因是master意外断网没有释放锁，其他节点无法获取到锁，当时的解决方案是每5分钟检查一次ctdb状态，如果连续两次发生了All Banned的情况，则手动删除lock，这种做法在">
-<meta name="keywords" content="Ceph,Ctdb">
+  <meta name="description" content="五月份主要基于python sna实现了一个终端伪图形化界面的部署控制台，提供了填写配置信息、校验信息、导入信息和进度监控等功能，详情请见【Python Snack 最佳实践】。这是我之前一直感兴趣想做的事情，这次正好借助工作的契机对其有了深入的了解和学习，收获颇多。五月份假期多，团建，还有工作进度赶，导致自己的阅读时间受到了影响，大多数阅读都是围绕着工作内容，极客时间这些APP、技术博客和微">
+<meta name="keywords" content="Read,Daily-Article">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Ctdb Rados（二）：多场景断网高可用">
-<meta property="og:url" content="https://tony-yin.github.io/2018/05/20/Ctdb-Rados-2/index.html">
+<meta property="og:title" content="Daily Article Vol6(2018&#x2F;5&#x2F;1 ~ 2018&#x2F;5&#x2F;31)">
+<meta property="og:url" content="https://tony-yin.github.io/2018/06/01/Daily-Article-Vol6/index.html">
 <meta property="og:site_name" content="Tony&#39;s blog">
-<meta property="og:description" content="之前写过一篇文章【Ctdb Rados方式导致All Banned的问题】，谈到了当ctdb将recovery lock设置成rados的方式后，断网master节点会造成所有ctdb节点All Banned，主要原因是master意外断网没有释放锁，其他节点无法获取到锁，当时的解决方案是每5分钟检查一次ctdb状态，如果连续两次发生了All Banned的情况，则手动删除lock，这种做法在">
-<meta property="og:image" content="http://ow0mgad6r.bkt.clouddn.com/ping-600x450.png">
-<meta property="og:updated_time" content="2018-05-22T02:35:35.071Z">
+<meta property="og:description" content="五月份主要基于python sna实现了一个终端伪图形化界面的部署控制台，提供了填写配置信息、校验信息、导入信息和进度监控等功能，详情请见【Python Snack 最佳实践】。这是我之前一直感兴趣想做的事情，这次正好借助工作的契机对其有了深入的了解和学习，收获颇多。五月份假期多，团建，还有工作进度赶，导致自己的阅读时间受到了影响，大多数阅读都是围绕着工作内容，极客时间这些APP、技术博客和微">
+<meta property="og:image" content="http://ow0mgad6r.bkt.clouddn.com/5-2.png">
+<meta property="og:updated_time" content="2018-06-15T06:30:21.405Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Ctdb Rados（二）：多场景断网高可用">
-<meta name="twitter:description" content="之前写过一篇文章【Ctdb Rados方式导致All Banned的问题】，谈到了当ctdb将recovery lock设置成rados的方式后，断网master节点会造成所有ctdb节点All Banned，主要原因是master意外断网没有释放锁，其他节点无法获取到锁，当时的解决方案是每5分钟检查一次ctdb状态，如果连续两次发生了All Banned的情况，则手动删除lock，这种做法在">
-<meta name="twitter:image" content="http://ow0mgad6r.bkt.clouddn.com/ping-600x450.png">
+<meta name="twitter:title" content="Daily Article Vol6(2018&#x2F;5&#x2F;1 ~ 2018&#x2F;5&#x2F;31)">
+<meta name="twitter:description" content="五月份主要基于python sna实现了一个终端伪图形化界面的部署控制台，提供了填写配置信息、校验信息、导入信息和进度监控等功能，详情请见【Python Snack 最佳实践】。这是我之前一直感兴趣想做的事情，这次正好借助工作的契机对其有了深入的了解和学习，收获颇多。五月份假期多，团建，还有工作进度赶，导致自己的阅读时间受到了影响，大多数阅读都是围绕着工作内容，极客时间这些APP、技术博客和微">
+<meta name="twitter:image" content="http://ow0mgad6r.bkt.clouddn.com/5-2.png">
   
     <link rel="alternative" href="/atom.xml" title="Tony&#39;s blog" type="application/atom+xml">
   
@@ -276,11 +276,11 @@
     </div>
 </nav>
 
-      <div class="body-wrap"><article id="post-Ctdb-Rados-2" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-Daily-Article-Vol6" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a  href="/2018/05/20/Ctdb-Rados-2/" class="article-date">
-      <time datetime="2018-05-20T05:07:06.000Z" itemprop="datePublished">2018-05-20</time>
+      <a  href="/2018/06/01/Daily-Article-Vol6/" class="article-date">
+      <time datetime="2018-06-01T05:07:06.000Z" itemprop="datePublished">2018-06-01</time>
 </a>
 
     </div>
@@ -294,7 +294,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      Ctdb Rados（二）：多场景断网高可用
+      Daily Article Vol6(2018/5/1 ~ 2018/5/31)
     </h1>
   
 
@@ -304,13 +304,13 @@
       <div class="article-info article-info-post">
         
     <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/tech/">tech</a>
+    <a class="article-category-link" href="/categories/read/">read</a>
     </div>
 
 
         
     <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Ceph/">Ceph</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Ctdb/">Ctdb</a></li></ul>
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Daily-Article/">Daily-Article</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Read/">Read</a></li></ul>
     </div>
 
         <div class="clearfix"></div>
@@ -320,44 +320,39 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <center><img src="http://ow0mgad6r.bkt.clouddn.com/ping-600x450.png" alt="ping"></center>
+        <center><img src="http://ow0mgad6r.bkt.clouddn.com/5-2.png" alt="May"></center>
 
-<p>之前写过一篇文章【<a href="http://www.tony-yin.top/2018/04/20/Ctdb-Rados-All-Banned/" target="_blank" rel="external">Ctdb Rados方式导致All Banned的问题</a>】，谈到了当<code>ctdb</code>将<code>recovery lock</code>设置成<code>rados</code>的方式后，断网<code>master</code>节点会造成所有<code>ctdb</code>节点<code>All Banned</code>，主要原因是<code>master</code>意外断网没有释放锁，其他节点无法获取到锁，当时的解决方案是每<code>5</code>分钟检查一次<code>ctdb</code>状态，如果连续两次发生了<code>All Banned</code>的情况，则手动删除<code>lock</code>，这种做法在最近的测试中遇到了一些问题，本文对这些问题进行剖析并对相应的解决方案进行分享。</p>
+<p>五月份主要基于<code>python sna</code>实现了一个终端伪图形化界面的部署控制台，提供了填写配置信息、校验信息、导入信息和进度监控等功能，详情请见<a href="http://www.tony-yin.top/2018/06/03/Python-Snack-Best-Practice/" target="_blank" rel="external">【Python Snack 最佳实践】</a>。这是我之前一直感兴趣想做的事情，这次正好借助工作的契机对其有了深入的了解和学习，收获颇多。五月份假期多，团建，还有工作进度赶，导致自己的阅读时间受到了影响，大多数阅读都是围绕着工作内容，极客时间这些<code>APP</code>、技术博客和微信公众号的很多技术资源，自己都没有规律地学习。这些都不是借口啦，主要还是陷入吃鸡，不能自拔，哈哈哈。（已经卸了，我这个人容易上瘾然而又有点嫌麻烦，这对我来说是最简单有效的方式）</p>
 <a id="more"></a>
-<blockquote>
-<p>完整代码地址：<a href="https://github.com/tony-yin/Ctdb-Rados-Monitor" target="_blank" rel="external">https://github.com/tony-yin/Ctdb-Rados-Monitor</a></p>
-</blockquote>
-<h2 id="场景一"><a href="#场景一" class="headerlink" title="场景一"></a>场景一</h2><p>如果基于原来的做法，<code>ctdb</code>发生<code>All Banned</code>的情况，需要十分钟的监控时间加上两分钟左右的<code>recovery</code>时间，也就是说大概需要十二分钟才能恢复<code>ctdb</code>服务，这样看来高可用有点名实其副了，这个也会明显地影响存储业务的正常运行。后来，我们讨论出新的方案：每<code>5s</code>检查一次<code>ctdb</code>的状态，<code>All Banned</code>的次数累计到<code>5</code>次才确定为该故障场景，然后手动删除<code>lock</code>，最终要保证<code>ctdb</code>能够在<code>2min</code>内完成恢复。</p>
-<h3 id="问题1"><a href="#问题1" class="headerlink" title="问题1"></a>问题1</h3><p><code>cron tab</code>最短周期只支持分钟级别，所以如何<code>5s</code>检查一次便是一个问题。</p>
-<p>代码是死的，人是活的，虽然<code>cron tab</code>只支持分钟级别，但是我们可以每分钟调用一个脚本，然后在这个脚本中遍历<code>12</code>次，每次调用<code>ctdb monitor</code>脚本，然后<code>sleep 5s</code>，这样就可以达到每<code>5s</code>检查一次<code>ctdb</code>的效果了。</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#</span> ctdb_monitor</div><div class="line">* * * * * root /etc/ctdb/cron-seconds</div><div class="line"></div><div class="line"><span class="meta">#</span> cron-seconds</div><div class="line"><span class="meta">#</span>!/bin/bash</div><div class="line">for((i=1;i&lt;=12;i++));do</div><div class="line">    ../monitor_ctdb</div><div class="line">sleep 5</div><div class="line">done</div></pre></td></tr></table></figure>
-<p>这样检查到<code>ctdb</code>发生<code>All Banned</code>情况，只需要花费<code>25s</code>，剩下的就是<code>recovery</code>的时间了。</p>
-<h2 id="问题2"><a href="#问题2" class="headerlink" title="问题2"></a>问题2</h2><p>当<code>ctdb master</code>节点的<code>network</code>服务断掉，其他两个节点（我的开发环境是三节点的虚拟机环境）便会选举一个为<code>master</code>节点，然后去获取<code>lock</code>，因为原<code>master</code>没有释放锁，导致所有节点<code>All Banned</code>，即使我们手动删除了锁，但是这时候其他两个节点仍然处于<code>Banned</code>的情况，需要等到<code>Ban Timeout</code>才会再次尝试获取锁并开始恢复过程，这个<code>timeout</code>的时间是<code>300s</code>，即<code>5min</code>，这显然是我们不能接受的，所以我们要在删除<code>lock</code>后，重启所有节点的<code>ctdb</code>服务。</p>
-<p>不过该如何触发该重启操作呢？</p>
-<p>我们在删除<code>lock</code>后将<code>ctdb</code>所有节点的<code>ip</code>作为对象存进<code>rados</code>中，然后在每<code>5s</code>监控的脚本中，查看<code>rados</code>中是否存在本节点的<code>ip</code>对象，如果有，则尝试重启<code>ctdb</code>操作，重启后便删除该对象。</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line">function save_nodes_ip() &#123;</div><div class="line">    nodes=$(ctdb listnodes)</div><div class="line">    for node in $nodes; do</div><div class="line">        echo "$node" &gt; $node</div><div class="line">        rados -p rbd put $node $node</div><div class="line">        rm -f $node</div><div class="line">    done</div><div class="line">&#125;</div><div class="line"></div><div class="line">function get_current_node_ips() &#123;</div><div class="line">    ips=$(/usr/sbin/ip addr | grep "inet " | awk '&#123;print $2&#125;')</div><div class="line">    echo $ips</div><div class="line">&#125;</div><div class="line"></div><div class="line">function monitor_nodes_ip_in_rados() &#123;</div><div class="line">    ips=$(get_current_node_ips)</div><div class="line">    for ipinfo in $ips; do</div><div class="line">        ip=$&#123;ipinfo%/*&#125;</div><div class="line">        if $(timeout 10 rados -p rbd ls | grep "$ip" -qw); then</div><div class="line">            systemctl restart ctdb</div><div class="line">            rados -p rbd rm $ip</div><div class="line">        fi</div><div class="line">    done</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>至于为什么三个节点的<code>ip</code>都要存入<code>rados</code>，这个是因为原<code>master</code>节点恢复网络后，<code>ctdb</code>服务的状态为<code>failed</code>，同样需要重启<code>ctdb</code>服务才能正常恢复原<code>master</code>节点。 </p>
-<p><strong>注意：</strong></p>
-<p>这边有两个问题，当时浪费了我不少时间，问题不是多么深奥，但是不易发现。。。</p>
-<p>第一个问题便是<code>ips=$(/usr/sbin/ip addr | grep &quot;inet &quot; | awk &#39;{print $2}&#39;)</code>这行代码，原来的写法是<code>ips=$(ip addr | grep &quot;inet &quot; | awk &#39;{print $2}&#39;)</code>，当时发现<code>ip</code>总是获取不到，然后无论是命令行还是脚本运行都可以正常获取到，后来还是同事提醒才发现在<code>crontab</code>脚本中，<code>shell</code>命令默认是<code>/usr/bin/</code>下的，而<code>ip</code>命令则是<code>/usr/sbin/</code>下，所以这里的命令我们需要全路径。（这个需要格外注意！！！被坑的不要不要的。。。）</p>
-<p>第二个问题便是<code>rados -p rbd ls | grep &quot;$ip&quot; -qw</code>这行代码，当时没注意写成了<code>rados -p rbd ls | grep &quot;$ip&quot; -w</code>，发现<code>if</code>判断时常有问题，一开始还以为不能<code>grep</code>数字什么的，后来才发现没有加<code>q</code>，<code>q</code>表示安静模式，不打印任何标准输出，如果有匹配的内容则立即返回状态值0。</p>
-<h2 id="场景二"><a href="#场景二" class="headerlink" title="场景二"></a>场景二</h2><p>“断网”这个词不够具体，在实际生产环境中，一个集群中，一般都会有多个网络，就拿本人的<code>ceph</code>集群环境来说（物理机环境，并非前文提及的虚拟机开发环境），<code>ceph</code>有个<code>public network</code>和<code>cluster network</code>，而<code>ctdb</code>也有它的<code>node network</code>和<code>public network</code>，<code>ceph</code>的<code>public</code>和<code>ctdb</code>的<code>public</code>是同一网段，<code>ceph</code>的<code>cluster</code>是单独网段，<code>ctdb</code>的<code>node</code>是单独的网段。所以<code>ctdb master</code>断网可以分为三种情况：</p>
-<ul>
-<li>拔掉<code>ctdb master node</code>网段网线</li>
-<li>拔掉<code>ctdb master public</code>网段网线</li>
-<li>断掉<code>ctdb master network</code>服务</li>
-</ul>
-<p>当拔掉<code>ctdb master public</code>网段网线，这没有什么好说的，<code>ctdb master</code>节点服务还存在，只是<code>master</code>节点上的<code>public address</code>不可用了，会漂移到其他节点上。</p>
-<h3 id="问题1-1"><a href="#问题1-1" class="headerlink" title="问题1"></a>问题1</h3><p>当拔掉<code>ctdb master node</code>网段网线后，<code>master</code>节点仍然有<code>public</code>网卡，（<strong>这里注意</strong>）它仍然可以获取其他<code>ctdb</code>节点的状态，而其他节点却不可以获取它的状态，因为<code>master</code>的<code>node</code>节点<code>ip</code>不存在。所以造成的结果就是原<code>master</code>节点还默认自己是<code>master</code>节点，而其他的节点却又选举出了新的<code>master</code>，我们的脚本因为<code>All Banned</code>手动删除了<code>lock</code>，这时候其他节点可以正常恢复<code>ctdb</code>服务，但是当<code>ctdb master</code>节点断网再恢复后，它还以为自己是<code>master</code>，会不断去获取锁，而原来的锁已经被我们手动删除，这时候新的锁被新的<code>master</code>掌握，所以此时产生脑裂，我们要牺牲原<code>master</code>节点，也就是断网节点，所以需要重启它。这个重启触发机制我们是通过在每次删除<code>lock</code>之后在<code>rados</code>中存入<code>ctdb</code>所有节点的<code>ip</code>作为<code>object</code>（这就是为什么要存入所有节点的<code>ip</code>），然后只要发现有这个<code>object</code>便执行<code>ctdb</code>重启操作，然后便删除这个对象。至于为什么要存所有对象是因为除了原<code>master</code>需要重启之外，另外两个正常节点发生<code>All Banned</code>的情况，默认<code>timeout</code>时间是<code>300s</code>（这个上面也提到过），我们为了减少恢复时间，直接在删除<code>lock</code>后重启<code>ctdb</code>；</p>
-<h2 id="问题2-1"><a href="#问题2-1" class="headerlink" title="问题2"></a>问题2</h2><p>由于现在<code>ctdb</code>的锁是放在<code>rados</code>中，而不是以前的<code>cephfs</code>的方式了。所以当<code>master</code>断网再恢复时，它会不断地去<code>rados</code>获取他原来的锁，这是获取锁的进程越来越多，会阻塞住<code>rados</code>服务，我们可以通过<code>ps -ef | grep rados_helper</code>看到进程不断变多，那么<code>rados</code>服务不能正常读写就影响到我们上一条的机制，不能读<code>rados</code>中是否含有本节点<code>ip</code>的对象，就没办法进行重启操作，那么这样它就会不断地继续获取<code>lock</code>，所以我们在这里又加了一个机制，如果<code>ps -ef | grep rados_helper</code>的数目超过<code>6</code>个，就默认启动重启<code>ctdb</code>服务。</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">function monitor_get_lock_timeout() &#123;</div><div class="line">    count=$(ps -ef | grep rados_helper | wc -l)</div><div class="line">    if [ $count -ge $RADOS_HELPER_PROCESS_MAX ]; then</div><div class="line">        systemctl restart ctdb</div><div class="line">        update_last_ctdb_restart_time</div><div class="line">    fi</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h2 id="问题3"><a href="#问题3" class="headerlink" title="问题3"></a>问题3</h2><p><code>ctdb</code>目前重启的机制有点多，有自身自带的故障重启，也有我们监控脚本的异常情况，很容易发生重复重启，还有可能<code>rados_helper</code>堆积的进程很多，比如<code>20</code>个，我们的脚本是<code>5s</code>一次，也许<code>20</code>个的时候重启了，过<code>5s</code>，进程释放也需要时间，可能此时还有<code>10</code>个，那么大于我们规定的<code>6</code>个，就会继续重启，这种重复重启没有必要，所以我们要加上<code>ctdb</code>重启的周期限定<code>2min</code>。</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">function get_ctdb_restart_interval() &#123;</div><div class="line">    last_time=$(get_ctdb_restart_last_time)</div><div class="line">    if [ -z "$last_time" ]; then</div><div class="line">        interval=$(expr $RESTART_CTDB_INTERVAL_MAX + 1)</div><div class="line">    else</div><div class="line">        current_time=$(date +%s)</div><div class="line">        interval=$(expr $current_time - $last_time)</div><div class="line">    fi</div><div class="line">    echo $interval</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>考虑并解决以上提到的问题，基本上可以覆盖以上三种断网的场景了，在监控和管理<code>ctdb</code>的过程中，一定要小心，不能影响到业务正常运行。</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>生产环境网络结构错综复杂，往往在虚拟机上开发的功能当时好好的，到了物理机上面测试会发生各种问题，此时，我们首先要搞清楚网络拓扑结构，熟悉硬件配置，各网段的作用和相互之间的关联，这样遇到问题我们可以顺藤摸瓜，同样<code>ctdb</code>的原理也需要掌握才能了解它各种行为的触发机制，才能更好的定制化监控和管理。之后我会花点时间好好地研究一下<code>ctdb</code>，然后再单独做分享。</p>
-<blockquote>
-<p>完整代码地址：<a href="https://github.com/tony-yin/Ctdb-Rados-Monitor" target="_blank" rel="external">https://github.com/tony-yin/Ctdb-Rados-Monitor</a></p>
-</blockquote>
+<p>加入公司两个多月了，工作内容不断增多，难度也不断加大，由起初的合作工作到现在的独立负责某个<code>task</code>，也渐渐地忙了起来，总体来说还是游刃有余，能把自己的工作量<code>cover</code>住，希望自己继续加油。不过，这段时间大多数工作内容跟<code>ceph</code>关系不大，比如<code>ctdb rados</code>、<code>megaraid location</code>、<code>deploy console</code>等，毕竟是做产品，工作内容还是依赖产品需求，不过我还是不希望以后工作内容长期游离于<code>ceph</code>之外，因为今天的期望就是深入<code>ceph</code>，深入存储，如果工作上满足不了我的话，自己课余时间要挤一点时间做做研究了。不过好在现在项目上除了<code>ceph</code>也有很多东西是目前的我所不懂的，有学习的机会也不错，只要每天都能学习到不熟悉的东西便是极好的。除了存储，我们组也在往大数据和检索的方向靠，这两个我也都蛮感兴趣的，最近也稍微了解了下<code>elaticsearch</code>，目前好像很火的样子，六月底南京有一个<code>ES</code>线下沙龙，已经报名参加了，吼吼。</p>
+<p>加油咯 ~</p>
+<ol>
+<li><a href="http://www.voidcn.com/article/p-yvycalqd-brm.html" target="_blank" rel="external">Django实现CAS+OAuth2</a>(5/5) <i class="icon-star"></i></li>
+<li><a href="https://weibo.com/p/1001603934517592239583?mod=zwenzhang#_loginLayer_1525517479194" target="_blank" rel="external">NVMe over Fabric</a>(5/6) <i class="icon-star"></i><i class="icon-star"></i></li>
+<li><a href="http://www.wzxue.com/ceph-librbd-block-library/" target="_blank" rel="external">解析Ceph: Librbd–块存储库</a>(5/7)</li>
+<li><a href="https://draveness.me/docker" target="_blank" rel="external">Docker 核心技术与实现原理</a>(4)(5/11 ~ 5/13) <i class="icon-star"></i><i class="icon-star"></i><i class="icon-star-half-full"></i></li>
+<li><a href="https://blog.csdn.net/feng88724/article/details/7262514" target="_blank" rel="external">【Django】@login_required用法简介</a>(5/14)</li>
+<li><a href="http://www.nowamagic.net/academy/detail/1318909" target="_blank" rel="external">request.META里包含了哪些数据？</a>(5/15)</li>
+<li><a href="https://blog.csdn.net/naipeng/article/details/77162764" target="_blank" rel="external">CTDB代码流程简要梳理</a>(5/16) <i class="icon-star"></i></li>
+<li><a href="https://blog.csdn.net/liuying_1001/article/details/77994642" target="_blank" rel="external">ctdb原理介绍</a>(5/17~5/18) <i class="icon-star"></i><i class="icon-star"></i></li>
+<li><a href="https://opstrip.com/2017/06/14/howto-monitor-raidCard-status-with-commandline-MegaCli/" target="_blank" rel="external">MegaCli:如何使用命令行监控RAID卡状态</a>(5/18)</li>
+<li><a href="http://www.cnblogs.com/lustralisk/p/pythonProgressBar.html" target="_blank" rel="external">Python实现控制台中的进度条</a>(5/21)</li>
+<li><a href="https://coolshell.cn/articles/677.html" target="_blank" rel="external">用PYTHON写NCURSES UI</a>(5/22)</li>
+<li><a href="https://blog.csdn.net/naipeng/article/details/77162764" target="_blank" rel="external">NEWT 程序设计指南</a>(5/23)</li>
+<li><a href="http://www.wanware.com/tsgdocs/snack.html" target="_blank" rel="external">Quick Guide to Python’s Snack Module</a>(5/23)</li>
+<li><a href="http://www.cnblogs.com/Xjng/p/3869869.html" target="_blank" rel="external">python在linux制作图形界面（snack）</a>(5/23)</li>
+<li><a href="https://blog.csdn.net/taiyang1987912/article/details/49273601" target="_blank" rel="external">python在linux(anaconda)的图形界面（snack）</a>(5/24)</li>
+<li><a href="https://npyscreen.readthedocs.io/introduction.html#example-code" target="_blank" rel="external">An introduction to npyscreen</a>(5/24)</li>
+<li><a href="https://helloacm.com/creating-ui-controls-under-linux-shell-console-using-whiptail-utility/" target="_blank" rel="external">Creating UI Controls under Linux Shell Console using whiptail Utility</a>(5/25)</li>
+<li><a href="https://www.linuxjournal.com/article/2807" target="_blank" rel="external">Dialog: An Introductory Tutorial</a>(5/25)</li>
+<li><a href="https://askubuntu.com/questions/747143/create-a-progress-bar-in-bash" target="_blank" rel="external">Create a progress bar in bash</a>(5/25)</li>
+<li><a href="https://www.tecmint.com/monitor-copy-backup-tar-progress-in-linux-using-pv-command/" target="_blank" rel="external">How to Monitor Progress of (Copy/Backup/Compress) Data using ‘pv’ Command</a>(5/25)</li>
+<li><a href="http://blog.ihipop.info/2010/10/1736.html" target="_blank" rel="external">Python中如何写控制台进度条的整理</a>(5/26) <i class="icon-star"></i></li>
+<li><a href="https://www.ibm.com/developerworks/cn/linux/sdk/python/python-6/index.html" target="_blank" rel="external">可爱的 Python：Curses 编程</a>(5/26)</li>
+<li><a href="http://wklken.me/posts/2012/02/19/python-ini-configparser.html" target="_blank" rel="external">PYTHON读取修改INI配置文件[CONFIGPARSER]</a>(5/31)</li>
+<li><a href="https://www.jianshu.com/p/4202a2051668" target="_blank" rel="external">Python 解析配置模块之ConfigParser详解</a>(5/31) <i class="icon-star"></i></li>
+<li><a href="http://www.cnblogs.com/huey/p/4334152.html" target="_blank" rel="external">Python(2.7.6) ConfigParser - 读写配置文件</a>(5/31)</li>
+</ol>
 
       
 
@@ -367,13 +362,13 @@
   
     
     <div class="copyright">
-        <p><span>本文标题:</span><a  href="/2018/05/20/Ctdb-Rados-2/">Ctdb Rados（二）：多场景断网高可用</a></p>
+        <p><span>本文标题:</span><a  href="/2018/06/01/Daily-Article-Vol6/">Daily Article Vol6(2018/5/1 ~ 2018/5/31)</a></p>
         <p><span>文章作者:</span><a  href="/" title="访问 Tony 的个人博客">Tony</a></p>
-        <p><span>发布时间:</span>2018年05月20日 - 13时07分</p>
-        <p><span>最后更新:</span>2018年05月22日 - 10时35分</p>
+        <p><span>发布时间:</span>2018年06月01日 - 13时07分</p>
+        <p><span>最后更新:</span>2018年06月15日 - 14时30分</p>
         <p>
-            <span>原始链接:</span><a class="post-url" href="/2018/05/20/Ctdb-Rados-2/" title="Ctdb Rados（二）：多场景断网高可用">https://tony-yin.github.io/2018/05/20/Ctdb-Rados-2/</a>
-            <span class="copy-path" data-clipboard-text="原文: https://tony-yin.github.io/2018/05/20/Ctdb-Rados-2/　　作者: Tony" title=""></span>
+            <span>原始链接:</span><a class="post-url" href="/2018/06/01/Daily-Article-Vol6/" title="Daily Article Vol6(2018/5/1 ~ 2018/5/31)">https://tony-yin.github.io/2018/06/01/Daily-Article-Vol6/</a>
+            <span class="copy-path" data-clipboard-text="原文: https://tony-yin.github.io/2018/06/01/Daily-Article-Vol6/　　作者: Tony" title=""></span>
         </p>
         <p>
             <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/cn/" title="中国大陆 (CC BY-NC-SA 3.0 CN)" target = "_blank">"署名-非商用-相同方式共享 3.0"</a> 转载请保留原文链接及作者。
@@ -384,18 +379,18 @@
 
 <nav id="article-nav">
   
-    <a  href="/2018/06/01/Daily-Article-Vol6/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a  href="/2018/06/03/Python-Snack-Best-Practice/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption"><</strong>
       <div class="article-nav-title">
         
-          Daily Article Vol6(2018/5/1 ~ 2018/5/31)
+          Python Snack 最佳实践
         
       </div>
     </a>
   
   
-    <a  href="/2018/05/12/Megaraid_Location/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">Megaraid 磁盘定位</div>
+    <a  href="/2018/05/20/Ctdb-Rados-2/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Ctdb Rados（二）：多场景断网高可用</div>
       <strong class="article-nav-caption">></strong>
     </a>
   
@@ -407,7 +402,7 @@
 
     <div id="toc" class="toc-article">
     <strong class="toc-title">文章目录</strong>
-    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#场景一"><span class="toc-number">1.</span> <span class="toc-text">场景一</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#问题1"><span class="toc-number">1.1.</span> <span class="toc-text">问题1</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#问题2"><span class="toc-number">2.</span> <span class="toc-text">问题2</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#场景二"><span class="toc-number">3.</span> <span class="toc-text">场景二</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#问题1-1"><span class="toc-number">3.1.</span> <span class="toc-text">问题1</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#问题2-1"><span class="toc-number">4.</span> <span class="toc-text">问题2</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#问题3"><span class="toc-number">5.</span> <span class="toc-text">问题3</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-number">6.</span> <span class="toc-text">总结</span></a></li></ol>
+    
 </div>
 <style>
     .left-col .switch-btn {
@@ -489,13 +484,13 @@
 
     <div class="scroll" id="post-nav-button">
         
-            <a  href="/2018/06/01/Daily-Article-Vol6/" title="上一篇: Daily Article Vol6(2018/5/1 ~ 2018/5/31)">
+            <a  href="/2018/06/03/Python-Snack-Best-Practice/" title="上一篇: Python Snack 最佳实践">
                 <i class="fa fa-angle-left"></i>
             </a>
         
         <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
         
-            <a  href="/2018/05/12/Megaraid_Location/" title="下一篇: Megaraid 磁盘定位">
+            <a  href="/2018/05/20/Ctdb-Rados-2/" title="下一篇: Ctdb Rados（二）：多场景断网高可用">
                 <i class="fa fa-angle-right"></i>
             </a>
         
