@@ -17,7 +17,7 @@
 <meta property="og:site_name" content="Tony&#39;s blog">
 <meta property="og:description" content="这是Daily Article系列文章的第七篇，主要记录了2018/6/1 ~ 2018/6/30之间的阅读记录。">
 <meta property="og:image" content="http://ow0mgad6r.bkt.clouddn.com/6.png">
-<meta property="og:updated_time" content="2018-07-17T02:44:19.009Z">
+<meta property="og:updated_time" content="2018-07-17T02:50:09.482Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Daily Article Vol7(2018&#x2F;6&#x2F;1 ~ 2018&#x2F;6&#x2F;30)">
 <meta name="twitter:description" content="这是Daily Article系列文章的第七篇，主要记录了2018/6/1 ~ 2018/6/30之间的阅读记录。">
@@ -326,55 +326,55 @@
 <a id="more"></a>
 <p>六月份主要做了几件事，一个是基于<code>python</code>实现一个守护进程，从<code>unix</code>实现守护进程的底层原理撸了一遍，加深了对<code>linux</code>底层进程一些概念的了解，正好也接触了“骑着企鹅采树莓”系列文章，讲的很不错，通俗易懂；然后把之前基于<code>pci path</code>寻找逻辑磁盘的物理位置整理了下，研究了一波块设备持久化命名；然后学习了下<code>kvm</code>虚拟化技术，并在此之上研究了下虚拟机迁移技术，这其中包括虚拟机到虚拟机的迁移，<code>kvm</code>虚拟机到<code>vmware</code>虚拟机的迁移，虚拟机到物理机的迁移，物理机到物理机的迁移等等；最后研究了下多路径设备，概念有点混乱，不断地啃资料终于有点明白了。不得不说，这些底层的知识真是又多又复杂，只能慢慢啃，加油咯。</p>
 <ol>
-<li><a href="https://unix.stackexchange.com/questions/86764/understanding-dev-disk-by-folders" target="_blank" rel="external">understanding /dev/disk/by- folders</a>(6/1) <i class="icon-star"></i><i class="icon-star"></i></li>
-<li><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/5/html/online_storage_reconfiguration_guide/persistent_naming" target="_blank" rel="external">PERSISTENT NAMING</a>(6/2) <i class="icon-star"></i></li>
-<li><a href="http://fibrevillage.com/storage/578-understanding-device-names-managed-by-the-udev-mechanism" target="_blank" rel="external">Understanding Device Names Managed by the udev mechanism</a>(6/3) <i class="icon-star"></i><i class="icon-star"></i></li>
-<li><a href="https://wiki.archlinux.org/index.php/Persistent_block_device_naming_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)" target="_blank" rel="external">Persistent block device naming</a>(6/4) <i class="icon-star"></i><i class="icon-star"></i></li>
-<li><a href="https://wiki.archlinux.org/index.php/Udev_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)#.E8.AE.BE.E7.BD.AE.E9.9D.99.E6.80.81.E8.AE.BE.E5.A4.87.E5.90.8D" target="_blank" rel="external">udev (简体中文)</a>(6/9) <i class="icon-star"></i><i class="icon-star"></i></li>
+<li><a href="https://unix.stackexchange.com/questions/86764/understanding-dev-disk-by-folders" target="_blank" rel="external">understanding /dev/disk/by- folders</a>(6/1) <i class="fa fa-star"></i><i class="fa fa-star"></i></li>
+<li><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/5/html/online_storage_reconfiguration_guide/persistent_naming" target="_blank" rel="external">PERSISTENT NAMING</a>(6/2) <i class="fa fa-star"></i></li>
+<li><a href="http://fibrevillage.com/storage/578-understanding-device-names-managed-by-the-udev-mechanism" target="_blank" rel="external">Understanding Device Names Managed by the udev mechanism</a>(6/3) <i class="fa fa-star"></i><i class="fa fa-star"></i></li>
+<li><a href="https://wiki.archlinux.org/index.php/Persistent_block_device_naming_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)" target="_blank" rel="external">Persistent block device naming</a>(6/4) <i class="fa fa-star"></i><i class="fa fa-star"></i></li>
+<li><a href="https://wiki.archlinux.org/index.php/Udev_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)#.E8.AE.BE.E7.BD.AE.E9.9D.99.E6.80.81.E8.AE.BE.E5.A4.87.E5.90.8D" target="_blank" rel="external">udev (简体中文)</a>(6/9) <i class="fa fa-star"></i><i class="fa fa-star"></i></li>
 <li><a href="https://www.linuxquestions.org/questions/linux-server-73/how-to-find-wwn-for-dev-sdc-917269/" target="_blank" rel="external">How to find WWN for /dev/sdc</a>(6/9)</li>
 <li><a href="http://www.cnblogs.com/songyaqi/p/4553069.html9.html/l-anaconda/index.html" target="_blank" rel="external">SSO单点登录的实现原理是怎样的</a>(6/10)</li>
 <li><a href="https://www.ibm.com/developerworks/cn/linux/sdk/python/python-6/index.html" target="_blank" rel="external">可爱的 Python：Curses 编程</a>(6/10)</li>
 <li><a href="http://blog.51cto.com/830909/1751106" target="_blank" rel="external">Django cookie和session</a>(6/10)</li>
-<li><a href="https://www.jianshu.com/p/40ec55c6e614?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=seo_notes&amp;utm_source=recommendation" target="_blank" rel="external">这也许是你看到过的最通俗易懂的ElasticSearch文章了（理论篇）</a>(6/10) <i class="icon-star"></i><i class="icon-star-half-empty"></i></li>
+<li><a href="https://www.jianshu.com/p/40ec55c6e614?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=seo_notes&amp;utm_source=recommendation" target="_blank" rel="external">这也许是你看到过的最通俗易懂的ElasticSearch文章了（理论篇）</a>(6/10) <i class="fa fa-star"></i><i class="fa fa-star-half-empty"></i></li>
 <li><a href="https://elasticsearch.cn/slides/109#page=21" target="_blank" rel="external">饿了么在ELasticsearch自动化运维平台和监控平台的应用实践</a>(6/10)</li>
 <li><a href="https://humansky.com/2011/12/accidentally-adding-a-git-submodule/" target="_blank" rel="external">ACCIDENTALLY ADDING A GIT SUBMODULE</a>(6/11)</li>
-<li><a href="https://www.jianshu.com/p/4e412f48e820?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=seo_notes&amp;utm_source=recommendation" target="_blank" rel="external">聊聊MySQL、HBase、ES的特点和区别</a>(6/12) <i class="icon-star"></i><i class="icon-star-half-empty"></i></li>
+<li><a href="https://www.jianshu.com/p/4e412f48e820?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=seo_notes&amp;utm_source=recommendation" target="_blank" rel="external">聊聊MySQL、HBase、ES的特点和区别</a>(6/12) <i class="fa fa-star"></i><i class="fa fa-star-half-empty"></i></li>
 <li><a href="http://www.cnblogs.com/qiaoyihang/p/6262806.html" target="_blank" rel="external">行存储和列存储</a>(6/13)</li>
-<li><a href="https://time.geekbang.org/column/article/1610" target="_blank" rel="external">【极客时间：左耳听风】洞悉PaaS平台的本质</a>(6/13) <i class="icon-star"></i></li>
-<li><a href="https://coolshell.cn/articles/17459.html" target="_blank" rel="external">【CoolShell】关于高可用的系统</a>(6/13) <i class="icon-star"></i></li>
-<li><a href="https://time.geekbang.org/column/article/301" target="_blank" rel="external">【极客时间：左耳听风】编程范式游记（1）- 起源</a>(6/14)<i class="icon-star"></i></li>
+<li><a href="https://time.geekbang.org/column/article/1610" target="_blank" rel="external">【极客时间：左耳听风】洞悉PaaS平台的本质</a>(6/13) <i class="fa fa-star"></i></li>
+<li><a href="https://coolshell.cn/articles/17459.html" target="_blank" rel="external">【CoolShell】关于高可用的系统</a>(6/13) <i class="fa fa-star"></i></li>
+<li><a href="https://time.geekbang.org/column/article/301" target="_blank" rel="external">【极客时间：左耳听风】编程范式游记（1）- 起源</a>(6/14)<i class="fa fa-star"></i></li>
 <li><a href="https://blog.csdn.net/asware/article/details/4159366" target="_blank" rel="external">python fork</a>(6/15)</li>
-<li><a href="https://blog.csdn.net/taiyang1987912/article/details/44850999" target="_blank" rel="external">Python实例浅谈之五Python守护进程和脚本单例运行</a>(6/16) <i class="icon-star"></i><i class="icon-star-half-empty"></i></li>
-<li><a href="https://www.jianshu.com/p/e3f3d49093ca" target="_blank" rel="external">Python实现守护进程</a>(6/18) <i class="icon-star"></i></li>
-<li><a href="http://python3-cookbook.readthedocs.io/zh_CN/latest/c12/p14_launching_daemon_process_on_unix.html#id1" target="_blank" rel="external">在Unix系统上面启动守护进程</a>(6/19) <i class="icon-star"></i><i class="icon-star"></i></li>
-<li><a href="https://yq.aliyun.com/articles/41477?spm=5176.100240.searchblog.39.HyGU9I" target="_blank" rel="external">《APUE》读书笔记—第十三章守护进程</a>(6/19) <i class="icon-star"></i><i class="icon-star"></i> </li>
-<li><a href="http://www.cnblogs.com/vamei/archive/2012/09/20/2694466.html" target="_blank" rel="external">【骑着企鹅采树莓】Linux进程基础</a>(6/20) <i class="icon-star"></i><i class="icon-star"></i><i class="icon-star-half-empty"></i></li>
-<li><a href="http://www.cnblogs.com/vamei/archive/2012/10/07/2713023.html" target="_blank" rel="external">【骑着企鹅采树莓】Linux进程关系</a>(6/20) <i class="icon-star"></i><i class="icon-star"></i></li>
+<li><a href="https://blog.csdn.net/taiyang1987912/article/details/44850999" target="_blank" rel="external">Python实例浅谈之五Python守护进程和脚本单例运行</a>(6/16) <i class="fa fa-star"></i><i class="fa fa-star-half-empty"></i></li>
+<li><a href="https://www.jianshu.com/p/e3f3d49093ca" target="_blank" rel="external">Python实现守护进程</a>(6/18) <i class="fa fa-star"></i></li>
+<li><a href="http://python3-cookbook.readthedocs.io/zh_CN/latest/c12/p14_launching_daemon_process_on_unix.html#id1" target="_blank" rel="external">在Unix系统上面启动守护进程</a>(6/19) <i class="fa fa-star"></i><i class="fa fa-star"></i></li>
+<li><a href="https://yq.aliyun.com/articles/41477?spm=5176.100240.searchblog.39.HyGU9I" target="_blank" rel="external">《APUE》读书笔记—第十三章守护进程</a>(6/19) <i class="fa fa-star"></i><i class="fa fa-star"></i> </li>
+<li><a href="http://www.cnblogs.com/vamei/archive/2012/09/20/2694466.html" target="_blank" rel="external">【骑着企鹅采树莓】Linux进程基础</a>(6/20) <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star-half-empty"></i></li>
+<li><a href="http://www.cnblogs.com/vamei/archive/2012/10/07/2713023.html" target="_blank" rel="external">【骑着企鹅采树莓】Linux进程关系</a>(6/20) <i class="fa fa-star"></i><i class="fa fa-star"></i></li>
 <li><a href="http://www.cnblogs.com/vamei/p/6415434.html" target="_blank" rel="external">【骑着企鹅采树莓】树莓派：一个关于教育的故事</a>(6/21)</li>
-<li><a href="http://www.cnblogs.com/vamei/p/6424666.html" target="_blank" rel="external">【骑着企鹅采树莓】树莓派心脏：ARM的逆袭</a>(6/21)  <i class="icon-star"></i></li>
+<li><a href="http://www.cnblogs.com/vamei/p/6424666.html" target="_blank" rel="external">【骑着企鹅采树莓】树莓派心脏：ARM的逆袭</a>(6/21)  <i class="fa fa-star"></i></li>
 <li><a href="http://www.cnblogs.com/vamei/p/6718942.html" target="_blank" rel="external">【骑着企鹅采树莓】树莓派的大脑：Linux</a>(6/22)</li>
 <li><a href="https://my.oschina.net/guol/blog/156607" target="_blank" rel="external">Linux策略路由</a>(6/22)</li>
 <li><a href="https://www.ibm.com/developerworks/cn/linux/l-cn-linux-br1/index.html" target="_blank" rel="external">【迁移Linux系统1】如何迁移备份和裸机恢复Linux系统</a>(6/24)</li>
 <li><a href="https://www.ibm.com/developerworks/cn/linux/l-cn-linux-br2/index.html" target="_blank" rel="external">【迁移Linux系统2】利用 KIWI Imaging System 定制裸机恢复光盘）</a>(6/26)</li>
 <li><a href="https://www.ibm.com/developerworks/cn/linux/l-cn-mgrtvm1/index.html" target="_blank" rel="external">【虚拟机迁移技术漫谈1】如何在虚拟机和物理机以及虚拟机和虚拟机之间的迁移系统</a>(6/24)</li>
-<li><a href="https://www.ibm.com/developerworks/cn/linux/l-cn-mgrtvm2/index.html" target="_blank" rel="external">【虚拟机迁移技术漫谈2】KVM虚拟机在物理主机之间迁移的实现</a>(6/24) <i class="icon-star"></i><i class="icon-star-half-empty"></i></li>
-<li><a href="https://www.ibm.com/developerworks/cn/linux/l-cn-mgrtvm3/index.html" target="_blank" rel="external">【虚拟机迁移技术漫谈3】迁移 VMware 虚拟机到 KVM</a>(6/25) <i class="icon-star"></i><i class="icon-star-half-empty"></i></li>
-<li><a href="https://www.ibm.com/developerworks/cn/linux/l-cn-kvm/" target="_blank" rel="external">【虚拟机迁移技术漫谈4】KVM 虚拟机在 IBM System x 上应用</a>(6/25) <i class="icon-star"></i><i class="icon-star-half-empty"></i></li>
+<li><a href="https://www.ibm.com/developerworks/cn/linux/l-cn-mgrtvm2/index.html" target="_blank" rel="external">【虚拟机迁移技术漫谈2】KVM虚拟机在物理主机之间迁移的实现</a>(6/24) <i class="fa fa-star"></i><i class="fa fa-star-half-empty"></i></li>
+<li><a href="https://www.ibm.com/developerworks/cn/linux/l-cn-mgrtvm3/index.html" target="_blank" rel="external">【虚拟机迁移技术漫谈3】迁移 VMware 虚拟机到 KVM</a>(6/25) <i class="fa fa-star"></i><i class="fa fa-star-half-empty"></i></li>
+<li><a href="https://www.ibm.com/developerworks/cn/linux/l-cn-kvm/" target="_blank" rel="external">【虚拟机迁移技术漫谈4】KVM 虚拟机在 IBM System x 上应用</a>(6/25) <i class="fa fa-star"></i><i class="fa fa-star-half-empty"></i></li>
 <li><a href="https://www.ibm.com/developerworks/cn/aix/library/0808_shenlf_ivm/" target="_blank" rel="external">【虚拟机迁移技术漫谈5】在IBM集成虚拟化管理器上进行动态分区迁移</a>(6/26)</li>
 <li><a href="http://www.cnblogs.com/biangbiang/p/3222458.html" target="_blank" rel="external">利用Qemu Guest Agent (Qemu-ga) 实现 Openstack 监控平台</a>(6/26)</li>
 <li><a href="http://www.zoues.com/2015/10/13/qemu-guest-agent/" target="_blank" rel="external">利用qemu-guest-agent冻结文件系统</a>(6/26)</li>
 <li><a href="http://blog.51cto.com/aishangwei/2124944" target="_blank" rel="external">kvm 快照</a>(6/26)</li>
 <li><a href="https://access.redhat.com/solutions/732773" target="_blank" rel="external">How to enable QEMU guest agent in KVM</a>(6/26)</li>
 <li><a href="http://www.ruanyifeng.com/blog/2018/06/ddos.html" target="_blank" rel="external">DDOS 攻击的防范教程</a>(6/27)</li>
-<li><a href="https://www.ibm.com/developerworks/cn/linux/l-libvirt/index.html" target="_blank" rel="external">Libvirt 虚拟化库剖析</a>(6/27) <i class="icon-star"></i></li>
+<li><a href="https://www.ibm.com/developerworks/cn/linux/l-libvirt/index.html" target="_blank" rel="external">Libvirt 虚拟化库剖析</a>(6/27) <i class="fa fa-star"></i></li>
 <li><a href="https://www.ibm.com/developerworks/cn/aix/redbooks/live-mobility/" target="_blank" rel="external">IBM 动态分区迁移(Live Partition Mobility)技术-概述</a>(6/27)</li>
-<li><a href="http://www.cnblogs.com/vamei/archive/2012/10/04/2711818.html" target="_blank" rel="external">【骑着企鹅采树莓】Linux信号基础</a>(6/27) <i class="icon-star"></i></li>
+<li><a href="http://www.cnblogs.com/vamei/archive/2012/10/04/2711818.html" target="_blank" rel="external">【骑着企鹅采树莓】Linux信号基础</a>(6/27) <i class="fa fa-star"></i></li>
 <li><a href="https://access.redhat.com/documentation/zh-cn/red_hat_enterprise_linux/6/html/dm_multipath/mpio_description" target="_blank" rel="external">DM-MULTIPATH 概述</a>(6/28)</li>
-<li><a href="https://www.ibm.com/developerworks/cn/linux/l-devmapper/index.html" target="_blank" rel="external">Linux 内核中的 Device Mapper 机制</a>(6/28) <i class="icon-star"></i></li>
+<li><a href="https://www.ibm.com/developerworks/cn/linux/l-devmapper/index.html" target="_blank" rel="external">Linux 内核中的 Device Mapper 机制</a>(6/28) <i class="fa fa-star"></i></li>
 <li><a href="https://wsgzao.github.io/post/multipath/" target="_blank" rel="external">Multipath 多路径配置实践心得</a>(6/28)</li>
-<li><a href="http://www.cnblogs.com/jyzhao/p/7200585.html" target="_blank" rel="external">multipath多路径实验01-构建iSCSI模拟环境</a>(6/30) <i class="icon-star"></i></li>
+<li><a href="http://www.cnblogs.com/jyzhao/p/7200585.html" target="_blank" rel="external">multipath多路径实验01-构建iSCSI模拟环境</a>(6/30) <i class="fa fa-star"></i></li>
 <li><a href="http://www.cnblogs.com/jyzhao/p/7208620.html" target="_blank" rel="external">multipath多路径实验02-配置多路径软件</a>(6/30)</li>
-<li><a href="https://blog.csdn.net/jiaping0424/article/details/51591257" target="_blank" rel="external">multipath 路径切换</a>(6/30) <i class="icon-star"></i></li>
+<li><a href="https://blog.csdn.net/jiaping0424/article/details/51591257" target="_blank" rel="external">multipath 路径切换</a>(6/30) <i class="fa fa-star"></i></li>
 </ol>
 
       
@@ -388,7 +388,7 @@
         <p><span>本文标题:</span><a  href="/2018/07/01/Daily-Article-Vol7/">Daily Article Vol7(2018/6/1 ~ 2018/6/30)</a></p>
         <p><span>文章作者:</span><a  href="/" title="访问 Tony 的个人博客">Tony</a></p>
         <p><span>发布时间:</span>2018年07月01日 - 13时07分</p>
-        <p><span>最后更新:</span>2018年07月17日 - 10时44分</p>
+        <p><span>最后更新:</span>2018年07月17日 - 10时50分</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2018/07/01/Daily-Article-Vol7/" title="Daily Article Vol7(2018/6/1 ~ 2018/6/30)">https://tony-yin.github.io/2018/07/01/Daily-Article-Vol7/</a>
             <span class="copy-path" data-clipboard-text="原文: https://tony-yin.github.io/2018/07/01/Daily-Article-Vol7/　　作者: Tony" title=""></span>

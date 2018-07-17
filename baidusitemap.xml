@@ -4,6 +4,28 @@
 
     
   <url>
+    <loc>https://tony-yin.github.io/2018/07/01/Daily-Article-Vol7/</loc>
+    <lastmod>2018-07-17T02:50:09.482Z</lastmod>
+    <data>
+        <display>
+        <title>Daily Article Vol7(2018/6/1 ~ 2018/6/30)</title>
+        <pubTime>2018-07-01T05:07:06.000Z</pubTime>
+        
+        <tag>Read</tag>
+         
+        <tag>Daily-Article</tag>
+         
+         
+           
+             
+              <breadCrumb title="read" url="https://tony-yin.github.io/categories/read/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>https://tony-yin.github.io/2018/06/20/Block-device-persistent-name-and-multipath/</loc>
     <lastmod>2018-07-17T02:46:18.890Z</lastmod>
     <data>
@@ -19,28 +41,6 @@
            
              
               <breadCrumb title="tech" url="https://tony-yin.github.io/categories/tech/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>https://tony-yin.github.io/2018/07/01/Daily-Article-Vol7/</loc>
-    <lastmod>2018-07-17T02:44:19.009Z</lastmod>
-    <data>
-        <display>
-        <title>Daily Article Vol7(2018/6/1 ~ 2018/6/30)</title>
-        <pubTime>2018-07-01T05:07:06.000Z</pubTime>
-        
-        <tag>Read</tag>
-         
-        <tag>Daily-Article</tag>
-         
-         
-           
-             
-              <breadCrumb title="read" url="https://tony-yin.github.io/categories/read/"/>
           
         </display>
     </data>
