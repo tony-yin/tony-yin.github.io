@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="baidu-site-verification" content="L6Lm9d5Crl"/>
+  
+  
+  
+  
+  <title>为什么crontab不执行 | Tony&#39;s blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="作为linux中的定时任务工具，crontab被广大开发者所热爱和使用。该技术由来已久，相当成熟，但是在真正使用的时候会时不时地发现为什么crontab脚本没有按照预期那样执行？本文以本周笔者遇到一个crontab不能运行的问题为引子，详细地介绍为什么crontab不运行的各种原因。">
+<meta name="keywords" content="Linux,Crontab">
+<meta property="og:type" content="article">
+<meta property="og:title" content="为什么crontab不执行">
+<meta property="og:url" content="https://tony-yin.github.io/2018/10/29/Why-Crontab-Not-Work/index.html">
+<meta property="og:site_name" content="Tony&#39;s blog">
+<meta property="og:description" content="作为linux中的定时任务工具，crontab被广大开发者所热爱和使用。该技术由来已久，相当成熟，但是在真正使用的时候会时不时地发现为什么crontab脚本没有按照预期那样执行？本文以本周笔者遇到一个crontab不能运行的问题为引子，详细地介绍为什么crontab不运行的各种原因。">
+<meta property="og:image" content="http://ow0mgad6r.bkt.clouddn.com/Why-Crontab-Not_Work.png">
+<meta property="og:updated_time" content="2018-10-29T07:00:08.008Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="为什么crontab不执行">
+<meta name="twitter:description" content="作为linux中的定时任务工具，crontab被广大开发者所热爱和使用。该技术由来已久，相当成熟，但是在真正使用的时候会时不时地发现为什么crontab脚本没有按照预期那样执行？本文以本周笔者遇到一个crontab不能运行的问题为引子，详细地介绍为什么crontab不运行的各种原因。">
+<meta name="twitter:image" content="http://ow0mgad6r.bkt.clouddn.com/Why-Crontab-Not_Work.png">
+  
+    <link rel="alternative" href="/atom.xml" title="Tony&#39;s blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/img/favicon.png">
+  
+  
+  <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  
+  
+      <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  
+  <!-- 加载特效 -->
+    <script src="/js/pace.js"></script>
+    <link href="/css/pace/pace-theme-flash.css" rel="stylesheet" />
+  <script>
+      var yiliaConfig = {
+          fancybox: true,
+          animate: true,
+          isHome: false,
+          isPost: true,
+          isArchive: false,
+          isTag: false,
+          isCategory: false,
+          open_in_new: false
+      }
+  </script>
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+        <a href="/" class="profilepic">
+            
+            <img src="/img/tony.jpg" class="js-avatar">
+            
+        </a>
+        <hgroup>
+          <h1 class="header-author"><a href="/">Tony</a></h1>
+        </hgroup>
+        
+        
+            <form>
+	        <input type="text" class="st-default-search-input search" id="local-search-input" placeholder="搜索一下" autocomplete="off">
+            </form>
+            <div id="local-search-result"></div>
+        
+        
+            <script type="text/javascript">
+                (function() {
+                    'use strict';
+                    function getMatchData(keyword, data) {
+                        var matchData = [];
+                        for(var i =0;i<data.length;i++){
+                            if(data[i].title.toLowerCase().indexOf(keyword)>=0) 
+                                matchData.push(data[i])
+                        }
+                        return matchData;
+                    }
+                    var $input = $('#local-search-input');
+                    var $resultContent = $('#local-search-result');
+                    $input.keyup(function(){
+                        $.ajax({
+                            url: '/search.json',
+                            dataType: "json",
+                            success: function( json ) {
+                                var str='<ul class=\"search-result-list\">';                
+                                var keyword = $input.val().trim().toLowerCase();
+                                $resultContent.innerHTML = "";
+                                if ($input.val().trim().length <= 0) {
+                                    $resultContent.empty();
+                                    $('#switch-area').show();
+                                    return;
+                                }
+                                var results = getMatchData(keyword, json);
+                                if(results.length === 0){
+                                    $resultContent.empty();
+                                    $('#switch-area').show();
+                                    return;
+                                } 
+                                for(var i =0; i<results.length; i++){
+                                    str += "<li><a href='"+ results[i].url +"' class='search-result-title'>"+ results[i].title +"</a></li>";
+                                }
+                                str += "</ul>";
+                                $resultContent.empty();
+                                $resultContent.append(str);
+                                $('#switch-area').hide();
+                            }
+                        });
+                    });
+                })();
+            </script>
+        
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                        <div class="icon-wrap icon-me hide" data-idx="3">
+                            <div class="user"></div>
+                            <div class="shoulder"></div>
+                        </div>
+                        
+                    </div>
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                        <li>关于我</li>
+                        
+                    </ul>
+                </div>
+            </div>
+        
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a  href="/archives/">所有文章</a></li>
+                        
+                            <li><a  href="/categories/tech">技术文章</a></li>
+                        
+                            <li><a  href="/tags/Ceph">Ceph修炼之路</a></li>
+                        
+                            <li><a  href="/categories/summary">感悟总结</a></li>
+                        
+                            <li><a  href="/categories/read">阅读翻译</a></li>
+                        
+                            <li><a  href="/categories/life">生活随笔</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fl github"  target="_blank" href="https://github.com/tony-yin" title="github">github</a>
+                            
+                                <a class="fl weibo"  target="_blank" href="https://weibo.com/3832044210/profile?rightmod=1&wvr=6&mod=personinfo" title="weibo">weibo</a>
+                            
+                                <a class="fl segmentfault"  target="_blank" href="https://segmentfault.com/u/qzuser_57fb1d5db527e" title="segmentfault">segmentfault</a>
+                            
+                        </ul>
+			
+                    </nav>
+                </section>
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <a href="/tags/Bugfix/" style="font-size: 10px;">Bugfix</a> <a href="/tags/CAS/" style="font-size: 10px;">CAS</a> <a href="/tags/Ceph/" style="font-size: 20px;">Ceph</a> <a href="/tags/Cephx/" style="font-size: 10px;">Cephx</a> <a href="/tags/Console/" style="font-size: 10px;">Console</a> <a href="/tags/Crontab/" style="font-size: 10px;">Crontab</a> <a href="/tags/Ctdb/" style="font-size: 11.43px;">Ctdb</a> <a href="/tags/Daily-Article/" style="font-size: 15.71px;">Daily-Article</a> <a href="/tags/Disk/" style="font-size: 12.86px;">Disk</a> <a href="/tags/Django/" style="font-size: 10px;">Django</a> <a href="/tags/Filesystem/" style="font-size: 11.43px;">Filesystem</a> <a href="/tags/HA/" style="font-size: 12.86px;">HA</a> <a href="/tags/Javascript/" style="font-size: 10px;">Javascript</a> <a href="/tags/Keepalived/" style="font-size: 11.43px;">Keepalived</a> <a href="/tags/LVM/" style="font-size: 10px;">LVM</a> <a href="/tags/Linux/" style="font-size: 17.14px;">Linux</a> <a href="/tags/Luminous/" style="font-size: 10px;">Luminous</a> <a href="/tags/Megaraid/" style="font-size: 10px;">Megaraid</a> <a href="/tags/Moodle/" style="font-size: 10px;">Moodle</a> <a href="/tags/NAS/" style="font-size: 10px;">NAS</a> <a href="/tags/NFS/" style="font-size: 12.86px;">NFS</a> <a href="/tags/NFS-Ganesha/" style="font-size: 10px;">NFS-Ganesha</a> <a href="/tags/Network/" style="font-size: 10px;">Network</a> <a href="/tags/Notification/" style="font-size: 10px;">Notification</a> <a href="/tags/OSD/" style="font-size: 12.86px;">OSD</a> <a href="/tags/Oracle/" style="font-size: 11.43px;">Oracle</a> <a href="/tags/Oracle-11g-R2/" style="font-size: 10px;">Oracle 11g R2</a> <a href="/tags/Oracle-Linux/" style="font-size: 10px;">Oracle Linux</a> <a href="/tags/PHP/" style="font-size: 11.43px;">PHP</a> <a href="/tags/PHPExcel/" style="font-size: 10px;">PHPExcel</a> <a href="/tags/Partition/" style="font-size: 10px;">Partition</a> <a href="/tags/Profile/" style="font-size: 11.43px;">Profile</a> <a href="/tags/Python/" style="font-size: 14.29px;">Python</a> <a href="/tags/RBD/" style="font-size: 12.86px;">RBD</a> <a href="/tags/RGW/" style="font-size: 10px;">RGW</a> <a href="/tags/Rados/" style="font-size: 10px;">Rados</a> <a href="/tags/Raidcard/" style="font-size: 10px;">Raidcard</a> <a href="/tags/Read/" style="font-size: 18.57px;">Read</a> <a href="/tags/Script/" style="font-size: 12.86px;">Script</a> <a href="/tags/Snack/" style="font-size: 10px;">Snack</a> <a href="/tags/Test/" style="font-size: 10px;">Test</a> <a href="/tags/Udev/" style="font-size: 11.43px;">Udev</a> <a href="/tags/产品/" style="font-size: 10px;">产品</a> <a href="/tags/博客/" style="font-size: 10px;">博客</a> <a href="/tags/性能优化/" style="font-size: 10px;">性能优化</a> <a href="/tags/编译/" style="font-size: 10px;">编译</a>
+                    </div>
+                </section>
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a target="_blank"  class="main-nav-link switch-friends-link" href="https://greenlightt.github.io">redgo的博客</a>
+                    
+                      <a target="_blank"  class="main-nav-link switch-friends-link" href="http://www.xuxiaopang.com">徐小胖的博客</a>
+                    
+                    </div>
+                </section>
+                
+                
+                
+                <section class="switch-part switch-part4">
+                
+                    <div id="js-aboutme">江苏南京，熟悉Python/PHP，目前研究Ceph分布式存储，邮箱：1241484989@qq.com</div>
+                </section>
+                
+            </div>
+        </div>
+    </header>
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">Tony</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                
+                    <img src="/img/tony.jpg" class="js-avatar">
+                
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">Tony</a></h1>
+            </hgroup>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/archives/">所有文章</a></li>
+                
+                    <li><a href="/categories/tech">技术文章</a></li>
+                
+                    <li><a href="/tags/Ceph">Ceph修炼之路</a></li>
+                
+                    <li><a href="/categories/summary">感悟总结</a></li>
+                
+                    <li><a href="/categories/read">阅读翻译</a></li>
+                
+                    <li><a href="/categories/life">生活随笔</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a class="github" target="_blank" href="https://github.com/tony-yin" title="github">github</a>
+                    
+                        <a class="weibo" target="_blank" href="https://weibo.com/3832044210/profile?rightmod=1&wvr=6&mod=personinfo" title="weibo">weibo</a>
+                    
+                        <a class="segmentfault" target="_blank" href="https://segmentfault.com/u/qzuser_57fb1d5db527e" title="segmentfault">segmentfault</a>
+                    
+                </div>
+            </nav>
+        </header>                
+    </div>
+</nav>
+
+      <div class="body-wrap"><article id="post-Why-Crontab-Not-Work" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a  href="/2018/10/29/Why-Crontab-Not-Work/" class="article-date">
+      <time datetime="2018-10-29T06:50:26.000Z" itemprop="datePublished">2018-10-29</time>
+</a>
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      为什么crontab不执行
+    </h1>
+  
+
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/tech/">tech</a>
+    </div>
+
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Crontab/">Crontab</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/">Linux</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <center><img src="http://ow0mgad6r.bkt.clouddn.com/Why-Crontab-Not_Work.png" alt="Why Crontab Not Work"></center>
+
+<p>作为<code>linux</code>中的定时任务工具，<code>crontab</code>被广大开发者所热爱和使用。该技术由来已久，相当成熟，但是在真正使用的时候会时不时地发现为什么<code>crontab</code>脚本没有按照预期那样执行？本文以本周笔者遇到一个<code>crontab</code>不能运行的问题为引子，详细地介绍为什么<code>crontab</code>不运行的各种原因。</p>
+<a id="more"></a>
+<h2 id="引子"><a href="#引子" class="headerlink" title="引子"></a>引子</h2><p>本周遇到一个<code>crontab</code>不能执行的问题，发现原因后觉得甚是有趣。</p>
+<p>笔者通过一个<code>python</code>脚本向<code>/etc/cron.d</code>目录下的一个文件写入定时任务命令，每分钟调用一个脚本，调用的这个脚本是个<code>python</code>文件，然后发现<code>cron</code>并没有按照预期每分钟执行一次。然后笔者就将原定时任务脚本<code>aaa</code>拷贝了一份，并重新命名为<code>bbb</code>，然后将定时任务中调用脚本改成了执行一个简单的<code>echo</code>命令，然后保存退出，发现<code>bbb</code>是可以正常定时运行的，这时候，笔者就通过<code>file</code>命令想比较一下这两个文件有何不同：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">[root@tony cron.d]# file *</div><div class="line">aaa:     ASCII text, with no line terminators</div><div class="line">bbb:     ASCII text</div></pre></td></tr></table></figure>
+<p>这个时候我们可以发现<code>aaa</code>文件出现了比较奇怪的标识：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">with no line terminators</div></pre></td></tr></table></figure>
+<p>显而易见，这是在说<code>cron</code>脚本中定时命令没有行终止符，导致这个问题是因为该<code>cron</code>脚本由<code>python</code>代码生成时没有添加换行符：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">with open(&apos;/etc/cron.d/aaa&apos;, &apos;w&apos;) as f:</div><div class="line">    f.write(&apos;xxx&apos;)</div></pre></td></tr></table></figure>
+<p>然后笔者尝试性地在<code>aaa</code>文件中在定时命令下新增一行后，发现定时任务可以正常运行了。不得不说，这是一个很有意思的问题，<code>crontab</code>居然会因为一个换行符导致定时任务的不运行，后来<code>google</code>了一下发现，<code>crontab</code>的确存在这个机制，具体解释下面会提到。</p>
+<p>在<code>google</code>的同时，在<code>ask unbuntu</code>上发现了这篇文章：<a href="https://askubuntu.com/questions/23009/why-crontab-scripts-are-not-working?page=1&amp;tab=votes#tab-top" target="_blank" rel="external">《Why crontab scripts are not working?》</a>，里面很多开发者罗列了他们遇到<code>cron</code>不能正常运行的各种因素，笔者大致浏览了下，发现有遇到过，也有很多并不知道的，所以想把这些因素和解决方案一一罗列下来。</p>
+<h2 id="因素"><a href="#因素" class="headerlink" title="因素"></a>因素</h2><h3 id="因素1：环境变量"><a href="#因素1：环境变量" class="headerlink" title="因素1：环境变量"></a>因素1：环境变量</h3><h4 id="场景及原因"><a href="#场景及原因" class="headerlink" title="场景及原因"></a>场景及原因</h4><p><code>cron</code>中的环境变量和系统的环境变量是不一样的，我们可以通过设置定时脚本将<code>cron</code>中的环境变量打印出来：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">* * * * * env &gt; /tmp/env.output</div></pre></td></tr></table></figure>
+<p>可以看到<code>cron</code>中的环境变量：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">XDG_SESSION_ID=12952</div><div class="line">SHELL=/bin/sh</div><div class="line">USER=root</div><div class="line">PATH=/usr/bin:/bin</div><div class="line">PWD=/root</div><div class="line">LANG=en_US.UTF-8</div><div class="line">SHLVL=1</div><div class="line">HOME=/root</div><div class="line">LOGNAME=root</div><div class="line">XDG_RUNTIME_DIR=/run/user/0</div><div class="line">_=/usr/bin/env</div></pre></td></tr></table></figure>
+<p>查看系统的环境变量：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">[root@tony cron.d]# env</div><div class="line">XDG_SESSION_ID=1140</div><div class="line">HOSTNAME=tony</div><div class="line">TERM=xterm-256color</div><div class="line">SHELL=/bin/bash</div><div class="line">HISTSIZE=1000</div><div class="line">USER=root</div><div class="line">PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/root/bin:/root/bin</div><div class="line">MAIL=/var/spool/mail/root</div><div class="line">PWD=/etc/cron.d</div><div class="line">LANG=en_US.UTF-8</div><div class="line">TMUX_PANE=%18</div><div class="line">HISTCONTROL=ignoredups</div><div class="line">SHLVL=2</div><div class="line">HOME=/root</div><div class="line">LOGNAME=root</div><div class="line">_=/usr/bin/env</div><div class="line">OLDPWD=/root</div></pre></td></tr></table></figure>
+<p>我们可以看到<code>cron</code>中的环境变量很多都和系统环境变量不一样（<code>cron</code>会忽略<code>/etc/environment</code>文件），尤其是<code>PATH</code>，只有<code>/usr/bin:/bin</code>，也就是说在<code>cron</code>中运行<code>shell</code>命令，如果不是全路径，只能运行<code>/usr/bin</code>或<code>/bin</code>这两个目录中的标准命令，而像<code>/usr/sbin</code>、<code>/usr/local/bin</code>等目录中的非标准命令是不能运行的。</p>
+<p>这个问题笔者也遇到很多次，所以很多非标准命令都选择了全路径，但是这个方法也有问题，因为不同环境的命令所存在的目录是不一样的。</p>
+<h4 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h4><p><strong>方案1：</strong></p>
+<p>在<code>cron</code>脚本文件头部声明<code>PATH</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">#!/bin/bash</div><div class="line">PATH=/opt/someApp/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin</div><div class="line"></div><div class="line"># rest of script follows</div></pre></td></tr></table></figure>
+<p><strong>方案2：</strong></p>
+<p>在定时脚本调用的脚本头部声明<code>PATH</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">PATH=/opt/someApp/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin</div><div class="line"></div><div class="line">15 1 * * * backupscript --incremental /home /root</div></pre></td></tr></table></figure>
+<h3 id="因素2：换行符"><a href="#因素2：换行符" class="headerlink" title="因素2：换行符"></a>因素2：换行符</h3><h4 id="场景及原因-1"><a href="#场景及原因-1" class="headerlink" title="场景及原因"></a>场景及原因</h4><p>这个因素就是笔者引子中提到的，官方解释（<code>man crontab</code>）如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">Although cron requires that each entry in a crontab end in a newline character, neither the crontab command nor the cron daemon will detect this error. Instead, the crontab will appear to load normally. However, the command will never run. The best choice is to ensure that your crontab has a blank line at the end.</div><div class="line"></div><div class="line">4th Berkeley Distribution      29 December 1993     CRONTAB(1)</div></pre></td></tr></table></figure>
+<p>简单翻译一下就是：</p>
+<p>尽管<code>crontab</code>要求<code>cron</code>中的每个条目都要以换行符结尾，但<code>crontab</code>命令和<code>cron</code>守护进程都不会检测到这个错误。相反，<code>crontab</code>将正常加载。然而，命令永远不会运行。最好的选择是确保您的<code>crontab</code>在末尾有一个空白行。</p>
+<h4 id="解决方案-1"><a href="#解决方案-1" class="headerlink" title="解决方案"></a>解决方案</h4><p>给<code>cron</code>中每个条目下面添加一个空行</p>
+<p><strong>注意：</strong></p>
+<p>除了没了换行符会导致<code>cron</code>中的命令不会运行，即引子中所标识：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">with no line terminators</div></pre></td></tr></table></figure>
+<p>但是因为非<code>linux</code>操作系统导致的非<code>\n</code>换行符同样会导致该问题，比如<code>windows</code>的<code>^M</code>、<code>mac</code>的<code>\r</code>等</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">with CR line terminators</div></pre></td></tr></table></figure>
+<p><strong>解决方案：</strong></p>
+<p><code>windows</code>的话就通过<code>dos2unix</code>命令转换；而<code>mac</code>则可以通过<code>mac2unix</code>来转换，<code>mac2unix</code>也是<code>dos2unix</code>软件中的一部分</p>
+<h4 id="Refer"><a href="#Refer" class="headerlink" title="Refer"></a>Refer</h4><ul>
+<li><a href="https://stackoverflow.com/questions/14080306/remove-cr-line-terminators" target="_blank" rel="external">remove CR line terminators</a></li>
+</ul>
+<h3 id="因素3：crond-服务"><a href="#因素3：crond-服务" class="headerlink" title="因素3：crond 服务"></a>因素3：crond 服务</h3><h4 id="场景及原因-2"><a href="#场景及原因-2" class="headerlink" title="场景及原因"></a>场景及原因</h4><p>很多时候<code>crond</code>服务未开启，也会导致定时任务不会正常执行。</p>
+<h4 id="解决方案-2"><a href="#解决方案-2" class="headerlink" title="解决方案"></a>解决方案</h4><p>查看服务是否运行，如果未运行，启动<code>crond</code>服务即可。</p>
+<p>查看方式有两种：</p>
+<p>1.通过进程查看</p>
+<p><code>pgrep</code>相当于<code>ps -ef | grep</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">pgrep cron</div></pre></td></tr></table></figure>
+<p>2.通过<code>service</code>查看</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">service crond status</div></pre></td></tr></table></figure>
+<p>启动服务：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">service crond start</div></pre></td></tr></table></figure>
+<h3 id="因素4：shell-解释器"><a href="#因素4：shell-解释器" class="headerlink" title="因素4：shell 解释器"></a>因素4：shell 解释器</h3><h4 id="场景及原因-3"><a href="#场景及原因-3" class="headerlink" title="场景及原因"></a>场景及原因</h4><p>从因素<code>1</code>就知道<code>cron</code>环境变量中的<code>SHELL</code>是<code>sh</code>而不是<code>bash</code>，我们知道很多<code>shell</code>命令是可以在<code>bash</code>中正常运行，但是不能在<code>sh</code>中运行的，所以这个因素也会影响定时任务的正常运行。</p>
+<h4 id="解决方案："><a href="#解决方案：" class="headerlink" title="解决方案："></a>解决方案：</h4><p><strong>方案1：</strong></p>
+<p>将<code>cron</code>中需要执行的命令在<code>sh</code>中执行确认</p>
+<p><strong>方案2：</strong></p>
+<p>将<code>cron</code>中需要执行的命令外面加一个<code>bash shell</code>的封装：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">bash -c &quot;mybashcommand&quot;</div></pre></td></tr></table></figure>
+<p><strong>方案3：</strong></p>
+<p>修改<code>cron</code>中的<code>SHELL</code>环境变量的值，让所有命令都用<code>bash</code>解释器：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">SHELL=/bin/bash</div></pre></td></tr></table></figure>
+<p><strong>方案4：</strong></p>
+<p>如果定时任务执行的命令是<code>shell</code>脚本，只要在脚本内添加<code>bash</code>解释器：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">#!/bin/bash</div></pre></td></tr></table></figure>
+<h3 id="因素5：时区"><a href="#因素5：时区" class="headerlink" title="因素5：时区"></a>因素5：时区</h3><h4 id="场景及原因-4"><a href="#场景及原因-4" class="headerlink" title="场景及原因"></a>场景及原因</h4><p>当修改系统时区后，无论是之前已经存在的<code>cron</code>还是之后新创建的<code>cron</code>，脚本中设置的定时时间都以旧时区为准，比如原来时区是<code>Asia/Shanghai</code>，时间为<code>10:00</code>，然后修改时区为<code>Europe/Paris</code>，时间变为<code>3:00</code>，此时你设置<code>11:00</code>的定时时间，<code>cron</code>会在<code>Asia/Shanghai</code>时区的<code>11:00</code>执行。</p>
+<h4 id="解决方案：-1"><a href="#解决方案：-1" class="headerlink" title="解决方案："></a>解决方案：</h4><p><strong>方案1：</strong></p>
+<p>重启<code>crond</code>服务</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">service crond restart</div></pre></td></tr></table></figure>
+<p><strong>方案2：</strong></p>
+<p><code>kill crond</code>进程，因为<code>crond</code>进程是可重生的</p>
+<h3 id="因素6：百分号"><a href="#因素6：百分号" class="headerlink" title="因素6：百分号%"></a>因素6：百分号%</h3><h4 id="场景及原因-5"><a href="#场景及原因-5" class="headerlink" title="场景及原因"></a>场景及原因</h4><p>当<code>cron</code>定时执行命令中，有百分号并且没有转义的时候，<code>cron</code>执行会出错，比如执行以下<code>cron</code>：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">0 * * * * echo hello &gt;&gt; ~/cron-logs/hourly/test`date &quot;+%d&quot;`.log</div></pre></td></tr></table></figure>
+<p>会有如下报错：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">/bin/sh: -c: line 0: unexpected EOF while looking for matching ``&apos;</div><div class="line">/bin/sh: -c: line 1: syntax error: unexpected end of file</div></pre></td></tr></table></figure>
+<p>有的日志也会有如下报错：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">(echo) ERROR (getpwnam() failed)</div></pre></td></tr></table></figure>
+<p><code>crontab manpage</code>中解释：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">The &quot;sixth&quot; field (the rest of the line) specifies the command to be run. The entire command portion of the line, up to a newline or % character, will be executed by /bin/sh or by the shell specified in the SHELL variable of the cronfile. Percent-signs (%) in the command, unless escaped with backslash (\), will be changed into newline characters, and all data after the first % will be sent to the command as standard input.</div></pre></td></tr></table></figure>
+<p>即<code>cron</code>中换行符或<code>%</code>前的命令会被<code>shell</code>解释器执行，但是<code>%</code>会被认为新一行的字符，并且<code>%</code>后所有的数据都会以标准输出的形式发送给命令。</p>
+<h4 id="解决方案-3"><a href="#解决方案-3" class="headerlink" title="解决方案"></a>解决方案</h4><p>为百分号做转义，即在<code>%</code>前添加反斜杠<code>\</code></p>
+<h4 id="Refer-1"><a href="#Refer-1" class="headerlink" title="Refer"></a>Refer</h4><ul>
+<li><a href="http://www.pantz.org/software/cron/croninfo.html" target="_blank" rel="external">Cron and Crontab usage and examples</a></li>
+<li><a href="https://unix.stackexchange.com/questions/29578/how-can-i-execute-date-inside-of-a-cron-tab-job" target="_blank" rel="external">How can I execute date inside of a cron tab job?</a></li>
+</ul>
+<h3 id="因素7：密码过期"><a href="#因素7：密码过期" class="headerlink" title="因素7：密码过期"></a>因素7：密码过期</h3><h4 id="场景及原因-6"><a href="#场景及原因-6" class="headerlink" title="场景及原因"></a>场景及原因</h4><p><code>Linux</code>下新建用户密码过期时间是从<code>/etc/login.defs</code>文件中<code>PASS_MAX_DAYS</code>提取的，普通系统默认就是<code>99999</code>，而有些安全操作系统是<code>90</code>。更改此处，只是让新建的用户默认密码过期时间变化，已有用户密码过期时间仍然不变。</p>
+<p>当用户密码过期也会导致<code>cron</code>脚本执行失败。</p>
+<h4 id="解决方案-4"><a href="#解决方案-4" class="headerlink" title="解决方案"></a>解决方案</h4><p>将用户密码有效期设置成永久有效期或者延长有效期</p>
+<p><strong>方案1：</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">chage -M &lt;expire&gt; &lt;username&gt;</div></pre></td></tr></table></figure>
+<p><strong>方案2：</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">passwd -x -1 &lt;username&gt;</div></pre></td></tr></table></figure>
+<p><strong>方案3：</strong></p>
+<p>手动修改<code>/etc/login.defs</code>文件中<code>PASS_MAX_DAYS</code>的值</p>
+<h3 id="因素8：权限"><a href="#因素8：权限" class="headerlink" title="因素8：权限"></a>因素8：权限</h3><h4 id="场景及原因-7"><a href="#场景及原因-7" class="headerlink" title="场景及原因"></a>场景及原因</h4><p>很多时候解决方案都是采用<code>root</code>用户执行<code>cron</code>，但是有时候这并不是一个很好的方式。如果采用非<code>root</code>用户执行<code>cron</code>，需要注意很多权限问题，比如<code>cron</code>用户对操作的文件或目录是否存在权限等。</p>
+<p>如果权限不够，<code>cron</code>会拒绝执行：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">sudo service cron restart</div><div class="line">grep -i cron /var/log/syslog|tail -2</div><div class="line">2013-02-05T03:47:49.283841+01:00 ubuntu cron[49906]: (user) INSECURE MODE (mode 0600 expected) (crontabs/user)</div></pre></td></tr></table></figure>
+<h4 id="解决方案-5"><a href="#解决方案-5" class="headerlink" title="解决方案"></a>解决方案</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"># correct permission</div><div class="line">sudo chmod 600 /var/spool/cron/crontabs/user</div><div class="line"># signal crond to reload the file</div><div class="line">sudo touch /var/spool/cron/crontabs</div></pre></td></tr></table></figure>
+<h3 id="因素9：不同平台"><a href="#因素9：不同平台" class="headerlink" title="因素9：不同平台"></a>因素9：不同平台</h3><h4 id="场景及原因-8"><a href="#场景及原因-8" class="headerlink" title="场景及原因"></a>场景及原因</h4><p>一些特殊选项各个平台支持不一样，有的支持，有的不支持，例如<code>2/3</code>、<code>1-5</code>、<code>1,3,5</code></p>
+<h4 id="解决方案-6"><a href="#解决方案-6" class="headerlink" title="解决方案"></a>解决方案</h4><p>需要针对不同平台做兼容性测试</p>
+<h3 id="因素10：不同-cron"><a href="#因素10：不同-cron" class="headerlink" title="因素10：不同 cron"></a>因素10：不同 cron</h3><h4 id="场景及原因-9"><a href="#场景及原因-9" class="headerlink" title="场景及原因"></a>场景及原因</h4><p>将之前运行的<code>Crontab Spec</code>在从一个<code>Crontab</code>文件移动到另一个<code>Crontab</code>文件时可能会崩溃。有时候，原因是你已经将<code>Spec</code>从系统<code>crontab</code>文件转移到用户<code>crontab</code>文件，反之亦然。</p>
+<p><code>cron</code>分为系统<code>cron</code>和用户<code>cron</code>，用户<code>cron</code>指<code>/var/spool/cron/username</code>或<code>/var/spool/crontabs/crontabs/username</code>，系统<code>cron</code>指<br><code>/etc/crontab</code>以及<code>/etc/crontab</code>，这两者是存在部分差异的。</p>
+<p>系统<code>crontab</code>在命令行运行之前有一个额外的字段<code>user</code>。这会导致一些错误，比如你将<code>/etc/crontab</code>中的命令或者<code>/etc/cron.d</code>中的文件移动至用户<code>crontab</code>会报错如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">george; command not found</div></pre></td></tr></table></figure></p>
+<p>相反，当发生相反的情况时，<code>cron</code>将显示<code>/usr/bin/restartxyz is not a valid username</code>之类的错误。</p>
+<h4 id="解决方案-7"><a href="#解决方案-7" class="headerlink" title="解决方案"></a>解决方案</h4><p>当共享系统<code>cron</code>或用户<code>cron</code>时，注意用户的添加和删除。</p>
+<h3 id="因素11：crontable-变量"><a href="#因素11：crontable-变量" class="headerlink" title="因素11：crontable 变量"></a>因素11：crontable 变量</h3><h4 id="场景及原因-10"><a href="#场景及原因-10" class="headerlink" title="场景及原因"></a>场景及原因</h4><p>虽然你可以在<code>crontable</code>里面声明环境变量，但是在下面这种情况定时任务是不会执行的：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">SOME_DIR=/var/log</div><div class="line">MY_LOG_FILE=$&#123;SOME_LOG&#125;/some_file.log</div><div class="line"></div><div class="line">BIN_DIR=/usr/local/bin</div><div class="line">MY_EXE=$&#123;BIN_DIR&#125;/some_executable_file</div><div class="line"></div><div class="line">0 10 * * * $&#123;MY_EXE&#125; some_param &gt;&gt; $&#123;MY_LOG_FILE&#125;</div></pre></td></tr></table></figure>
+<p>这是因为在<code>crontable</code>里面只能声明变量，不能对变量进行操作或者执行其他任何<code>shell</code>命令的，所以上述的<code>shell</code>字符串拼接是不会成功的，所以只能声明变量，然后在命令中引用变量。</p>
+<h4 id="解决方案：-2"><a href="#解决方案：-2" class="headerlink" title="解决方案："></a>解决方案：</h4><p><strong>方案1：</strong> </p>
+<p>直接声明变量</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">SOME_DIR=/var/log</div><div class="line">MY_LOG_FILE=/var/log/some_file.log</div><div class="line"></div><div class="line">BIN_DIR=/usr/local/bin</div><div class="line">MY_EXE=/usr/local/bin/some_executable_file</div><div class="line"></div><div class="line">0 10 * * * $&#123;MY_EXE&#125; some_param &gt;&gt; $&#123;MY_LOG_FILE&#125;</div></pre></td></tr></table></figure>
+<p><strong>方案2：</strong></p>
+<p>声明多个变量，在命令中引用拼接</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">SOME_DIR=/var/log</div><div class="line">MY_LOG_FILE=some_file.log</div><div class="line"></div><div class="line">BIN_DIR=/usr/local/bin</div><div class="line">MY_EXE=some_executable_file</div><div class="line"></div><div class="line">0 10 * * * $&#123;BIN_DIR&#125;/$&#123;MY_EXE&#125; some_param &gt;&gt; $&#123;SOME_DIR&#125;/$&#123;MY_LOG_FILE&#125;</div></pre></td></tr></table></figure>
+<h3 id="因素12：GUI"><a href="#因素12：GUI" class="headerlink" title="因素12：GUI"></a>因素12：GUI</h3><h4 id="场景及原因-11"><a href="#场景及原因-11" class="headerlink" title="场景及原因"></a>场景及原因</h4><p>如果你的<code>cronjob</code>调用了相关<code>GUI</code>应用时，你需要告诉它们应该使用什么<code>DISPLAY</code>环境变量，从因素<code>1</code>我们可以知道<code>cron</code>中的环境变量是和系统环境变量不一样的，<code>DISPLAY</code>同样如此，比如</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Firefox launch with cron.</div></pre></td></tr></table></figure>
+<h4 id="解决方案-8"><a href="#解决方案-8" class="headerlink" title="解决方案"></a>解决方案</h4><p>声明<code>DISPLAY=:0</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">* * * * * export DISPLAY=:0 &amp;&amp; &lt;command&gt;</div></pre></td></tr></table></figure>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>目前主要总结了影响<code>cron</code>运行的<code>12</code>种因素，当然肯定还存在其他影响因素，本文将持续更新，希望这些坑能够被广大开发者所熟知。</p>
+<p>大家如果有上述以外导致<code>cron</code>不能正常运行的因素可以在博客下方留言，或者在<code>Github</code>上面提<code>pr</code>，笔者已经将本文在<code>Github</code>上面创建了一个仓库，让我们一起不断完善吧 -。-</p>
+<p><code>Github</code>仓库地址：<a href="https://github.com/tony-yin/Why-Cronjob-Not-Work" target="_blank" rel="external">https://github.com/tony-yin/Why-Cronjob-Not-Work</a></p>
+
+      
+
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a  href="/2018/10/29/Why-Crontab-Not-Work/">为什么crontab不执行</a></p>
+        <p><span>文章作者:</span><a  href="/" title="访问 Tony 的个人博客">Tony</a></p>
+        <p><span>发布时间:</span>2018年10月29日 - 14时50分</p>
+        <p><span>最后更新:</span>2018年10月29日 - 15时00分</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2018/10/29/Why-Crontab-Not-Work/" title="为什么crontab不执行">https://tony-yin.github.io/2018/10/29/Why-Crontab-Not-Work/</a>
+            <span class="copy-path" data-clipboard-text="原文: https://tony-yin.github.io/2018/10/29/Why-Crontab-Not-Work/　　作者: Tony" title=""></span>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/cn/" title="中国大陆 (CC BY-NC-SA 3.0 CN)" target = "_blank">"署名-非商用-相同方式共享 3.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+<nav id="article-nav">
+  
+  
+    <a  href="/2018/07/01/Daily-Article-Vol7/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Daily Article Vol7(2018/6/1 ~ 2018/6/30)</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#引子"><span class="toc-number">1.</span> <span class="toc-text">引子</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#因素"><span class="toc-number">2.</span> <span class="toc-text">因素</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#因素1：环境变量"><span class="toc-number">2.1.</span> <span class="toc-text">因素1：环境变量</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#场景及原因"><span class="toc-number">2.1.1.</span> <span class="toc-text">场景及原因</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#解决方案"><span class="toc-number">2.1.2.</span> <span class="toc-text">解决方案</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#因素2：换行符"><span class="toc-number">2.2.</span> <span class="toc-text">因素2：换行符</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#场景及原因-1"><span class="toc-number">2.2.1.</span> <span class="toc-text">场景及原因</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#解决方案-1"><span class="toc-number">2.2.2.</span> <span class="toc-text">解决方案</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Refer"><span class="toc-number">2.2.3.</span> <span class="toc-text">Refer</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#因素3：crond-服务"><span class="toc-number">2.3.</span> <span class="toc-text">因素3：crond 服务</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#场景及原因-2"><span class="toc-number">2.3.1.</span> <span class="toc-text">场景及原因</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#解决方案-2"><span class="toc-number">2.3.2.</span> <span class="toc-text">解决方案</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#因素4：shell-解释器"><span class="toc-number">2.4.</span> <span class="toc-text">因素4：shell 解释器</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#场景及原因-3"><span class="toc-number">2.4.1.</span> <span class="toc-text">场景及原因</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#解决方案："><span class="toc-number">2.4.2.</span> <span class="toc-text">解决方案：</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#因素5：时区"><span class="toc-number">2.5.</span> <span class="toc-text">因素5：时区</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#场景及原因-4"><span class="toc-number">2.5.1.</span> <span class="toc-text">场景及原因</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#解决方案：-1"><span class="toc-number">2.5.2.</span> <span class="toc-text">解决方案：</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#因素6：百分号"><span class="toc-number">2.6.</span> <span class="toc-text">因素6：百分号%</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#场景及原因-5"><span class="toc-number">2.6.1.</span> <span class="toc-text">场景及原因</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#解决方案-3"><span class="toc-number">2.6.2.</span> <span class="toc-text">解决方案</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Refer-1"><span class="toc-number">2.6.3.</span> <span class="toc-text">Refer</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#因素7：密码过期"><span class="toc-number">2.7.</span> <span class="toc-text">因素7：密码过期</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#场景及原因-6"><span class="toc-number">2.7.1.</span> <span class="toc-text">场景及原因</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#解决方案-4"><span class="toc-number">2.7.2.</span> <span class="toc-text">解决方案</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#因素8：权限"><span class="toc-number">2.8.</span> <span class="toc-text">因素8：权限</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#场景及原因-7"><span class="toc-number">2.8.1.</span> <span class="toc-text">场景及原因</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#解决方案-5"><span class="toc-number">2.8.2.</span> <span class="toc-text">解决方案</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#因素9：不同平台"><span class="toc-number">2.9.</span> <span class="toc-text">因素9：不同平台</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#场景及原因-8"><span class="toc-number">2.9.1.</span> <span class="toc-text">场景及原因</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#解决方案-6"><span class="toc-number">2.9.2.</span> <span class="toc-text">解决方案</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#因素10：不同-cron"><span class="toc-number">2.10.</span> <span class="toc-text">因素10：不同 cron</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#场景及原因-9"><span class="toc-number">2.10.1.</span> <span class="toc-text">场景及原因</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#解决方案-7"><span class="toc-number">2.10.2.</span> <span class="toc-text">解决方案</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#因素11：crontable-变量"><span class="toc-number">2.11.</span> <span class="toc-text">因素11：crontable 变量</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#场景及原因-10"><span class="toc-number">2.11.1.</span> <span class="toc-text">场景及原因</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#解决方案：-2"><span class="toc-number">2.11.2.</span> <span class="toc-text">解决方案：</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#因素12：GUI"><span class="toc-number">2.12.</span> <span class="toc-text">因素12：GUI</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#场景及原因-11"><span class="toc-number">2.12.1.</span> <span class="toc-text">场景及原因</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#解决方案-8"><span class="toc-number">2.12.2.</span> <span class="toc-text">解决方案</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-number">3.</span> <span class="toc-text">总结</span></a></li></ol>
+</div>
+<style>
+    .left-col .switch-btn {
+        display: none;
+    }
+    .left-col .switch-area {
+        display: none;
+    }
+</style>
+<input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+<script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script>
+    var valueHide = "隐藏目录";
+    var valueShow = "显示目录";
+    if ($(".left-col").is(":hidden")) {
+        $("#tocButton").attr("value", valueShow);
+    }
+    $("#tocButton").click(function() {
+        if ($("#toc").is(":hidden")) {
+            $("#tocButton").attr("value", valueHide);
+            $("#toc").slideDown(320);
+            $(".switch-btn, .switch-area").fadeOut(300);
+        }
+        else {
+            $("#tocButton").attr("value", valueShow);
+            $("#toc").slideUp(350);
+            $(".switch-btn, .switch-area").fadeIn(500);
+        }
+    })
+    if ($(".toc").length < 1) {
+        $("#toc, #tocButton").hide();
+        $(".switch-btn, .switch-area").show();
+    }
+</script>
+
+
+
+
+
+<div class="bdsharebuttonbox">
+	<a href="#" class="fx fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+	<a href="#" class="fx fa-weixin bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+	<a href="#" class="fx fa-qq bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a>
+	<a href="#" class="fx fa-facebook-official bds_fbook" data-cmd="fbook" title="分享到Facebook"></a>
+	<a href="#" class="fx fa-twitter bds_twi" data-cmd="twi" title="分享到Twitter"></a>
+	<a href="#" class="fx fa-linkedin bds_linkedin" data-cmd="linkedin" title="分享到linkedin"></a>
+	<a href="#" class="fx fa-files-o bds_copy" data-cmd="copy" title="分享到复制网址"></a>
+</div>
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"2","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='/static/api/js/share.js?cdnversion=' + ~ (-new Date() / 36e5)];</script>
+
+
+
+
+    
+        
+    <div id="cyReward" role="cylabs" data-use="reward" style="text-align:center;margin-top:50px"></div>
+
+
+<section class="changyan" id="comments">
+  <!--<div id="uyan_frame"></div>-->
+  <div id="SOHUCS"></div>
+  <script charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/changyan.js"></script>
+  <script type="text/javascript">
+    window.changyan.api.config({
+      appid: 'cytncUiAO',
+      conf: 'prod_50cb4de09ef44034f63977dcfcfa1e4b'
+    });
+  </script>
+</section>
+
+    <script type="text/javascript" charset="utf-8" src="https://changyan.itc.cn/js/lib/jquery.js"></script>
+    <script type="text/javascript" charset="utf-8" src="https://changyan.sohu.com/js/changyan.labs.https.js?appid=cytncUiAO"></script>
+
+
+
+    
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a  href="/" title="回到主页"><i class="fa fa-home"></i></a>
+        
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+        
+            <a  href="/2018/07/01/Daily-Article-Vol7/" title="下一篇: Daily Article Vol7(2018/6/1 ~ 2018/6/30)">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2018/10/29/Why-Crontab-Not-Work/">为什么crontab不执行</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/01/Daily-Article-Vol7/">Daily Article Vol7(2018/6/1 ~ 2018/6/30)</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/20/Block-device-persistent-name-and-multipath/">块设备持久化命名和多路径</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/03/Python-Snack-Best-Practice/">Python Snack 最佳实践</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/01/Daily-Article-Vol6/">Daily Article Vol6(2018/5/1 ~ 2018/5/31)</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/20/Ctdb-Rados-2/">Ctdb Rados（二）：多场景断网高可用</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/12/Megaraid_Location/">Megaraid 磁盘定位</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/02/Django_CAS_Token_Solution/">Django CAS Token 解决方案</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/01/Daily-Article-Vol5/">Daily Article Vol 5 - (2018/4/1 ~ 2018/4/30)</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/20/Ctdb-Rados-All-Banned/">Ctdb Rados方式导致All Banned的问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/08/python_nas_stable_test/">基于Python的NAS稳定性测试框架</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/01/Daily_Article_Vol4/">Daily Article Vol 4 - (2018/3/1 ~ 2018/3/31)</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/03/09/Hardware-Test-Tool/">硬件环境测试环境模拟</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/03/01/Daily-Article-Vol3/">Daily Article Vol 3 - (2018/2/1 ~ 2018/2/28)</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/02/01/Daily-Article-Vol2/">Daily Article Vol 2 - (2018/1/1 ~ 2018/1/31)</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/28/RBD-HA-2/">实现RBD导出NFS高可用（二）：提供多虚拟IP访问</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/10/scp-and-ssh/">scp 免交互式和 ssh 免交互式脚本</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/05/RaidCardToolUtils/">利用Raid卡工具获取逻辑盘是否为SSD</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/01/Daily-Article-2017/">Daily Article Vol 1 - (2017/11/1 ~ 2017/12/31)</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/21/Everything-is-a-file/">译：一切皆文件</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/17/Linux-Filesystem/">译：Linux 文件系统介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/10/Into-Withe-Night/">阅读感悟：《白夜行》</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/08/Filesystem-Bug-Fix/">故障修复：文件系统导致OSD启动失败</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/07/RBD-HA/">通过 Keepalived 实现 Ceph RBD 的高可用</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/30/Cephx-practice/">Cephx 实战演练</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/26/read-ceph-cookbook/">阅读感悟：《Ceph Cookbook》</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/26/read-ceph-guide/">阅读感悟：《Ceph分布式存储学习指南》</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/26/read-python-automation/">阅读感悟：《Python编程快速上手---让繁琐工作自动化》</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/19/hexo-theme-shadow/">博客主题 shadow</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/14/LVM-Space-Expansion/">LVM动态扩展</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/14/Ceph-Compile/">Ceph 编译（Giant版本）</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/08/Ceph-NFS-Ganesha/">通过ganesha-nfs导出Ceph为NFS（Luminous）</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/08/Ceph-RGW/">RGW 安装和创建</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/31/RBD-Mount-NFS/">使用NFS挂载RBD</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/10/Python-Profiler/">Python Profiler</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/10/Enable-OSD-Profile-Script/">启用OSD性能剖析脚本</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/02/Batch-Create-And-Delete-Disk-Partition-Script/">批量创建和删除磁盘分区脚本</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/28/JS-Object-Null/">JS判断对象是否为空</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/27/OSD-Create-And-Delete/">OSD创建和删除全过程</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/21/How-To-Forge-Product/">如何打造一个好的产品</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/18/PHP-Excel/">PHP-Excel 开发解决方案</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/10/Disk-pull-and-plug-record/">磁盘反复拔插记录</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/10/Linux-Udev/">Linux Udev</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/10/network-down-notification/">Network Down Notification</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/10/Python-Oracle/">Python操作Oracle</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/10/oracle_install/">Oracle Linux And Oracle Database 11g R2 Intsallation</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/09/Moodle-Local-Plugin/">Moodle Local插件</a></li></ul>
+    <script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+    <script>
+        $(".post-list").addClass("toc-article");
+        // $(".post-list-item a").attr("target","_blank");
+        $("#post-nav-button > a:nth-child(2)").click(function() {
+            $(".fa-bars, .fa-times").toggle();
+            $(".post-list").toggle(300);
+            if ($(".toc").length > 0) {
+                $("#toc, #tocButton").toggle(200, function() {
+                    if ($(".switch-area").is(":visible")) {
+                        $("#toc, .switch-btn, .switch-area").toggle();
+                        $("#tocButton").attr("value", valueHide);
+                        }
+                    })
+            }
+            else {
+                $(".switch-btn, .switch-area").fadeToggle(300);
+            }
+        })
+    </script>
+
+
+
+
+    <script>
+        
+    </script>
+
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                &copy; 2018 Tony
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank">Hexo &nbsp;&nbsp;</a><a href="https://github.com/tony-yin/hexo-theme-shadow" target="_blank">Shadow</a> by tony
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" >极客到访数: 
+                            <span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>, </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit">本页阅读量: 
+                            <span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+
+    </div>
+    <script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script src="/js/main.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var backgroundnum = 4;
+            var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+            $("#mobile-nav").css({"background-image": backgroundimg,"background-size": "cover","background-position": "center"});
+            $(".left-col").css({"background-image": backgroundimg,"background-size": "cover","background-position": "center"});
+        })
+    </script>
+
+
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'xxxxx', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+
+	<script>
+	var _hmt = _hmt || [];
+	(function() {
+	  var hm = document.createElement("script");
+	  hm.src = "//hm.baidu.com/hm.js?xxxxxx";
+	  var s = document.getElementsByTagName("script")[0]; 
+	  s.parentNode.insertBefore(hm, s);
+	})();
+	</script>
+
+
+
+<div class="scroll" id="scroll">
+    <a href="#"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    $(document).ready(function() {
+        if ($("#comments").length < 1) {
+            $("#scroll > a:nth-child(2)").hide();
+        };
+    })
+</script>
+
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+  <script language="javascript">
+    $(function() {
+        $("a[title]").each(function() {
+            var a = $(this);
+            var title = a.attr('title');
+            if (title == undefined || title == "") return;
+            a.data('title', title).removeAttr('title').hover(
+            function() {
+                var offset = a.offset();
+                $("<div id=\"anchortitlecontainer\"></div>").appendTo($("body")).html(title).css({
+                    top: offset.top - a.outerHeight() - 15,
+                    left: offset.left + a.outerWidth()/2 + 1
+                }).fadeIn(function() {
+                    var pop = $(this);
+                    setTimeout(function() {
+                        pop.remove();
+                    }, pop.text().length * 800);
+                });
+            }, function() {
+                $("#anchortitlecontainer").remove();
+            });
+        });
+    });
+</script>
+
+
+  </div>
+</body>
+</html>
