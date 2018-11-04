@@ -4,56 +4,12 @@
 
     
   <url>
-    <loc>https://tony-yin.github.io/2018/10/29/Why-Crontab-Not-Work/</loc>
-    <lastmod>2018-10-29T07:06:04.020Z</lastmod>
-    <data>
-        <display>
-        <title>为什么 crontab 不执行</title>
-        <pubTime>2018-10-29T06:50:26.000Z</pubTime>
-        
-        <tag>Linux</tag>
-         
-        <tag>Crontab</tag>
-         
-         
-           
-             
-              <breadCrumb title="tech" url="https://tony-yin.github.io/categories/tech/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>https://tony-yin.github.io/2018/07/01/Daily-Article-Vol7/</loc>
-    <lastmod>2018-07-17T02:50:09.482Z</lastmod>
-    <data>
-        <display>
-        <title>Daily Article Vol7(2018/6/1 ~ 2018/6/30)</title>
-        <pubTime>2018-07-01T05:07:06.000Z</pubTime>
-        
-        <tag>Read</tag>
-         
-        <tag>Daily-Article</tag>
-         
-         
-           
-             
-              <breadCrumb title="read" url="https://tony-yin.github.io/categories/read/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>https://tony-yin.github.io/2018/06/20/Block-device-persistent-name-and-multipath/</loc>
-    <lastmod>2018-07-17T02:46:18.890Z</lastmod>
+    <loc>https://tony-yin.github.io/2018/11/04/Block-device-persistent-name-and-multipath/</loc>
+    <lastmod>2018-11-04T11:16:00.755Z</lastmod>
     <data>
         <display>
         <title>块设备持久化命名和多路径</title>
-        <pubTime>2018-06-20T15:15:26.000Z</pubTime>
+        <pubTime>2018-11-04T15:15:26.000Z</pubTime>
         
         <tag>Ceph</tag>
          
@@ -70,60 +26,12 @@
 
     
   <url>
-    <loc>https://tony-yin.github.io/2018/06/01/Daily-Article-Vol6/</loc>
-    <lastmod>2018-06-15T06:33:18.536Z</lastmod>
-    <data>
-        <display>
-        <title>Daily Article Vol6(2018/5/1 ~ 2018/5/31)</title>
-        <pubTime>2018-06-01T05:07:06.000Z</pubTime>
-        
-        <tag>Read</tag>
-         
-        <tag>Daily-Article</tag>
-         
-         
-           
-             
-              <breadCrumb title="read" url="https://tony-yin.github.io/categories/read/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>https://tony-yin.github.io/2018/06/03/Python-Snack-Best-Practice/</loc>
-    <lastmod>2018-06-04T11:20:59.303Z</lastmod>
-    <data>
-        <display>
-        <title>Python Snack 最佳实践</title>
-        <pubTime>2018-06-03T05:07:06.000Z</pubTime>
-        
-        <tag>Linux</tag>
-         
-        <tag>Python</tag>
-         
-        <tag>Snack</tag>
-         
-        <tag>Console</tag>
-         
-         
-           
-             
-              <breadCrumb title="tech" url="https://tony-yin.github.io/categories/tech/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>https://tony-yin.github.io/2017/10/02/Batch-Create-And-Delete-Disk-Partition-Script/</loc>
-    <lastmod>2018-06-04T11:12:09.161Z</lastmod>
+    <loc>https://tony-yin.github.io/2019/10/02/Batch-Create-And-Delete-Disk-Partition-Script/</loc>
+    <lastmod>2018-11-03T18:46:09.253Z</lastmod>
     <data>
         <display>
         <title>批量创建和删除磁盘分区脚本</title>
-        <pubTime>2017-10-02T05:07:06.000Z</pubTime>
+        <pubTime>2019-10-02T05:07:06.000Z</pubTime>
         
         <tag>Ceph</tag>
          
@@ -144,16 +52,40 @@
 
     
   <url>
-    <loc>https://tony-yin.github.io/2017/11/14/Ceph-Compile/</loc>
-    <lastmod>2018-05-22T02:40:41.560Z</lastmod>
+    <loc>https://tony-yin.github.io/2017/11/26/read-python-automation/</loc>
+    <lastmod>2018-11-03T17:07:41.151Z</lastmod>
     <data>
         <display>
-        <title>Ceph 编译（Giant版本）</title>
-        <pubTime>2017-11-14T01:30:29.000Z</pubTime>
+        <title>阅读感悟：《Python编程快速上手---让繁琐工作自动化》</title>
+        <pubTime>2017-11-26T14:45:48.000Z</pubTime>
         
-        <tag>Ceph</tag>
+        <tag>Read</tag>
          
-        <tag>编译</tag>
+        <tag>Python</tag>
+         
+         
+           
+             
+              <breadCrumb title="read" url="https://tony-yin.github.io/categories/read/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://tony-yin.github.io/2017/09/10/oracle_install/</loc>
+    <lastmod>2018-11-03T17:07:41.151Z</lastmod>
+    <data>
+        <display>
+        <title>Oracle Linux And Oracle Database 11g R2 Intsallation</title>
+        <pubTime>2017-09-09T16:53:06.000Z</pubTime>
+        
+        <tag>Oracle</tag>
+         
+        <tag>Oracle Linux</tag>
+         
+        <tag>Oracle 11g R2</tag>
          
          
            
@@ -166,16 +98,16 @@
 
     
   <url>
-    <loc>https://tony-yin.github.io/2018/01/10/scp-and-ssh/</loc>
-    <lastmod>2018-05-22T02:38:06.246Z</lastmod>
+    <loc>https://tony-yin.github.io/2017/11/08/Ceph-RGW/</loc>
+    <lastmod>2018-11-03T17:07:41.151Z</lastmod>
     <data>
         <display>
-        <title>scp 免交互式和 ssh 免交互式脚本</title>
-        <pubTime>2018-01-10T15:40:46.000Z</pubTime>
+        <title>RGW 安装和创建</title>
+        <pubTime>2017-11-08T15:11:59.000Z</pubTime>
         
-        <tag>Script</tag>
+        <tag>Ceph</tag>
          
-        <tag>Linux</tag>
+        <tag>RGW</tag>
          
          
            
@@ -188,38 +120,18 @@
 
     
   <url>
-    <loc>https://tony-yin.github.io/2018/03/09/Hardware-Test-Tool/</loc>
-    <lastmod>2018-05-22T02:37:23.917Z</lastmod>
+    <loc>https://tony-yin.github.io/2017/10/31/RBD-Mount-NFS/</loc>
+    <lastmod>2018-11-03T17:07:41.151Z</lastmod>
     <data>
         <display>
-        <title>硬件环境测试环境模拟</title>
-        <pubTime>2018-03-09T06:35:06.000Z</pubTime>
+        <title>使用NFS挂载RBD</title>
+        <pubTime>2017-10-31T14:45:25.000Z</pubTime>
         
         <tag>Ceph</tag>
          
-        <tag>Test</tag>
+        <tag>NFS</tag>
          
-         
-           
-             
-              <breadCrumb title="tech" url="https://tony-yin.github.io/categories/tech/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>https://tony-yin.github.io/2018/05/12/Megaraid_Location/</loc>
-    <lastmod>2018-05-22T02:36:32.957Z</lastmod>
-    <data>
-        <display>
-        <title>Megaraid 磁盘定位</title>
-        <pubTime>2018-05-12T05:07:06.000Z</pubTime>
-        
-        <tag>Ceph</tag>
-         
-        <tag>Megaraid</tag>
+        <tag>RBD</tag>
          
          
            
@@ -233,7 +145,7 @@
     
   <url>
     <loc>https://tony-yin.github.io/2018/05/20/Ctdb-Rados-2/</loc>
-    <lastmod>2018-05-22T02:35:35.071Z</lastmod>
+    <lastmod>2018-11-03T17:07:41.151Z</lastmod>
     <data>
         <display>
         <title>Ctdb Rados（二）：多场景断网高可用</title>
@@ -254,212 +166,8 @@
 
     
   <url>
-    <loc>https://tony-yin.github.io/2018/04/20/Ctdb-Rados-All-Banned/</loc>
-    <lastmod>2018-05-22T02:34:56.644Z</lastmod>
-    <data>
-        <display>
-        <title>Ctdb Rados方式导致All Banned的问题</title>
-        <pubTime>2018-04-20T05:07:06.000Z</pubTime>
-        
-        <tag>Ceph</tag>
-         
-        <tag>Ctdb</tag>
-         
-        <tag>Rados</tag>
-         
-        <tag>HA</tag>
-         
-         
-           
-             
-              <breadCrumb title="tech" url="https://tony-yin.github.io/categories/tech/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>https://tony-yin.github.io/2018/05/02/Django_CAS_Token_Solution/</loc>
-    <lastmod>2018-05-22T02:34:12.628Z</lastmod>
-    <data>
-        <display>
-        <title>Django CAS Token 解决方案</title>
-        <pubTime>2018-05-02T05:07:06.000Z</pubTime>
-        
-        <tag>Django</tag>
-         
-        <tag>CAS</tag>
-         
-         
-           
-             
-              <breadCrumb title="tech" url="https://tony-yin.github.io/categories/tech/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>https://tony-yin.github.io/2018/05/01/Daily-Article-Vol5/</loc>
-    <lastmod>2018-05-09T01:48:30.387Z</lastmod>
-    <data>
-        <display>
-        <title>Daily Article Vol 5 - (2018/4/1 ~ 2018/4/30)</title>
-        <pubTime>2018-05-01T02:07:06.000Z</pubTime>
-        
-        <tag>Read</tag>
-         
-        <tag>Daily-Article</tag>
-         
-         
-           
-             
-              <breadCrumb title="read" url="https://tony-yin.github.io/categories/read/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>https://tony-yin.github.io/2018/04/08/python_nas_stable_test/</loc>
-    <lastmod>2018-04-20T02:16:52.506Z</lastmod>
-    <data>
-        <display>
-        <title>基于Python的NAS稳定性测试框架</title>
-        <pubTime>2018-04-08T05:07:06.000Z</pubTime>
-        
-        <tag>Ceph</tag>
-         
-        <tag>Python</tag>
-         
-        <tag>NAS</tag>
-         
-         
-           
-             
-              <breadCrumb title="tech" url="https://tony-yin.github.io/categories/tech/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>https://tony-yin.github.io/2018/04/01/Daily_Article_Vol4/</loc>
-    <lastmod>2018-04-20T02:09:42.584Z</lastmod>
-    <data>
-        <display>
-        <title>Daily Article Vol 4 - (2018/3/1 ~ 2018/3/31)</title>
-        <pubTime>2018-04-01T02:13:25.000Z</pubTime>
-        
-        <tag>Read</tag>
-         
-        <tag>Daily-Article</tag>
-         
-         
-           
-             
-              <breadCrumb title="read" url="https://tony-yin.github.io/categories/read/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>https://tony-yin.github.io/2018/03/01/Daily-Article-Vol3/</loc>
-    <lastmod>2018-03-09T07:18:32.159Z</lastmod>
-    <data>
-        <display>
-        <title>Daily Article Vol 3 - (2018/2/1 ~ 2018/2/28)</title>
-        <pubTime>2018-03-01T02:13:25.000Z</pubTime>
-        
-        <tag>Read</tag>
-         
-        <tag>Daily-Article</tag>
-         
-         
-           
-             
-              <breadCrumb title="read" url="https://tony-yin.github.io/categories/read/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>https://tony-yin.github.io/2018/01/01/Daily-Article-2017/</loc>
-    <lastmod>2018-03-09T07:16:20.311Z</lastmod>
-    <data>
-        <display>
-        <title>Daily Article Vol 1 - (2017/11/1 ~ 2017/12/31)</title>
-        <pubTime>2018-01-01T02:13:25.000Z</pubTime>
-        
-        <tag>Read</tag>
-         
-        <tag>Daily-Article</tag>
-         
-         
-           
-             
-              <breadCrumb title="read" url="https://tony-yin.github.io/categories/read/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>https://tony-yin.github.io/2018/02/01/Daily-Article-Vol2/</loc>
-    <lastmod>2018-02-01T02:02:38.966Z</lastmod>
-    <data>
-        <display>
-        <title>Daily Article Vol 2 - (2018/1/1 ~ 2018/1/31)</title>
-        <pubTime>2018-02-01T02:07:06.000Z</pubTime>
-        
-        <tag>Read</tag>
-         
-        <tag>Daily-Article</tag>
-         
-         
-           
-             
-              <breadCrumb title="read" url="https://tony-yin.github.io/categories/read/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>https://tony-yin.github.io/2018/01/05/RaidCardToolUtils/</loc>
-    <lastmod>2018-01-30T12:50:22.464Z</lastmod>
-    <data>
-        <display>
-        <title>利用Raid卡工具获取逻辑盘是否为SSD</title>
-        <pubTime>2018-01-05T05:07:06.000Z</pubTime>
-        
-        <tag>Ceph</tag>
-         
-        <tag>Raidcard</tag>
-         
-         
-           
-             
-              <breadCrumb title="tech" url="https://tony-yin.github.io/categories/tech/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
     <loc>https://tony-yin.github.io/2018/01/28/RBD-HA-2/</loc>
-    <lastmod>2018-01-30T12:48:51.245Z</lastmod>
+    <lastmod>2018-11-03T17:07:41.151Z</lastmod>
     <data>
         <display>
         <title>实现RBD导出NFS高可用（二）：提供多虚拟IP访问</title>
@@ -486,14 +194,16 @@
 
     
   <url>
-    <loc>https://tony-yin.github.io/2017/11/19/hexo-theme-shadow/</loc>
-    <lastmod>2017-12-30T14:34:48.145Z</lastmod>
+    <loc>https://tony-yin.github.io/2018/01/10/scp-and-ssh/</loc>
+    <lastmod>2018-11-03T17:07:41.151Z</lastmod>
     <data>
         <display>
-        <title>博客主题 shadow</title>
-        <pubTime>2017-11-19T14:45:52.000Z</pubTime>
+        <title>scp 免交互式和 ssh 免交互式脚本</title>
+        <pubTime>2018-01-10T15:40:46.000Z</pubTime>
         
-        <tag>博客</tag>
+        <tag>Script</tag>
+         
+        <tag>Linux</tag>
          
          
            
@@ -506,40 +216,16 @@
 
     
   <url>
-    <loc>https://tony-yin.github.io/2017/12/17/Linux-Filesystem/</loc>
-    <lastmod>2017-12-21T07:42:57.680Z</lastmod>
+    <loc>https://tony-yin.github.io/2018/02/01/Daily-Article-Vol2/</loc>
+    <lastmod>2018-11-03T17:07:41.151Z</lastmod>
     <data>
         <display>
-        <title>译：Linux 文件系统介绍</title>
-        <pubTime>2017-12-17T14:01:15.000Z</pubTime>
+        <title>Daily Article Vol 2 - (2018/1/1 ~ 2018/1/31)</title>
+        <pubTime>2018-02-01T02:07:06.000Z</pubTime>
         
-        <tag>Ceph</tag>
+        <tag>Read</tag>
          
-        <tag>Linux</tag>
-         
-        <tag>Filesystem</tag>
-         
-         
-           
-             
-              <breadCrumb title="read" url="https://tony-yin.github.io/categories/read/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>https://tony-yin.github.io/2017/12/21/Everything-is-a-file/</loc>
-    <lastmod>2017-12-21T07:36:22.516Z</lastmod>
-    <data>
-        <display>
-        <title>译：一切皆文件</title>
-        <pubTime>2017-12-21T07:34:32.000Z</pubTime>
-        
-        <tag>Linux</tag>
-         
-        <tag>Filesystem</tag>
+        <tag>Daily-Article</tag>
          
          
            
@@ -553,7 +239,7 @@
     
   <url>
     <loc>https://tony-yin.github.io/2017/12/10/Into-Withe-Night/</loc>
-    <lastmod>2017-12-11T11:59:53.743Z</lastmod>
+    <lastmod>2018-11-03T17:07:41.151Z</lastmod>
     <data>
         <display>
         <title>阅读感悟：《白夜行》</title>
@@ -572,362 +258,16 @@
 
     
   <url>
-    <loc>https://tony-yin.github.io/2017/12/08/Filesystem-Bug-Fix/</loc>
-    <lastmod>2017-12-10T12:59:19.652Z</lastmod>
+    <loc>https://tony-yin.github.io/2018/03/09/Hardware-Test-Tool/</loc>
+    <lastmod>2018-11-03T17:07:41.151Z</lastmod>
     <data>
         <display>
-        <title>故障修复：文件系统导致OSD启动失败</title>
-        <pubTime>2017-12-08T12:54:16.000Z</pubTime>
+        <title>硬件环境测试环境模拟</title>
+        <pubTime>2018-03-09T06:35:06.000Z</pubTime>
         
         <tag>Ceph</tag>
          
-        <tag>Bugfix</tag>
-         
-         
-           
-             
-              <breadCrumb title="tech" url="https://tony-yin.github.io/categories/tech/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>https://tony-yin.github.io/2017/12/07/RBD-HA/</loc>
-    <lastmod>2017-12-07T06:47:35.572Z</lastmod>
-    <data>
-        <display>
-        <title>通过 Keepalived 实现 Ceph RBD 的高可用</title>
-        <pubTime>2017-12-06T16:25:31.000Z</pubTime>
-        
-        <tag>Ceph</tag>
-         
-        <tag>HA</tag>
-         
-        <tag>RBD</tag>
-         
-        <tag>Keepalived</tag>
-         
-         
-           
-             
-              <breadCrumb title="tech" url="https://tony-yin.github.io/categories/tech/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>https://tony-yin.github.io/2017/09/27/OSD-Create-And-Delete/</loc>
-    <lastmod>2017-12-07T06:21:22.794Z</lastmod>
-    <data>
-        <display>
-        <title>OSD创建和删除全过程</title>
-        <pubTime>2017-09-27T15:05:36.000Z</pubTime>
-        
-        <tag>Ceph</tag>
-         
-        <tag>OSD</tag>
-         
-         
-           
-             
-              <breadCrumb title="tech" url="https://tony-yin.github.io/categories/tech/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>https://tony-yin.github.io/2017/09/10/Python-Oracle/</loc>
-    <lastmod>2017-12-07T06:17:51.151Z</lastmod>
-    <data>
-        <display>
-        <title>Python操作Oracle</title>
-        <pubTime>2017-09-09T17:02:41.000Z</pubTime>
-        
-        <tag>Python</tag>
-         
-        <tag>Oracle</tag>
-         
-         
-           
-             
-              <breadCrumb title="tech" url="https://tony-yin.github.io/categories/tech/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>https://tony-yin.github.io/2017/10/31/RBD-Mount-NFS/</loc>
-    <lastmod>2017-11-30T03:10:23.246Z</lastmod>
-    <data>
-        <display>
-        <title>使用NFS挂载RBD</title>
-        <pubTime>2017-10-31T14:45:25.000Z</pubTime>
-        
-        <tag>Ceph</tag>
-         
-        <tag>NFS</tag>
-         
-        <tag>RBD</tag>
-         
-         
-           
-             
-              <breadCrumb title="tech" url="https://tony-yin.github.io/categories/tech/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>https://tony-yin.github.io/2017/11/30/Cephx-practice/</loc>
-    <lastmod>2017-11-30T03:10:00.441Z</lastmod>
-    <data>
-        <display>
-        <title>Cephx 实战演练</title>
-        <pubTime>2017-11-30T03:04:04.000Z</pubTime>
-        
-        <tag>Ceph</tag>
-         
-        <tag>Cephx</tag>
-         
-         
-           
-             
-              <breadCrumb title="tech" url="https://tony-yin.github.io/categories/tech/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>https://tony-yin.github.io/2017/11/08/Ceph-RGW/</loc>
-    <lastmod>2017-11-30T03:09:45.077Z</lastmod>
-    <data>
-        <display>
-        <title>RGW 安装和创建</title>
-        <pubTime>2017-11-08T15:11:59.000Z</pubTime>
-        
-        <tag>Ceph</tag>
-         
-        <tag>RGW</tag>
-         
-         
-           
-             
-              <breadCrumb title="tech" url="https://tony-yin.github.io/categories/tech/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>https://tony-yin.github.io/2017/11/08/Ceph-NFS-Ganesha/</loc>
-    <lastmod>2017-11-30T03:09:29.197Z</lastmod>
-    <data>
-        <display>
-        <title>通过ganesha-nfs导出Ceph为NFS（Luminous）</title>
-        <pubTime>2017-11-08T15:15:26.000Z</pubTime>
-        
-        <tag>Ceph</tag>
-         
-        <tag>NFS-Ganesha</tag>
-         
-        <tag>NFS</tag>
-         
-        <tag>Luminous</tag>
-         
-         
-           
-             
-              <breadCrumb title="tech" url="https://tony-yin.github.io/categories/tech/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>https://tony-yin.github.io/2017/11/26/read-ceph-cookbook/</loc>
-    <lastmod>2017-11-26T15:55:54.593Z</lastmod>
-    <data>
-        <display>
-        <title>阅读感悟：《Ceph Cookbook》</title>
-        <pubTime>2017-11-26T14:52:45.000Z</pubTime>
-        
-        <tag>Ceph</tag>
-         
-        <tag>Read</tag>
-         
-         
-           
-             
-              <breadCrumb title="read" url="https://tony-yin.github.io/categories/read/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>https://tony-yin.github.io/2017/11/26/read-ceph-guide/</loc>
-    <lastmod>2017-11-26T15:55:04.969Z</lastmod>
-    <data>
-        <display>
-        <title>阅读感悟：《Ceph分布式存储学习指南》</title>
-        <pubTime>2017-11-26T14:50:08.000Z</pubTime>
-        
-        <tag>Ceph</tag>
-         
-        <tag>Read</tag>
-         
-         
-           
-             
-              <breadCrumb title="read" url="https://tony-yin.github.io/categories/read/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>https://tony-yin.github.io/2017/11/26/read-python-automation/</loc>
-    <lastmod>2017-11-26T15:54:05.204Z</lastmod>
-    <data>
-        <display>
-        <title>阅读感悟：《Python编程快速上手---让繁琐工作自动化》</title>
-        <pubTime>2017-11-26T14:45:48.000Z</pubTime>
-        
-        <tag>Read</tag>
-         
-        <tag>Python</tag>
-         
-         
-           
-             
-              <breadCrumb title="read" url="https://tony-yin.github.io/categories/read/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>https://tony-yin.github.io/2017/10/10/Python-Profiler/</loc>
-    <lastmod>2017-11-22T01:39:43.232Z</lastmod>
-    <data>
-        <display>
-        <title>Python Profiler</title>
-        <pubTime>2017-10-10T13:46:24.000Z</pubTime>
-        
-        <tag>Profile</tag>
-         
-        <tag>Python</tag>
-         
-        <tag>性能优化</tag>
-         
-         
-           
-             
-              <breadCrumb title="tech" url="https://tony-yin.github.io/categories/tech/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>https://tony-yin.github.io/2017/09/10/network-down-notification/</loc>
-    <lastmod>2017-11-22T01:38:44.002Z</lastmod>
-    <data>
-        <display>
-        <title>Network Down Notification</title>
-        <pubTime>2017-09-09T18:14:34.000Z</pubTime>
-        
-        <tag>Ceph</tag>
-         
-        <tag>Network</tag>
-         
-        <tag>Notification</tag>
-         
-         
-           
-             
-              <breadCrumb title="tech" url="https://tony-yin.github.io/categories/tech/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>https://tony-yin.github.io/2017/11/14/LVM-Space-Expansion/</loc>
-    <lastmod>2017-11-22T01:38:24.571Z</lastmod>
-    <data>
-        <display>
-        <title>LVM动态扩展</title>
-        <pubTime>2017-11-14T02:35:39.000Z</pubTime>
-        
-        <tag>Ceph</tag>
-         
-        <tag>Linux</tag>
-         
-        <tag>LVM</tag>
-         
-         
-           
-             
-              <breadCrumb title="tech" url="https://tony-yin.github.io/categories/tech/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>https://tony-yin.github.io/2017/09/10/Linux-Udev/</loc>
-    <lastmod>2017-11-22T01:38:08.690Z</lastmod>
-    <data>
-        <display>
-        <title>Linux Udev</title>
-        <pubTime>2017-09-09T18:20:27.000Z</pubTime>
-        
-        <tag>Ceph</tag>
-         
-        <tag>Udev</tag>
-         
-        <tag>Linux</tag>
-         
-         
-           
-             
-              <breadCrumb title="tech" url="https://tony-yin.github.io/categories/tech/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>https://tony-yin.github.io/2017/09/28/JS-Object-Null/</loc>
-    <lastmod>2017-11-22T01:37:59.939Z</lastmod>
-    <data>
-        <display>
-        <title>JS判断对象是否为空</title>
-        <pubTime>2017-09-28T06:01:42.000Z</pubTime>
-        
-        <tag>Javascript</tag>
+        <tag>Test</tag>
          
          
            
@@ -941,7 +281,7 @@
     
   <url>
     <loc>https://tony-yin.github.io/2017/10/10/Enable-OSD-Profile-Script/</loc>
-    <lastmod>2017-11-22T01:36:36.295Z</lastmod>
+    <lastmod>2018-11-03T17:07:41.151Z</lastmod>
     <data>
         <display>
         <title>启用OSD性能剖析脚本</title>
@@ -964,8 +304,30 @@
 
     
   <url>
+    <loc>https://tony-yin.github.io/2018/05/02/Django_CAS_Token_Solution/</loc>
+    <lastmod>2018-11-03T17:07:41.151Z</lastmod>
+    <data>
+        <display>
+        <title>Django CAS Token 解决方案</title>
+        <pubTime>2018-05-02T05:07:06.000Z</pubTime>
+        
+        <tag>Django</tag>
+         
+        <tag>CAS</tag>
+         
+         
+           
+             
+              <breadCrumb title="tech" url="https://tony-yin.github.io/categories/tech/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>https://tony-yin.github.io/2017/09/10/Disk-pull-and-plug-record/</loc>
-    <lastmod>2017-11-22T01:36:07.061Z</lastmod>
+    <lastmod>2018-11-03T17:07:41.151Z</lastmod>
     <data>
         <display>
         <title>磁盘反复拔插记录</title>
@@ -995,8 +357,298 @@
 
     
   <url>
+    <loc>https://tony-yin.github.io/2017/09/18/PHP-Excel/</loc>
+    <lastmod>2018-11-03T17:07:41.150Z</lastmod>
+    <data>
+        <display>
+        <title>PHP-Excel 开发解决方案</title>
+        <pubTime>2017-09-18T10:37:28.000Z</pubTime>
+        
+        <tag>PHP</tag>
+         
+        <tag>PHPExcel</tag>
+         
+         
+           
+             
+              <breadCrumb title="tech" url="https://tony-yin.github.io/categories/tech/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://tony-yin.github.io/2018/04/01/Daily_Article_Vol4/</loc>
+    <lastmod>2018-11-03T17:07:41.150Z</lastmod>
+    <data>
+        <display>
+        <title>Daily Article Vol 4 - (2018/3/1 ~ 2018/3/31)</title>
+        <pubTime>2018-04-01T02:13:25.000Z</pubTime>
+        
+        <tag>Read</tag>
+         
+        <tag>Daily-Article</tag>
+         
+         
+           
+             
+              <breadCrumb title="read" url="https://tony-yin.github.io/categories/read/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://tony-yin.github.io/2018/06/01/Daily-Article-Vol6/</loc>
+    <lastmod>2018-11-03T17:07:41.150Z</lastmod>
+    <data>
+        <display>
+        <title>Daily Article Vol6(2018/5/1 ~ 2018/5/31)</title>
+        <pubTime>2018-06-01T05:07:06.000Z</pubTime>
+        
+        <tag>Read</tag>
+         
+        <tag>Daily-Article</tag>
+         
+         
+           
+             
+              <breadCrumb title="read" url="https://tony-yin.github.io/categories/read/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://tony-yin.github.io/2017/12/21/Everything-is-a-file/</loc>
+    <lastmod>2018-11-03T17:07:41.150Z</lastmod>
+    <data>
+        <display>
+        <title>译：一切皆文件</title>
+        <pubTime>2017-12-21T07:34:32.000Z</pubTime>
+        
+        <tag>Linux</tag>
+         
+        <tag>Filesystem</tag>
+         
+         
+           
+             
+              <breadCrumb title="read" url="https://tony-yin.github.io/categories/read/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://tony-yin.github.io/2017/12/08/Filesystem-Bug-Fix/</loc>
+    <lastmod>2018-11-03T17:07:41.150Z</lastmod>
+    <data>
+        <display>
+        <title>故障修复：文件系统导致OSD启动失败</title>
+        <pubTime>2017-12-08T12:54:16.000Z</pubTime>
+        
+        <tag>Ceph</tag>
+         
+        <tag>Bugfix</tag>
+         
+         
+           
+             
+              <breadCrumb title="tech" url="https://tony-yin.github.io/categories/tech/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://tony-yin.github.io/2018/05/01/Daily-Article-Vol5/</loc>
+    <lastmod>2018-11-03T17:07:41.150Z</lastmod>
+    <data>
+        <display>
+        <title>Daily Article Vol 5 - (2018/4/1 ~ 2018/4/30)</title>
+        <pubTime>2018-05-01T02:07:06.000Z</pubTime>
+        
+        <tag>Read</tag>
+         
+        <tag>Daily-Article</tag>
+         
+         
+           
+             
+              <breadCrumb title="read" url="https://tony-yin.github.io/categories/read/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://tony-yin.github.io/2017/09/21/How-To-Forge-Product/</loc>
+    <lastmod>2018-11-03T17:07:41.150Z</lastmod>
+    <data>
+        <display>
+        <title>如何打造一个好的产品</title>
+        <pubTime>2017-09-21T05:57:34.000Z</pubTime>
+        
+        <tag>产品</tag>
+         
+         
+           
+             
+              <breadCrumb title="summary" url="https://tony-yin.github.io/categories/summary/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://tony-yin.github.io/2018/03/01/Daily-Article-Vol3/</loc>
+    <lastmod>2018-11-03T17:07:41.150Z</lastmod>
+    <data>
+        <display>
+        <title>Daily Article Vol 3 - (2018/2/1 ~ 2018/2/28)</title>
+        <pubTime>2018-03-01T02:13:25.000Z</pubTime>
+        
+        <tag>Read</tag>
+         
+        <tag>Daily-Article</tag>
+         
+         
+           
+             
+              <breadCrumb title="read" url="https://tony-yin.github.io/categories/read/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://tony-yin.github.io/2018/01/01/Daily-Article-2017/</loc>
+    <lastmod>2018-11-03T17:07:41.150Z</lastmod>
+    <data>
+        <display>
+        <title>Daily Article Vol 1 - (2017/11/1 ~ 2017/12/31)</title>
+        <pubTime>2018-01-01T02:13:25.000Z</pubTime>
+        
+        <tag>Read</tag>
+         
+        <tag>Daily-Article</tag>
+         
+         
+           
+             
+              <breadCrumb title="read" url="https://tony-yin.github.io/categories/read/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://tony-yin.github.io/2017/11/14/LVM-Space-Expansion/</loc>
+    <lastmod>2018-11-03T17:07:41.150Z</lastmod>
+    <data>
+        <display>
+        <title>LVM动态扩展</title>
+        <pubTime>2017-11-14T02:35:39.000Z</pubTime>
+        
+        <tag>Ceph</tag>
+         
+        <tag>Linux</tag>
+         
+        <tag>LVM</tag>
+         
+         
+           
+             
+              <breadCrumb title="tech" url="https://tony-yin.github.io/categories/tech/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://tony-yin.github.io/2017/12/17/Linux-Filesystem/</loc>
+    <lastmod>2018-11-03T17:07:41.150Z</lastmod>
+    <data>
+        <display>
+        <title>译：Linux 文件系统介绍</title>
+        <pubTime>2017-12-17T14:01:15.000Z</pubTime>
+        
+        <tag>Ceph</tag>
+         
+        <tag>Linux</tag>
+         
+        <tag>Filesystem</tag>
+         
+         
+           
+             
+              <breadCrumb title="read" url="https://tony-yin.github.io/categories/read/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://tony-yin.github.io/2017/09/10/Linux-Udev/</loc>
+    <lastmod>2018-11-03T17:07:41.150Z</lastmod>
+    <data>
+        <display>
+        <title>Linux Udev</title>
+        <pubTime>2017-09-09T18:20:27.000Z</pubTime>
+        
+        <tag>Ceph</tag>
+         
+        <tag>Udev</tag>
+         
+        <tag>Linux</tag>
+         
+         
+           
+             
+              <breadCrumb title="tech" url="https://tony-yin.github.io/categories/tech/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://tony-yin.github.io/2018/05/12/Megaraid_Location/</loc>
+    <lastmod>2018-11-03T17:07:41.150Z</lastmod>
+    <data>
+        <display>
+        <title>Megaraid 磁盘定位</title>
+        <pubTime>2018-05-12T05:07:06.000Z</pubTime>
+        
+        <tag>Ceph</tag>
+         
+        <tag>Megaraid</tag>
+         
+         
+           
+             
+              <breadCrumb title="tech" url="https://tony-yin.github.io/categories/tech/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>https://tony-yin.github.io/2017/09/09/Moodle-Local-Plugin/</loc>
-    <lastmod>2017-11-21T15:47:07.318Z</lastmod>
+    <lastmod>2018-11-03T17:07:41.150Z</lastmod>
     <data>
         <display>
         <title>Moodle Local插件</title>
@@ -1017,38 +669,16 @@
 
     
   <url>
-    <loc>https://tony-yin.github.io/2017/09/21/How-To-Forge-Product/</loc>
-    <lastmod>2017-11-21T15:43:09.215Z</lastmod>
+    <loc>https://tony-yin.github.io/2017/09/27/OSD-Create-And-Delete/</loc>
+    <lastmod>2018-11-03T17:07:41.150Z</lastmod>
     <data>
         <display>
-        <title>如何打造一个好的产品</title>
-        <pubTime>2017-09-21T05:57:34.000Z</pubTime>
+        <title>OSD创建和删除全过程</title>
+        <pubTime>2017-09-27T15:05:36.000Z</pubTime>
         
-        <tag>产品</tag>
+        <tag>Ceph</tag>
          
-         
-           
-             
-              <breadCrumb title="summary" url="https://tony-yin.github.io/categories/summary/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>https://tony-yin.github.io/2017/09/10/oracle_install/</loc>
-    <lastmod>2017-09-20T13:38:36.000Z</lastmod>
-    <data>
-        <display>
-        <title>Oracle Linux And Oracle Database 11g R2 Intsallation</title>
-        <pubTime>2017-09-09T16:53:06.000Z</pubTime>
-        
-        <tag>Oracle</tag>
-         
-        <tag>Oracle Linux</tag>
-         
-        <tag>Oracle 11g R2</tag>
+        <tag>OSD</tag>
          
          
            
@@ -1061,16 +691,364 @@
 
     
   <url>
-    <loc>https://tony-yin.github.io/2017/09/18/PHP-Excel/</loc>
-    <lastmod>2017-09-20T11:50:15.000Z</lastmod>
+    <loc>https://tony-yin.github.io/2018/07/01/Daily-Article-Vol7/</loc>
+    <lastmod>2018-11-03T17:07:41.150Z</lastmod>
     <data>
         <display>
-        <title>PHP-Excel 开发解决方案</title>
-        <pubTime>2017-09-18T10:37:28.000Z</pubTime>
+        <title>Daily Article Vol7(2018/6/1 ~ 2018/6/30)</title>
+        <pubTime>2018-07-01T05:07:06.000Z</pubTime>
         
-        <tag>PHP</tag>
+        <tag>Read</tag>
          
-        <tag>PHPExcel</tag>
+        <tag>Daily-Article</tag>
+         
+         
+           
+             
+              <breadCrumb title="read" url="https://tony-yin.github.io/categories/read/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://tony-yin.github.io/2017/09/10/Python-Oracle/</loc>
+    <lastmod>2018-11-03T17:07:41.150Z</lastmod>
+    <data>
+        <display>
+        <title>Python操作Oracle</title>
+        <pubTime>2017-09-09T17:02:41.000Z</pubTime>
+        
+        <tag>Python</tag>
+         
+        <tag>Oracle</tag>
+         
+         
+           
+             
+              <breadCrumb title="tech" url="https://tony-yin.github.io/categories/tech/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://tony-yin.github.io/2017/10/10/Python-Profiler/</loc>
+    <lastmod>2018-11-03T17:07:41.150Z</lastmod>
+    <data>
+        <display>
+        <title>Python Profiler</title>
+        <pubTime>2017-10-10T13:46:24.000Z</pubTime>
+        
+        <tag>Profile</tag>
+         
+        <tag>Python</tag>
+         
+        <tag>性能优化</tag>
+         
+         
+           
+             
+              <breadCrumb title="tech" url="https://tony-yin.github.io/categories/tech/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://tony-yin.github.io/2018/06/03/Python-Snack-Best-Practice/</loc>
+    <lastmod>2018-11-03T17:07:41.150Z</lastmod>
+    <data>
+        <display>
+        <title>Python Snack 最佳实践</title>
+        <pubTime>2018-06-03T05:07:06.000Z</pubTime>
+        
+        <tag>Linux</tag>
+         
+        <tag>Python</tag>
+         
+        <tag>Snack</tag>
+         
+        <tag>Console</tag>
+         
+         
+           
+             
+              <breadCrumb title="tech" url="https://tony-yin.github.io/categories/tech/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://tony-yin.github.io/2018/04/20/Ctdb-Rados-All-Banned/</loc>
+    <lastmod>2018-11-03T17:07:41.150Z</lastmod>
+    <data>
+        <display>
+        <title>Ctdb Rados方式导致All Banned的问题</title>
+        <pubTime>2018-04-20T05:07:06.000Z</pubTime>
+        
+        <tag>Ceph</tag>
+         
+        <tag>Ctdb</tag>
+         
+        <tag>Rados</tag>
+         
+        <tag>HA</tag>
+         
+         
+           
+             
+              <breadCrumb title="tech" url="https://tony-yin.github.io/categories/tech/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://tony-yin.github.io/2017/12/07/RBD-HA/</loc>
+    <lastmod>2018-11-03T17:07:41.150Z</lastmod>
+    <data>
+        <display>
+        <title>通过 Keepalived 实现 Ceph RBD 的高可用</title>
+        <pubTime>2017-12-06T16:25:31.000Z</pubTime>
+        
+        <tag>Ceph</tag>
+         
+        <tag>HA</tag>
+         
+        <tag>RBD</tag>
+         
+        <tag>Keepalived</tag>
+         
+         
+           
+             
+              <breadCrumb title="tech" url="https://tony-yin.github.io/categories/tech/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://tony-yin.github.io/2017/11/30/Cephx-practice/</loc>
+    <lastmod>2018-11-03T17:07:41.150Z</lastmod>
+    <data>
+        <display>
+        <title>Cephx 实战演练</title>
+        <pubTime>2017-11-30T03:04:04.000Z</pubTime>
+        
+        <tag>Ceph</tag>
+         
+        <tag>Cephx</tag>
+         
+         
+           
+             
+              <breadCrumb title="tech" url="https://tony-yin.github.io/categories/tech/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://tony-yin.github.io/2018/01/05/RaidCardToolUtils/</loc>
+    <lastmod>2018-11-03T17:07:41.150Z</lastmod>
+    <data>
+        <display>
+        <title>利用Raid卡工具获取逻辑盘是否为SSD</title>
+        <pubTime>2018-01-05T05:07:06.000Z</pubTime>
+        
+        <tag>Ceph</tag>
+         
+        <tag>Raidcard</tag>
+         
+         
+           
+             
+              <breadCrumb title="tech" url="https://tony-yin.github.io/categories/tech/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://tony-yin.github.io/2017/11/19/hexo-theme-shadow/</loc>
+    <lastmod>2018-11-03T17:07:41.150Z</lastmod>
+    <data>
+        <display>
+        <title>博客主题 shadow</title>
+        <pubTime>2017-11-19T14:45:52.000Z</pubTime>
+        
+        <tag>博客</tag>
+         
+         
+           
+             
+              <breadCrumb title="tech" url="https://tony-yin.github.io/categories/tech/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://tony-yin.github.io/2017/09/10/network-down-notification/</loc>
+    <lastmod>2018-11-03T17:07:41.150Z</lastmod>
+    <data>
+        <display>
+        <title>Network Down Notification</title>
+        <pubTime>2017-09-09T18:14:34.000Z</pubTime>
+        
+        <tag>Ceph</tag>
+         
+        <tag>Network</tag>
+         
+        <tag>Notification</tag>
+         
+         
+           
+             
+              <breadCrumb title="tech" url="https://tony-yin.github.io/categories/tech/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://tony-yin.github.io/2017/11/08/Ceph-NFS-Ganesha/</loc>
+    <lastmod>2018-11-03T17:07:41.150Z</lastmod>
+    <data>
+        <display>
+        <title>通过ganesha-nfs导出Ceph为NFS（Luminous）</title>
+        <pubTime>2017-11-08T15:15:26.000Z</pubTime>
+        
+        <tag>Ceph</tag>
+         
+        <tag>NFS-Ganesha</tag>
+         
+        <tag>NFS</tag>
+         
+        <tag>Luminous</tag>
+         
+         
+           
+             
+              <breadCrumb title="tech" url="https://tony-yin.github.io/categories/tech/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://tony-yin.github.io/2018/04/08/python_nas_stable_test/</loc>
+    <lastmod>2018-11-03T17:07:41.150Z</lastmod>
+    <data>
+        <display>
+        <title>基于Python的NAS稳定性测试框架</title>
+        <pubTime>2018-04-08T05:07:06.000Z</pubTime>
+        
+        <tag>Ceph</tag>
+         
+        <tag>Python</tag>
+         
+        <tag>NAS</tag>
+         
+         
+           
+             
+              <breadCrumb title="tech" url="https://tony-yin.github.io/categories/tech/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://tony-yin.github.io/2017/11/26/read-ceph-cookbook/</loc>
+    <lastmod>2018-11-03T17:07:41.150Z</lastmod>
+    <data>
+        <display>
+        <title>阅读感悟：《Ceph Cookbook》</title>
+        <pubTime>2017-11-26T14:52:45.000Z</pubTime>
+        
+        <tag>Ceph</tag>
+         
+        <tag>Read</tag>
+         
+         
+           
+             
+              <breadCrumb title="read" url="https://tony-yin.github.io/categories/read/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://tony-yin.github.io/2017/11/26/read-ceph-guide/</loc>
+    <lastmod>2018-11-03T17:07:41.150Z</lastmod>
+    <data>
+        <display>
+        <title>阅读感悟：《Ceph分布式存储学习指南》</title>
+        <pubTime>2017-11-26T14:50:08.000Z</pubTime>
+        
+        <tag>Ceph</tag>
+         
+        <tag>Read</tag>
+         
+         
+           
+             
+              <breadCrumb title="read" url="https://tony-yin.github.io/categories/read/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://tony-yin.github.io/2017/11/14/Ceph-Compile/</loc>
+    <lastmod>2018-11-03T17:07:41.150Z</lastmod>
+    <data>
+        <display>
+        <title>Ceph 编译（Giant版本）</title>
+        <pubTime>2017-11-14T01:30:29.000Z</pubTime>
+        
+        <tag>Ceph</tag>
+         
+        <tag>编译</tag>
+         
+         
+           
+             
+              <breadCrumb title="tech" url="https://tony-yin.github.io/categories/tech/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://tony-yin.github.io/2017/09/28/JS-Object-Null/</loc>
+    <lastmod>2018-11-03T17:07:41.150Z</lastmod>
+    <data>
+        <display>
+        <title>JS判断对象是否为空</title>
+        <pubTime>2017-09-28T06:01:42.000Z</pubTime>
+        
+        <tag>Javascript</tag>
          
          
            

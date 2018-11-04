@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html>
-<head>
+<head><meta name="generator" content="Hexo 3.8.0">
   <meta charset="utf-8">
-  <meta name="baidu-site-verification" content="L6Lm9d5Crl"/>
+  <meta name="baidu-site-verification" content="L6Lm9d5Crl">
   
   
   
@@ -16,8 +16,9 @@
 <meta property="og:url" content="https://tony-yin.github.io/2017/11/08/Ceph-NFS-Ganesha/index.html">
 <meta property="og:site_name" content="Tony&#39;s blog">
 <meta property="og:description" content="自从Jewel版本，nfs-ganesha开始支持ceph，并且把对接点选择了rados。Ganesha支持两种方式将Ceph导出为NFS，一种通过RGW，一种通过CephFS，通过FSAL模块 连接到RGW或者CephFS， 其中，FSAL_RGW调用librgw2将NFS协议转义为S3协议再通过RGW存入到Ceph中，FSAL_CEPH 调用libcephfs1将NFS转义为Cephfs协">
+<meta property="og:locale" content="default">
 <meta property="og:image" content="http://ow0mgad6r.bkt.clouddn.com/ganesha-600x450.png">
-<meta property="og:updated_time" content="2017-11-30T03:09:29.197Z">
+<meta property="og:updated_time" content="2018-11-03T17:07:41.150Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="通过ganesha-nfs导出Ceph为NFS（Luminous）">
 <meta name="twitter:description" content="自从Jewel版本，nfs-ganesha开始支持ceph，并且把对接点选择了rados。Ganesha支持两种方式将Ceph导出为NFS，一种通过RGW，一种通过CephFS，通过FSAL模块 连接到RGW或者CephFS， 其中，FSAL_RGW调用librgw2将NFS协议转义为S3协议再通过RGW存入到Ceph中，FSAL_CEPH 调用libcephfs1将NFS转义为Cephfs协">
@@ -40,7 +41,7 @@
   
   <!-- 加载特效 -->
     <script src="/js/pace.js"></script>
-    <link href="/css/pace/pace-theme-flash.css" rel="stylesheet" />
+    <link href="/css/pace/pace-theme-flash.css" rel="stylesheet">
   <script>
       var yiliaConfig = {
           fancybox: true,
@@ -53,7 +54,7 @@
           open_in_new: false
       }
   </script>
-</head>
+</head></html>
 <body>
   <div id="container">
     <div class="left-col">
@@ -168,28 +169,28 @@
                     <nav class="header-menu">
                         <ul>
                         
-                            <li><a  href="/archives/">所有文章</a></li>
+                            <li><a href="/archives/">所有文章</a></li>
                         
-                            <li><a  href="/categories/tech">技术文章</a></li>
+                            <li><a href="/categories/tech">技术文章</a></li>
                         
-                            <li><a  href="/tags/Ceph">Ceph修炼之路</a></li>
+                            <li><a href="/tags/Ceph">Ceph修炼之路</a></li>
                         
-                            <li><a  href="/categories/summary">感悟总结</a></li>
+                            <li><a href="/categories/summary">感悟总结</a></li>
                         
-                            <li><a  href="/categories/read">阅读翻译</a></li>
+                            <li><a href="/categories/read">阅读翻译</a></li>
                         
-                            <li><a  href="/categories/life">生活随笔</a></li>
+                            <li><a href="/categories/life">生活随笔</a></li>
                         
                         </ul>
                     </nav>
                     <nav class="header-nav">
                         <ul class="social">
                             
-                                <a class="fl github"  target="_blank" href="https://github.com/tony-yin" title="github">github</a>
+                                <a class="fl github" target="_blank" href="https://github.com/tony-yin" title="github">github</a>
                             
-                                <a class="fl weibo"  target="_blank" href="https://weibo.com/3832044210/profile?rightmod=1&wvr=6&mod=personinfo" title="weibo">weibo</a>
+                                <a class="fl weibo" target="_blank" href="https://weibo.com/3832044210/profile?rightmod=1&wvr=6&mod=personinfo" title="weibo">weibo</a>
                             
-                                <a class="fl segmentfault"  target="_blank" href="https://segmentfault.com/u/qzuser_57fb1d5db527e" title="segmentfault">segmentfault</a>
+                                <a class="fl segmentfault" target="_blank" href="https://segmentfault.com/u/qzuser_57fb1d5db527e" title="segmentfault">segmentfault</a>
                             
                         </ul>
 			
@@ -198,7 +199,7 @@
                 
                 <section class="switch-part switch-part2">
                     <div class="widget tagcloud" id="js-tagcloud">
-                        <a href="/tags/Bugfix/" style="font-size: 10px;">Bugfix</a> <a href="/tags/CAS/" style="font-size: 10px;">CAS</a> <a href="/tags/Ceph/" style="font-size: 20px;">Ceph</a> <a href="/tags/Cephx/" style="font-size: 10px;">Cephx</a> <a href="/tags/Console/" style="font-size: 10px;">Console</a> <a href="/tags/Crontab/" style="font-size: 10px;">Crontab</a> <a href="/tags/Ctdb/" style="font-size: 11.43px;">Ctdb</a> <a href="/tags/Daily-Article/" style="font-size: 15.71px;">Daily-Article</a> <a href="/tags/Disk/" style="font-size: 12.86px;">Disk</a> <a href="/tags/Django/" style="font-size: 10px;">Django</a> <a href="/tags/Filesystem/" style="font-size: 11.43px;">Filesystem</a> <a href="/tags/HA/" style="font-size: 12.86px;">HA</a> <a href="/tags/Javascript/" style="font-size: 10px;">Javascript</a> <a href="/tags/Keepalived/" style="font-size: 11.43px;">Keepalived</a> <a href="/tags/LVM/" style="font-size: 10px;">LVM</a> <a href="/tags/Linux/" style="font-size: 17.14px;">Linux</a> <a href="/tags/Luminous/" style="font-size: 10px;">Luminous</a> <a href="/tags/Megaraid/" style="font-size: 10px;">Megaraid</a> <a href="/tags/Moodle/" style="font-size: 10px;">Moodle</a> <a href="/tags/NAS/" style="font-size: 10px;">NAS</a> <a href="/tags/NFS/" style="font-size: 12.86px;">NFS</a> <a href="/tags/NFS-Ganesha/" style="font-size: 10px;">NFS-Ganesha</a> <a href="/tags/Network/" style="font-size: 10px;">Network</a> <a href="/tags/Notification/" style="font-size: 10px;">Notification</a> <a href="/tags/OSD/" style="font-size: 12.86px;">OSD</a> <a href="/tags/Oracle/" style="font-size: 11.43px;">Oracle</a> <a href="/tags/Oracle-11g-R2/" style="font-size: 10px;">Oracle 11g R2</a> <a href="/tags/Oracle-Linux/" style="font-size: 10px;">Oracle Linux</a> <a href="/tags/PHP/" style="font-size: 11.43px;">PHP</a> <a href="/tags/PHPExcel/" style="font-size: 10px;">PHPExcel</a> <a href="/tags/Partition/" style="font-size: 10px;">Partition</a> <a href="/tags/Profile/" style="font-size: 11.43px;">Profile</a> <a href="/tags/Python/" style="font-size: 14.29px;">Python</a> <a href="/tags/RBD/" style="font-size: 12.86px;">RBD</a> <a href="/tags/RGW/" style="font-size: 10px;">RGW</a> <a href="/tags/Rados/" style="font-size: 10px;">Rados</a> <a href="/tags/Raidcard/" style="font-size: 10px;">Raidcard</a> <a href="/tags/Read/" style="font-size: 18.57px;">Read</a> <a href="/tags/Script/" style="font-size: 12.86px;">Script</a> <a href="/tags/Snack/" style="font-size: 10px;">Snack</a> <a href="/tags/Test/" style="font-size: 10px;">Test</a> <a href="/tags/Udev/" style="font-size: 11.43px;">Udev</a> <a href="/tags/产品/" style="font-size: 10px;">产品</a> <a href="/tags/博客/" style="font-size: 10px;">博客</a> <a href="/tags/性能优化/" style="font-size: 10px;">性能优化</a> <a href="/tags/编译/" style="font-size: 10px;">编译</a>
+                        <a href="/tags/Bugfix/" style="font-size: 10px;">Bugfix</a> <a href="/tags/CAS/" style="font-size: 10px;">CAS</a> <a href="/tags/Ceph/" style="font-size: 20px;">Ceph</a> <a href="/tags/Cephx/" style="font-size: 10px;">Cephx</a> <a href="/tags/Console/" style="font-size: 10px;">Console</a> <a href="/tags/Ctdb/" style="font-size: 11.67px;">Ctdb</a> <a href="/tags/Daily-Article/" style="font-size: 16.67px;">Daily-Article</a> <a href="/tags/Disk/" style="font-size: 13.33px;">Disk</a> <a href="/tags/Django/" style="font-size: 10px;">Django</a> <a href="/tags/Filesystem/" style="font-size: 11.67px;">Filesystem</a> <a href="/tags/HA/" style="font-size: 13.33px;">HA</a> <a href="/tags/Javascript/" style="font-size: 10px;">Javascript</a> <a href="/tags/Keepalived/" style="font-size: 11.67px;">Keepalived</a> <a href="/tags/LVM/" style="font-size: 10px;">LVM</a> <a href="/tags/Linux/" style="font-size: 16.67px;">Linux</a> <a href="/tags/Luminous/" style="font-size: 10px;">Luminous</a> <a href="/tags/Megaraid/" style="font-size: 10px;">Megaraid</a> <a href="/tags/Moodle/" style="font-size: 10px;">Moodle</a> <a href="/tags/NAS/" style="font-size: 10px;">NAS</a> <a href="/tags/NFS/" style="font-size: 13.33px;">NFS</a> <a href="/tags/NFS-Ganesha/" style="font-size: 10px;">NFS-Ganesha</a> <a href="/tags/Network/" style="font-size: 10px;">Network</a> <a href="/tags/Notification/" style="font-size: 10px;">Notification</a> <a href="/tags/OSD/" style="font-size: 13.33px;">OSD</a> <a href="/tags/Oracle/" style="font-size: 11.67px;">Oracle</a> <a href="/tags/Oracle-11g-R2/" style="font-size: 10px;">Oracle 11g R2</a> <a href="/tags/Oracle-Linux/" style="font-size: 10px;">Oracle Linux</a> <a href="/tags/PHP/" style="font-size: 11.67px;">PHP</a> <a href="/tags/PHPExcel/" style="font-size: 10px;">PHPExcel</a> <a href="/tags/Partition/" style="font-size: 10px;">Partition</a> <a href="/tags/Profile/" style="font-size: 11.67px;">Profile</a> <a href="/tags/Python/" style="font-size: 15px;">Python</a> <a href="/tags/RBD/" style="font-size: 13.33px;">RBD</a> <a href="/tags/RGW/" style="font-size: 10px;">RGW</a> <a href="/tags/Rados/" style="font-size: 10px;">Rados</a> <a href="/tags/Raidcard/" style="font-size: 10px;">Raidcard</a> <a href="/tags/Read/" style="font-size: 18.33px;">Read</a> <a href="/tags/Script/" style="font-size: 13.33px;">Script</a> <a href="/tags/Snack/" style="font-size: 10px;">Snack</a> <a href="/tags/Test/" style="font-size: 10px;">Test</a> <a href="/tags/Udev/" style="font-size: 11.67px;">Udev</a> <a href="/tags/产品/" style="font-size: 10px;">产品</a> <a href="/tags/博客/" style="font-size: 10px;">博客</a> <a href="/tags/性能优化/" style="font-size: 10px;">性能优化</a> <a href="/tags/编译/" style="font-size: 10px;">编译</a>
                     </div>
                 </section>
                 
@@ -206,9 +207,9 @@
                 <section class="switch-part switch-part3">
                     <div id="js-friends">
                     
-                      <a target="_blank"  class="main-nav-link switch-friends-link" href="https://greenlightt.github.io">redgo的博客</a>
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="https://greenlightt.github.io">redgo的博客</a>
                     
-                      <a target="_blank"  class="main-nav-link switch-friends-link" href="http://www.xuxiaopang.com">徐小胖的博客</a>
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.xuxiaopang.com">徐小胖的博客</a>
                     
                     </div>
                 </section>
@@ -276,10 +277,10 @@
     </div>
 </nav>
 
-      <div class="body-wrap"><article id="post-Ceph-NFS-Ganesha" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-Ceph-NFS-Ganesha" class="article article-type-post" itemscope="" itemprop="blogPost">
   
     <div class="article-meta">
-      <a  href="/2017/11/08/Ceph-NFS-Ganesha/" class="article-date">
+      <a href="/2017/11/08/Ceph-NFS-Ganesha/" class="article-date">
       <time datetime="2017-11-08T15:15:26.000Z" itemprop="datePublished">2017-11-08</time>
 </a>
 
@@ -287,7 +288,7 @@
   
   <div class="article-inner">
     
-      <input type="hidden" class="isFancy" />
+      <input type="hidden" class="isFancy">
     
     
       <header class="article-header">
@@ -323,11 +324,11 @@
         <center><img src="http://ow0mgad6r.bkt.clouddn.com/ganesha-600x450.png" alt="ganesha"></center>
 
 <p>自从<code>Jewel</code>版本，<code>nfs-ganesha</code>开始支持<code>ceph</code>，并且把对接点选择了<code>rados</code>。<code>Ganesha</code>支持两种方式将<code>Ceph</code>导出为<code>NFS</code>，一种通过<code>RGW</code>，一种通过<code>CephFS</code>，通过<code>FSAL</code>模块 连接到<code>RGW</code>或者<code>CephFS</code>， 其中，<code>FSAL_RGW</code>调用<code>librgw2</code>将<code>NFS</code>协议转义为<code>S3</code>协议再通过<code>RGW</code>存入到<code>Ceph</code>中，<code>FSAL_CEPH</code> 调用<code>libcephfs1</code>将<code>NFS</code>转义为<code>Cephfs</code>协议再存入到<code>Ceph</code> 中。所以需要额外安装这两个包。</p>
-<p>本文就<code>Luminous</code>版本的<code>ceph</code>基于<code>ganesha</code>导出<code>nfs</code>部署，并且测试一下<code>rgw</code>和<code>cephfs</code>的性能。<a href="http://www.xuxiaopang.com/2017/03/27/ganesha-nfs-deploy/#more" target="_blank" rel="external">@徐小胖</a>已经就<code>jewel</code>版本的过程进行了大致的讲解，我这边主要分享一下我遇到他文章没提到的和<code>Luminous</code>场景导致的问题。</p>
+<p>本文就<code>Luminous</code>版本的<code>ceph</code>基于<code>ganesha</code>导出<code>nfs</code>部署，并且测试一下<code>rgw</code>和<code>cephfs</code>的性能。<a href="http://www.xuxiaopang.com/2017/03/27/ganesha-nfs-deploy/#more" target="_blank" rel="noopener">@徐小胖</a>已经就<code>jewel</code>版本的过程进行了大致的讲解，我这边主要分享一下我遇到他文章没提到的和<code>Luminous</code>场景导致的问题。</p>
 <a id="more"></a>
 <h2 id="参考链接："><a href="#参考链接：" class="headerlink" title="参考链接："></a>参考链接：</h2><ul>
-<li><a href="http://www.xuxiaopang.com/2017/03/27/ganesha-nfs-deploy/#more" target="_blank" rel="external">通过ganesha-nfs将 Ceph 导出为 NFS</a></li>
-<li><a href="http://blog.csdn.net/younger_china/article/details/73432726" target="_blank" rel="external">RGW+Ganesha环境部署</a></li>
+<li><a href="http://www.xuxiaopang.com/2017/03/27/ganesha-nfs-deploy/#more" target="_blank" rel="noopener">通过ganesha-nfs将 Ceph 导出为 NFS</a></li>
+<li><a href="http://blog.csdn.net/younger_china/article/details/73432726" target="_blank" rel="noopener">RGW+Ganesha环境部署</a></li>
 </ul>
 <h2 id="环境声明"><a href="#环境声明" class="headerlink" title="环境声明"></a>环境声明</h2><ul>
 <li>os： centos7</li>
@@ -335,7 +336,7 @@
 <li>nfs-gnesha： <strong>v2.5 stable</strong>（important）</li>
 </ul>
 <h2 id="安装依赖"><a href="#安装依赖" class="headerlink" title="安装依赖"></a>安装依赖</h2><p>一些编译需要的公共库</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">yum install gcc git cmake autoconf libtool bison flex doxygen openssl-devel gcc-c++ krb5-libs krb5-devel libuuid-devel nfs-utils -y</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install gcc git cmake autoconf libtool bison flex doxygen openssl-devel gcc-c++ krb5-libs krb5-devel libuuid-devel nfs-utils -y</span><br></pre></td></tr></table></figure>
 <p><code>ubuntu</code>的我也试了一下，主要有以下几个包不同：</p>
 <ul>
 <li><code>gcc-c++</code>   -&gt;   <code>g++</code></li>
@@ -343,18 +344,18 @@
 <li><code>nfs-utils</code>   -&gt;  <code>nfs-kernel-server</code> </li>
 </ul>
 <p>如果要生成<code>FSAL_RGW</code>模块，需要安装<code>librgw2-devel</code>（我装的<code>librgw-devel</code>也可以<code>work</code>，看了<code>so</code>文件发现就是<code>2</code>，只是建立了映射关系，这个看了源码知道了是因为<code>K</code>版本对<code>librgw</code>编译这块做了升级，加了<code>2</code>标识一下）</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">yum install librgw2-devel -y</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install librgw2-devel -y</span><br></pre></td></tr></table></figure>
 <p>如果要生成<code>FSAL_CEPH</code>模块，需要安装<code>libcephfs1-devel</code></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">yum install libcephfs1-devel -y</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install libcephfs1-devel -y</span><br></pre></td></tr></table></figure>
 <h2 id="源码下载"><a href="#源码下载" class="headerlink" title="源码下载"></a>源码下载</h2><p>上面两篇文章一个下载的是<code>v2.3 stable</code>，一个是<code>v2.4 stable</code>，两个我都试过，都会在<code>make</code>到<code>80%</code>左右的时候报错，应该是源码版本和库的版本有冲突导致的，这个问题耽误我挺长时间的，后来猜想可能是版本问题，尝试了一下<code>v2.5 stable</code>的源码就可以了</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git clone -b V2.5-stable https://github.com/nfs-ganesha/nfs-ganesha.git --recursive</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone -b V2.5-stable https://github.com/nfs-ganesha/nfs-ganesha.git --recursive</span><br></pre></td></tr></table></figure>
 <p><strong>注意：（重要）</strong></p>
 <p>最近我同事根据这篇文档部署<code>nfs-ganesha</code>的时候，发现之后<code>cmake</code>的操作后<code>USE_FSAL_RGW</code>始终是<code>OFF</code>的状态，一开始检查了一下环境发现<code>ganesha</code>是<code>v2.5</code>，然后<code>ceph</code>也是<code>L</code>版本，<code>centos</code>也是<code>7</code>。</p>
 <p>报错如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">local RGW version is 1.1.4 not suitable match, but required latest RGW version is 1.1.6</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">local RGW version is 1.1.4 not suitable match, but required latest RGW version is 1.1.6</span><br></pre></td></tr></table></figure>
 <p>很好理解，就是我们安装的<code>RGW</code>达不到<code>nfs-ganesha</code>的要求，首先我们尝试去安装新的版本，但是<code>yum</code>的源已经配置了<code>luminous</code>，并且网上搜索了一圈并没有找到更新的。</p>
 <p>ok，那就第二步，那就找原因同样的环境为啥我可以成功？而这位同事却不行？莫非因为我帅？不能这么逆天吧^_^ （明明可以靠脸吃饭，偏偏靠才华，哎……）</p>
-<p>言归正传，通过报错信息查看源代码？定位到了报错文件<code>src/CMakeLists.txt</code>，然后代码中对<code>RGW</code>的版本要求也的确是<code>1.1.6</code>，回过头再看我之前下载下来的源代码，怪异的现象发生了，我代码中对<code>RGW</code>的版本要求只有<code>1.1.3</code>，此时我的第一反应就是应该这个文件被修改过导致两份代码不一样，出于本能直接上了<code>github</code>，果不其然，发现了<code>mattbenjamin</code>同学在<code>10</code>月<code>17</code>号在<code>v2.5</code>的分支上提交了一个<code>commit</code>针对<code>RGW</code>版本做出了修改！具体参看<a href="https://github.com/nfs-ganesha/nfs-ganesha/commit/8d039cd139ea1dcfbe316b7e93e96efe755669ef" target="_blank" rel="external">commit详情</a>，而这位贡献者几乎同时也在<code>ceph</code>提交了相关代码。这样想想就说得通了，我在搭建<code>nfs-ganesha</code>的时候恰好是在他提交之前的，所以我本地<code>RGW</code>本地版本是<code>1.1.4</code>是比要求版本<code>1.1.3</code>要高的，虽然不是完全<code>match</code>，但是也基本符合了要求，而我这位同事脸就比较黑了。。。</p>
+<p>言归正传，通过报错信息查看源代码？定位到了报错文件<code>src/CMakeLists.txt</code>，然后代码中对<code>RGW</code>的版本要求也的确是<code>1.1.6</code>，回过头再看我之前下载下来的源代码，怪异的现象发生了，我代码中对<code>RGW</code>的版本要求只有<code>1.1.3</code>，此时我的第一反应就是应该这个文件被修改过导致两份代码不一样，出于本能直接上了<code>github</code>，果不其然，发现了<code>mattbenjamin</code>同学在<code>10</code>月<code>17</code>号在<code>v2.5</code>的分支上提交了一个<code>commit</code>针对<code>RGW</code>版本做出了修改！具体参看<a href="https://github.com/nfs-ganesha/nfs-ganesha/commit/8d039cd139ea1dcfbe316b7e93e96efe755669ef" target="_blank" rel="noopener">commit详情</a>，而这位贡献者几乎同时也在<code>ceph</code>提交了相关代码。这样想想就说得通了，我在搭建<code>nfs-ganesha</code>的时候恰好是在他提交之前的，所以我本地<code>RGW</code>本地版本是<code>1.1.4</code>是比要求版本<code>1.1.3</code>要高的，虽然不是完全<code>match</code>，但是也基本符合了要求，而我这位同事脸就比较黑了。。。</p>
 <p>那该怎么解决这个问题呢？</p>
 <p>有两种解决方案：</p>
 <ol>
@@ -363,40 +364,40 @@
 </ol>
 <p>这么看来第二种更为简单一些，我们也是采用的这种方式，<code>git clone v2.5 stable</code>后，然后<code>git checkout</code>恰当的版本号即可。</p>
 <p><strong>总结：</strong></p>
-<p>其实直接<code>clone</code>实时的代码这是不合理的，因为你不知道他什么时候会更新。正确的方式是我们应该找到稳定的<code>release</code>版本，<code>nfs-ganesha</code>也有提供<a href="https://github.com/nfs-ganesha/nfs-ganesha/releases" target="_blank" rel="external">一系列的release</a>，而我们通过查看<code>2.5 tree</code>上面的<code>commit</code>信息，可以知道<code>RGW</code>的改动是介于<code>2.5.3</code>和<code>2.5.4</code>之间的，所以我们下载<code>2.5.3</code>较为合适，下载地址在<a href="https://github.com/nfs-ganesha/nfs-ganesha/releases/tag/V2.5.3" target="_blank" rel="external">这里</a>。</p>
-<p>这边还需要注意一个问题，这边<code>release</code>包下载下来你会发现<code>libntrirpc</code>这个文件夹没有内容，出现这个问题是因为<code>libntrirpc</code>对应的也是一个<code>git</code>仓库，我们需要去<a href="https://github.com/nfs-ganesha/nfs-ganesha/tree/next/src" target="_blank" rel="external">ntrirpc</a>手动克隆，然后通过<code>nfs-ganesha</code>的目录发现对<code>ntrirpc</code>的版本要求是<code>fadcbde</code>（这些都是上<code>github</code>可以看到的），我们需要做的就是在下载下来的<code>ntrirpc</code>目录下切到<code>fadcbde</code>这个<code>commit</code>上，并把当前的内容拷贝到<code>nfs-ganesha</code>的<code>libntrirpc</code>目录下。</p>
+<p>其实直接<code>clone</code>实时的代码这是不合理的，因为你不知道他什么时候会更新。正确的方式是我们应该找到稳定的<code>release</code>版本，<code>nfs-ganesha</code>也有提供<a href="https://github.com/nfs-ganesha/nfs-ganesha/releases" target="_blank" rel="noopener">一系列的release</a>，而我们通过查看<code>2.5 tree</code>上面的<code>commit</code>信息，可以知道<code>RGW</code>的改动是介于<code>2.5.3</code>和<code>2.5.4</code>之间的，所以我们下载<code>2.5.3</code>较为合适，下载地址在<a href="https://github.com/nfs-ganesha/nfs-ganesha/releases/tag/V2.5.3" target="_blank" rel="noopener">这里</a>。</p>
+<p>这边还需要注意一个问题，这边<code>release</code>包下载下来你会发现<code>libntrirpc</code>这个文件夹没有内容，出现这个问题是因为<code>libntrirpc</code>对应的也是一个<code>git</code>仓库，我们需要去<a href="https://github.com/nfs-ganesha/nfs-ganesha/tree/next/src" target="_blank" rel="noopener">ntrirpc</a>手动克隆，然后通过<code>nfs-ganesha</code>的目录发现对<code>ntrirpc</code>的版本要求是<code>fadcbde</code>（这些都是上<code>github</code>可以看到的），我们需要做的就是在下载下来的<code>ntrirpc</code>目录下切到<code>fadcbde</code>这个<code>commit</code>上，并把当前的内容拷贝到<code>nfs-ganesha</code>的<code>libntrirpc</code>目录下。</p>
 <p>实在搞不定的童鞋，我提供一个我克隆的<code>nfs-ganesha</code>的代码包，你们可以对比一下，这个我是可以成功部署的</p>
-<p>附：我的<code>nfs-ganesha</code><a href="http://ovv1r40we.bkt.clouddn.com/nfs-ganesha.tar.gz" target="_blank" rel="external">下载地址</a></p>
+<p>附：我的<code>nfs-ganesha</code><a href="http://ovv1r40we.bkt.clouddn.com/nfs-ganesha.tar.gz" target="_blank" rel="noopener">下载地址</a></p>
 <h2 id="编译"><a href="#编译" class="headerlink" title="编译"></a>编译</h2><p>编译<code>nfs-ganesha</code>， <strong>注意打开对应的模块：</strong></p>
 <ul>
 <li>如果需要生成<code>FSAL_RGW</code>模块，则在编译选项中添加： <code>-DUSE_FSAL_RGW=ON</code></li>
 <li>如果需要生成<code>FSAL_CEPH</code>模块，则在编译选项中添加： <code>-DUSE_FSAL_CEPH=ON</code></li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">cd src/</div><div class="line">mkdir build</div><div class="line">cd /build/</div><div class="line">cmake -DUSE_FSAL_RGW=ON -DUSE_FSAL_CEPH=ON ../</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cd src/</span><br><span class="line">mkdir build</span><br><span class="line">cd /build/</span><br><span class="line">cmake -DUSE_FSAL_RGW=ON -DUSE_FSAL_CEPH=ON ../</span><br></pre></td></tr></table></figure>
 <p><code>cmake</code>的过程中会有以下输出：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">-- Looking for ceph_ll_lookup_root in cephfs - found</div><div class="line">-- Found cephfs libraries: /usr/lib64/libcephfs.so</div><div class="line">-- Found CEPHFS: /usr/include  </div><div class="line">-- Looking for rgw_mount in rgw</div><div class="line">-- Looking for rgw_mount in rgw - found</div><div class="line">-- Found rgw libraries: /usr/lib64/librgw.so</div><div class="line">-- Found RGW: /usr (found suitable version &quot;1.1&quot;, minimum required is &quot;1.1&quot;) </div><div class="line">...</div><div class="line">-- USE_FSAL_CEPH = ON</div><div class="line">-- USE_FSAL_CEPH_MKNOD = OFF</div><div class="line">-- USE_FSAL_CEPH_SETLK = OFF</div><div class="line">-- USE_FSAL_CEPH_LL_LOOKUP_ROOT = ON</div><div class="line">-- USE_FSAL_RGW = ON</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">-- Looking for ceph_ll_lookup_root in cephfs - found</span><br><span class="line">-- Found cephfs libraries: /usr/lib64/libcephfs.so</span><br><span class="line">-- Found CEPHFS: /usr/include  </span><br><span class="line">-- Looking for rgw_mount in rgw</span><br><span class="line">-- Looking for rgw_mount in rgw - found</span><br><span class="line">-- Found rgw libraries: /usr/lib64/librgw.so</span><br><span class="line">-- Found RGW: /usr (found suitable version &quot;1.1&quot;, minimum required is &quot;1.1&quot;) </span><br><span class="line">...</span><br><span class="line">-- USE_FSAL_CEPH = ON</span><br><span class="line">-- USE_FSAL_CEPH_MKNOD = OFF</span><br><span class="line">-- USE_FSAL_CEPH_SETLK = OFF</span><br><span class="line">-- USE_FSAL_CEPH_LL_LOOKUP_ROOT = ON</span><br><span class="line">-- USE_FSAL_RGW = ON</span><br></pre></td></tr></table></figure>
 <p>这一步，很重要，很多时候会因为没有装好的<code>librgw2-devel</code>或者<code>libcephfs1-devel</code>导致这边的<code>USE_FSAL_RGW</code>或者<code>USE_FSAL_CEPH</code>状态为<code>OFF</code></p>
 <p><strong>确保，确保，确保：</strong> <code>-- USE_FSAL_CEPH</code>为<code>ON</code>，以及<code>-- USE_FSAL_RGW</code>为<code>ON</code>。</p>
 <p>如果是<code>OFF</code>，请检查下<code>librgw2-devel</code>或者<code>libcephfs1-devel</code>是否有安装，如果这两个包都已经安装了，还显示为<code>OFF</code>， 可以尝试下清空编译目录：<code>rm -rf build/*</code>，再进行编译，如果依旧为 <code>OFF</code>，可以尝试下删除所有的<code>Ceph</code>包，再重新<code>yum install ceph librgw2-devel libcephfs1-devel -y</code>。</p>
 <p>编译和安装，在<code>build</code>目录下</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">make</div><div class="line">make install</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">make</span><br><span class="line">make install</span><br></pre></td></tr></table></figure>
 <blockquote>
 <p>PS:<br>在<code>make install</code>生成的输出中，可以看到:</p>
 <p>– Up-to-date: /usr/share/doc/ganesha/config_samples/rgw.conf<br>…<br>– Up-to-date: /usr/share/doc/ganesha/config_samples/ceph.conf</p>
 <p>这两个文件就是配置将<code>RGW</code>和<code>CephFS</code>配置为<code>ganesha-nfs</code>的配置模板。</p>
 </blockquote>
 <h2 id="编辑配置文件"><a href="#编辑配置文件" class="headerlink" title="编辑配置文件"></a>编辑配置文件</h2><p>注意<code>Path</code>后面的路径需要加引号，<code>rgw</code>替换成创建<code>S3</code>用户生成的用户信息</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line">cat /etc/ganesha/ganesha.conf</div><div class="line">EXPORT</div><div class="line">&#123;</div><div class="line">        Export_ID=1;</div><div class="line">        Path = &quot;/&quot;;</div><div class="line">        Pseudo = /cephfs;</div><div class="line">        Access_Type = RW;</div><div class="line">        NFS_Protocols = 4;</div><div class="line">        Transport_Protocols = TCP;</div><div class="line">        FSAL &#123;</div><div class="line">                Name = CEPH;</div><div class="line">        &#125;</div><div class="line">&#125;</div><div class="line">EXPORT</div><div class="line">&#123;</div><div class="line">        Export_ID=2;</div><div class="line">        Path = &quot;/&quot;;</div><div class="line">        Pseudo = /rgw;</div><div class="line">        Access_Type = RW;</div><div class="line">        Squash = No_root_squash;</div><div class="line">        NFS_Protocols = 4;</div><div class="line">        Transport_Protocols = TCP;</div><div class="line">        FSAL &#123;</div><div class="line">                Name = RGW;</div><div class="line">                User_Id = &quot;admin&quot;;</div><div class="line">                Access_Key_Id =&quot;1MWH3LWM1BS4ZF4HN5IH&quot;;</div><div class="line">                Secret_Access_Key = &quot;cuObxYgtl1lJgqNxOIpENycVqXfxLxZ8z5IXDM0O&quot;;</div><div class="line">        &#125;</div><div class="line">&#125;</div><div class="line">RGW &#123;</div><div class="line">    ceph_conf = &quot;/etc/ceph/ceph.conf&quot;;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h2 id="启动-Ganesha"><a href="#启动-Ganesha" class="headerlink" title="启动 Ganesha"></a>启动 Ganesha</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ganesha.nfsd -f /etc/ganesha/ganesha.conf -L /var/log/nfs-ganesha.log -N NIV_DEBUG</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">cat /etc/ganesha/ganesha.conf</span><br><span class="line">EXPORT</span><br><span class="line">&#123;</span><br><span class="line">        Export_ID=1;</span><br><span class="line">        Path = &quot;/&quot;;</span><br><span class="line">        Pseudo = /cephfs;</span><br><span class="line">        Access_Type = RW;</span><br><span class="line">        NFS_Protocols = 4;</span><br><span class="line">        Transport_Protocols = TCP;</span><br><span class="line">        FSAL &#123;</span><br><span class="line">                Name = CEPH;</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br><span class="line">EXPORT</span><br><span class="line">&#123;</span><br><span class="line">        Export_ID=2;</span><br><span class="line">        Path = &quot;/&quot;;</span><br><span class="line">        Pseudo = /rgw;</span><br><span class="line">        Access_Type = RW;</span><br><span class="line">        Squash = No_root_squash;</span><br><span class="line">        NFS_Protocols = 4;</span><br><span class="line">        Transport_Protocols = TCP;</span><br><span class="line">        FSAL &#123;</span><br><span class="line">                Name = RGW;</span><br><span class="line">                User_Id = &quot;admin&quot;;</span><br><span class="line">                Access_Key_Id =&quot;1MWH3LWM1BS4ZF4HN5IH&quot;;</span><br><span class="line">                Secret_Access_Key = &quot;cuObxYgtl1lJgqNxOIpENycVqXfxLxZ8z5IXDM0O&quot;;</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br><span class="line">RGW &#123;</span><br><span class="line">    ceph_conf = &quot;/etc/ceph/ceph.conf&quot;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="启动-Ganesha"><a href="#启动-Ganesha" class="headerlink" title="启动 Ganesha"></a>启动 Ganesha</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ganesha.nfsd -f /etc/ganesha/ganesha.conf -L /var/log/nfs-ganesha.log -N NIV_DEBUG</span><br></pre></td></tr></table></figure>
 <p>如果一切顺利，你应该可以看到<code>ganesha.nfsd</code> 进程在那，如果进程不在，那么查看<code>Log</code>，记得在启动进程前，关闭所有<code>CephX</code>配置。</p>
 <p><strong>重要</strong>：<code>librgw init failed (-5)</code> 解决方法</p>
 <p>报错内容如下</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">RGW-1 : nfs-ganesha-2232083[main] create_export :FSAL :CRIT :RGW module: librgw init failed (-5)</div><div class="line">RGW-1 : nfs-ganesha-2232083[main] mdcache_fsal_create_export :FSAL :MAJ :Failed to call create_export on underlying FSAL</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">RGW-1 : nfs-ganesha-2232083[main] create_export :FSAL :CRIT :RGW module: librgw init failed (-5)</span><br><span class="line">RGW-1 : nfs-ganesha-2232083[main] mdcache_fsal_create_export :FSAL :MAJ :Failed to call create_export on underlying FSAL</span><br></pre></td></tr></table></figure>
 <p>经过多次尝试，包括在<code>ganesha.conf</code>内添加<code>init_args</code>指定秘钥和<code>Ceph</code>的用户，<code>ganesha-nfs</code> 均无法启动，报的错如标题，解决方法就是关闭<code>CephX</code>，将<code>/etc/ceph/ceph.conf</code>内的三个 <code>cephx</code>改为<code>none</code>，然后重启<code>ceph-mon</code>，<code>ceph-osd</code>，<code>ceph-radosgw</code>，<code>ceph-mds</code> 进程，再启动<code>ganesha-nfs</code>，即可正常运行。</p>
 <p><strong>需要注意的是：</strong></p>
 <p>当你在当前节点上，关闭<code>cephx</code>后，你用<code>ceph -s</code>查看集群状态时，这时候会报错说明由于没有<code>auth</code>认证导致无法连接集群，所以我当时试了很久，尽管<code>nfs-ganesha</code>已经运行了，但是<code>mount</code>都没有成功<code>export</code>，查看<code>log</code>才发现原来在<code>init</code>配置的时候就失败了，导致这个问题的原因是我只关闭了一个节点的<code>cephx</code>，所以需要做的就是将集群内所有节点的<code>cephx</code>全部关闭，然后集群就可以正常访问了，并且<code>nfs-ganesha</code>也不会因为<code>cephx</code>导致加载配置出错</p>
-<h2 id="Check-Export"><a href="#Check-Export" class="headerlink" title="Check Export"></a>Check Export</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">[root@node1 build]# showmount -e  </div><div class="line">Export list for node1:  </div><div class="line">/ (everyone)  </div><div class="line">/ (everyone)</div></pre></td></tr></table></figure>
-<h2 id="挂载-NFS"><a href="#挂载-NFS" class="headerlink" title="挂载 NFS"></a>挂载 NFS</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">[root@node1 mnt]# mount -t nfs4 192.168.1.1:/  /mnt/ceph/  </div><div class="line">root@node1 mnt]# ls ceph/*  </div><div class="line">ceph/cephfs:  </div><div class="line">test  </div><div class="line">   </div><div class="line">ceph/rgw:  </div><div class="line">my-new-bucket</div></pre></td></tr></table></figure>
+<h2 id="Check-Export"><a href="#Check-Export" class="headerlink" title="Check Export"></a>Check Export</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@node1 build]# showmount -e  </span><br><span class="line">Export list for node1:  </span><br><span class="line">/ (everyone)  </span><br><span class="line">/ (everyone)</span><br></pre></td></tr></table></figure>
+<h2 id="挂载-NFS"><a href="#挂载-NFS" class="headerlink" title="挂载 NFS"></a>挂载 NFS</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[root@node1 mnt]# mount -t nfs4 192.168.1.1:/  /mnt/ceph/  </span><br><span class="line">root@node1 mnt]# ls ceph/*  </span><br><span class="line">ceph/cephfs:  </span><br><span class="line">test  </span><br><span class="line">   </span><br><span class="line">ceph/rgw:  </span><br><span class="line">my-new-bucket</span><br></pre></td></tr></table></figure>
 <p>说明<code>CephFS</code>和<code>RGW</code>都已经正常对接。<br>如果，你所使用的<code>admin</code>用户名下有很多的桶，那么这些桶都会以<code>/mnt/rgw/xxbucket</code>的结构显示出来，如果你在<code>/mnt/rgw/</code>下建立的一个目录，那么就相当于通过<code>RGW</code>建立了一个桶，所以，你执行<code>touch /mnt/rgw/123</code>是会报错的，因为不符合<code>S3</code>的对象必须位于桶内的规定，简单点说，就是把<code>/mnt/rgw/</code>和<code>S3</code>的根目录一一对应即可。</p>
 <p>同样，<code>CephFS</code>内的内容都会显示在<code>/mnt/cephfs/</code>目录下。可以开始愉快的玩耍了！！</p>
 
@@ -408,16 +409,16 @@
   
     
     <div class="copyright">
-        <p><span>本文标题:</span><a  href="/2017/11/08/Ceph-NFS-Ganesha/">通过ganesha-nfs导出Ceph为NFS（Luminous）</a></p>
-        <p><span>文章作者:</span><a  href="/" title="访问 Tony 的个人博客">Tony</a></p>
+        <p><span>本文标题:</span><a href="/2017/11/08/Ceph-NFS-Ganesha/">通过ganesha-nfs导出Ceph为NFS（Luminous）</a></p>
+        <p><span>文章作者:</span><a href="/" title="访问 Tony 的个人博客">Tony</a></p>
         <p><span>发布时间:</span>2017年11月08日 - 23时15分</p>
-        <p><span>最后更新:</span>2017年11月30日 - 11时09分</p>
+        <p><span>最后更新:</span>2018年11月04日 - 01时07分</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2017/11/08/Ceph-NFS-Ganesha/" title="通过ganesha-nfs导出Ceph为NFS（Luminous）">https://tony-yin.github.io/2017/11/08/Ceph-NFS-Ganesha/</a>
             <span class="copy-path" data-clipboard-text="原文: https://tony-yin.github.io/2017/11/08/Ceph-NFS-Ganesha/　　作者: Tony" title=""></span>
         </p>
         <p>
-            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/cn/" title="中国大陆 (CC BY-NC-SA 3.0 CN)" target = "_blank">"署名-非商用-相同方式共享 3.0"</a> 转载请保留原文链接及作者。
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/cn/" title="中国大陆 (CC BY-NC-SA 3.0 CN)" target="_blank">"署名-非商用-相同方式共享 3.0"</a> 转载请保留原文链接及作者。
         </p>
     </div>
 
@@ -425,7 +426,7 @@
 
 <nav id="article-nav">
   
-    <a  href="/2017/11/14/Ceph-Compile/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2017/11/14/Ceph-Compile/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption"><</strong>
       <div class="article-nav-title">
         
@@ -435,7 +436,7 @@
     </a>
   
   
-    <a  href="/2017/11/08/Ceph-RGW/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2017/11/08/Ceph-RGW/" id="article-nav-older" class="article-nav-link-wrap">
       <div class="article-nav-title">RGW 安装和创建</div>
       <strong class="article-nav-caption">></strong>
     </a>
@@ -458,7 +459,7 @@
         display: none;
     }
 </style>
-<input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+<input type="button" id="tocButton" value="隐藏目录" title="点击按钮隐藏或者显示文章目录">
 <script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
 <script>
     var valueHide = "隐藏目录";
@@ -530,18 +531,18 @@
 
     <div class="scroll" id="post-nav-button">
         
-            <a  href="/2017/11/14/Ceph-Compile/" title="上一篇: Ceph 编译（Giant版本）">
+            <a href="/2017/11/14/Ceph-Compile/" title="上一篇: Ceph 编译（Giant版本）">
                 <i class="fa fa-angle-left"></i>
             </a>
         
         <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
         
-            <a  href="/2017/11/08/Ceph-RGW/" title="下一篇: RGW 安装和创建">
+            <a href="/2017/11/08/Ceph-RGW/" title="下一篇: RGW 安装和创建">
                 <i class="fa fa-angle-right"></i>
             </a>
         
     </div>
-    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2018/10/29/Why-Crontab-Not-Work/">为什么 crontab 不执行</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/01/Daily-Article-Vol7/">Daily Article Vol7(2018/6/1 ~ 2018/6/30)</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/20/Block-device-persistent-name-and-multipath/">块设备持久化命名和多路径</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/03/Python-Snack-Best-Practice/">Python Snack 最佳实践</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/01/Daily-Article-Vol6/">Daily Article Vol6(2018/5/1 ~ 2018/5/31)</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/20/Ctdb-Rados-2/">Ctdb Rados（二）：多场景断网高可用</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/12/Megaraid_Location/">Megaraid 磁盘定位</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/02/Django_CAS_Token_Solution/">Django CAS Token 解决方案</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/01/Daily-Article-Vol5/">Daily Article Vol 5 - (2018/4/1 ~ 2018/4/30)</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/20/Ctdb-Rados-All-Banned/">Ctdb Rados方式导致All Banned的问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/08/python_nas_stable_test/">基于Python的NAS稳定性测试框架</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/01/Daily_Article_Vol4/">Daily Article Vol 4 - (2018/3/1 ~ 2018/3/31)</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/03/09/Hardware-Test-Tool/">硬件环境测试环境模拟</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/03/01/Daily-Article-Vol3/">Daily Article Vol 3 - (2018/2/1 ~ 2018/2/28)</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/02/01/Daily-Article-Vol2/">Daily Article Vol 2 - (2018/1/1 ~ 2018/1/31)</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/28/RBD-HA-2/">实现RBD导出NFS高可用（二）：提供多虚拟IP访问</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/10/scp-and-ssh/">scp 免交互式和 ssh 免交互式脚本</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/05/RaidCardToolUtils/">利用Raid卡工具获取逻辑盘是否为SSD</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/01/Daily-Article-2017/">Daily Article Vol 1 - (2017/11/1 ~ 2017/12/31)</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/21/Everything-is-a-file/">译：一切皆文件</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/17/Linux-Filesystem/">译：Linux 文件系统介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/10/Into-Withe-Night/">阅读感悟：《白夜行》</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/08/Filesystem-Bug-Fix/">故障修复：文件系统导致OSD启动失败</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/07/RBD-HA/">通过 Keepalived 实现 Ceph RBD 的高可用</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/30/Cephx-practice/">Cephx 实战演练</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/26/read-ceph-cookbook/">阅读感悟：《Ceph Cookbook》</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/26/read-ceph-guide/">阅读感悟：《Ceph分布式存储学习指南》</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/26/read-python-automation/">阅读感悟：《Python编程快速上手---让繁琐工作自动化》</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/19/hexo-theme-shadow/">博客主题 shadow</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/14/LVM-Space-Expansion/">LVM动态扩展</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/14/Ceph-Compile/">Ceph 编译（Giant版本）</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/08/Ceph-NFS-Ganesha/">通过ganesha-nfs导出Ceph为NFS（Luminous）</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/08/Ceph-RGW/">RGW 安装和创建</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/31/RBD-Mount-NFS/">使用NFS挂载RBD</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/10/Python-Profiler/">Python Profiler</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/10/Enable-OSD-Profile-Script/">启用OSD性能剖析脚本</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/02/Batch-Create-And-Delete-Disk-Partition-Script/">批量创建和删除磁盘分区脚本</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/28/JS-Object-Null/">JS判断对象是否为空</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/27/OSD-Create-And-Delete/">OSD创建和删除全过程</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/21/How-To-Forge-Product/">如何打造一个好的产品</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/18/PHP-Excel/">PHP-Excel 开发解决方案</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/10/Disk-pull-and-plug-record/">磁盘反复拔插记录</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/10/Linux-Udev/">Linux Udev</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/10/network-down-notification/">Network Down Notification</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/10/Python-Oracle/">Python操作Oracle</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/10/oracle_install/">Oracle Linux And Oracle Database 11g R2 Intsallation</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/09/Moodle-Local-Plugin/">Moodle Local插件</a></li></ul>
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2019/10/02/Batch-Create-And-Delete-Disk-Partition-Script/">批量创建和删除磁盘分区脚本</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/11/04/Block-device-persistent-name-and-multipath/">块设备持久化命名和多路径</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/01/Daily-Article-Vol7/">Daily Article Vol7(2018/6/1 ~ 2018/6/30)</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/03/Python-Snack-Best-Practice/">Python Snack 最佳实践</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/01/Daily-Article-Vol6/">Daily Article Vol6(2018/5/1 ~ 2018/5/31)</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/20/Ctdb-Rados-2/">Ctdb Rados（二）：多场景断网高可用</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/12/Megaraid_Location/">Megaraid 磁盘定位</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/02/Django_CAS_Token_Solution/">Django CAS Token 解决方案</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/01/Daily-Article-Vol5/">Daily Article Vol 5 - (2018/4/1 ~ 2018/4/30)</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/20/Ctdb-Rados-All-Banned/">Ctdb Rados方式导致All Banned的问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/08/python_nas_stable_test/">基于Python的NAS稳定性测试框架</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/01/Daily_Article_Vol4/">Daily Article Vol 4 - (2018/3/1 ~ 2018/3/31)</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/03/09/Hardware-Test-Tool/">硬件环境测试环境模拟</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/03/01/Daily-Article-Vol3/">Daily Article Vol 3 - (2018/2/1 ~ 2018/2/28)</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/02/01/Daily-Article-Vol2/">Daily Article Vol 2 - (2018/1/1 ~ 2018/1/31)</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/28/RBD-HA-2/">实现RBD导出NFS高可用（二）：提供多虚拟IP访问</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/10/scp-and-ssh/">scp 免交互式和 ssh 免交互式脚本</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/05/RaidCardToolUtils/">利用Raid卡工具获取逻辑盘是否为SSD</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/01/Daily-Article-2017/">Daily Article Vol 1 - (2017/11/1 ~ 2017/12/31)</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/21/Everything-is-a-file/">译：一切皆文件</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/17/Linux-Filesystem/">译：Linux 文件系统介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/10/Into-Withe-Night/">阅读感悟：《白夜行》</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/08/Filesystem-Bug-Fix/">故障修复：文件系统导致OSD启动失败</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/07/RBD-HA/">通过 Keepalived 实现 Ceph RBD 的高可用</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/30/Cephx-practice/">Cephx 实战演练</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/26/read-ceph-cookbook/">阅读感悟：《Ceph Cookbook》</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/26/read-ceph-guide/">阅读感悟：《Ceph分布式存储学习指南》</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/26/read-python-automation/">阅读感悟：《Python编程快速上手---让繁琐工作自动化》</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/19/hexo-theme-shadow/">博客主题 shadow</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/14/LVM-Space-Expansion/">LVM动态扩展</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/14/Ceph-Compile/">Ceph 编译（Giant版本）</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/08/Ceph-NFS-Ganesha/">通过ganesha-nfs导出Ceph为NFS（Luminous）</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/08/Ceph-RGW/">RGW 安装和创建</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/31/RBD-Mount-NFS/">使用NFS挂载RBD</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/10/Python-Profiler/">Python Profiler</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/10/Enable-OSD-Profile-Script/">启用OSD性能剖析脚本</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/28/JS-Object-Null/">JS判断对象是否为空</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/27/OSD-Create-And-Delete/">OSD创建和删除全过程</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/21/How-To-Forge-Product/">如何打造一个好的产品</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/18/PHP-Excel/">PHP-Excel 开发解决方案</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/10/Disk-pull-and-plug-record/">磁盘反复拔插记录</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/10/Linux-Udev/">Linux Udev</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/10/network-down-notification/">Network Down Notification</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/10/Python-Oracle/">Python操作Oracle</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/10/oracle_install/">Oracle Linux And Oracle Database 11g R2 Intsallation</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/09/Moodle-Local-Plugin/">Moodle Local插件</a></li></ul>
     <script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
     <script>
         $(".post-list").addClass("toc-article");
@@ -584,8 +585,8 @@
         
             <div class="visit">
                 
-                    <span id="busuanzi_container_site_pv" style='display:none'>
-                        <span id="site-visit" >极客到访数: 
+                    <span id="busuanzi_container_site_pv" style="display:none">
+                        <span id="site-visit">极客到访数: 
                             <span id="busuanzi_value_site_uv"></span>
                         </span>
                     </span>
@@ -594,7 +595,7 @@
                     <span>, </span>
                 
                 
-                    <span id="busuanzi_container_page_pv" style='display:none'>
+                    <span id="busuanzi_container_page_pv" style="display:none">
                         <span id="page-visit">本页阅读量: 
                             <span id="busuanzi_value_page_pv"></span>
                         </span>

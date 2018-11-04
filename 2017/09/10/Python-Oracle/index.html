@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html>
-<head>
+<head><meta name="generator" content="Hexo 3.8.0">
   <meta charset="utf-8">
-  <meta name="baidu-site-verification" content="L6Lm9d5Crl"/>
+  <meta name="baidu-site-verification" content="L6Lm9d5Crl">
   
   
   
@@ -16,8 +16,9 @@
 <meta property="og:url" content="https://tony-yin.github.io/2017/09/10/Python-Oracle/index.html">
 <meta property="og:site_name" content="Tony&#39;s blog">
 <meta property="og:description" content="近期在做Intel的测试，需要监测各种故障情况下的热恢复或者热迁移等功能，比如拔线测试，拔盘测试，断电测试等，来检验分布式的稳定性和灵活性，以Oracle为例，需要一直向数据库中写数据，然后在发生故障时，通过观察插入数据的情况来判断是否能够处理异常情况，所以我需要写一个脚本，能够做到通过python自动连接oracle数据库并自动插入数据。">
+<meta property="og:locale" content="default">
 <meta property="og:image" content="http://ow0mgad6r.bkt.clouddn.com/we-love-python-6000-450.png">
-<meta property="og:updated_time" content="2017-12-07T06:17:51.151Z">
+<meta property="og:updated_time" content="2018-11-03T17:07:41.150Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Python操作Oracle">
 <meta name="twitter:description" content="近期在做Intel的测试，需要监测各种故障情况下的热恢复或者热迁移等功能，比如拔线测试，拔盘测试，断电测试等，来检验分布式的稳定性和灵活性，以Oracle为例，需要一直向数据库中写数据，然后在发生故障时，通过观察插入数据的情况来判断是否能够处理异常情况，所以我需要写一个脚本，能够做到通过python自动连接oracle数据库并自动插入数据。">
@@ -40,7 +41,7 @@
   
   <!-- 加载特效 -->
     <script src="/js/pace.js"></script>
-    <link href="/css/pace/pace-theme-flash.css" rel="stylesheet" />
+    <link href="/css/pace/pace-theme-flash.css" rel="stylesheet">
   <script>
       var yiliaConfig = {
           fancybox: true,
@@ -53,7 +54,7 @@
           open_in_new: false
       }
   </script>
-</head>
+</head></html>
 <body>
   <div id="container">
     <div class="left-col">
@@ -168,28 +169,28 @@
                     <nav class="header-menu">
                         <ul>
                         
-                            <li><a  href="/archives/">所有文章</a></li>
+                            <li><a href="/archives/">所有文章</a></li>
                         
-                            <li><a  href="/categories/tech">技术文章</a></li>
+                            <li><a href="/categories/tech">技术文章</a></li>
                         
-                            <li><a  href="/tags/Ceph">Ceph修炼之路</a></li>
+                            <li><a href="/tags/Ceph">Ceph修炼之路</a></li>
                         
-                            <li><a  href="/categories/summary">感悟总结</a></li>
+                            <li><a href="/categories/summary">感悟总结</a></li>
                         
-                            <li><a  href="/categories/read">阅读翻译</a></li>
+                            <li><a href="/categories/read">阅读翻译</a></li>
                         
-                            <li><a  href="/categories/life">生活随笔</a></li>
+                            <li><a href="/categories/life">生活随笔</a></li>
                         
                         </ul>
                     </nav>
                     <nav class="header-nav">
                         <ul class="social">
                             
-                                <a class="fl github"  target="_blank" href="https://github.com/tony-yin" title="github">github</a>
+                                <a class="fl github" target="_blank" href="https://github.com/tony-yin" title="github">github</a>
                             
-                                <a class="fl weibo"  target="_blank" href="https://weibo.com/3832044210/profile?rightmod=1&wvr=6&mod=personinfo" title="weibo">weibo</a>
+                                <a class="fl weibo" target="_blank" href="https://weibo.com/3832044210/profile?rightmod=1&wvr=6&mod=personinfo" title="weibo">weibo</a>
                             
-                                <a class="fl segmentfault"  target="_blank" href="https://segmentfault.com/u/qzuser_57fb1d5db527e" title="segmentfault">segmentfault</a>
+                                <a class="fl segmentfault" target="_blank" href="https://segmentfault.com/u/qzuser_57fb1d5db527e" title="segmentfault">segmentfault</a>
                             
                         </ul>
 			
@@ -198,7 +199,7 @@
                 
                 <section class="switch-part switch-part2">
                     <div class="widget tagcloud" id="js-tagcloud">
-                        <a href="/tags/Bugfix/" style="font-size: 10px;">Bugfix</a> <a href="/tags/CAS/" style="font-size: 10px;">CAS</a> <a href="/tags/Ceph/" style="font-size: 20px;">Ceph</a> <a href="/tags/Cephx/" style="font-size: 10px;">Cephx</a> <a href="/tags/Console/" style="font-size: 10px;">Console</a> <a href="/tags/Crontab/" style="font-size: 10px;">Crontab</a> <a href="/tags/Ctdb/" style="font-size: 11.43px;">Ctdb</a> <a href="/tags/Daily-Article/" style="font-size: 15.71px;">Daily-Article</a> <a href="/tags/Disk/" style="font-size: 12.86px;">Disk</a> <a href="/tags/Django/" style="font-size: 10px;">Django</a> <a href="/tags/Filesystem/" style="font-size: 11.43px;">Filesystem</a> <a href="/tags/HA/" style="font-size: 12.86px;">HA</a> <a href="/tags/Javascript/" style="font-size: 10px;">Javascript</a> <a href="/tags/Keepalived/" style="font-size: 11.43px;">Keepalived</a> <a href="/tags/LVM/" style="font-size: 10px;">LVM</a> <a href="/tags/Linux/" style="font-size: 17.14px;">Linux</a> <a href="/tags/Luminous/" style="font-size: 10px;">Luminous</a> <a href="/tags/Megaraid/" style="font-size: 10px;">Megaraid</a> <a href="/tags/Moodle/" style="font-size: 10px;">Moodle</a> <a href="/tags/NAS/" style="font-size: 10px;">NAS</a> <a href="/tags/NFS/" style="font-size: 12.86px;">NFS</a> <a href="/tags/NFS-Ganesha/" style="font-size: 10px;">NFS-Ganesha</a> <a href="/tags/Network/" style="font-size: 10px;">Network</a> <a href="/tags/Notification/" style="font-size: 10px;">Notification</a> <a href="/tags/OSD/" style="font-size: 12.86px;">OSD</a> <a href="/tags/Oracle/" style="font-size: 11.43px;">Oracle</a> <a href="/tags/Oracle-11g-R2/" style="font-size: 10px;">Oracle 11g R2</a> <a href="/tags/Oracle-Linux/" style="font-size: 10px;">Oracle Linux</a> <a href="/tags/PHP/" style="font-size: 11.43px;">PHP</a> <a href="/tags/PHPExcel/" style="font-size: 10px;">PHPExcel</a> <a href="/tags/Partition/" style="font-size: 10px;">Partition</a> <a href="/tags/Profile/" style="font-size: 11.43px;">Profile</a> <a href="/tags/Python/" style="font-size: 14.29px;">Python</a> <a href="/tags/RBD/" style="font-size: 12.86px;">RBD</a> <a href="/tags/RGW/" style="font-size: 10px;">RGW</a> <a href="/tags/Rados/" style="font-size: 10px;">Rados</a> <a href="/tags/Raidcard/" style="font-size: 10px;">Raidcard</a> <a href="/tags/Read/" style="font-size: 18.57px;">Read</a> <a href="/tags/Script/" style="font-size: 12.86px;">Script</a> <a href="/tags/Snack/" style="font-size: 10px;">Snack</a> <a href="/tags/Test/" style="font-size: 10px;">Test</a> <a href="/tags/Udev/" style="font-size: 11.43px;">Udev</a> <a href="/tags/产品/" style="font-size: 10px;">产品</a> <a href="/tags/博客/" style="font-size: 10px;">博客</a> <a href="/tags/性能优化/" style="font-size: 10px;">性能优化</a> <a href="/tags/编译/" style="font-size: 10px;">编译</a>
+                        <a href="/tags/Bugfix/" style="font-size: 10px;">Bugfix</a> <a href="/tags/CAS/" style="font-size: 10px;">CAS</a> <a href="/tags/Ceph/" style="font-size: 20px;">Ceph</a> <a href="/tags/Cephx/" style="font-size: 10px;">Cephx</a> <a href="/tags/Console/" style="font-size: 10px;">Console</a> <a href="/tags/Ctdb/" style="font-size: 11.67px;">Ctdb</a> <a href="/tags/Daily-Article/" style="font-size: 16.67px;">Daily-Article</a> <a href="/tags/Disk/" style="font-size: 13.33px;">Disk</a> <a href="/tags/Django/" style="font-size: 10px;">Django</a> <a href="/tags/Filesystem/" style="font-size: 11.67px;">Filesystem</a> <a href="/tags/HA/" style="font-size: 13.33px;">HA</a> <a href="/tags/Javascript/" style="font-size: 10px;">Javascript</a> <a href="/tags/Keepalived/" style="font-size: 11.67px;">Keepalived</a> <a href="/tags/LVM/" style="font-size: 10px;">LVM</a> <a href="/tags/Linux/" style="font-size: 16.67px;">Linux</a> <a href="/tags/Luminous/" style="font-size: 10px;">Luminous</a> <a href="/tags/Megaraid/" style="font-size: 10px;">Megaraid</a> <a href="/tags/Moodle/" style="font-size: 10px;">Moodle</a> <a href="/tags/NAS/" style="font-size: 10px;">NAS</a> <a href="/tags/NFS/" style="font-size: 13.33px;">NFS</a> <a href="/tags/NFS-Ganesha/" style="font-size: 10px;">NFS-Ganesha</a> <a href="/tags/Network/" style="font-size: 10px;">Network</a> <a href="/tags/Notification/" style="font-size: 10px;">Notification</a> <a href="/tags/OSD/" style="font-size: 13.33px;">OSD</a> <a href="/tags/Oracle/" style="font-size: 11.67px;">Oracle</a> <a href="/tags/Oracle-11g-R2/" style="font-size: 10px;">Oracle 11g R2</a> <a href="/tags/Oracle-Linux/" style="font-size: 10px;">Oracle Linux</a> <a href="/tags/PHP/" style="font-size: 11.67px;">PHP</a> <a href="/tags/PHPExcel/" style="font-size: 10px;">PHPExcel</a> <a href="/tags/Partition/" style="font-size: 10px;">Partition</a> <a href="/tags/Profile/" style="font-size: 11.67px;">Profile</a> <a href="/tags/Python/" style="font-size: 15px;">Python</a> <a href="/tags/RBD/" style="font-size: 13.33px;">RBD</a> <a href="/tags/RGW/" style="font-size: 10px;">RGW</a> <a href="/tags/Rados/" style="font-size: 10px;">Rados</a> <a href="/tags/Raidcard/" style="font-size: 10px;">Raidcard</a> <a href="/tags/Read/" style="font-size: 18.33px;">Read</a> <a href="/tags/Script/" style="font-size: 13.33px;">Script</a> <a href="/tags/Snack/" style="font-size: 10px;">Snack</a> <a href="/tags/Test/" style="font-size: 10px;">Test</a> <a href="/tags/Udev/" style="font-size: 11.67px;">Udev</a> <a href="/tags/产品/" style="font-size: 10px;">产品</a> <a href="/tags/博客/" style="font-size: 10px;">博客</a> <a href="/tags/性能优化/" style="font-size: 10px;">性能优化</a> <a href="/tags/编译/" style="font-size: 10px;">编译</a>
                     </div>
                 </section>
                 
@@ -206,9 +207,9 @@
                 <section class="switch-part switch-part3">
                     <div id="js-friends">
                     
-                      <a target="_blank"  class="main-nav-link switch-friends-link" href="https://greenlightt.github.io">redgo的博客</a>
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="https://greenlightt.github.io">redgo的博客</a>
                     
-                      <a target="_blank"  class="main-nav-link switch-friends-link" href="http://www.xuxiaopang.com">徐小胖的博客</a>
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.xuxiaopang.com">徐小胖的博客</a>
                     
                     </div>
                 </section>
@@ -276,10 +277,10 @@
     </div>
 </nav>
 
-      <div class="body-wrap"><article id="post-Python-Oracle" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-Python-Oracle" class="article article-type-post" itemscope="" itemprop="blogPost">
   
     <div class="article-meta">
-      <a  href="/2017/09/10/Python-Oracle/" class="article-date">
+      <a href="/2017/09/10/Python-Oracle/" class="article-date">
       <time datetime="2017-09-09T17:02:41.000Z" itemprop="datePublished">2017-09-10</time>
 </a>
 
@@ -287,7 +288,7 @@
   
   <div class="article-inner">
     
-      <input type="hidden" class="isFancy" />
+      <input type="hidden" class="isFancy">
     
     
       <header class="article-header">
@@ -328,26 +329,26 @@
 <p>当前环境：Linux Centos 7</p>
 </blockquote>
 <h3 id="1-下载安装包cx-Oracle"><a href="#1-下载安装包cx-Oracle" class="headerlink" title="1. 下载安装包cx_Oracle"></a>1. 下载安装包cx_Oracle</h3><p>由于我本地<code>Python</code>版本是<code>2.7</code>,所以选择是<code>2.7</code>版本</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">wget https://pypi.python.org/packages/e1/18/00987c6a9af9568ee87d1fcba877407684a3f1b87515e5eb82d5d5acb9ff/cx_Oracle-6.0rc1-py27-1.x86_64.rpm#md5=ff8f5cce07bd5ec8ed3ce5c79d451474</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget https://pypi.python.org/packages/e1/18/00987c6a9af9568ee87d1fcba877407684a3f1b87515e5eb82d5d5acb9ff/cx_Oracle-6.0rc1-py27-1.x86_64.rpm#md5=ff8f5cce07bd5ec8ed3ce5c79d451474</span><br></pre></td></tr></table></figure>
 <p>参考:</p>
 <blockquote>
 <ul>
-<li><a href="https://oracle.github.io/python-cx_Oracle/" target="_blank" rel="external">python-cx_Oracle</a></li>
-<li><a href="https://pypi.python.org/pypi/cx_Oracle/5.3" target="_blank" rel="external">安装包列表</a></li>
+<li><a href="https://oracle.github.io/python-cx_Oracle/" target="_blank" rel="noopener">python-cx_Oracle</a></li>
+<li><a href="https://pypi.python.org/pypi/cx_Oracle/5.3" target="_blank" rel="noopener">安装包列表</a></li>
 </ul>
 </blockquote>
 <h3 id="2-安装cx-Oracle"><a href="#2-安装cx-Oracle" class="headerlink" title="2. 安装cx_Oracle"></a>2. 安装cx_Oracle</h3><ul>
 <li>安装：</li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">rpm -ivh cx_Oracle-6.0rc1-py27-1.x86_64.rpm</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rpm -ivh cx_Oracle-6.0rc1-py27-1.x86_64.rpm</span><br></pre></td></tr></table></figure>
 <ul>
 <li>查看当前<code>python</code>引入模块库的路径</li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">[root ~]# python</div><div class="line">Python 2.7.5 (default, Nov  6 2016, 00:28:07) </div><div class="line">[GCC 4.8.5 20150623 (Red Hat 4.8.5-11)] on linux2</div><div class="line">Type &quot;help&quot;, &quot;copyright&quot;, &quot;credits&quot; or &quot;license&quot; for more information.</div><div class="line">&gt;&gt;&gt; import sys</div><div class="line">&gt;&gt;&gt; print sys.path</div><div class="line">[&apos;&apos;, &apos;/usr/lib/python2.7/site-packages/AliyunUtil-0.0.1-py2.7.egg&apos;, &apos;/usr/lib/python2.7/site-packages/cloud_init-0.7.6-py2.7.egg&apos;, &apos;/usr/lib64/python27.zip&apos;, &apos;/usr/lib64/python2.7&apos;, &apos;/usr/lib64/python2.7/plat-linux2&apos;, &apos;/usr/lib64/python2.7/lib-tk&apos;, &apos;/usr/lib64/python2.7/lib-old&apos;, &apos;/usr/lib64/python2.7/lib-dynload&apos;, &apos;/usr/lib64/python2.7/site-packages&apos;, &apos;/usr/lib/python2.7/site-packages&apos;]</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[root ~]# python</span><br><span class="line">Python 2.7.5 (default, Nov  6 2016, 00:28:07) </span><br><span class="line">[GCC 4.8.5 20150623 (Red Hat 4.8.5-11)] on linux2</span><br><span class="line">Type &quot;help&quot;, &quot;copyright&quot;, &quot;credits&quot; or &quot;license&quot; for more information.</span><br><span class="line">&gt;&gt;&gt; import sys</span><br><span class="line">&gt;&gt;&gt; print sys.path</span><br><span class="line">[&apos;&apos;, &apos;/usr/lib/python2.7/site-packages/AliyunUtil-0.0.1-py2.7.egg&apos;, &apos;/usr/lib/python2.7/site-packages/cloud_init-0.7.6-py2.7.egg&apos;, &apos;/usr/lib64/python27.zip&apos;, &apos;/usr/lib64/python2.7&apos;, &apos;/usr/lib64/python2.7/plat-linux2&apos;, &apos;/usr/lib64/python2.7/lib-tk&apos;, &apos;/usr/lib64/python2.7/lib-old&apos;, &apos;/usr/lib64/python2.7/lib-dynload&apos;, &apos;/usr/lib64/python2.7/site-packages&apos;, &apos;/usr/lib/python2.7/site-packages&apos;]</span><br></pre></td></tr></table></figure>
 <ul>
 <li>检查安装路径，如果<code>cx_Oracle.so</code>文件不在以上<code>python</code>引入路径内需要将该文件拷贝到以上<code>python</code>引入路径,所以我这里不需要进行拷贝操作</li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">[root ~]# rpm -qa | grep cx_Oracle | xargs rpm -ql</div><div class="line">/usr/lib64/python2.7/site-packages/cx_Oracle-6.0rc1-py2.7.egg-info</div><div class="line">/usr/lib64/python2.7/site-packages/cx_Oracle-6.0rc1-py2.7.egg-info/PKG-INFO</div><div class="line">/usr/lib64/python2.7/site-packages/cx_Oracle-6.0rc1-py2.7.egg-info/SOURCES.txt</div><div class="line">/usr/lib64/python2.7/site-packages/cx_Oracle-6.0rc1-py2.7.egg-info/dependency_links.txt</div><div class="line">/usr/lib64/python2.7/site-packages/cx_Oracle-6.0rc1-py2.7.egg-info/top_level.txt</div><div class="line">/usr/lib64/python2.7/site-packages/cx_Oracle.so</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[root ~]# rpm -qa | grep cx_Oracle | xargs rpm -ql</span><br><span class="line">/usr/lib64/python2.7/site-packages/cx_Oracle-6.0rc1-py2.7.egg-info</span><br><span class="line">/usr/lib64/python2.7/site-packages/cx_Oracle-6.0rc1-py2.7.egg-info/PKG-INFO</span><br><span class="line">/usr/lib64/python2.7/site-packages/cx_Oracle-6.0rc1-py2.7.egg-info/SOURCES.txt</span><br><span class="line">/usr/lib64/python2.7/site-packages/cx_Oracle-6.0rc1-py2.7.egg-info/dependency_links.txt</span><br><span class="line">/usr/lib64/python2.7/site-packages/cx_Oracle-6.0rc1-py2.7.egg-info/top_level.txt</span><br><span class="line">/usr/lib64/python2.7/site-packages/cx_Oracle.so</span><br></pre></td></tr></table></figure>
 <h3 id="3-下载-Oracle-Library"><a href="#3-下载-Oracle-Library" class="headerlink" title="3. 下载 Oracle Library"></a>3. 下载 Oracle Library</h3><p>由于<code>Oracle</code>官网下载东西存在<code>Auth</code>认证，所以简单点就点击选中的<code>rpm</code>包保存在<code>windows</code>上，然后上传到<code>linux</code>上即可</p>
 <p><strong>注意：</strong></p>
 <blockquote>
@@ -358,28 +359,28 @@
 <li>其次你得有<code>Oracle</code>的账号</li>
 </ul>
 </blockquote>
-<h3 id="4-安装-Oracle-Library"><a href="#4-安装-Oracle-Library" class="headerlink" title="4. 安装 Oracle Library"></a>4. 安装 Oracle Library</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">rpm -ivh oracle-instantclient11.2-basic-11.2.0.3.0-1.x86_64.rpm</div></pre></td></tr></table></figure>
+<h3 id="4-安装-Oracle-Library"><a href="#4-安装-Oracle-Library" class="headerlink" title="4. 安装 Oracle Library"></a>4. 安装 Oracle Library</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rpm -ivh oracle-instantclient11.2-basic-11.2.0.3.0-1.x86_64.rpm</span><br></pre></td></tr></table></figure>
 <h3 id="5-配置环境变量"><a href="#5-配置环境变量" class="headerlink" title="5. 配置环境变量"></a>5. 配置环境变量</h3><ul>
 <li><strong>修改<code>Oracle</code>安装路径</strong></li>
 </ul>
 <p>将<code>client64</code>改为<code>client</code>，至于为什么要改暂时还不清楚，只知道不改的话会报错<code>Oracle Client library cannot be loaded: libclntsh.so: cannot open shared object file: No such file or directory</code></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">cd /usr/lib/oracle/11.2/</div><div class="line">mv client64 client</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd /usr/lib/oracle/11.2/</span><br><span class="line">mv client64 client</span><br></pre></td></tr></table></figure>
 <ul>
 <li>打开<code>/etc/profile</code>,追加环境变量路径</li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">vim /etc/profile</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/profile</span><br></pre></td></tr></table></figure>
 <ul>
 <li>配置环境变量</li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">// 查看Oracle安装路径</div><div class="line">[root@iZbp180vortqapb7yf8217Z ~]# rpm -qa | grep oracle | xargs rpm -ql</div><div class="line">/usr/lib/oracle/11.2/client64/bin/adrci</div><div class="line">/usr/lib/oracle/11.2/client64/bin/genezi</div><div class="line">/usr/lib/oracle/11.2/client64/lib/libclntsh.so.11.1</div><div class="line">/usr/lib/oracle/11.2/client64/lib/libnnz11.so</div><div class="line">/usr/lib/oracle/11.2/client64/lib/libocci.so.11.1</div><div class="line">/usr/lib/oracle/11.2/client64/lib/libociei.so</div><div class="line">/usr/lib/oracle/11.2/client64/lib/libocijdbc11.so</div><div class="line">/usr/lib/oracle/11.2/client64/lib/ojdbc5.jar</div><div class="line">/usr/lib/oracle/11.2/client64/lib/ojdbc6.jar</div><div class="line">/usr/lib/oracle/11.2/client64/lib/xstreams.jar</div><div class="line">// 追加ORACLE_HOME环境变量路径</div><div class="line">export ORACLE_HOME=/usr/lib/oracle/11.2/client64</div><div class="line">export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$ORACLE_HOME/lib</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">// 查看Oracle安装路径</span><br><span class="line">[root@iZbp180vortqapb7yf8217Z ~]# rpm -qa | grep oracle | xargs rpm -ql</span><br><span class="line">/usr/lib/oracle/11.2/client64/bin/adrci</span><br><span class="line">/usr/lib/oracle/11.2/client64/bin/genezi</span><br><span class="line">/usr/lib/oracle/11.2/client64/lib/libclntsh.so.11.1</span><br><span class="line">/usr/lib/oracle/11.2/client64/lib/libnnz11.so</span><br><span class="line">/usr/lib/oracle/11.2/client64/lib/libocci.so.11.1</span><br><span class="line">/usr/lib/oracle/11.2/client64/lib/libociei.so</span><br><span class="line">/usr/lib/oracle/11.2/client64/lib/libocijdbc11.so</span><br><span class="line">/usr/lib/oracle/11.2/client64/lib/ojdbc5.jar</span><br><span class="line">/usr/lib/oracle/11.2/client64/lib/ojdbc6.jar</span><br><span class="line">/usr/lib/oracle/11.2/client64/lib/xstreams.jar</span><br><span class="line">// 追加ORACLE_HOME环境变量路径</span><br><span class="line">export ORACLE_HOME=/usr/lib/oracle/11.2/client64</span><br><span class="line">export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$ORACLE_HOME/lib</span><br></pre></td></tr></table></figure>
 <ul>
 <li>生效配置</li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">source ~/.bashrc</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">source ~/.bashrc</span><br></pre></td></tr></table></figure>
 <h3 id="6-检查是否可以引入cx-Oracle"><a href="#6-检查是否可以引入cx-Oracle" class="headerlink" title="6. 检查是否可以引入cx_Oracle"></a>6. 检查是否可以引入<code>cx_Oracle</code></h3><p><code>import</code>没有报错，说明之前的辛苦没有白费</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">[root client64]# python</div><div class="line">Python 2.7.5 (default, Nov  6 2016, 00:28:07) </div><div class="line">[GCC 4.8.5 20150623 (Red Hat 4.8.5-11)] on linux2</div><div class="line">Type &quot;help&quot;, &quot;copyright&quot;, &quot;credits&quot; or &quot;license&quot; for more information.</div><div class="line">&gt;&gt;&gt; import cx_Oracle</div><div class="line">&gt;&gt;&gt;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[root client64]# python</span><br><span class="line">Python 2.7.5 (default, Nov  6 2016, 00:28:07) </span><br><span class="line">[GCC 4.8.5 20150623 (Red Hat 4.8.5-11)] on linux2</span><br><span class="line">Type &quot;help&quot;, &quot;copyright&quot;, &quot;credits&quot; or &quot;license&quot; for more information.</span><br><span class="line">&gt;&gt;&gt; import cx_Oracle</span><br><span class="line">&gt;&gt;&gt;</span><br></pre></td></tr></table></figure>
 <h3 id="7-连接-Oracle"><a href="#7-连接-Oracle" class="headerlink" title="7. 连接 Oracle"></a>7. 连接 Oracle</h3><p>一个插入10条数据的Python脚本demo：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">#!/usr/bin/python</div><div class="line"># -*- coding: UTF-8 -*-</div><div class="line">import sys</div><div class="line">import cx_Oracle</div><div class="line">import time</div><div class="line"></div><div class="line">rows = int(sys.argv[1])</div><div class="line">con = cx_Oracle.connect(&apos;test/test@sampledb&apos;)</div><div class="line">cur = con.cursor()</div><div class="line">cur.execute(&quot;SELECT MAX(ID) FROM PTTEST&quot;)</div><div class="line">max_id = cur.fetchone()[0] or 0</div><div class="line"></div><div class="line">start_id = max_id + 1</div><div class="line">for i in xrange(rows):</div><div class="line">    cur.execute(&quot;INSERT INTO PTTEST (ID, NAME, AGE, GENDER, SALARY)VALUES(%d, &apos;pt&apos;, 15, &apos;male&apos;, 50000)&quot; % int(i + start_id))</div><div class="line">    if i % 100 == 0:</div><div class="line">        time.sleep(3)</div><div class="line">        print &apos;Insert rows [%d]:%d&apos; % (int(time.time()), i)</div><div class="line">        con.commit()</div><div class="line">cur.close()</div><div class="line">con.close()</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">#!/usr/bin/python</span><br><span class="line"># -*- coding: UTF-8 -*-</span><br><span class="line">import sys</span><br><span class="line">import cx_Oracle</span><br><span class="line">import time</span><br><span class="line"></span><br><span class="line">rows = int(sys.argv[1])</span><br><span class="line">con = cx_Oracle.connect(&apos;test/test@sampledb&apos;)</span><br><span class="line">cur = con.cursor()</span><br><span class="line">cur.execute(&quot;SELECT MAX(ID) FROM PTTEST&quot;)</span><br><span class="line">max_id = cur.fetchone()[0] or 0</span><br><span class="line"></span><br><span class="line">start_id = max_id + 1</span><br><span class="line">for i in xrange(rows):</span><br><span class="line">    cur.execute(&quot;INSERT INTO PTTEST (ID, NAME, AGE, GENDER, SALARY)VALUES(%d, &apos;pt&apos;, 15, &apos;male&apos;, 50000)&quot; % int(i + start_id))</span><br><span class="line">    if i % 100 == 0:</span><br><span class="line">        time.sleep(3)</span><br><span class="line">        print &apos;Insert rows [%d]:%d&apos; % (int(time.time()), i)</span><br><span class="line">        con.commit()</span><br><span class="line">cur.close()</span><br><span class="line">con.close()</span><br></pre></td></tr></table></figure>
 
       
 
@@ -389,16 +390,16 @@
   
     
     <div class="copyright">
-        <p><span>本文标题:</span><a  href="/2017/09/10/Python-Oracle/">Python操作Oracle</a></p>
-        <p><span>文章作者:</span><a  href="/" title="访问 Tony 的个人博客">Tony</a></p>
+        <p><span>本文标题:</span><a href="/2017/09/10/Python-Oracle/">Python操作Oracle</a></p>
+        <p><span>文章作者:</span><a href="/" title="访问 Tony 的个人博客">Tony</a></p>
         <p><span>发布时间:</span>2017年09月10日 - 01时02分</p>
-        <p><span>最后更新:</span>2017年12月07日 - 14时17分</p>
+        <p><span>最后更新:</span>2018年11月04日 - 01时07分</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2017/09/10/Python-Oracle/" title="Python操作Oracle">https://tony-yin.github.io/2017/09/10/Python-Oracle/</a>
             <span class="copy-path" data-clipboard-text="原文: https://tony-yin.github.io/2017/09/10/Python-Oracle/　　作者: Tony" title=""></span>
         </p>
         <p>
-            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/cn/" title="中国大陆 (CC BY-NC-SA 3.0 CN)" target = "_blank">"署名-非商用-相同方式共享 3.0"</a> 转载请保留原文链接及作者。
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/cn/" title="中国大陆 (CC BY-NC-SA 3.0 CN)" target="_blank">"署名-非商用-相同方式共享 3.0"</a> 转载请保留原文链接及作者。
         </p>
     </div>
 
@@ -406,7 +407,7 @@
 
 <nav id="article-nav">
   
-    <a  href="/2017/09/10/network-down-notification/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2017/09/10/network-down-notification/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption"><</strong>
       <div class="article-nav-title">
         
@@ -416,7 +417,7 @@
     </a>
   
   
-    <a  href="/2017/09/10/oracle_install/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2017/09/10/oracle_install/" id="article-nav-older" class="article-nav-link-wrap">
       <div class="article-nav-title">Oracle Linux And Oracle Database 11g R2 Intsallation</div>
       <strong class="article-nav-caption">></strong>
     </a>
@@ -439,7 +440,7 @@
         display: none;
     }
 </style>
-<input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+<input type="button" id="tocButton" value="隐藏目录" title="点击按钮隐藏或者显示文章目录">
 <script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
 <script>
     var valueHide = "隐藏目录";
@@ -511,18 +512,18 @@
 
     <div class="scroll" id="post-nav-button">
         
-            <a  href="/2017/09/10/network-down-notification/" title="上一篇: Network Down Notification">
+            <a href="/2017/09/10/network-down-notification/" title="上一篇: Network Down Notification">
                 <i class="fa fa-angle-left"></i>
             </a>
         
         <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
         
-            <a  href="/2017/09/10/oracle_install/" title="下一篇: Oracle Linux And Oracle Database 11g R2 Intsallation">
+            <a href="/2017/09/10/oracle_install/" title="下一篇: Oracle Linux And Oracle Database 11g R2 Intsallation">
                 <i class="fa fa-angle-right"></i>
             </a>
         
     </div>
-    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2018/10/29/Why-Crontab-Not-Work/">为什么 crontab 不执行</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/01/Daily-Article-Vol7/">Daily Article Vol7(2018/6/1 ~ 2018/6/30)</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/20/Block-device-persistent-name-and-multipath/">块设备持久化命名和多路径</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/03/Python-Snack-Best-Practice/">Python Snack 最佳实践</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/01/Daily-Article-Vol6/">Daily Article Vol6(2018/5/1 ~ 2018/5/31)</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/20/Ctdb-Rados-2/">Ctdb Rados（二）：多场景断网高可用</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/12/Megaraid_Location/">Megaraid 磁盘定位</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/02/Django_CAS_Token_Solution/">Django CAS Token 解决方案</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/01/Daily-Article-Vol5/">Daily Article Vol 5 - (2018/4/1 ~ 2018/4/30)</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/20/Ctdb-Rados-All-Banned/">Ctdb Rados方式导致All Banned的问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/08/python_nas_stable_test/">基于Python的NAS稳定性测试框架</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/01/Daily_Article_Vol4/">Daily Article Vol 4 - (2018/3/1 ~ 2018/3/31)</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/03/09/Hardware-Test-Tool/">硬件环境测试环境模拟</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/03/01/Daily-Article-Vol3/">Daily Article Vol 3 - (2018/2/1 ~ 2018/2/28)</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/02/01/Daily-Article-Vol2/">Daily Article Vol 2 - (2018/1/1 ~ 2018/1/31)</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/28/RBD-HA-2/">实现RBD导出NFS高可用（二）：提供多虚拟IP访问</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/10/scp-and-ssh/">scp 免交互式和 ssh 免交互式脚本</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/05/RaidCardToolUtils/">利用Raid卡工具获取逻辑盘是否为SSD</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/01/Daily-Article-2017/">Daily Article Vol 1 - (2017/11/1 ~ 2017/12/31)</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/21/Everything-is-a-file/">译：一切皆文件</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/17/Linux-Filesystem/">译：Linux 文件系统介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/10/Into-Withe-Night/">阅读感悟：《白夜行》</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/08/Filesystem-Bug-Fix/">故障修复：文件系统导致OSD启动失败</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/07/RBD-HA/">通过 Keepalived 实现 Ceph RBD 的高可用</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/30/Cephx-practice/">Cephx 实战演练</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/26/read-ceph-cookbook/">阅读感悟：《Ceph Cookbook》</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/26/read-ceph-guide/">阅读感悟：《Ceph分布式存储学习指南》</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/26/read-python-automation/">阅读感悟：《Python编程快速上手---让繁琐工作自动化》</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/19/hexo-theme-shadow/">博客主题 shadow</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/14/LVM-Space-Expansion/">LVM动态扩展</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/14/Ceph-Compile/">Ceph 编译（Giant版本）</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/08/Ceph-NFS-Ganesha/">通过ganesha-nfs导出Ceph为NFS（Luminous）</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/08/Ceph-RGW/">RGW 安装和创建</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/31/RBD-Mount-NFS/">使用NFS挂载RBD</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/10/Python-Profiler/">Python Profiler</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/10/Enable-OSD-Profile-Script/">启用OSD性能剖析脚本</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/02/Batch-Create-And-Delete-Disk-Partition-Script/">批量创建和删除磁盘分区脚本</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/28/JS-Object-Null/">JS判断对象是否为空</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/27/OSD-Create-And-Delete/">OSD创建和删除全过程</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/21/How-To-Forge-Product/">如何打造一个好的产品</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/18/PHP-Excel/">PHP-Excel 开发解决方案</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/10/Disk-pull-and-plug-record/">磁盘反复拔插记录</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/10/Linux-Udev/">Linux Udev</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/10/network-down-notification/">Network Down Notification</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/10/Python-Oracle/">Python操作Oracle</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/10/oracle_install/">Oracle Linux And Oracle Database 11g R2 Intsallation</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/09/Moodle-Local-Plugin/">Moodle Local插件</a></li></ul>
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2019/10/02/Batch-Create-And-Delete-Disk-Partition-Script/">批量创建和删除磁盘分区脚本</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/11/04/Block-device-persistent-name-and-multipath/">块设备持久化命名和多路径</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/01/Daily-Article-Vol7/">Daily Article Vol7(2018/6/1 ~ 2018/6/30)</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/03/Python-Snack-Best-Practice/">Python Snack 最佳实践</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/01/Daily-Article-Vol6/">Daily Article Vol6(2018/5/1 ~ 2018/5/31)</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/20/Ctdb-Rados-2/">Ctdb Rados（二）：多场景断网高可用</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/12/Megaraid_Location/">Megaraid 磁盘定位</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/02/Django_CAS_Token_Solution/">Django CAS Token 解决方案</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/01/Daily-Article-Vol5/">Daily Article Vol 5 - (2018/4/1 ~ 2018/4/30)</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/20/Ctdb-Rados-All-Banned/">Ctdb Rados方式导致All Banned的问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/08/python_nas_stable_test/">基于Python的NAS稳定性测试框架</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/01/Daily_Article_Vol4/">Daily Article Vol 4 - (2018/3/1 ~ 2018/3/31)</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/03/09/Hardware-Test-Tool/">硬件环境测试环境模拟</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/03/01/Daily-Article-Vol3/">Daily Article Vol 3 - (2018/2/1 ~ 2018/2/28)</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/02/01/Daily-Article-Vol2/">Daily Article Vol 2 - (2018/1/1 ~ 2018/1/31)</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/28/RBD-HA-2/">实现RBD导出NFS高可用（二）：提供多虚拟IP访问</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/10/scp-and-ssh/">scp 免交互式和 ssh 免交互式脚本</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/05/RaidCardToolUtils/">利用Raid卡工具获取逻辑盘是否为SSD</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/01/Daily-Article-2017/">Daily Article Vol 1 - (2017/11/1 ~ 2017/12/31)</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/21/Everything-is-a-file/">译：一切皆文件</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/17/Linux-Filesystem/">译：Linux 文件系统介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/10/Into-Withe-Night/">阅读感悟：《白夜行》</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/08/Filesystem-Bug-Fix/">故障修复：文件系统导致OSD启动失败</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/07/RBD-HA/">通过 Keepalived 实现 Ceph RBD 的高可用</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/30/Cephx-practice/">Cephx 实战演练</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/26/read-ceph-cookbook/">阅读感悟：《Ceph Cookbook》</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/26/read-ceph-guide/">阅读感悟：《Ceph分布式存储学习指南》</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/26/read-python-automation/">阅读感悟：《Python编程快速上手---让繁琐工作自动化》</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/19/hexo-theme-shadow/">博客主题 shadow</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/14/LVM-Space-Expansion/">LVM动态扩展</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/14/Ceph-Compile/">Ceph 编译（Giant版本）</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/08/Ceph-NFS-Ganesha/">通过ganesha-nfs导出Ceph为NFS（Luminous）</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/08/Ceph-RGW/">RGW 安装和创建</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/31/RBD-Mount-NFS/">使用NFS挂载RBD</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/10/Python-Profiler/">Python Profiler</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/10/Enable-OSD-Profile-Script/">启用OSD性能剖析脚本</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/28/JS-Object-Null/">JS判断对象是否为空</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/27/OSD-Create-And-Delete/">OSD创建和删除全过程</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/21/How-To-Forge-Product/">如何打造一个好的产品</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/18/PHP-Excel/">PHP-Excel 开发解决方案</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/10/Disk-pull-and-plug-record/">磁盘反复拔插记录</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/10/Linux-Udev/">Linux Udev</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/10/network-down-notification/">Network Down Notification</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/10/Python-Oracle/">Python操作Oracle</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/10/oracle_install/">Oracle Linux And Oracle Database 11g R2 Intsallation</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/09/Moodle-Local-Plugin/">Moodle Local插件</a></li></ul>
     <script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
     <script>
         $(".post-list").addClass("toc-article");
@@ -565,8 +566,8 @@
         
             <div class="visit">
                 
-                    <span id="busuanzi_container_site_pv" style='display:none'>
-                        <span id="site-visit" >极客到访数: 
+                    <span id="busuanzi_container_site_pv" style="display:none">
+                        <span id="site-visit">极客到访数: 
                             <span id="busuanzi_value_site_uv"></span>
                         </span>
                     </span>
@@ -575,7 +576,7 @@
                     <span>, </span>
                 
                 
-                    <span id="busuanzi_container_page_pv" style='display:none'>
+                    <span id="busuanzi_container_page_pv" style="display:none">
                         <span id="page-visit">本页阅读量: 
                             <span id="busuanzi_value_page_pv"></span>
                         </span>

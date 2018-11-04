@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html>
-<head>
+<head><meta name="generator" content="Hexo 3.8.0">
   <meta charset="utf-8">
-  <meta name="baidu-site-verification" content="L6Lm9d5Crl"/>
+  <meta name="baidu-site-verification" content="L6Lm9d5Crl">
   
   
   
@@ -16,8 +16,9 @@
 <meta property="og:url" content="https://tony-yin.github.io/2017/09/27/OSD-Create-And-Delete/index.html">
 <meta property="og:site_name" content="Tony&#39;s blog">
 <meta property="og:description" content="OSD是Ceph中最基本也是最常用的功能，所以经常的创建和删除操作少不了，然后这个两个过程并不是一两个命令那么简单，本文就OSD的创建和删除进行内容进行步骤分离和讲解，结尾还有一份一键删除指定OSD的脚本">
+<meta property="og:locale" content="default">
 <meta property="og:image" content="http://ow0mgad6r.bkt.clouddn.com/5ways-facebook-600-450.png">
-<meta property="og:updated_time" content="2017-12-07T06:21:22.794Z">
+<meta property="og:updated_time" content="2018-11-03T17:07:41.150Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="OSD创建和删除全过程">
 <meta name="twitter:description" content="OSD是Ceph中最基本也是最常用的功能，所以经常的创建和删除操作少不了，然后这个两个过程并不是一两个命令那么简单，本文就OSD的创建和删除进行内容进行步骤分离和讲解，结尾还有一份一键删除指定OSD的脚本">
@@ -40,7 +41,7 @@
   
   <!-- 加载特效 -->
     <script src="/js/pace.js"></script>
-    <link href="/css/pace/pace-theme-flash.css" rel="stylesheet" />
+    <link href="/css/pace/pace-theme-flash.css" rel="stylesheet">
   <script>
       var yiliaConfig = {
           fancybox: true,
@@ -53,7 +54,7 @@
           open_in_new: false
       }
   </script>
-</head>
+</head></html>
 <body>
   <div id="container">
     <div class="left-col">
@@ -168,28 +169,28 @@
                     <nav class="header-menu">
                         <ul>
                         
-                            <li><a  href="/archives/">所有文章</a></li>
+                            <li><a href="/archives/">所有文章</a></li>
                         
-                            <li><a  href="/categories/tech">技术文章</a></li>
+                            <li><a href="/categories/tech">技术文章</a></li>
                         
-                            <li><a  href="/tags/Ceph">Ceph修炼之路</a></li>
+                            <li><a href="/tags/Ceph">Ceph修炼之路</a></li>
                         
-                            <li><a  href="/categories/summary">感悟总结</a></li>
+                            <li><a href="/categories/summary">感悟总结</a></li>
                         
-                            <li><a  href="/categories/read">阅读翻译</a></li>
+                            <li><a href="/categories/read">阅读翻译</a></li>
                         
-                            <li><a  href="/categories/life">生活随笔</a></li>
+                            <li><a href="/categories/life">生活随笔</a></li>
                         
                         </ul>
                     </nav>
                     <nav class="header-nav">
                         <ul class="social">
                             
-                                <a class="fl github"  target="_blank" href="https://github.com/tony-yin" title="github">github</a>
+                                <a class="fl github" target="_blank" href="https://github.com/tony-yin" title="github">github</a>
                             
-                                <a class="fl weibo"  target="_blank" href="https://weibo.com/3832044210/profile?rightmod=1&wvr=6&mod=personinfo" title="weibo">weibo</a>
+                                <a class="fl weibo" target="_blank" href="https://weibo.com/3832044210/profile?rightmod=1&wvr=6&mod=personinfo" title="weibo">weibo</a>
                             
-                                <a class="fl segmentfault"  target="_blank" href="https://segmentfault.com/u/qzuser_57fb1d5db527e" title="segmentfault">segmentfault</a>
+                                <a class="fl segmentfault" target="_blank" href="https://segmentfault.com/u/qzuser_57fb1d5db527e" title="segmentfault">segmentfault</a>
                             
                         </ul>
 			
@@ -198,7 +199,7 @@
                 
                 <section class="switch-part switch-part2">
                     <div class="widget tagcloud" id="js-tagcloud">
-                        <a href="/tags/Bugfix/" style="font-size: 10px;">Bugfix</a> <a href="/tags/CAS/" style="font-size: 10px;">CAS</a> <a href="/tags/Ceph/" style="font-size: 20px;">Ceph</a> <a href="/tags/Cephx/" style="font-size: 10px;">Cephx</a> <a href="/tags/Console/" style="font-size: 10px;">Console</a> <a href="/tags/Crontab/" style="font-size: 10px;">Crontab</a> <a href="/tags/Ctdb/" style="font-size: 11.43px;">Ctdb</a> <a href="/tags/Daily-Article/" style="font-size: 15.71px;">Daily-Article</a> <a href="/tags/Disk/" style="font-size: 12.86px;">Disk</a> <a href="/tags/Django/" style="font-size: 10px;">Django</a> <a href="/tags/Filesystem/" style="font-size: 11.43px;">Filesystem</a> <a href="/tags/HA/" style="font-size: 12.86px;">HA</a> <a href="/tags/Javascript/" style="font-size: 10px;">Javascript</a> <a href="/tags/Keepalived/" style="font-size: 11.43px;">Keepalived</a> <a href="/tags/LVM/" style="font-size: 10px;">LVM</a> <a href="/tags/Linux/" style="font-size: 17.14px;">Linux</a> <a href="/tags/Luminous/" style="font-size: 10px;">Luminous</a> <a href="/tags/Megaraid/" style="font-size: 10px;">Megaraid</a> <a href="/tags/Moodle/" style="font-size: 10px;">Moodle</a> <a href="/tags/NAS/" style="font-size: 10px;">NAS</a> <a href="/tags/NFS/" style="font-size: 12.86px;">NFS</a> <a href="/tags/NFS-Ganesha/" style="font-size: 10px;">NFS-Ganesha</a> <a href="/tags/Network/" style="font-size: 10px;">Network</a> <a href="/tags/Notification/" style="font-size: 10px;">Notification</a> <a href="/tags/OSD/" style="font-size: 12.86px;">OSD</a> <a href="/tags/Oracle/" style="font-size: 11.43px;">Oracle</a> <a href="/tags/Oracle-11g-R2/" style="font-size: 10px;">Oracle 11g R2</a> <a href="/tags/Oracle-Linux/" style="font-size: 10px;">Oracle Linux</a> <a href="/tags/PHP/" style="font-size: 11.43px;">PHP</a> <a href="/tags/PHPExcel/" style="font-size: 10px;">PHPExcel</a> <a href="/tags/Partition/" style="font-size: 10px;">Partition</a> <a href="/tags/Profile/" style="font-size: 11.43px;">Profile</a> <a href="/tags/Python/" style="font-size: 14.29px;">Python</a> <a href="/tags/RBD/" style="font-size: 12.86px;">RBD</a> <a href="/tags/RGW/" style="font-size: 10px;">RGW</a> <a href="/tags/Rados/" style="font-size: 10px;">Rados</a> <a href="/tags/Raidcard/" style="font-size: 10px;">Raidcard</a> <a href="/tags/Read/" style="font-size: 18.57px;">Read</a> <a href="/tags/Script/" style="font-size: 12.86px;">Script</a> <a href="/tags/Snack/" style="font-size: 10px;">Snack</a> <a href="/tags/Test/" style="font-size: 10px;">Test</a> <a href="/tags/Udev/" style="font-size: 11.43px;">Udev</a> <a href="/tags/产品/" style="font-size: 10px;">产品</a> <a href="/tags/博客/" style="font-size: 10px;">博客</a> <a href="/tags/性能优化/" style="font-size: 10px;">性能优化</a> <a href="/tags/编译/" style="font-size: 10px;">编译</a>
+                        <a href="/tags/Bugfix/" style="font-size: 10px;">Bugfix</a> <a href="/tags/CAS/" style="font-size: 10px;">CAS</a> <a href="/tags/Ceph/" style="font-size: 20px;">Ceph</a> <a href="/tags/Cephx/" style="font-size: 10px;">Cephx</a> <a href="/tags/Console/" style="font-size: 10px;">Console</a> <a href="/tags/Ctdb/" style="font-size: 11.67px;">Ctdb</a> <a href="/tags/Daily-Article/" style="font-size: 16.67px;">Daily-Article</a> <a href="/tags/Disk/" style="font-size: 13.33px;">Disk</a> <a href="/tags/Django/" style="font-size: 10px;">Django</a> <a href="/tags/Filesystem/" style="font-size: 11.67px;">Filesystem</a> <a href="/tags/HA/" style="font-size: 13.33px;">HA</a> <a href="/tags/Javascript/" style="font-size: 10px;">Javascript</a> <a href="/tags/Keepalived/" style="font-size: 11.67px;">Keepalived</a> <a href="/tags/LVM/" style="font-size: 10px;">LVM</a> <a href="/tags/Linux/" style="font-size: 16.67px;">Linux</a> <a href="/tags/Luminous/" style="font-size: 10px;">Luminous</a> <a href="/tags/Megaraid/" style="font-size: 10px;">Megaraid</a> <a href="/tags/Moodle/" style="font-size: 10px;">Moodle</a> <a href="/tags/NAS/" style="font-size: 10px;">NAS</a> <a href="/tags/NFS/" style="font-size: 13.33px;">NFS</a> <a href="/tags/NFS-Ganesha/" style="font-size: 10px;">NFS-Ganesha</a> <a href="/tags/Network/" style="font-size: 10px;">Network</a> <a href="/tags/Notification/" style="font-size: 10px;">Notification</a> <a href="/tags/OSD/" style="font-size: 13.33px;">OSD</a> <a href="/tags/Oracle/" style="font-size: 11.67px;">Oracle</a> <a href="/tags/Oracle-11g-R2/" style="font-size: 10px;">Oracle 11g R2</a> <a href="/tags/Oracle-Linux/" style="font-size: 10px;">Oracle Linux</a> <a href="/tags/PHP/" style="font-size: 11.67px;">PHP</a> <a href="/tags/PHPExcel/" style="font-size: 10px;">PHPExcel</a> <a href="/tags/Partition/" style="font-size: 10px;">Partition</a> <a href="/tags/Profile/" style="font-size: 11.67px;">Profile</a> <a href="/tags/Python/" style="font-size: 15px;">Python</a> <a href="/tags/RBD/" style="font-size: 13.33px;">RBD</a> <a href="/tags/RGW/" style="font-size: 10px;">RGW</a> <a href="/tags/Rados/" style="font-size: 10px;">Rados</a> <a href="/tags/Raidcard/" style="font-size: 10px;">Raidcard</a> <a href="/tags/Read/" style="font-size: 18.33px;">Read</a> <a href="/tags/Script/" style="font-size: 13.33px;">Script</a> <a href="/tags/Snack/" style="font-size: 10px;">Snack</a> <a href="/tags/Test/" style="font-size: 10px;">Test</a> <a href="/tags/Udev/" style="font-size: 11.67px;">Udev</a> <a href="/tags/产品/" style="font-size: 10px;">产品</a> <a href="/tags/博客/" style="font-size: 10px;">博客</a> <a href="/tags/性能优化/" style="font-size: 10px;">性能优化</a> <a href="/tags/编译/" style="font-size: 10px;">编译</a>
                     </div>
                 </section>
                 
@@ -206,9 +207,9 @@
                 <section class="switch-part switch-part3">
                     <div id="js-friends">
                     
-                      <a target="_blank"  class="main-nav-link switch-friends-link" href="https://greenlightt.github.io">redgo的博客</a>
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="https://greenlightt.github.io">redgo的博客</a>
                     
-                      <a target="_blank"  class="main-nav-link switch-friends-link" href="http://www.xuxiaopang.com">徐小胖的博客</a>
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.xuxiaopang.com">徐小胖的博客</a>
                     
                     </div>
                 </section>
@@ -276,10 +277,10 @@
     </div>
 </nav>
 
-      <div class="body-wrap"><article id="post-OSD-Create-And-Delete" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-OSD-Create-And-Delete" class="article article-type-post" itemscope="" itemprop="blogPost">
   
     <div class="article-meta">
-      <a  href="/2017/09/27/OSD-Create-And-Delete/" class="article-date">
+      <a href="/2017/09/27/OSD-Create-And-Delete/" class="article-date">
       <time datetime="2017-09-27T15:05:36.000Z" itemprop="datePublished">2017-09-27</time>
 </a>
 
@@ -287,7 +288,7 @@
   
   <div class="article-inner">
     
-      <input type="hidden" class="isFancy" />
+      <input type="hidden" class="isFancy">
     
     
       <header class="article-header">
@@ -324,34 +325,34 @@
 
 <p><code>OSD</code>是<code>Ceph</code>中最基本也是最常用的功能，所以经常的创建和删除操作少不了，然后这个两个过程并不是一两个命令那么简单，本文就<code>OSD</code>的创建和删除进行内容进行步骤分离和讲解，结尾还有一份一键删除指定<code>OSD</code>的脚本</p>
 <a id="more"></a>
-<h2 id="创建过程"><a href="#创建过程" class="headerlink" title="创建过程"></a>创建过程</h2><h3 id="创建一个OSD"><a href="#创建一个OSD" class="headerlink" title="创建一个OSD"></a>创建一个OSD</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ceph osd create [uuid]   #若没有uuid参数，则该命令自动生成一个uuid。该命令产生一个新的osd-number</div></pre></td></tr></table></figure>
-<h3 id="为新的OSD创建默认的工作目录"><a href="#为新的OSD创建默认的工作目录" class="headerlink" title="为新的OSD创建默认的工作目录"></a>为新的OSD创建默认的工作目录</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">mkdir -p /var/lib/ceph/osd/ceph-&#123;osd-number&#125;</div></pre></td></tr></table></figure>
-<h3 id="为新的OSD准备一块磁盘"><a href="#为新的OSD准备一块磁盘" class="headerlink" title="为新的OSD准备一块磁盘"></a>为新的OSD准备一块磁盘</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">mkfs.xfs -f /dev/vde </div><div class="line">mount /dev/vde /var/lib/ceph/osd/ceph-&#123;osd-number&#125;</div></pre></td></tr></table></figure>
-<h3 id="初始化新的OSD工作目录"><a href="#初始化新的OSD工作目录" class="headerlink" title="初始化新的OSD工作目录"></a>初始化新的OSD工作目录</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ceph-osd -i &#123;osd-number&#125; --mkfs --mkkey</div></pre></td></tr></table></figure>
+<h2 id="创建过程"><a href="#创建过程" class="headerlink" title="创建过程"></a>创建过程</h2><h3 id="创建一个OSD"><a href="#创建一个OSD" class="headerlink" title="创建一个OSD"></a>创建一个OSD</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ceph osd create [uuid]   #若没有uuid参数，则该命令自动生成一个uuid。该命令产生一个新的osd-number</span><br></pre></td></tr></table></figure>
+<h3 id="为新的OSD创建默认的工作目录"><a href="#为新的OSD创建默认的工作目录" class="headerlink" title="为新的OSD创建默认的工作目录"></a>为新的OSD创建默认的工作目录</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mkdir -p /var/lib/ceph/osd/ceph-&#123;osd-number&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="为新的OSD准备一块磁盘"><a href="#为新的OSD准备一块磁盘" class="headerlink" title="为新的OSD准备一块磁盘"></a>为新的OSD准备一块磁盘</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mkfs.xfs -f /dev/vde </span><br><span class="line">mount /dev/vde /var/lib/ceph/osd/ceph-&#123;osd-number&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="初始化新的OSD工作目录"><a href="#初始化新的OSD工作目录" class="headerlink" title="初始化新的OSD工作目录"></a>初始化新的OSD工作目录</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ceph-osd -i &#123;osd-number&#125; --mkfs --mkkey</span><br></pre></td></tr></table></figure>
 <blockquote>
 <p> 注意：在执行上述命令前要求新的OSD工作目录必须为空</p>
 </blockquote>
-<h3 id="注册新的OSD认证密钥"><a href="#注册新的OSD认证密钥" class="headerlink" title="注册新的OSD认证密钥"></a>注册新的OSD认证密钥</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ceph auth add osd.&#123;osd-number&#125; osd &apos;allow *&apos; mon &apos;allow rwx&apos; -i /var/lib/ceph/osd/ceph-&#123;osd-number&#125;/keyring</div></pre></td></tr></table></figure>
-<h3 id="将新的OSD添加到Crush-Map中"><a href="#将新的OSD添加到Crush-Map中" class="headerlink" title="将新的OSD添加到Crush Map中"></a>将新的OSD添加到Crush Map中</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ceph osd crush add osd.&#123;osd-number&#125; &#123;weight&#125; [&#123;bucketype&#125;=&#123;bucket-name&#125;......&#125;</div></pre></td></tr></table></figure>
+<h3 id="注册新的OSD认证密钥"><a href="#注册新的OSD认证密钥" class="headerlink" title="注册新的OSD认证密钥"></a>注册新的OSD认证密钥</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ceph auth add osd.&#123;osd-number&#125; osd &apos;allow *&apos; mon &apos;allow rwx&apos; -i /var/lib/ceph/osd/ceph-&#123;osd-number&#125;/keyring</span><br></pre></td></tr></table></figure>
+<h3 id="将新的OSD添加到Crush-Map中"><a href="#将新的OSD添加到Crush-Map中" class="headerlink" title="将新的OSD添加到Crush Map中"></a>将新的OSD添加到Crush Map中</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ceph osd crush add osd.&#123;osd-number&#125; &#123;weight&#125; [&#123;bucketype&#125;=&#123;bucket-name&#125;......&#125;</span><br></pre></td></tr></table></figure>
 <p>此步骤也可以添加buckets后再添加osd，即：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">ceph osd crush add-bucket node5 host     #创建一个名字为node5的bucket</div><div class="line">ceph osd crush move node5 root=default    #将创建出来的bucket放到root下</div><div class="line">ceph osd crush create-or-move osd.&#123;osd-number&#125; 1.0 root=default host=node5     #将新的OSD添加到node5下</div></pre></td></tr></table></figure>
-<h3 id="将新的OSD信息填写到ceph-conf中"><a href="#将新的OSD信息填写到ceph-conf中" class="headerlink" title="将新的OSD信息填写到ceph.conf中"></a>将新的OSD信息填写到ceph.conf中</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">[osd.&#123;osd-number&#125;]</div><div class="line">host = &#123;hostname&#125;</div><div class="line">devs = /dev/vde</div></pre></td></tr></table></figure>
-<h3 id="启动新的OSD"><a href="#启动新的OSD" class="headerlink" title="启动新的OSD"></a>启动新的OSD</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">/etc/init.d/ceph start osd.&#123;osd-number&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ceph osd crush add-bucket node5 host     #创建一个名字为node5的bucket</span><br><span class="line">ceph osd crush move node5 root=default    #将创建出来的bucket放到root下</span><br><span class="line">ceph osd crush create-or-move osd.&#123;osd-number&#125; 1.0 root=default host=node5     #将新的OSD添加到node5下</span><br></pre></td></tr></table></figure>
+<h3 id="将新的OSD信息填写到ceph-conf中"><a href="#将新的OSD信息填写到ceph-conf中" class="headerlink" title="将新的OSD信息填写到ceph.conf中"></a>将新的OSD信息填写到ceph.conf中</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[osd.&#123;osd-number&#125;]</span><br><span class="line">host = &#123;hostname&#125;</span><br><span class="line">devs = /dev/vde</span><br></pre></td></tr></table></figure>
+<h3 id="启动新的OSD"><a href="#启动新的OSD" class="headerlink" title="启动新的OSD"></a>启动新的OSD</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/etc/init.d/ceph start osd.&#123;osd-number&#125;</span><br></pre></td></tr></table></figure>
 <blockquote>
 <p>此时通过集群状态查看命令#ceph -s可以看到OSD数量以及up和in的数量都发生了变化，此时再通过命令#ceph -w可以看到ceph经过peering状态后，最终达到active+clean状态</p>
 </blockquote>
-<h2 id="一键创建OSD脚本"><a href="#一键创建OSD脚本" class="headerlink" title="一键创建OSD脚本"></a>一键创建OSD脚本</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div></pre></td><td class="code"><pre><div class="line">#! /bin/bash</div><div class="line"></div><div class="line">start_time=`date +%s`</div><div class="line"></div><div class="line">echo &quot;start time: `date -d @$start_time &quot;+%Y-%m-%d %H:%M:%S&quot;`&quot;</div><div class="line"></div><div class="line">disk=/dev/$1</div><div class="line"></div><div class="line">osd_id=`ceph osd create`</div><div class="line"></div><div class="line">osd_dir=/data/osd.$osd_id</div><div class="line"></div><div class="line">host=10.16.100.99</div><div class="line"></div><div class="line">bucket=default_$host</div><div class="line"></div><div class="line">echo &quot;osd $osd_id is created ...&quot;</div><div class="line"></div><div class="line">mkdir -p $osd_dir</div><div class="line"></div><div class="line">echo &quot;osd directory: /data/osd.$osd_id is created ...&quot;</div><div class="line"></div><div class="line">mkfs -t ext4 -m 0 $disk</div><div class="line"></div><div class="line">echo &quot;disk $disk is built with ext4 file system ...&quot;</div><div class="line"></div><div class="line">mount -o noatime,user_xattr $disk $osd_dir</div><div class="line"></div><div class="line">echo &quot;device: $disk is mounted on directory: $osd_dir ...&quot;</div><div class="line"></div><div class="line">ceph mon getmap -o /tmp/monmap</div><div class="line"></div><div class="line">ceph-osd -i $osd_id --monmap /tmp/monmap --mkfs --mkjournal</div><div class="line"></div><div class="line">echo &quot;osd $osd_id is initialized ...&quot;</div><div class="line"></div><div class="line">osd_uuid=`ceph-osd -i $osd_id --get-osd-fsid`</div><div class="line"></div><div class="line">cat &gt;&gt; /etc/ceph/ceph.conf &lt;&lt;EOF</div><div class="line"></div><div class="line">[osd.$osd_id]</div><div class="line">host = $host</div><div class="line">public addr = $host</div><div class="line">cluster addr = $host</div><div class="line">osd uuid = $osd_uuid</div><div class="line">EOF</div><div class="line"></div><div class="line">echo &apos;ceph config file is configured ...&apos;</div><div class="line"></div><div class="line">service ceph start osd.$osd_id</div><div class="line"></div><div class="line">echo &quot;osd $osd_id start ...&quot;</div><div class="line"></div><div class="line">ceph osd crush add $osd_id 0 pool=default host=$bucket</div><div class="line"></div><div class="line">echo &quot;osd $osd_id is added in crush ...&quot;</div><div class="line"></div><div class="line">echo &apos;all works done ...&apos;</div><div class="line"></div><div class="line">end_time=`date +%s`</div><div class="line"></div><div class="line">echo &quot;end time: `date -d @$end_time &quot;+%Y-%m-%d %H:%M:%S&quot;`&quot;</div><div class="line"></div><div class="line">time_consuming=$(($end_time - $start_time))</div><div class="line"></div><div class="line">echo &quot;The total time consuming is $time_consuming s&quot;</div></pre></td></tr></table></figure>
+<h2 id="一键创建OSD脚本"><a href="#一键创建OSD脚本" class="headerlink" title="一键创建OSD脚本"></a>一键创建OSD脚本</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br></pre></td><td class="code"><pre><span class="line">#! /bin/bash</span><br><span class="line"></span><br><span class="line">start_time=`date +%s`</span><br><span class="line"></span><br><span class="line">echo &quot;start time: `date -d @$start_time &quot;+%Y-%m-%d %H:%M:%S&quot;`&quot;</span><br><span class="line"></span><br><span class="line">disk=/dev/$1</span><br><span class="line"></span><br><span class="line">osd_id=`ceph osd create`</span><br><span class="line"></span><br><span class="line">osd_dir=/data/osd.$osd_id</span><br><span class="line"></span><br><span class="line">host=10.16.100.99</span><br><span class="line"></span><br><span class="line">bucket=default_$host</span><br><span class="line"></span><br><span class="line">echo &quot;osd $osd_id is created ...&quot;</span><br><span class="line"></span><br><span class="line">mkdir -p $osd_dir</span><br><span class="line"></span><br><span class="line">echo &quot;osd directory: /data/osd.$osd_id is created ...&quot;</span><br><span class="line"></span><br><span class="line">mkfs -t ext4 -m 0 $disk</span><br><span class="line"></span><br><span class="line">echo &quot;disk $disk is built with ext4 file system ...&quot;</span><br><span class="line"></span><br><span class="line">mount -o noatime,user_xattr $disk $osd_dir</span><br><span class="line"></span><br><span class="line">echo &quot;device: $disk is mounted on directory: $osd_dir ...&quot;</span><br><span class="line"></span><br><span class="line">ceph mon getmap -o /tmp/monmap</span><br><span class="line"></span><br><span class="line">ceph-osd -i $osd_id --monmap /tmp/monmap --mkfs --mkjournal</span><br><span class="line"></span><br><span class="line">echo &quot;osd $osd_id is initialized ...&quot;</span><br><span class="line"></span><br><span class="line">osd_uuid=`ceph-osd -i $osd_id --get-osd-fsid`</span><br><span class="line"></span><br><span class="line">cat &gt;&gt; /etc/ceph/ceph.conf &lt;&lt;EOF</span><br><span class="line"></span><br><span class="line">[osd.$osd_id]</span><br><span class="line">host = $host</span><br><span class="line">public addr = $host</span><br><span class="line">cluster addr = $host</span><br><span class="line">osd uuid = $osd_uuid</span><br><span class="line">EOF</span><br><span class="line"></span><br><span class="line">echo &apos;ceph config file is configured ...&apos;</span><br><span class="line"></span><br><span class="line">service ceph start osd.$osd_id</span><br><span class="line"></span><br><span class="line">echo &quot;osd $osd_id start ...&quot;</span><br><span class="line"></span><br><span class="line">ceph osd crush add $osd_id 0 pool=default host=$bucket</span><br><span class="line"></span><br><span class="line">echo &quot;osd $osd_id is added in crush ...&quot;</span><br><span class="line"></span><br><span class="line">echo &apos;all works done ...&apos;</span><br><span class="line"></span><br><span class="line">end_time=`date +%s`</span><br><span class="line"></span><br><span class="line">echo &quot;end time: `date -d @$end_time &quot;+%Y-%m-%d %H:%M:%S&quot;`&quot;</span><br><span class="line"></span><br><span class="line">time_consuming=$(($end_time - $start_time))</span><br><span class="line"></span><br><span class="line">echo &quot;The total time consuming is $time_consuming s&quot;</span><br></pre></td></tr></table></figure>
 <h2 id="删除过程"><a href="#删除过程" class="headerlink" title="删除过程"></a>删除过程</h2><h3 id="将需要删除的OSD在集群中的状态修改为out状态"><a href="#将需要删除的OSD在集群中的状态修改为out状态" class="headerlink" title="将需要删除的OSD在集群中的状态修改为out状态"></a>将需要删除的OSD在集群中的状态修改为out状态</h3><p>假定<code>osd</code>的<code>id</code>为<code>1</code></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ceph osd out osd.1</div></pre></td></tr></table></figure>
-<h3 id="停止OSD进程"><a href="#停止OSD进程" class="headerlink" title="停止OSD进程"></a>停止OSD进程</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">/etc/init.d/ceph stop osd.1</div></pre></td></tr></table></figure>
-<h3 id="将OSD从crush-map中删除"><a href="#将OSD从crush-map中删除" class="headerlink" title="将OSD从crush map中删除"></a>将OSD从crush map中删除</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">ceph osd crush remove osd.1    #删除指定的OSD</div><div class="line">ceph osd crush remove node1    #删除OSD所在的bucket（此步骤可以不做）</div></pre></td></tr></table></figure>
-<h3 id="清除到OSD的认证密钥"><a href="#清除到OSD的认证密钥" class="headerlink" title="清除到OSD的认证密钥"></a>清除到OSD的认证密钥</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ceph auth del osd.1</div></pre></td></tr></table></figure>
-<h3 id="在OSD-Map中清除OSD"><a href="#在OSD-Map中清除OSD" class="headerlink" title="在OSD Map中清除OSD"></a>在OSD Map中清除OSD</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ceph osd rm 1</div></pre></td></tr></table></figure>
-<h3 id="从ceph-conf中清除OSD"><a href="#从ceph-conf中清除OSD" class="headerlink" title="从ceph.conf中清除OSD"></a>从ceph.conf中清除OSD</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">[osd.1]</div><div class="line">    host = &#123;hostname&#125;</div><div class="line">    ...</div></pre></td></tr></table></figure>
-<h2 id="一键删除OSD脚本"><a href="#一键删除OSD脚本" class="headerlink" title="一键删除OSD脚本"></a>一键删除OSD脚本</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">#! /bin/bash</div><div class="line"></div><div class="line">osd_id=$1</div><div class="line">ceph osd out osd.$osd_id</div><div class="line">/etc/init.d/ceph stop osd.$osd_id</div><div class="line">ceph osd crush remove osd.$osd_id</div><div class="line">ceph auth del osd.$osd_id</div><div class="line">ceph osd rm $osd_id</div><div class="line"># 清空 ceph.conf</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ceph osd out osd.1</span><br></pre></td></tr></table></figure>
+<h3 id="停止OSD进程"><a href="#停止OSD进程" class="headerlink" title="停止OSD进程"></a>停止OSD进程</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/etc/init.d/ceph stop osd.1</span><br></pre></td></tr></table></figure>
+<h3 id="将OSD从crush-map中删除"><a href="#将OSD从crush-map中删除" class="headerlink" title="将OSD从crush map中删除"></a>将OSD从crush map中删除</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ceph osd crush remove osd.1    #删除指定的OSD</span><br><span class="line">ceph osd crush remove node1    #删除OSD所在的bucket（此步骤可以不做）</span><br></pre></td></tr></table></figure>
+<h3 id="清除到OSD的认证密钥"><a href="#清除到OSD的认证密钥" class="headerlink" title="清除到OSD的认证密钥"></a>清除到OSD的认证密钥</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ceph auth del osd.1</span><br></pre></td></tr></table></figure>
+<h3 id="在OSD-Map中清除OSD"><a href="#在OSD-Map中清除OSD" class="headerlink" title="在OSD Map中清除OSD"></a>在OSD Map中清除OSD</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ceph osd rm 1</span><br></pre></td></tr></table></figure>
+<h3 id="从ceph-conf中清除OSD"><a href="#从ceph-conf中清除OSD" class="headerlink" title="从ceph.conf中清除OSD"></a>从ceph.conf中清除OSD</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[osd.1]</span><br><span class="line">    host = &#123;hostname&#125;</span><br><span class="line">    ...</span><br></pre></td></tr></table></figure>
+<h2 id="一键删除OSD脚本"><a href="#一键删除OSD脚本" class="headerlink" title="一键删除OSD脚本"></a>一键删除OSD脚本</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">#! /bin/bash</span><br><span class="line"></span><br><span class="line">osd_id=$1</span><br><span class="line">ceph osd out osd.$osd_id</span><br><span class="line">/etc/init.d/ceph stop osd.$osd_id</span><br><span class="line">ceph osd crush remove osd.$osd_id</span><br><span class="line">ceph auth del osd.$osd_id</span><br><span class="line">ceph osd rm $osd_id</span><br><span class="line"># 清空 ceph.conf</span><br></pre></td></tr></table></figure>
 <p>参考链接：</p>
 <blockquote>
-<p><a href="https://my.oschina.net/linuxhunter/blog/539312" target="_blank" rel="external">https://my.oschina.net/linuxhunter/blog/539312</a></p>
+<p><a href="https://my.oschina.net/linuxhunter/blog/539312" target="_blank" rel="noopener">https://my.oschina.net/linuxhunter/blog/539312</a></p>
 </blockquote>
 
       
@@ -362,16 +363,16 @@
   
     
     <div class="copyright">
-        <p><span>本文标题:</span><a  href="/2017/09/27/OSD-Create-And-Delete/">OSD创建和删除全过程</a></p>
-        <p><span>文章作者:</span><a  href="/" title="访问 Tony 的个人博客">Tony</a></p>
+        <p><span>本文标题:</span><a href="/2017/09/27/OSD-Create-And-Delete/">OSD创建和删除全过程</a></p>
+        <p><span>文章作者:</span><a href="/" title="访问 Tony 的个人博客">Tony</a></p>
         <p><span>发布时间:</span>2017年09月27日 - 23时05分</p>
-        <p><span>最后更新:</span>2017年12月07日 - 14时21分</p>
+        <p><span>最后更新:</span>2018年11月04日 - 01时07分</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2017/09/27/OSD-Create-And-Delete/" title="OSD创建和删除全过程">https://tony-yin.github.io/2017/09/27/OSD-Create-And-Delete/</a>
             <span class="copy-path" data-clipboard-text="原文: https://tony-yin.github.io/2017/09/27/OSD-Create-And-Delete/　　作者: Tony" title=""></span>
         </p>
         <p>
-            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/cn/" title="中国大陆 (CC BY-NC-SA 3.0 CN)" target = "_blank">"署名-非商用-相同方式共享 3.0"</a> 转载请保留原文链接及作者。
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/cn/" title="中国大陆 (CC BY-NC-SA 3.0 CN)" target="_blank">"署名-非商用-相同方式共享 3.0"</a> 转载请保留原文链接及作者。
         </p>
     </div>
 
@@ -379,7 +380,7 @@
 
 <nav id="article-nav">
   
-    <a  href="/2017/09/28/JS-Object-Null/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2017/09/28/JS-Object-Null/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption"><</strong>
       <div class="article-nav-title">
         
@@ -389,7 +390,7 @@
     </a>
   
   
-    <a  href="/2017/09/21/How-To-Forge-Product/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2017/09/21/How-To-Forge-Product/" id="article-nav-older" class="article-nav-link-wrap">
       <div class="article-nav-title">如何打造一个好的产品</div>
       <strong class="article-nav-caption">></strong>
     </a>
@@ -412,7 +413,7 @@
         display: none;
     }
 </style>
-<input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+<input type="button" id="tocButton" value="隐藏目录" title="点击按钮隐藏或者显示文章目录">
 <script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
 <script>
     var valueHide = "隐藏目录";
@@ -484,18 +485,18 @@
 
     <div class="scroll" id="post-nav-button">
         
-            <a  href="/2017/09/28/JS-Object-Null/" title="上一篇: JS判断对象是否为空">
+            <a href="/2017/09/28/JS-Object-Null/" title="上一篇: JS判断对象是否为空">
                 <i class="fa fa-angle-left"></i>
             </a>
         
         <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
         
-            <a  href="/2017/09/21/How-To-Forge-Product/" title="下一篇: 如何打造一个好的产品">
+            <a href="/2017/09/21/How-To-Forge-Product/" title="下一篇: 如何打造一个好的产品">
                 <i class="fa fa-angle-right"></i>
             </a>
         
     </div>
-    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2018/10/29/Why-Crontab-Not-Work/">为什么 crontab 不执行</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/01/Daily-Article-Vol7/">Daily Article Vol7(2018/6/1 ~ 2018/6/30)</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/20/Block-device-persistent-name-and-multipath/">块设备持久化命名和多路径</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/03/Python-Snack-Best-Practice/">Python Snack 最佳实践</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/01/Daily-Article-Vol6/">Daily Article Vol6(2018/5/1 ~ 2018/5/31)</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/20/Ctdb-Rados-2/">Ctdb Rados（二）：多场景断网高可用</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/12/Megaraid_Location/">Megaraid 磁盘定位</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/02/Django_CAS_Token_Solution/">Django CAS Token 解决方案</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/01/Daily-Article-Vol5/">Daily Article Vol 5 - (2018/4/1 ~ 2018/4/30)</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/20/Ctdb-Rados-All-Banned/">Ctdb Rados方式导致All Banned的问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/08/python_nas_stable_test/">基于Python的NAS稳定性测试框架</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/01/Daily_Article_Vol4/">Daily Article Vol 4 - (2018/3/1 ~ 2018/3/31)</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/03/09/Hardware-Test-Tool/">硬件环境测试环境模拟</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/03/01/Daily-Article-Vol3/">Daily Article Vol 3 - (2018/2/1 ~ 2018/2/28)</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/02/01/Daily-Article-Vol2/">Daily Article Vol 2 - (2018/1/1 ~ 2018/1/31)</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/28/RBD-HA-2/">实现RBD导出NFS高可用（二）：提供多虚拟IP访问</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/10/scp-and-ssh/">scp 免交互式和 ssh 免交互式脚本</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/05/RaidCardToolUtils/">利用Raid卡工具获取逻辑盘是否为SSD</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/01/Daily-Article-2017/">Daily Article Vol 1 - (2017/11/1 ~ 2017/12/31)</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/21/Everything-is-a-file/">译：一切皆文件</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/17/Linux-Filesystem/">译：Linux 文件系统介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/10/Into-Withe-Night/">阅读感悟：《白夜行》</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/08/Filesystem-Bug-Fix/">故障修复：文件系统导致OSD启动失败</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/07/RBD-HA/">通过 Keepalived 实现 Ceph RBD 的高可用</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/30/Cephx-practice/">Cephx 实战演练</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/26/read-ceph-cookbook/">阅读感悟：《Ceph Cookbook》</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/26/read-ceph-guide/">阅读感悟：《Ceph分布式存储学习指南》</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/26/read-python-automation/">阅读感悟：《Python编程快速上手---让繁琐工作自动化》</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/19/hexo-theme-shadow/">博客主题 shadow</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/14/LVM-Space-Expansion/">LVM动态扩展</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/14/Ceph-Compile/">Ceph 编译（Giant版本）</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/08/Ceph-NFS-Ganesha/">通过ganesha-nfs导出Ceph为NFS（Luminous）</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/08/Ceph-RGW/">RGW 安装和创建</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/31/RBD-Mount-NFS/">使用NFS挂载RBD</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/10/Python-Profiler/">Python Profiler</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/10/Enable-OSD-Profile-Script/">启用OSD性能剖析脚本</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/02/Batch-Create-And-Delete-Disk-Partition-Script/">批量创建和删除磁盘分区脚本</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/28/JS-Object-Null/">JS判断对象是否为空</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/27/OSD-Create-And-Delete/">OSD创建和删除全过程</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/21/How-To-Forge-Product/">如何打造一个好的产品</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/18/PHP-Excel/">PHP-Excel 开发解决方案</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/10/Disk-pull-and-plug-record/">磁盘反复拔插记录</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/10/Linux-Udev/">Linux Udev</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/10/network-down-notification/">Network Down Notification</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/10/Python-Oracle/">Python操作Oracle</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/10/oracle_install/">Oracle Linux And Oracle Database 11g R2 Intsallation</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/09/Moodle-Local-Plugin/">Moodle Local插件</a></li></ul>
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2019/10/02/Batch-Create-And-Delete-Disk-Partition-Script/">批量创建和删除磁盘分区脚本</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/11/04/Block-device-persistent-name-and-multipath/">块设备持久化命名和多路径</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/01/Daily-Article-Vol7/">Daily Article Vol7(2018/6/1 ~ 2018/6/30)</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/03/Python-Snack-Best-Practice/">Python Snack 最佳实践</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/01/Daily-Article-Vol6/">Daily Article Vol6(2018/5/1 ~ 2018/5/31)</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/20/Ctdb-Rados-2/">Ctdb Rados（二）：多场景断网高可用</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/12/Megaraid_Location/">Megaraid 磁盘定位</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/02/Django_CAS_Token_Solution/">Django CAS Token 解决方案</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/01/Daily-Article-Vol5/">Daily Article Vol 5 - (2018/4/1 ~ 2018/4/30)</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/20/Ctdb-Rados-All-Banned/">Ctdb Rados方式导致All Banned的问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/08/python_nas_stable_test/">基于Python的NAS稳定性测试框架</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/01/Daily_Article_Vol4/">Daily Article Vol 4 - (2018/3/1 ~ 2018/3/31)</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/03/09/Hardware-Test-Tool/">硬件环境测试环境模拟</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/03/01/Daily-Article-Vol3/">Daily Article Vol 3 - (2018/2/1 ~ 2018/2/28)</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/02/01/Daily-Article-Vol2/">Daily Article Vol 2 - (2018/1/1 ~ 2018/1/31)</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/28/RBD-HA-2/">实现RBD导出NFS高可用（二）：提供多虚拟IP访问</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/10/scp-and-ssh/">scp 免交互式和 ssh 免交互式脚本</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/05/RaidCardToolUtils/">利用Raid卡工具获取逻辑盘是否为SSD</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/01/Daily-Article-2017/">Daily Article Vol 1 - (2017/11/1 ~ 2017/12/31)</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/21/Everything-is-a-file/">译：一切皆文件</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/17/Linux-Filesystem/">译：Linux 文件系统介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/10/Into-Withe-Night/">阅读感悟：《白夜行》</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/08/Filesystem-Bug-Fix/">故障修复：文件系统导致OSD启动失败</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/07/RBD-HA/">通过 Keepalived 实现 Ceph RBD 的高可用</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/30/Cephx-practice/">Cephx 实战演练</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/26/read-ceph-cookbook/">阅读感悟：《Ceph Cookbook》</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/26/read-ceph-guide/">阅读感悟：《Ceph分布式存储学习指南》</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/26/read-python-automation/">阅读感悟：《Python编程快速上手---让繁琐工作自动化》</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/19/hexo-theme-shadow/">博客主题 shadow</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/14/LVM-Space-Expansion/">LVM动态扩展</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/14/Ceph-Compile/">Ceph 编译（Giant版本）</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/08/Ceph-NFS-Ganesha/">通过ganesha-nfs导出Ceph为NFS（Luminous）</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/08/Ceph-RGW/">RGW 安装和创建</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/31/RBD-Mount-NFS/">使用NFS挂载RBD</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/10/Python-Profiler/">Python Profiler</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/10/Enable-OSD-Profile-Script/">启用OSD性能剖析脚本</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/28/JS-Object-Null/">JS判断对象是否为空</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/27/OSD-Create-And-Delete/">OSD创建和删除全过程</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/21/How-To-Forge-Product/">如何打造一个好的产品</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/18/PHP-Excel/">PHP-Excel 开发解决方案</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/10/Disk-pull-and-plug-record/">磁盘反复拔插记录</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/10/Linux-Udev/">Linux Udev</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/10/network-down-notification/">Network Down Notification</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/10/Python-Oracle/">Python操作Oracle</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/10/oracle_install/">Oracle Linux And Oracle Database 11g R2 Intsallation</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/09/Moodle-Local-Plugin/">Moodle Local插件</a></li></ul>
     <script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
     <script>
         $(".post-list").addClass("toc-article");
@@ -538,8 +539,8 @@
         
             <div class="visit">
                 
-                    <span id="busuanzi_container_site_pv" style='display:none'>
-                        <span id="site-visit" >极客到访数: 
+                    <span id="busuanzi_container_site_pv" style="display:none">
+                        <span id="site-visit">极客到访数: 
                             <span id="busuanzi_value_site_uv"></span>
                         </span>
                     </span>
@@ -548,7 +549,7 @@
                     <span>, </span>
                 
                 
-                    <span id="busuanzi_container_page_pv" style='display:none'>
+                    <span id="busuanzi_container_page_pv" style="display:none">
                         <span id="page-visit">本页阅读量: 
                             <span id="busuanzi_value_page_pv"></span>
                         </span>
