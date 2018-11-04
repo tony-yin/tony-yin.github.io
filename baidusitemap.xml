@@ -4,12 +4,34 @@
 
     
   <url>
-    <loc>https://tony-yin.github.io/2018/11/03/Block-device-persistent-name-and-multipath/</loc>
-    <lastmod>2018-11-04T12:00:57.369Z</lastmod>
+    <loc>https://tony-yin.github.io/2018/10/29/Why-Crontab-Not-Work/</loc>
+    <lastmod>2018-11-04T12:07:55.086Z</lastmod>
+    <data>
+        <display>
+        <title>为什么 crontab 不执行</title>
+        <pubTime>2018-10-29T06:50:26.000Z</pubTime>
+        
+        <tag>Linux</tag>
+         
+        <tag>Crontab</tag>
+         
+         
+           
+             
+              <breadCrumb title="tech" url="https://tony-yin.github.io/categories/tech/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://tony-yin.github.io/2018/06/20/Block-device-persistent-name-and-multipath/</loc>
+    <lastmod>2018-11-04T12:07:50.311Z</lastmod>
     <data>
         <display>
         <title>块设备持久化命名和多路径</title>
-        <pubTime>2018-11-03T15:15:26.000Z</pubTime>
+        <pubTime>2018-06-20T15:15:26.000Z</pubTime>
         
         <tag>Ceph</tag>
          
@@ -26,12 +48,12 @@
 
     
   <url>
-    <loc>https://tony-yin.github.io/2019/10/02/Batch-Create-And-Delete-Disk-Partition-Script/</loc>
-    <lastmod>2018-11-03T18:46:09.253Z</lastmod>
+    <loc>https://tony-yin.github.io/2017/10/02/Batch-Create-And-Delete-Disk-Partition-Script/</loc>
+    <lastmod>2018-11-04T12:07:42.699Z</lastmod>
     <data>
         <display>
         <title>批量创建和删除磁盘分区脚本</title>
-        <pubTime>2019-10-02T05:07:06.000Z</pubTime>
+        <pubTime>2017-10-02T05:07:06.000Z</pubTime>
         
         <tag>Ceph</tag>
          
@@ -45,28 +67,6 @@
            
              
               <breadCrumb title="tech" url="https://tony-yin.github.io/categories/tech/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>https://tony-yin.github.io/2017/11/26/read-python-automation/</loc>
-    <lastmod>2018-11-03T17:07:41.151Z</lastmod>
-    <data>
-        <display>
-        <title>阅读感悟：《Python编程快速上手---让繁琐工作自动化》</title>
-        <pubTime>2017-11-26T14:45:48.000Z</pubTime>
-        
-        <tag>Read</tag>
-         
-        <tag>Python</tag>
-         
-         
-           
-             
-              <breadCrumb title="read" url="https://tony-yin.github.io/categories/read/"/>
           
         </display>
     </data>
@@ -120,18 +120,16 @@
 
     
   <url>
-    <loc>https://tony-yin.github.io/2017/10/31/RBD-Mount-NFS/</loc>
+    <loc>https://tony-yin.github.io/2018/01/10/scp-and-ssh/</loc>
     <lastmod>2018-11-03T17:07:41.151Z</lastmod>
     <data>
         <display>
-        <title>使用NFS挂载RBD</title>
-        <pubTime>2017-10-31T14:45:25.000Z</pubTime>
+        <title>scp 免交互式和 ssh 免交互式脚本</title>
+        <pubTime>2018-01-10T15:40:46.000Z</pubTime>
         
-        <tag>Ceph</tag>
+        <tag>Script</tag>
          
-        <tag>NFS</tag>
-         
-        <tag>RBD</tag>
+        <tag>Linux</tag>
          
          
            
@@ -154,6 +152,30 @@
         <tag>Ceph</tag>
          
         <tag>Ctdb</tag>
+         
+         
+           
+             
+              <breadCrumb title="tech" url="https://tony-yin.github.io/categories/tech/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://tony-yin.github.io/2017/10/31/RBD-Mount-NFS/</loc>
+    <lastmod>2018-11-03T17:07:41.151Z</lastmod>
+    <data>
+        <display>
+        <title>使用NFS挂载RBD</title>
+        <pubTime>2017-10-31T14:45:25.000Z</pubTime>
+        
+        <tag>Ceph</tag>
+         
+        <tag>NFS</tag>
+         
+        <tag>RBD</tag>
          
          
            
@@ -194,28 +216,6 @@
 
     
   <url>
-    <loc>https://tony-yin.github.io/2018/01/10/scp-and-ssh/</loc>
-    <lastmod>2018-11-03T17:07:41.151Z</lastmod>
-    <data>
-        <display>
-        <title>scp 免交互式和 ssh 免交互式脚本</title>
-        <pubTime>2018-01-10T15:40:46.000Z</pubTime>
-        
-        <tag>Script</tag>
-         
-        <tag>Linux</tag>
-         
-         
-           
-             
-              <breadCrumb title="tech" url="https://tony-yin.github.io/categories/tech/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
     <loc>https://tony-yin.github.io/2018/02/01/Daily-Article-Vol2/</loc>
     <lastmod>2018-11-03T17:07:41.151Z</lastmod>
     <data>
@@ -226,6 +226,28 @@
         <tag>Read</tag>
          
         <tag>Daily-Article</tag>
+         
+         
+           
+             
+              <breadCrumb title="read" url="https://tony-yin.github.io/categories/read/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://tony-yin.github.io/2017/11/26/read-python-automation/</loc>
+    <lastmod>2018-11-03T17:07:41.151Z</lastmod>
+    <data>
+        <display>
+        <title>阅读感悟：《Python编程快速上手---让繁琐工作自动化》</title>
+        <pubTime>2017-11-26T14:45:48.000Z</pubTime>
+        
+        <tag>Read</tag>
+         
+        <tag>Python</tag>
          
          
            
@@ -357,16 +379,16 @@
 
     
   <url>
-    <loc>https://tony-yin.github.io/2017/09/18/PHP-Excel/</loc>
+    <loc>https://tony-yin.github.io/2017/09/10/Python-Oracle/</loc>
     <lastmod>2018-11-03T17:07:41.150Z</lastmod>
     <data>
         <display>
-        <title>PHP-Excel 开发解决方案</title>
-        <pubTime>2017-09-18T10:37:28.000Z</pubTime>
+        <title>Python操作Oracle</title>
+        <pubTime>2017-09-09T17:02:41.000Z</pubTime>
         
-        <tag>PHP</tag>
+        <tag>Python</tag>
          
-        <tag>PHPExcel</tag>
+        <tag>Oracle</tag>
          
          
            
@@ -385,28 +407,6 @@
         <display>
         <title>Daily Article Vol 4 - (2018/3/1 ~ 2018/3/31)</title>
         <pubTime>2018-04-01T02:13:25.000Z</pubTime>
-        
-        <tag>Read</tag>
-         
-        <tag>Daily-Article</tag>
-         
-         
-           
-             
-              <breadCrumb title="read" url="https://tony-yin.github.io/categories/read/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>https://tony-yin.github.io/2018/06/01/Daily-Article-Vol6/</loc>
-    <lastmod>2018-11-03T17:07:41.150Z</lastmod>
-    <data>
-        <display>
-        <title>Daily Article Vol6(2018/5/1 ~ 2018/5/31)</title>
-        <pubTime>2018-06-01T05:07:06.000Z</pubTime>
         
         <tag>Read</tag>
          
@@ -467,12 +467,12 @@
 
     
   <url>
-    <loc>https://tony-yin.github.io/2018/05/01/Daily-Article-Vol5/</loc>
+    <loc>https://tony-yin.github.io/2018/06/01/Daily-Article-Vol6/</loc>
     <lastmod>2018-11-03T17:07:41.150Z</lastmod>
     <data>
         <display>
-        <title>Daily Article Vol 5 - (2018/4/1 ~ 2018/4/30)</title>
-        <pubTime>2018-05-01T02:07:06.000Z</pubTime>
+        <title>Daily Article Vol6(2018/5/1 ~ 2018/5/31)</title>
+        <pubTime>2018-06-01T05:07:06.000Z</pubTime>
         
         <tag>Read</tag>
          
@@ -509,12 +509,12 @@
 
     
   <url>
-    <loc>https://tony-yin.github.io/2018/03/01/Daily-Article-Vol3/</loc>
+    <loc>https://tony-yin.github.io/2018/05/01/Daily-Article-Vol5/</loc>
     <lastmod>2018-11-03T17:07:41.150Z</lastmod>
     <data>
         <display>
-        <title>Daily Article Vol 3 - (2018/2/1 ~ 2018/2/28)</title>
-        <pubTime>2018-03-01T02:13:25.000Z</pubTime>
+        <title>Daily Article Vol 5 - (2018/4/1 ~ 2018/4/30)</title>
+        <pubTime>2018-05-01T02:07:06.000Z</pubTime>
         
         <tag>Read</tag>
          
@@ -531,12 +531,12 @@
 
     
   <url>
-    <loc>https://tony-yin.github.io/2018/01/01/Daily-Article-2017/</loc>
+    <loc>https://tony-yin.github.io/2018/03/01/Daily-Article-Vol3/</loc>
     <lastmod>2018-11-03T17:07:41.150Z</lastmod>
     <data>
         <display>
-        <title>Daily Article Vol 1 - (2017/11/1 ~ 2017/12/31)</title>
-        <pubTime>2018-01-01T02:13:25.000Z</pubTime>
+        <title>Daily Article Vol 3 - (2018/2/1 ~ 2018/2/28)</title>
+        <pubTime>2018-03-01T02:13:25.000Z</pubTime>
         
         <tag>Read</tag>
          
@@ -691,6 +691,28 @@
 
     
   <url>
+    <loc>https://tony-yin.github.io/2017/09/18/PHP-Excel/</loc>
+    <lastmod>2018-11-03T17:07:41.150Z</lastmod>
+    <data>
+        <display>
+        <title>PHP-Excel 开发解决方案</title>
+        <pubTime>2017-09-18T10:37:28.000Z</pubTime>
+        
+        <tag>PHP</tag>
+         
+        <tag>PHPExcel</tag>
+         
+         
+           
+             
+              <breadCrumb title="tech" url="https://tony-yin.github.io/categories/tech/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>https://tony-yin.github.io/2018/07/01/Daily-Article-Vol7/</loc>
     <lastmod>2018-11-03T17:07:41.150Z</lastmod>
     <data>
@@ -706,28 +728,6 @@
            
              
               <breadCrumb title="read" url="https://tony-yin.github.io/categories/read/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>https://tony-yin.github.io/2017/09/10/Python-Oracle/</loc>
-    <lastmod>2018-11-03T17:07:41.150Z</lastmod>
-    <data>
-        <display>
-        <title>Python操作Oracle</title>
-        <pubTime>2017-09-09T17:02:41.000Z</pubTime>
-        
-        <tag>Python</tag>
-         
-        <tag>Oracle</tag>
-         
-         
-           
-             
-              <breadCrumb title="tech" url="https://tony-yin.github.io/categories/tech/"/>
           
         </display>
     </data>
@@ -785,25 +785,21 @@
 
     
   <url>
-    <loc>https://tony-yin.github.io/2018/04/20/Ctdb-Rados-All-Banned/</loc>
+    <loc>https://tony-yin.github.io/2018/01/01/Daily-Article-2017/</loc>
     <lastmod>2018-11-03T17:07:41.150Z</lastmod>
     <data>
         <display>
-        <title>Ctdb Rados方式导致All Banned的问题</title>
-        <pubTime>2018-04-20T05:07:06.000Z</pubTime>
+        <title>Daily Article Vol 1 - (2017/11/1 ~ 2017/12/31)</title>
+        <pubTime>2018-01-01T02:13:25.000Z</pubTime>
         
-        <tag>Ceph</tag>
+        <tag>Read</tag>
          
-        <tag>Ctdb</tag>
-         
-        <tag>Rados</tag>
-         
-        <tag>HA</tag>
+        <tag>Daily-Article</tag>
          
          
            
              
-              <breadCrumb title="tech" url="https://tony-yin.github.io/categories/tech/"/>
+              <breadCrumb title="read" url="https://tony-yin.github.io/categories/read/"/>
           
         </display>
     </data>
@@ -837,16 +833,20 @@
 
     
   <url>
-    <loc>https://tony-yin.github.io/2017/11/30/Cephx-practice/</loc>
+    <loc>https://tony-yin.github.io/2018/04/20/Ctdb-Rados-All-Banned/</loc>
     <lastmod>2018-11-03T17:07:41.150Z</lastmod>
     <data>
         <display>
-        <title>Cephx 实战演练</title>
-        <pubTime>2017-11-30T03:04:04.000Z</pubTime>
+        <title>Ctdb Rados方式导致All Banned的问题</title>
+        <pubTime>2018-04-20T05:07:06.000Z</pubTime>
         
         <tag>Ceph</tag>
          
-        <tag>Cephx</tag>
+        <tag>Ctdb</tag>
+         
+        <tag>Rados</tag>
+         
+        <tag>HA</tag>
          
          
            
@@ -869,6 +869,28 @@
         <tag>Ceph</tag>
          
         <tag>Raidcard</tag>
+         
+         
+           
+             
+              <breadCrumb title="tech" url="https://tony-yin.github.io/categories/tech/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://tony-yin.github.io/2017/11/30/Cephx-practice/</loc>
+    <lastmod>2018-11-03T17:07:41.150Z</lastmod>
+    <data>
+        <display>
+        <title>Cephx 实战演练</title>
+        <pubTime>2017-11-30T03:04:04.000Z</pubTime>
+        
+        <tag>Ceph</tag>
+         
+        <tag>Cephx</tag>
          
          
            

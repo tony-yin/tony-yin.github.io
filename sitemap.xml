@@ -2,23 +2,23 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>https://tony-yin.github.io/2018/11/03/Block-device-persistent-name-and-multipath/</loc>
+    <loc>https://tony-yin.github.io/2018/10/29/Why-Crontab-Not-Work/</loc>
     
-    <lastmod>2018-11-04T12:00:57.369Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://tony-yin.github.io/2019/10/02/Batch-Create-And-Delete-Disk-Partition-Script/</loc>
-    
-    <lastmod>2018-11-03T18:46:09.253Z</lastmod>
+    <lastmod>2018-11-04T12:07:55.086Z</lastmod>
     
   </url>
   
   <url>
-    <loc>https://tony-yin.github.io/2017/11/26/read-python-automation/</loc>
+    <loc>https://tony-yin.github.io/2018/06/20/Block-device-persistent-name-and-multipath/</loc>
     
-    <lastmod>2018-11-03T17:07:41.151Z</lastmod>
+    <lastmod>2018-11-04T12:07:50.311Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://tony-yin.github.io/2017/10/02/Batch-Create-And-Delete-Disk-Partition-Script/</loc>
+    
+    <lastmod>2018-11-04T12:07:42.699Z</lastmod>
     
   </url>
   
@@ -37,7 +37,7 @@
   </url>
   
   <url>
-    <loc>https://tony-yin.github.io/2017/10/31/RBD-Mount-NFS/</loc>
+    <loc>https://tony-yin.github.io/2018/01/10/scp-and-ssh/</loc>
     
     <lastmod>2018-11-03T17:07:41.151Z</lastmod>
     
@@ -51,6 +51,13 @@
   </url>
   
   <url>
+    <loc>https://tony-yin.github.io/2017/10/31/RBD-Mount-NFS/</loc>
+    
+    <lastmod>2018-11-03T17:07:41.151Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://tony-yin.github.io/2018/01/28/RBD-HA-2/</loc>
     
     <lastmod>2018-11-03T17:07:41.151Z</lastmod>
@@ -58,14 +65,14 @@
   </url>
   
   <url>
-    <loc>https://tony-yin.github.io/2018/01/10/scp-and-ssh/</loc>
+    <loc>https://tony-yin.github.io/2018/02/01/Daily-Article-Vol2/</loc>
     
     <lastmod>2018-11-03T17:07:41.151Z</lastmod>
     
   </url>
   
   <url>
-    <loc>https://tony-yin.github.io/2018/02/01/Daily-Article-Vol2/</loc>
+    <loc>https://tony-yin.github.io/2017/11/26/read-python-automation/</loc>
     
     <lastmod>2018-11-03T17:07:41.151Z</lastmod>
     
@@ -107,7 +114,7 @@
   </url>
   
   <url>
-    <loc>https://tony-yin.github.io/2017/09/18/PHP-Excel/</loc>
+    <loc>https://tony-yin.github.io/2017/09/10/Python-Oracle/</loc>
     
     <lastmod>2018-11-03T17:07:41.150Z</lastmod>
     
@@ -115,13 +122,6 @@
   
   <url>
     <loc>https://tony-yin.github.io/2018/04/01/Daily_Article_Vol4/</loc>
-    
-    <lastmod>2018-11-03T17:07:41.150Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://tony-yin.github.io/2018/06/01/Daily-Article-Vol6/</loc>
     
     <lastmod>2018-11-03T17:07:41.150Z</lastmod>
     
@@ -142,7 +142,7 @@
   </url>
   
   <url>
-    <loc>https://tony-yin.github.io/2018/05/01/Daily-Article-Vol5/</loc>
+    <loc>https://tony-yin.github.io/2018/06/01/Daily-Article-Vol6/</loc>
     
     <lastmod>2018-11-03T17:07:41.150Z</lastmod>
     
@@ -156,14 +156,14 @@
   </url>
   
   <url>
-    <loc>https://tony-yin.github.io/2018/03/01/Daily-Article-Vol3/</loc>
+    <loc>https://tony-yin.github.io/2018/05/01/Daily-Article-Vol5/</loc>
     
     <lastmod>2018-11-03T17:07:41.150Z</lastmod>
     
   </url>
   
   <url>
-    <loc>https://tony-yin.github.io/2018/01/01/Daily-Article-2017/</loc>
+    <loc>https://tony-yin.github.io/2018/03/01/Daily-Article-Vol3/</loc>
     
     <lastmod>2018-11-03T17:07:41.150Z</lastmod>
     
@@ -212,14 +212,14 @@
   </url>
   
   <url>
-    <loc>https://tony-yin.github.io/2018/07/01/Daily-Article-Vol7/</loc>
+    <loc>https://tony-yin.github.io/2017/09/18/PHP-Excel/</loc>
     
     <lastmod>2018-11-03T17:07:41.150Z</lastmod>
     
   </url>
   
   <url>
-    <loc>https://tony-yin.github.io/2017/09/10/Python-Oracle/</loc>
+    <loc>https://tony-yin.github.io/2018/07/01/Daily-Article-Vol7/</loc>
     
     <lastmod>2018-11-03T17:07:41.150Z</lastmod>
     
@@ -240,7 +240,7 @@
   </url>
   
   <url>
-    <loc>https://tony-yin.github.io/2018/04/20/Ctdb-Rados-All-Banned/</loc>
+    <loc>https://tony-yin.github.io/2018/01/01/Daily-Article-2017/</loc>
     
     <lastmod>2018-11-03T17:07:41.150Z</lastmod>
     
@@ -254,7 +254,7 @@
   </url>
   
   <url>
-    <loc>https://tony-yin.github.io/2017/11/30/Cephx-practice/</loc>
+    <loc>https://tony-yin.github.io/2018/04/20/Ctdb-Rados-All-Banned/</loc>
     
     <lastmod>2018-11-03T17:07:41.150Z</lastmod>
     
@@ -262,6 +262,13 @@
   
   <url>
     <loc>https://tony-yin.github.io/2018/01/05/RaidCardToolUtils/</loc>
+    
+    <lastmod>2018-11-03T17:07:41.150Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://tony-yin.github.io/2017/11/30/Cephx-practice/</loc>
     
     <lastmod>2018-11-03T17:07:41.150Z</lastmod>
     
