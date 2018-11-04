@@ -4,12 +4,12 @@
 
     
   <url>
-    <loc>https://tony-yin.github.io/2018/11/04/Block-device-persistent-name-and-multipath/</loc>
-    <lastmod>2018-11-04T11:16:00.755Z</lastmod>
+    <loc>https://tony-yin.github.io/2018/11/03/Block-device-persistent-name-and-multipath/</loc>
+    <lastmod>2018-11-04T12:00:57.369Z</lastmod>
     <data>
         <display>
         <title>块设备持久化命名和多路径</title>
-        <pubTime>2018-11-04T15:15:26.000Z</pubTime>
+        <pubTime>2018-11-03T15:15:26.000Z</pubTime>
         
         <tag>Ceph</tag>
          
