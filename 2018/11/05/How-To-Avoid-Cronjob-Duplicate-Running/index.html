@@ -7,22 +7,22 @@
   
   
   
-  <title>Network Down Notification | Tony&#39;s blog</title>
+  <title>如何避免 Cronjob 重复运行 | Tony&#39;s blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="项目中要做一个network down了之后给用户发送邮件提醒的功能，这里面涉及到的问题有：  如何监测 network 状态 network down之后，如何发送邮件 public network 和 storage network的用处和场景">
-<meta name="keywords" content="Ceph,Network,Notification">
+  <meta name="description" content="Cronjob使用中有很多问题需要注意，前段时间写了一篇文章《为什么 Cronjob 不执行》，里面谈到了各种会导致cronjob不执行的因素和解决方案，而本文就cronjob重复运行的场景，对技术手段、技术方案、具体代码和相互优劣展开详细讲解。">
+<meta name="keywords" content="Linux,Cronjob">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Network Down Notification">
-<meta property="og:url" content="https://tony-yin.github.io/2017/09/10/network-down-notification/index.html">
+<meta property="og:title" content="如何避免 Cronjob 重复运行">
+<meta property="og:url" content="https://tony-yin.github.io/2018/11/05/How-To-Avoid-Cronjob-Duplicate-Running/index.html">
 <meta property="og:site_name" content="Tony&#39;s blog">
-<meta property="og:description" content="项目中要做一个network down了之后给用户发送邮件提醒的功能，这里面涉及到的问题有：  如何监测 network 状态 network down之后，如何发送邮件 public network 和 storage network的用处和场景">
+<meta property="og:description" content="Cronjob使用中有很多问题需要注意，前段时间写了一篇文章《为什么 Cronjob 不执行》，里面谈到了各种会导致cronjob不执行的因素和解决方案，而本文就cronjob重复运行的场景，对技术手段、技术方案、具体代码和相互优劣展开详细讲解。">
 <meta property="og:locale" content="default">
-<meta property="og:image" content="http://ow0mgad6r.bkt.clouddn.com/it_specialist_kit8-net.png">
-<meta property="og:updated_time" content="2018-11-03T17:07:41.150Z">
+<meta property="og:image" content="http://ow0mgad6r.bkt.clouddn.com/cronjob.png">
+<meta property="og:updated_time" content="2018-11-05T17:33:14.605Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Network Down Notification">
-<meta name="twitter:description" content="项目中要做一个network down了之后给用户发送邮件提醒的功能，这里面涉及到的问题有：  如何监测 network 状态 network down之后，如何发送邮件 public network 和 storage network的用处和场景">
-<meta name="twitter:image" content="http://ow0mgad6r.bkt.clouddn.com/it_specialist_kit8-net.png">
+<meta name="twitter:title" content="如何避免 Cronjob 重复运行">
+<meta name="twitter:description" content="Cronjob使用中有很多问题需要注意，前段时间写了一篇文章《为什么 Cronjob 不执行》，里面谈到了各种会导致cronjob不执行的因素和解决方案，而本文就cronjob重复运行的场景，对技术手段、技术方案、具体代码和相互优劣展开详细讲解。">
+<meta name="twitter:image" content="http://ow0mgad6r.bkt.clouddn.com/cronjob.png">
   
     <link rel="alternative" href="/atom.xml" title="Tony&#39;s blog" type="application/atom+xml">
   
@@ -277,11 +277,11 @@
     </div>
 </nav>
 
-      <div class="body-wrap"><article id="post-network-down-notification" class="article article-type-post" itemscope="" itemprop="blogPost">
+      <div class="body-wrap"><article id="post-How-To-Avoid-Cronjob-Duplicate-Running" class="article article-type-post" itemscope="" itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2017/09/10/network-down-notification/" class="article-date">
-      <time datetime="2017-09-09T18:14:34.000Z" itemprop="datePublished">2017-09-10</time>
+      <a href="/2018/11/05/How-To-Avoid-Cronjob-Duplicate-Running/" class="article-date">
+      <time datetime="2018-11-05T05:07:06.000Z" itemprop="datePublished">2018-11-05</time>
 </a>
 
     </div>
@@ -295,7 +295,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      Network Down Notification
+      如何避免 Cronjob 重复运行
     </h1>
   
 
@@ -311,7 +311,7 @@
 
         
     <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Ceph/">Ceph</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Network/">Network</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Notification/">Notification</a></li></ul>
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Cronjob/">Cronjob</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/">Linux</a></li></ul>
     </div>
 
         <div class="clearfix"></div>
@@ -321,37 +321,50 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <center><img src="http://ow0mgad6r.bkt.clouddn.com/it_specialist_kit8-net.png" alt="network"></center>
+        <center><img src="http://ow0mgad6r.bkt.clouddn.com/cronjob.png" alt="cronjob"></center>
 
-<p>项目中要做一个<code>network</code> <code>down</code>了之后给用户发送邮件提醒的功能，这里面涉及到的问题有：</p>
-<ul>
-<li>如何监测 network 状态</li>
-<li>network down之后，如何发送邮件</li>
-<li>public network 和 storage network的用处和场景</li>
-</ul>
+<p><code>Cronjob</code>使用中有很多问题需要注意，前段时间写了一篇文章<a href="https://www.tony-yin.site/2018/10/29/Why-Crontab-Not-Work/" target="_blank" rel="noopener">《为什么 Cronjob 不执行》</a>，里面谈到了各种会导致<code>cronjob</code>不执行的因素和解决方案，而本文就<code>cronjob</code>重复运行的场景，对技术手段、技术方案、具体代码和相互优劣展开详细讲解。</p>
 <a id="more"></a>
-<h2 id="get-role-interfaces"><a href="#get-role-interfaces" class="headerlink" title="get role interfaces"></a>get role interfaces</h2><h2 id="get-interfaces"><a href="#get-interfaces" class="headerlink" title="get interfaces"></a>get interfaces</h2><h2 id="get-interface-info"><a href="#get-interface-info" class="headerlink" title="get interface info"></a>get interface info</h2><h3 id="获取-MAC-和-busid"><a href="#获取-MAC-和-busid" class="headerlink" title="获取 MAC 和 busid"></a>获取 MAC 和 busid</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">syspath = os.path.join(&quot;/sys/class/net/&quot;, interface)  // interface such as &apos;eth0&apos;</span><br><span class="line">mac = linecache.getline(os.path.join(syspath, &quot;address&quot;), 1)[:-1].upper()</span><br><span class="line">buspath = os.path.realpath(syspath)</span><br><span class="line">bus_id = os.path.basename(os.path.dirname(os.path.dirname(buspath)))</span><br></pre></td></tr></table></figure>
-<ul>
-<li>MAC: 直接在<code>syspath</code>目录下读取<code>address</code>文件</li>
-<li>假设为<code>eth0</code>,查看<code>eth0</code>目录可见该目录被建立了软连接，并不是真实地址，所以需要取出它的真实地址，这个需要使用<code>python</code>中的<code>os.path.realpath()</code>处理获得<code>0000:03:00.0</code>,作为下一步<code>lspci</code>的参数</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">root@ceph133:/sys/class/net# ll eth0</span><br><span class="line">lrwxrwxrwx 1 root root 0  8月  8 01:26 eth0 -&gt; ../../devices/pci0000:00/0000:00:15.0/0000:03:00.0/net/eth0/</span><br></pre></td></tr></table></figure>
-<h3 id="获取网卡信息"><a href="#获取网卡信息" class="headerlink" title="获取网卡信息"></a>获取网卡信息</h3><p><code>lspci -s</code>后面的参数为<code>pci</code>设备的地址，也叫<code>pci寻址</code>，这个地址由总线编号、插槽编号和功能块编号信息组成<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lspci -m -s xxx // 这边的参数就是上面的bus_id</span><br></pre></td></tr></table></figure></p>
-<blockquote>
-<p>具体<code>lspci</code>信息请参照：<br><a href="http://coolnull.com/2246.html" target="_blank" rel="noopener">lspci命令详解</a><br><a href="http://blog.csdn.net/xiadidi/article/details/18408169" target="_blank" rel="noopener">LSPCI命令详解分析</a></p>
-</blockquote>
-<h3 id="获取网卡状态"><a href="#获取网卡状态" class="headerlink" title="获取网卡状态"></a>获取网卡状态</h3><p>通过<code>ethtool</code>工具获取网卡状态，就是看<code>Link detected</code>是否为<code>yes</code>，<code>yes</code>表示已激活</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/sbin/ethtool eth0 | grep &apos;Link detected: yes&apos; | wc -l</span><br></pre></td></tr></table></figure>
-<h2 id="bond-filter"><a href="#bond-filter" class="headerlink" title="bond filter"></a>bond filter</h2><h2 id="Network-down-notification"><a href="#Network-down-notification" class="headerlink" title="Network down notification"></a>Network down notification</h2><p><strong>1.</strong> 目前无论是<code>storage</code>还是<code>public</code>网卡只要<code>down</code>其中一个都无法发送<code>email</code>:</p>
-<ul>
-<li>public: <code>visit foreign network and connect smtp server</code></li>
-<li>storage: <code>connect ceph rados to get notification info, such as send account and smtp server etc</code><br>所以只能<code>monitor</code>除这两个以外的网卡</li>
-</ul>
-<p><strong>2.</strong> <code>Python</code></p>
-<ul>
-<li><code>log</code>打印的文件取决于当前文件进程的初始化<code>log level</code></li>
-<li><code>logger</code>: <code>handler</code>, <code>formatter</code>, <code>filter</code></li>
-<li><code>dictdefault</code></li>
+<h2 id="引子"><a href="#引子" class="headerlink" title="引子"></a>引子</h2><p>之前写过一篇文章<a href="https://www.tony-yin.site/2018/05/20/Ctdb-Rados-2/" target="_blank" rel="noopener">《Ctdb Rados（二）：多场景断网高可用》</a>，文中提到支持秒级的定时任务的方法，因为<code>cronjob</code>本身最小只支持分钟级别的定时任务，所以笔者在<code>cronjob</code>定时脚本中通过<code>for</code>循环来达到秒级定时的目的。</p>
+<p>然而这种定时间隔很短的任务是很容易出现重复运行的问题的。正常情况下脚本执行时间是很短的，但是一旦遇到<code>IO</code>阻塞等问题，会出现多个任务同时运行的情况，这种情况往往不是我们所期望的，可能会导致意想不到的问题。</p>
+<p>即使不是秒级的定时任务，只要任务执行时间超过定时间隔都会出现重复运行的问题，比如每分钟运行的定时任务，而其执行时间需要三分钟等等</p>
+<p>例子如下：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> ps -elf | grep forever</span></span><br><span class="line">4 S vagrant   4095  4094  0  80   0 -  1111 wait   21:59 ?        00:00:00 /bin/sh -c /var/tmp/forever.sh</span><br><span class="line">0 S vagrant   4096  4095  0  80   0 -  2779 wait   21:59 ?        00:00:00 /bin/bash /var/tmp/forever.sh</span><br><span class="line">4 S vagrant   4100  4099  0  80   0 -  1111 wait   22:00 ?        00:00:00 /bin/sh -c /var/tmp/forever.sh</span><br><span class="line">0 S vagrant   4101  4100  0  80   0 -  2779 wait   22:00 ?        00:00:00 /bin/bash /var/tmp/forever.sh</span><br><span class="line">4 S vagrant   4130  4129  0  80   0 -  1111 wait   22:01 ?        00:00:00 /bin/sh -c /var/tmp/forever.sh</span><br><span class="line">0 S vagrant   4131  4130  0  80   0 -  2779 wait   22:01 ?        00:00:00 /bin/bash /var/tmp/forever.sh</span><br><span class="line">4 S vagrant   4135  4134  0  80   0 -  1111 wait   22:02 ?        00:00:00 /bin/sh -c /var/tmp/forever.sh</span><br><span class="line">0 S vagrant   4136  4135  0  80   0 -  2779 wait   22:02 ?        00:00:00 /bin/bash /var/tmp/forever.sh</span><br></pre></td></tr></table></figure>
+<h2 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h2><h3 id="方案1：进程数"><a href="#方案1：进程数" class="headerlink" title="方案1：进程数"></a>方案1：进程数</h3><p>这是笔者第一时间自己想的方式，通过进程数来判断当前定时脚本同时执行的数量，比如执行的脚本名为<code>/opt/test.sh</code>，当有一个任务在运行的时候：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@tony ~]# ps -ef | grep /opt/test.sh</span><br><span class="line">root      1107 25880  0 23:26 pts/0    00:00:00 /usr/bin/bash /opt/test.sh</span><br><span class="line">root      1305  1175  0 23:27 pts/5    00:00:00 grep --color=auto /opt/test.sh</span><br></pre></td></tr></table></figure>
+<p>此时通过<code>ps -ef | grep /opt/test.sh | wc -l</code>得到的数量应该是<code>2</code>，如果定时间隔完毕后又刷新了一轮，总进程数则会变成<code>3</code>。</p>
+<p>所以我们可以在<code>/opt/test.sh</code>中加入进程数的判断，如果进程数大于<code>2</code>，就说明存在已有任务在运行，此时应该退出执行</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">count=$(ps -ef | grep /opt/test.sh | wc -l)</span><br><span class="line">if [ $count -gt 2 ]; then</span><br><span class="line">    echo "Exist job running!"</span><br><span class="line">    exit 1</span><br><span class="line">fi</span><br><span class="line">do something</span><br></pre></td></tr></table></figure>
+<p>但是事与愿违，当我们在<code>/opt/test.sh</code>中通过<code>ps</code>命令获取定时任务运行数量的时候发现，如果只存在当前的任务运行时，得到的进程数是<code>3</code>，如果有其他一个已在运行，则进程数是<code>4</code>，以此类推。这是为什么呢？</p>
+<p>经过一番研究发现，当只存在当前任务运行时，如果脚本里面是直接运行<code>ps</code>命令，得到的进程数是<code>2</code>，如下所示：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ps -ef | grep /opt/test.sh | wc -l</span><br></pre></td></tr></table></figure>
+<p>不难看出这是<code>$()</code>的原因，它在<code>shell</code>中起了一个子<code>shell</code>，所以在子<code>shell</code>执行<code>ps</code>的同时多了一个当前脚本任务运行的进程，所以比正常进程数多<code>1</code>，所以上面代码我们需要改为：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">count=$(ps -ef | grep /opt/test.sh | wc -l)</span><br><span class="line">if [ $count -gt 3 ]; then</span><br><span class="line">    echo "Exist job running!"</span><br><span class="line">    exit 1</span><br><span class="line">fi</span><br><span class="line">do something</span><br></pre></td></tr></table></figure>
+<h3 id="方案2：普通文件锁"><a href="#方案2：普通文件锁" class="headerlink" title="方案2：普通文件锁"></a>方案2：普通文件锁</h3><p>可以通过一个文件来标识当前是否存在任务在运行，具体做法为当运行任务时，先检查是否存在文件锁，如果存在则表示上个任务还没有运行结束，则退出；如果不存在文件锁，则新创建一个文件锁，然后执行任务，最后执行完毕后删除文件锁。</p>
+<p>具体代码如下：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">file_lock=/opt/test.lock</span><br><span class="line">if [ -f file_lock ]; then</span><br><span class="line">    echo "Exist job running!"</span><br><span class="line">    exit 1</span><br><span class="line">fi</span><br><span class="line">touch file_lock</span><br><span class="line">do something</span><br><span class="line">rm -f file_lock</span><br></pre></td></tr></table></figure>
+<h3 id="方案3：进程号文件锁"><a href="#方案3：进程号文件锁" class="headerlink" title="方案3：进程号文件锁"></a>方案3：进程号文件锁</h3><p>所谓进程号文件锁，相比于方案<code>2</code>的普通文件锁不同的地方就是会把当前运行任务对应的进程号写入锁文件中，其优势在于除了可以通过检查文件是否存在来判断是否存在已经运行的任务，还可以再通过锁文件里面的进程号来做第二次确认。</p>
+<p>也许有人会问这个二次确认有啥用？你还别说，这个还真有用，很多时候进程意外终止或者被手动杀掉后，文件锁依然存在，那么使用普通文件锁的结果就是其实并没有正在运行的任务，但是由于存在文件锁，之后所有的任务都不会再运行。而进程号文件锁则可以在文件锁判断之外，再对锁文件中的进程号进行判断是否还在运行，具体代码如下：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">!/bin/bash</span></span><br><span class="line"></span><br><span class="line">PIDFILE=/opt/test.pid</span><br><span class="line">if [ -f $PIDFILE ]</span><br><span class="line">then</span><br><span class="line">  PID=$(cat $PIDFILE)</span><br><span class="line">  ps -p $PID &gt; /dev/null 2&gt;&amp;1</span><br><span class="line">  if [ $? -eq 0 ]</span><br><span class="line">  then</span><br><span class="line">    echo "Exist job running!"</span><br><span class="line">    exit 1</span><br><span class="line">  else</span><br><span class="line">    echo $$ &gt; $PIDFILE</span><br><span class="line">    if [ $? -ne 0 ]</span><br><span class="line">    then</span><br><span class="line">      echo "Could not create PID file!"</span><br><span class="line">      exit 1</span><br><span class="line">    fi</span><br><span class="line">  fi</span><br><span class="line">else</span><br><span class="line">  echo $$ &gt; $PIDFILE</span><br><span class="line">  if [ $? -ne 0 ]</span><br><span class="line">  then</span><br><span class="line">    echo "Could not create PID file!"</span><br><span class="line">    exit 1</span><br><span class="line">  fi</span><br><span class="line">fi</span><br><span class="line"></span><br><span class="line">do something</span><br><span class="line">rm $PIDFILE</span><br></pre></td></tr></table></figure>
+<p>虽然此方案看起来很完美，但是还是有一个场景没有考虑到，那就是如果正在运行任务的进程被<code>kill</code>掉，然后另一个进程使用了和被<code>kill</code>进程相同的<code>pid</code>，这样也会导致其实任务并没有在运行，由于存在锁文件和对应进程号的进程在运行，之后所有的任务不再运行。虽然这种场景很极端，但是也是有可能出现的，不过没关系，下面的方案会帮你解决这个问题。</p>
+<h3 id="方案4：flock-锁"><a href="#方案4：flock-锁" class="headerlink" title="方案4：flock 锁"></a>方案4：flock 锁</h3><p><code>linux flock</code>锁有区别于一般的锁，它不仅仅是检查文件是否存在，它会一直存在直到进程结束，所以可以直接地知道进程是否真的执行结束了。</p>
+<p>格式：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">flock [-sxun][-w #] fd#</span><br><span class="line">flock [-sxon][-w #] file [-c] command</span><br></pre></td></tr></table></figure>
+<p>选项：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">-s, --shared:    获得一个共享锁 </span><br><span class="line">-x, --exclusive: 获得一个独占锁 </span><br><span class="line">-u, --unlock:    移除一个锁，脚本执行完会自动丢弃锁 </span><br><span class="line">-n, --nonblock:  如果没有立即获得锁，直接失败而不是等待 </span><br><span class="line">-w, --timeout:   如果没有立即获得锁，等待指定时间 </span><br><span class="line">-o, --close:     在运行命令前关闭文件的描述符号。用于如果命令产生子进程时会不受锁的管控 </span><br><span class="line">-c, --command:   在shell中运行一个单独的命令 </span><br><span class="line">-h, --help       显示帮助 </span><br><span class="line">-V, --version:   显示版本</span><br></pre></td></tr></table></figure>
+<p>锁类型：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">共享锁：多个进程可以使用同一把锁，常被用作读共享锁</span><br><span class="line">独占锁：同时只允许一个进程使用，又称排他锁，写锁。</span><br></pre></td></tr></table></figure>
+<p>这里由于我们只允许同时存在一个任务运行，所以选择独占锁，然后需要在脚本执行完丢弃锁：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">* * * * *  flock -xn /opt/test.lock -c /opt/test.sh</span><br></pre></td></tr></table></figure>
+<h3 id="方案5：solo-程序"><a href="#方案5：solo-程序" class="headerlink" title="方案5：solo 程序"></a>方案5：solo 程序</h3><p><a href="http://timkay.com/solo/" target="_blank" rel="noopener">Solo</a>是一个<code>Perl</code>脚本，它的工作原理与<code>flock</code>类似，但它并不依赖于锁文件，因为<code>Solo</code>程序是通过绑定端口来实现。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> ./solo -port=6000 /opt/test.sh &amp;</span></span><br><span class="line">[1] 7503</span><br><span class="line"><span class="meta">$</span><span class="bash"> ./solo -port=6000 /opt/test.sh</span></span><br><span class="line">solo(6000): Address already in use</span><br></pre></td></tr></table></figure>
+<p>执行<code>solo</code>时，将绑定指定的端口并执行后面指定的命令。一旦命令完成，就会释放端口，允许任务的下一个调用正常执行。</p>
+<p><code>solo</code>的优势在于没有人能够通过删除一个文件并意外地导致任务重复运行。即使使用<code>flock</code>命令，如果锁文件被删除，也可以启动第二个作业。由于<code>solo</code>绑定了一个端口，所以不可能出现这种情况。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>上面提到了五种方案，第一种方案略显粗糙，但是缺陷相对来说较少；第二种方案存在锁文件被意外删除或者进程被<code>kill</code>的风险；第三种方案存在锁文件被意外删除和新进程占用相同进程号的问题；第四种方案还是存在意外删除锁文件的问题；第五种方案则不需要担心锁文件被删除导致任务重复运行的问题。</p>
+<p>目前看起来第五种方案是最优的，不存在缺陷。不过还是得看具体场景，笔者认为第三种、第四种、第五种方案都是有可取之处的，大家还是根据各自的场景选择最适合自己的方案吧。</p>
+<h2 id="Refer"><a href="#Refer" class="headerlink" title="Refer"></a>Refer</h2><ul>
+<li><a href="https://blog.csdn.net/phachon/article/details/52106409" target="_blank" rel="noopener">https://blog.csdn.net/phachon/article/details/52106409</a></li>
+<li><a href="http://bencane.com/2015/09/22/preventing-duplicate-cron-job-executions/" target="_blank" rel="noopener">http://bencane.com/2015/09/22/preventing-duplicate-cron-job-executions/</a></li>
 </ul>
 
       
@@ -362,13 +375,13 @@
   
     
     <div class="copyright">
-        <p><span>本文标题:</span><a href="/2017/09/10/network-down-notification/">Network Down Notification</a></p>
+        <p><span>本文标题:</span><a href="/2018/11/05/How-To-Avoid-Cronjob-Duplicate-Running/">如何避免 Cronjob 重复运行</a></p>
         <p><span>文章作者:</span><a href="/" title="访问 Tony 的个人博客">Tony</a></p>
-        <p><span>发布时间:</span>2017年09月10日 - 02时14分</p>
-        <p><span>最后更新:</span>2018年11月04日 - 01时07分</p>
+        <p><span>发布时间:</span>2018年11月05日 - 13时07分</p>
+        <p><span>最后更新:</span>2018年11月06日 - 01时33分</p>
         <p>
-            <span>原始链接:</span><a class="post-url" href="/2017/09/10/network-down-notification/" title="Network Down Notification">https://tony-yin.github.io/2017/09/10/network-down-notification/</a>
-            <span class="copy-path" data-clipboard-text="原文: https://tony-yin.github.io/2017/09/10/network-down-notification/　　作者: Tony" title=""></span>
+            <span>原始链接:</span><a class="post-url" href="/2018/11/05/How-To-Avoid-Cronjob-Duplicate-Running/" title="如何避免 Cronjob 重复运行">https://tony-yin.github.io/2018/11/05/How-To-Avoid-Cronjob-Duplicate-Running/</a>
+            <span class="copy-path" data-clipboard-text="原文: https://tony-yin.github.io/2018/11/05/How-To-Avoid-Cronjob-Duplicate-Running/　　作者: Tony" title=""></span>
         </p>
         <p>
             <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/cn/" title="中国大陆 (CC BY-NC-SA 3.0 CN)" target="_blank">"署名-非商用-相同方式共享 3.0"</a> 转载请保留原文链接及作者。
@@ -379,18 +392,9 @@
 
 <nav id="article-nav">
   
-    <a href="/2017/09/10/Linux-Udev/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption"><</strong>
-      <div class="article-nav-title">
-        
-          Linux Udev
-        
-      </div>
-    </a>
   
-  
-    <a href="/2017/09/10/Python-Oracle/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">Python操作Oracle</div>
+    <a href="/2018/10/29/Why-Crontab-Not-Work/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">为什么 crontab 不执行</div>
       <strong class="article-nav-caption">></strong>
     </a>
   
@@ -402,7 +406,7 @@
 
     <div id="toc" class="toc-article">
     <strong class="toc-title">文章目录</strong>
-    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#get-role-interfaces"><span class="toc-number">1.</span> <span class="toc-text">get role interfaces</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#get-interfaces"><span class="toc-number">2.</span> <span class="toc-text">get interfaces</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#get-interface-info"><span class="toc-number">3.</span> <span class="toc-text">get interface info</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#获取-MAC-和-busid"><span class="toc-number">3.1.</span> <span class="toc-text">获取 MAC 和 busid</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#获取网卡信息"><span class="toc-number">3.2.</span> <span class="toc-text">获取网卡信息</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#获取网卡状态"><span class="toc-number">3.3.</span> <span class="toc-text">获取网卡状态</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#bond-filter"><span class="toc-number">4.</span> <span class="toc-text">bond filter</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Network-down-notification"><span class="toc-number">5.</span> <span class="toc-text">Network down notification</span></a></li></ol>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#引子"><span class="toc-number">1.</span> <span class="toc-text">引子</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#解决方案"><span class="toc-number">2.</span> <span class="toc-text">解决方案</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#方案1：进程数"><span class="toc-number">2.1.</span> <span class="toc-text">方案1：进程数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#方案2：普通文件锁"><span class="toc-number">2.2.</span> <span class="toc-text">方案2：普通文件锁</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#方案3：进程号文件锁"><span class="toc-number">2.3.</span> <span class="toc-text">方案3：进程号文件锁</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#方案4：flock-锁"><span class="toc-number">2.4.</span> <span class="toc-text">方案4：flock 锁</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#方案5：solo-程序"><span class="toc-number">2.5.</span> <span class="toc-text">方案5：solo 程序</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-number">3.</span> <span class="toc-text">总结</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Refer"><span class="toc-number">4.</span> <span class="toc-text">Refer</span></a></li></ol>
 </div>
 <style>
     .left-col .switch-btn {
@@ -484,13 +488,11 @@
 
     <div class="scroll" id="post-nav-button">
         
-            <a href="/2017/09/10/Linux-Udev/" title="上一篇: Linux Udev">
-                <i class="fa fa-angle-left"></i>
-            </a>
+            <a href="/" title="回到主页"><i class="fa fa-home"></i></a>
         
         <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
         
-            <a href="/2017/09/10/Python-Oracle/" title="下一篇: Python操作Oracle">
+            <a href="/2018/10/29/Why-Crontab-Not-Work/" title="下一篇: 为什么 crontab 不执行">
                 <i class="fa fa-angle-right"></i>
             </a>
         
