@@ -4,6 +4,28 @@
 
     
   <url>
+    <loc>https://tony-yin.github.io/2017/11/05/How-To-Avoid-Cronjob-Duplicate-Running/</loc>
+    <lastmod>2018-11-05T17:28:01.115Z</lastmod>
+    <data>
+        <display>
+        <title>如何避免 Cronjob 重复运行</title>
+        <pubTime>2017-11-05T05:07:06.000Z</pubTime>
+        
+        <tag>Linux</tag>
+         
+        <tag>Cronjob</tag>
+         
+         
+           
+             
+              <breadCrumb title="tech" url="https://tony-yin.github.io/categories/tech/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>https://tony-yin.github.io/2018/10/29/Why-Crontab-Not-Work/</loc>
     <lastmod>2018-11-04T12:07:55.086Z</lastmod>
     <data>
@@ -62,30 +84,6 @@
         <tag>Partition</tag>
          
         <tag>Script</tag>
-         
-         
-           
-             
-              <breadCrumb title="tech" url="https://tony-yin.github.io/categories/tech/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>https://tony-yin.github.io/2017/09/10/oracle_install/</loc>
-    <lastmod>2018-11-03T17:07:41.151Z</lastmod>
-    <data>
-        <display>
-        <title>Oracle Linux And Oracle Database 11g R2 Intsallation</title>
-        <pubTime>2017-09-09T16:53:06.000Z</pubTime>
-        
-        <tag>Oracle</tag>
-         
-        <tag>Oracle Linux</tag>
-         
-        <tag>Oracle 11g R2</tag>
          
          
            
@@ -280,6 +278,30 @@
 
     
   <url>
+    <loc>https://tony-yin.github.io/2017/09/10/oracle_install/</loc>
+    <lastmod>2018-11-03T17:07:41.151Z</lastmod>
+    <data>
+        <display>
+        <title>Oracle Linux And Oracle Database 11g R2 Intsallation</title>
+        <pubTime>2017-09-09T16:53:06.000Z</pubTime>
+        
+        <tag>Oracle</tag>
+         
+        <tag>Oracle Linux</tag>
+         
+        <tag>Oracle 11g R2</tag>
+         
+         
+           
+             
+              <breadCrumb title="tech" url="https://tony-yin.github.io/categories/tech/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>https://tony-yin.github.io/2018/03/09/Hardware-Test-Tool/</loc>
     <lastmod>2018-11-03T17:07:41.151Z</lastmod>
     <data>
@@ -326,28 +348,6 @@
 
     
   <url>
-    <loc>https://tony-yin.github.io/2018/05/02/Django_CAS_Token_Solution/</loc>
-    <lastmod>2018-11-03T17:07:41.151Z</lastmod>
-    <data>
-        <display>
-        <title>Django CAS Token 解决方案</title>
-        <pubTime>2018-05-02T05:07:06.000Z</pubTime>
-        
-        <tag>Django</tag>
-         
-        <tag>CAS</tag>
-         
-         
-           
-             
-              <breadCrumb title="tech" url="https://tony-yin.github.io/categories/tech/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
     <loc>https://tony-yin.github.io/2017/09/10/Disk-pull-and-plug-record/</loc>
     <lastmod>2018-11-03T17:07:41.151Z</lastmod>
     <data>
@@ -372,6 +372,28 @@
           
              
               <breadCrumb title="ceph" url="https://tony-yin.github.io/categories/tech/ceph/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://tony-yin.github.io/2018/05/02/Django_CAS_Token_Solution/</loc>
+    <lastmod>2018-11-03T17:07:41.151Z</lastmod>
+    <data>
+        <display>
+        <title>Django CAS Token 解决方案</title>
+        <pubTime>2018-05-02T05:07:06.000Z</pubTime>
+        
+        <tag>Django</tag>
+         
+        <tag>CAS</tag>
+         
+         
+           
+             
+              <breadCrumb title="tech" url="https://tony-yin.github.io/categories/tech/"/>
           
         </display>
     </data>
@@ -423,28 +445,6 @@
 
     
   <url>
-    <loc>https://tony-yin.github.io/2017/12/21/Everything-is-a-file/</loc>
-    <lastmod>2018-11-03T17:07:41.150Z</lastmod>
-    <data>
-        <display>
-        <title>译：一切皆文件</title>
-        <pubTime>2017-12-21T07:34:32.000Z</pubTime>
-        
-        <tag>Linux</tag>
-         
-        <tag>Filesystem</tag>
-         
-         
-           
-             
-              <breadCrumb title="read" url="https://tony-yin.github.io/categories/read/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
     <loc>https://tony-yin.github.io/2017/12/08/Filesystem-Bug-Fix/</loc>
     <lastmod>2018-11-03T17:07:41.150Z</lastmod>
     <data>
@@ -460,6 +460,28 @@
            
              
               <breadCrumb title="tech" url="https://tony-yin.github.io/categories/tech/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://tony-yin.github.io/2018/07/01/Daily-Article-Vol7/</loc>
+    <lastmod>2018-11-03T17:07:41.150Z</lastmod>
+    <data>
+        <display>
+        <title>Daily Article Vol7(2018/6/1 ~ 2018/6/30)</title>
+        <pubTime>2018-07-01T05:07:06.000Z</pubTime>
+        
+        <tag>Read</tag>
+         
+        <tag>Daily-Article</tag>
+         
+         
+           
+             
+              <breadCrumb title="read" url="https://tony-yin.github.io/categories/read/"/>
           
         </display>
     </data>
@@ -713,16 +735,16 @@
 
     
   <url>
-    <loc>https://tony-yin.github.io/2018/07/01/Daily-Article-Vol7/</loc>
+    <loc>https://tony-yin.github.io/2017/12/21/Everything-is-a-file/</loc>
     <lastmod>2018-11-03T17:07:41.150Z</lastmod>
     <data>
         <display>
-        <title>Daily Article Vol7(2018/6/1 ~ 2018/6/30)</title>
-        <pubTime>2018-07-01T05:07:06.000Z</pubTime>
+        <title>译：一切皆文件</title>
+        <pubTime>2017-12-21T07:34:32.000Z</pubTime>
         
-        <tag>Read</tag>
+        <tag>Linux</tag>
          
-        <tag>Daily-Article</tag>
+        <tag>Filesystem</tag>
          
          
            

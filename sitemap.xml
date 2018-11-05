@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://tony-yin.github.io/2017/11/05/How-To-Avoid-Cronjob-Duplicate-Running/</loc>
+    
+    <lastmod>2018-11-05T17:28:01.115Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://tony-yin.github.io/2018/10/29/Why-Crontab-Not-Work/</loc>
     
     <lastmod>2018-11-04T12:07:55.086Z</lastmod>
@@ -19,13 +26,6 @@
     <loc>https://tony-yin.github.io/2017/10/02/Batch-Create-And-Delete-Disk-Partition-Script/</loc>
     
     <lastmod>2018-11-04T12:07:42.699Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://tony-yin.github.io/2017/09/10/oracle_install/</loc>
-    
-    <lastmod>2018-11-03T17:07:41.151Z</lastmod>
     
   </url>
   
@@ -86,6 +86,13 @@
   </url>
   
   <url>
+    <loc>https://tony-yin.github.io/2017/09/10/oracle_install/</loc>
+    
+    <lastmod>2018-11-03T17:07:41.151Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://tony-yin.github.io/2018/03/09/Hardware-Test-Tool/</loc>
     
     <lastmod>2018-11-03T17:07:41.151Z</lastmod>
@@ -100,14 +107,14 @@
   </url>
   
   <url>
-    <loc>https://tony-yin.github.io/2018/05/02/Django_CAS_Token_Solution/</loc>
+    <loc>https://tony-yin.github.io/2017/09/10/Disk-pull-and-plug-record/</loc>
     
     <lastmod>2018-11-03T17:07:41.151Z</lastmod>
     
   </url>
   
   <url>
-    <loc>https://tony-yin.github.io/2017/09/10/Disk-pull-and-plug-record/</loc>
+    <loc>https://tony-yin.github.io/2018/05/02/Django_CAS_Token_Solution/</loc>
     
     <lastmod>2018-11-03T17:07:41.151Z</lastmod>
     
@@ -128,14 +135,14 @@
   </url>
   
   <url>
-    <loc>https://tony-yin.github.io/2017/12/21/Everything-is-a-file/</loc>
+    <loc>https://tony-yin.github.io/2017/12/08/Filesystem-Bug-Fix/</loc>
     
     <lastmod>2018-11-03T17:07:41.150Z</lastmod>
     
   </url>
   
   <url>
-    <loc>https://tony-yin.github.io/2017/12/08/Filesystem-Bug-Fix/</loc>
+    <loc>https://tony-yin.github.io/2018/07/01/Daily-Article-Vol7/</loc>
     
     <lastmod>2018-11-03T17:07:41.150Z</lastmod>
     
@@ -219,7 +226,7 @@
   </url>
   
   <url>
-    <loc>https://tony-yin.github.io/2018/07/01/Daily-Article-Vol7/</loc>
+    <loc>https://tony-yin.github.io/2017/12/21/Everything-is-a-file/</loc>
     
     <lastmod>2018-11-03T17:07:41.150Z</lastmod>
     
