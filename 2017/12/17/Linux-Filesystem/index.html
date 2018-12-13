@@ -17,14 +17,14 @@
 <meta property="og:site_name" content="Tony&#39;s blog">
 <meta property="og:description" content="本文旨在对Linux文件系统概念进行深层次的讨论。本文既不准备对某个特定类型的文件系统（比如ext4）进行基础性的描述，也不打算作为一个讲解文件系统命令的教程。">
 <meta property="og:locale" content="default">
-<meta property="og:image" content="http://ow0mgad6r.bkt.clouddn.com/filesystem-600x450.png">
-<meta property="og:image" content="http://ow0mgad6r.bkt.clouddn.com/filesystem_diagram.png">
-<meta property="og:image" content="http://ow0mgad6r.bkt.clouddn.com/linux-filesystaem.png">
-<meta property="og:updated_time" content="2018-11-03T17:07:41.150Z">
+<meta property="og:image" content="http://cdn.tony-yin.site/filesystem-600x450.png">
+<meta property="og:image" content="http://cdn.tony-yin.site/filesystem_diagram.png">
+<meta property="og:image" content="http://cdn.tony-yin.site/linux-filesystaem.png">
+<meta property="og:updated_time" content="2018-12-13T16:40:24.438Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="译：Linux 文件系统介绍">
 <meta name="twitter:description" content="本文旨在对Linux文件系统概念进行深层次的讨论。本文既不准备对某个特定类型的文件系统（比如ext4）进行基础性的描述，也不打算作为一个讲解文件系统命令的教程。">
-<meta name="twitter:image" content="http://ow0mgad6r.bkt.clouddn.com/filesystem-600x450.png">
+<meta name="twitter:image" content="http://cdn.tony-yin.site/filesystem-600x450.png">
   
     <link rel="alternative" href="/atom.xml" title="Tony&#39;s blog" type="application/atom+xml">
   
@@ -323,7 +323,7 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <center><img src="http://ow0mgad6r.bkt.clouddn.com/filesystem-600x450.png" alt="Linux Filesystem"></center>
+        <center><img src="http://cdn.tony-yin.site/filesystem-600x450.png" alt="Linux Filesystem"></center>
 
 <p>本文旨在对<code>Linux</code>文件系统概念进行深层次的讨论。本文既不准备对某个特定类型的文件系统（比如<code>ext4</code>）进行基础性的描述，也不打算作为一个讲解文件系统命令的教程。</p>
 <a id="more"></a>
@@ -343,13 +343,13 @@
 <p>文件系统还需要<code>API</code>接口为系统函数调用提供访问，这些系统函数调用操作文件和目录等文件系统对象。<code>APIs</code>提供诸如创建、移动和删除文件之类的接口。它还提供了一些算法来确定文件放置在文件系统上的位置。这些算法还有确定速度或最小化磁盘碎片等作用。</p>
 <p>现代文件系统还提供了一个安全模式，它是一个为文件和目录定义访问权限的方案。<code>Linux</code>文件系统安全模式有助于确保用户只能访问他们自己的文件，而不是其他人或操作系统本身的文件。</p>
 <p>最后的构建块是实现所有这些功能所需的软件。为了改提高系统和程序员效率，<code>Linux</code>使用了一种<code>two-part</code>的软件实现方式。</p>
-<center><img src="http://ow0mgad6r.bkt.clouddn.com/filesystem_diagram.png" alt="filesystem diagram"></center><br><center>图1：Linux two-part 文件系统软件实现方式</center>
+<center><img src="http://cdn.tony-yin.site/filesystem_diagram.png" alt="filesystem diagram"></center><br><center>图1：Linux two-part 文件系统软件实现方式</center>
 
 <p>这两部分实现的第一部分是<code>Linux</code>虚拟文件系统。这个虚拟文件系统为内核和开发人员提供了访问<strong>所有类型</strong>文件系统的一组命令。虚拟文件系统软件调用特定的设备驱动程序来连接到各种类型的文件系统。文件系统特定的设备驱动程序是实现的第二部分。设备驱动程序将文件系统命令的标准集根据特定分区或逻辑卷上的文件系统类型做转换和解释。</p>
 <h2 id="目录结构"><a href="#目录结构" class="headerlink" title="目录结构"></a>目录结构</h2><p>作为一个通常很有条理的处女座，我喜欢把东西放在那些小而有组织的地方，而不是一个大的桶。使用目录可以帮助我存储和定位我想找的文件。目录也被称为文件夹，因为它们可以被看作实际生活中办公桌上保存文件的文件夹。</p>
 <p>在<code>Linux</code>和许多其他操作系统中，目录可以以树状的层次结构来构造。<code>Linux</code>目录结构在<a href="http://www.pathname.com/fhs/" target="_blank" rel="noopener">Linux文件系统层次标准(FHS)</a>中得到了很好的定义和记录。在访问它们时引用这些目录是通过使用由前斜杠(<code>/</code>)连接的顺序较深的目录名称(<code>/</code>)来实现的，例如<code>/var/log</code>和<code>/var/spool/mail</code>。这些被称为路径。</p>
 <p>下表提供了一个非常简短的标准、众所周知的和定义在顶层上的<code>Linux</code>目录及其用途的列表。</p>
-<center><img src="http://ow0mgad6r.bkt.clouddn.com/linux-filesystaem.png" alt="top level directory"></center><br><center>表1：Linux文件系统层次结构的顶层</center>
+<center><img src="http://cdn.tony-yin.site/linux-filesystaem.png" alt="top level directory"></center><br><center>表1：Linux文件系统层次结构的顶层</center>
 
 <p>表<code>1</code>中显示的目录及其子目录及其子目录的子目录，其中背景色为蓝色的目录被认为是根文件系统中不能缺少的组成部分。也就是说，它们不能作为单独的文件系统创建，并且在启动时安装。这是因为它们(特别是它们的内容)必须在引导时出现，以便系统正确引导。</p>
 <p><code>/media</code>和<code>/mnt</code>目录是根文件系统的一部分，但它们不应该包含任何数据。相反，它们只是临时的挂载点。<br>其余的目录，在表<code>1</code>中没有背景颜色的目录不需要在引导序列中出现，但是会在以后安装，在启动序列中准备主机来执行有用的工作。</p>
@@ -361,7 +361,7 @@
 <p>维护<code>Linux</code>目录树的某些部分作为单独的文件系统还有其他原因。例如，很久以前，当我还没有意识到围绕着所有需要的<code>Linux</code>目录都作为<code>/(root)</code>文件系统的一部分的潜在问题时，我曾用大量非常大的文件填充了我的主目录。由于<code>/home</code>目录和<code>/tmp</code>目录都不是独立的文件系统，而只是根文件系统的子目录，所以整个根文件系统都被填满了。操作系统没有空间创建临时文件或扩展现有的数据文件。起初，应用程序开始抱怨没有空间保存文件，然后操作系统本身开始变得非常奇怪。引导到单用户模式，并清除我的主目录中的问题文件，这让我可以重新开始。然后，我使用一个相当标准的多文件系统设置重新安装了<code>Linux</code>，并能够防止完全的系统崩溃再次发生。</p>
 <p>我曾经还遇到过一个情况，<code>Linux</code>主机继续运行，但是阻止用户使用<code>GUI</code>桌面登录。我能够使用一个<a href="https://en.wikipedia.org/wiki/Virtual_console" target="_blank" rel="noopener">虚拟控制台</a>本地使用命令行接口(<code>CLI</code>)，并远程使用<code>SSH</code>。问题是，<code>/tmp</code>文件系统已经填满了，而<code>GUI</code>桌面所需的一些临时文件在登录时无法创建。由于<code>CLI</code>登录不需要在<code>/tmp</code>中创建文件，因此缺少空间并没有阻止我使用<code>CLI</code>进行登录。在这种情况下，<code>/tmp</code>目录是一个单独的文件系统，在卷组中有大量可用的空间，<code>/tmp</code>逻辑卷是其中的一部分。我只是将<code>/tmp</code><a href="https://opensource.com/business/16/9/linux-users-guide-lvm" target="_blank" rel="noopener">逻辑卷扩展</a>到一个够大的容量（其实就是<code>LVM</code>扩容），以适应我对该主机所需要的临时文件空间数量的新需求，并解决了问题。请注意，此解决方案不需要重新启动，并且当<code>/tmp</code>文件系统被放大后，用户可以登录到桌面。</p>
 <blockquote>
-<p>逻辑卷扩展也可以参考我之前总结的一篇文章，简洁明了：<a href="http://www.tony-yin.top/2017/11/14/LVM-Space-Expansion/" target="_blank" rel="noopener">LVM动态扩展</a></p>
+<p>逻辑卷扩展也可以参考我之前总结的一篇文章，简洁明了：<a href="http://www.tony-yin.site/2017/11/14/LVM-Space-Expansion/" target="_blank" rel="noopener">LVM动态扩展</a></p>
 </blockquote>
 <p>另一种情况发生在我在一家大型科技公司做实验室管理员的时候。我们的一个开发人员在错误的位置（<code>/var</code>）安装了应用程序（我个人认为不能说是装在错误的位置，只能说装的位置的可用空间不合适）。应用程序崩溃是因为<code>/var</code>文件系统已经满了，而存储在<code>/var/log/</code>上的日志文件由于缺少空间，不能添加新的消息。但是，由于关键的<code>/(root)</code>和<code>/tmp</code>文件系统没有填充，系统仍然保持运行。删除违规应用程序并将其重新安装到<code>/opt</code>文件系统中解决了这个问题。（其实通过<code>LVM</code>动态扩容也是可以解决这个问题，要么扩展空间大小，要么换大空间的文件系统）</p>
 <h2 id="文件系统类型"><a href="#文件系统类型" class="headerlink" title="文件系统类型"></a>文件系统类型</h2><p><code>Linux</code>支持读取大约<code>100</code>个分区类型，它只可以在其中的几个而不是所有的分区上创建或写文件。但是，在同一个根文件系统上的不同类型的挂载文件系统是可以做到的，也是非常常见的。在此上下文中，我们讨论的是在硬盘或逻辑卷的分区上存储和管理用户数据所需的结构和元数据。这里提供了<code>Linux fdisk</code>命令识别的文件系统分区类型的完整列表，这样您就可以了解<code>Linux</code>与许多类型的系统之间的高度兼容性。</p>
@@ -395,7 +395,7 @@
 </blockquote>
 <p>“一切皆文件”这篇文章我也进行了翻译</p>
 <blockquote>
-<p>翻译地址：<a href="http://www.tony-yin.top/2017/12/21/Everything-is-a-file" target="_blank" rel="noopener">http://www.tony-yin.top/2017/12/21/Everything-is-a-file</a></p>
+<p>翻译地址：<a href="http://www.tony-yin.site/2017/12/21/Everything-is-a-file" target="_blank" rel="noopener">http://www.tony-yin.site/2017/12/21/Everything-is-a-file</a></p>
 </blockquote>
 
       
@@ -409,7 +409,7 @@
         <p><span>本文标题:</span><a href="/2017/12/17/Linux-Filesystem/">译：Linux 文件系统介绍</a></p>
         <p><span>文章作者:</span><a href="/" title="访问 Tony 的个人博客">Tony</a></p>
         <p><span>发布时间:</span>2017年12月17日 - 22时01分</p>
-        <p><span>最后更新:</span>2018年11月04日 - 01时07分</p>
+        <p><span>最后更新:</span>2018年12月14日 - 00时40分</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2017/12/17/Linux-Filesystem/" title="译：Linux 文件系统介绍">https://tony-yin.github.io/2017/12/17/Linux-Filesystem/</a>
             <span class="copy-path" data-clipboard-text="原文: https://tony-yin.github.io/2017/12/17/Linux-Filesystem/　　作者: Tony" title=""></span>

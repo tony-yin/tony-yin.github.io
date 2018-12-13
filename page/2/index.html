@@ -304,9 +304,9 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-              <center><img src="http://ow0mgad6r.bkt.clouddn.com/5-2.png" alt="May"></center>
+              <center><img src="http://cdn.tony-yin.site/5-2.png" alt="May"></center>
 
-<p>五月份主要基于<code>python sna</code>实现了一个终端伪图形化界面的部署控制台，提供了填写配置信息、校验信息、导入信息和进度监控等功能，详情请见<a href="http://www.tony-yin.top/2018/06/03/Python-Snack-Best-Practice/" target="_blank" rel="noopener">【Python Snack 最佳实践】</a>。这是我之前一直感兴趣想做的事情，这次正好借助工作的契机对其有了深入的了解和学习，收获颇多。五月份假期多，团建，还有工作进度赶，导致自己的阅读时间受到了影响，大多数阅读都是围绕着工作内容，极客时间这些<code>APP</code>、技术博客和微信公众号的很多技术资源，自己都没有规律地学习。这些都不是借口啦，主要还是陷入吃鸡，不能自拔，哈哈哈。（已经卸了，我这个人容易上瘾然而又有点嫌麻烦，这对我来说是最简单有效的方式）</p>
+<p>五月份主要基于<code>python sna</code>实现了一个终端伪图形化界面的部署控制台，提供了填写配置信息、校验信息、导入信息和进度监控等功能，详情请见<a href="http://www.tony-yin.site/2018/06/03/Python-Snack-Best-Practice/" target="_blank" rel="noopener">【Python Snack 最佳实践】</a>。这是我之前一直感兴趣想做的事情，这次正好借助工作的契机对其有了深入的了解和学习，收获颇多。五月份假期多，团建，还有工作进度赶，导致自己的阅读时间受到了影响，大多数阅读都是围绕着工作内容，极客时间这些<code>APP</code>、技术博客和微信公众号的很多技术资源，自己都没有规律地学习。这些都不是借口啦，主要还是陷入吃鸡，不能自拔，哈哈哈。（已经卸了，我这个人容易上瘾然而又有点嫌麻烦，这对我来说是最简单有效的方式）</p>
           
       
 
@@ -377,9 +377,9 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-              <center><img src="http://ow0mgad6r.bkt.clouddn.com/ping-600x450.png" alt="ping"></center>
+              <center><img src="http://cdn.tony-yin.site/ping-600x450.png" alt="ping"></center>
 
-<p>之前写过一篇文章【<a href="http://www.tony-yin.top/2018/04/20/Ctdb-Rados-All-Banned/" target="_blank" rel="noopener">Ctdb Rados方式导致All Banned的问题</a>】，谈到了当<code>ctdb</code>将<code>recovery lock</code>设置成<code>rados</code>的方式后，断网<code>master</code>节点会造成所有<code>ctdb</code>节点<code>All Banned</code>，主要原因是<code>master</code>意外断网没有释放锁，其他节点无法获取到锁，当时的解决方案是每<code>5</code>分钟检查一次<code>ctdb</code>状态，如果连续两次发生了<code>All Banned</code>的情况，则手动删除<code>lock</code>，这种做法在最近的测试中遇到了一些问题，本文对这些问题进行剖析并对相应的解决方案进行分享。</p>
+<p>之前写过一篇文章【<a href="http://www.tony-yin.site/2018/04/20/Ctdb-Rados-All-Banned/" target="_blank" rel="noopener">Ctdb Rados方式导致All Banned的问题</a>】，谈到了当<code>ctdb</code>将<code>recovery lock</code>设置成<code>rados</code>的方式后，断网<code>master</code>节点会造成所有<code>ctdb</code>节点<code>All Banned</code>，主要原因是<code>master</code>意外断网没有释放锁，其他节点无法获取到锁，当时的解决方案是每<code>5</code>分钟检查一次<code>ctdb</code>状态，如果连续两次发生了<code>All Banned</code>的情况，则手动删除<code>lock</code>，这种做法在最近的测试中遇到了一些问题，本文对这些问题进行剖析并对相应的解决方案进行分享。</p>
           
       
 
@@ -450,9 +450,9 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-              <center><img src="http://ow0mgad6r.bkt.clouddn.com/mega_drive-600x450.png" alt="mega drive"></center>
+              <center><img src="http://cdn.tony-yin.site/mega_drive-600x450.png" alt="mega drive"></center>
 
-<p>早前写过一篇【<a href="http://www.tony-yin.top/2018/01/05/RaidCardToolUtils/" target="_blank" rel="noopener">利用Raid卡工具获取逻辑盘是否为SSD</a>】的文章，大概讲述了如何通过<code>raid</code>卡工具判断一个逻辑磁盘对应物理磁盘是否为<code>SSD</code>，当时主要提到了<code>megacli</code>和<code>sas3ircu</code>这两种工具，核心是如何通过<code>raid</code>卡工具定位到逻辑磁盘对应的物理磁盘的位置，当时的方式现在看来在有些场景会存在缺陷。</p>
+<p>早前写过一篇【<a href="http://www.tony-yin.site/2018/01/05/RaidCardToolUtils/" target="_blank" rel="noopener">利用Raid卡工具获取逻辑盘是否为SSD</a>】的文章，大概讲述了如何通过<code>raid</code>卡工具判断一个逻辑磁盘对应物理磁盘是否为<code>SSD</code>，当时主要提到了<code>megacli</code>和<code>sas3ircu</code>这两种工具，核心是如何通过<code>raid</code>卡工具定位到逻辑磁盘对应的物理磁盘的位置，当时的方式现在看来在有些场景会存在缺陷。</p>
           
       
 
@@ -523,7 +523,7 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-              <center><img src="http://ow0mgad6r.bkt.clouddn.com/cas-600x450.jpg" alt="cas"></center>
+              <center><img src="http://cdn.tony-yin.site/cas-600x450.jpg" alt="cas"></center>
 
 <p><code>CAS</code>单点登录主要是为了解决主系统和子系统的统一登录问题，能够做到任意一个子系统登录成功后，再登录其他子系统后不再需要认证，让用户不用重复地进行登录认证。<code>CAS</code>单点登录的方案很多，并且大多数都是采用<code>session</code>的方式，而本文结合个人实践，着重讨论<code>django cas token</code>的解决方案。</p>
           
@@ -596,7 +596,7 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-              <center><img src="http://ow0mgad6r.bkt.clouddn.com/hello_april_600x450.png" alt="April"></center>
+              <center><img src="http://cdn.tony-yin.site/hello_april_600x450.png" alt="April"></center>
 
 <p>这是<code>Daily Article</code>系列的第五篇，罗列了<code>2018</code>年<code>4</code>月的阅读清单。</p>
           

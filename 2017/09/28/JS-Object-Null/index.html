@@ -17,13 +17,13 @@
 <meta property="og:site_name" content="Tony&#39;s blog">
 <meta property="og:description" content="今天在改代码的时候中发现一个Bug，通过debug发现最终的原因便是判断对象是否为空导致的错误，一个小小的错误反映出Javascript这门语言的不严谨性，也提醒我们得熟悉它的一些技巧和原理，避免经常在一些问题上踩坑">
 <meta property="og:locale" content="default">
-<meta property="og:image" content="http://ow0mgad6r.bkt.clouddn.com/jsbanana-600-450.png">
-<meta property="og:image" content="http://ow0mgad6r.bkt.clouddn.com/object_empty.png">
-<meta property="og:updated_time" content="2018-11-03T17:07:41.150Z">
+<meta property="og:image" content="http://cdn.tony-yin.site/jsbanana-600-450.png">
+<meta property="og:image" content="http://cdn.tony-yin.site/object_empty.png">
+<meta property="og:updated_time" content="2018-12-13T16:40:24.437Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JS判断对象是否为空">
 <meta name="twitter:description" content="今天在改代码的时候中发现一个Bug，通过debug发现最终的原因便是判断对象是否为空导致的错误，一个小小的错误反映出Javascript这门语言的不严谨性，也提醒我们得熟悉它的一些技巧和原理，避免经常在一些问题上踩坑">
-<meta name="twitter:image" content="http://ow0mgad6r.bkt.clouddn.com/jsbanana-600-450.png">
+<meta name="twitter:image" content="http://cdn.tony-yin.site/jsbanana-600-450.png">
   
     <link rel="alternative" href="/atom.xml" title="Tony&#39;s blog" type="application/atom+xml">
   
@@ -322,14 +322,14 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <center><img src="http://ow0mgad6r.bkt.clouddn.com/jsbanana-600-450.png" alt="JS"></center>
+        <center><img src="http://cdn.tony-yin.site/jsbanana-600-450.png" alt="JS"></center>
 
 <p>今天在改代码的时候中发现一个<code>Bug</code>，通过<code>debug</code>发现最终的原因便是判断对象是否为空导致的错误，一个小小的错误反映出<code>Javascript</code>这门语言的不严谨性，也提醒我们得熟悉它的一些技巧和原理，避免经常在一些问题上踩坑</p>
 <a id="more"></a>
 <p>场景还原：通过<code>if(object)</code>判断对象内容不为空，</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">obj = &#123;&#125;;   // obj其实是通过其他方式获得，但是它的内容为空</span><br><span class="line">if (obj) &#123;</span><br><span class="line">        xxx;    // 判断当obj不为空的时候，执行判断内的代码</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>那么问题就出现了，即使对象内容为空，这个判断代码块里面的代码还是会被执行<br>用<code>chrome</code>简单的验证了一下：</p>
-<center><img src="http://ow0mgad6r.bkt.clouddn.com/object_empty.png" alt="object empty"></center>
+<center><img src="http://cdn.tony-yin.site/object_empty.png" alt="object empty"></center>
 
 <p>这和一些其他语言不一样，比如<code>php</code>,<code>python</code>是可以通过<code>if(object)</code>来检查对象是否为空的，但是<code>JS</code>不可以，这个问题要不是遇到了肯定想不到</p>
 <p>那么<code>JS</code>如何判断对象内容是否为空呢？网上搜了下，大概有以下方式：</p>
@@ -352,7 +352,7 @@
         <p><span>本文标题:</span><a href="/2017/09/28/JS-Object-Null/">JS判断对象是否为空</a></p>
         <p><span>文章作者:</span><a href="/" title="访问 Tony 的个人博客">Tony</a></p>
         <p><span>发布时间:</span>2017年09月28日 - 14时01分</p>
-        <p><span>最后更新:</span>2018年11月04日 - 01时07分</p>
+        <p><span>最后更新:</span>2018年12月14日 - 00时40分</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2017/09/28/JS-Object-Null/" title="JS判断对象是否为空">https://tony-yin.github.io/2017/09/28/JS-Object-Null/</a>
             <span class="copy-path" data-clipboard-text="原文: https://tony-yin.github.io/2017/09/28/JS-Object-Null/　　作者: Tony" title=""></span>

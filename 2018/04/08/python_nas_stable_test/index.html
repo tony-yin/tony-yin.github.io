@@ -17,14 +17,14 @@
 <meta property="og:site_name" content="Tony&#39;s blog">
 <meta property="og:description" content="最近公司有个集群一直在跑着，领导想要测测它上面NAS服务的稳定性，也就是看看正常持续的读写会不会导致NAS服务异常，这个其实通过fio或者cosbench这类的工具测试起来很容易，但是这样一是没有挑战性，二是比较机械，可扩展性低。比如并行测试、进程保护和异常通知等等这些是机械地运用工具测试所做不到的，所以我们尝试做了一套基于NAS稳定性测试的框架。">
 <meta property="og:locale" content="default">
-<meta property="og:image" content="http://ow0mgad6r.bkt.clouddn.com/nas.jpg">
-<meta property="og:image" content="http://ow0mgad6r.bkt.clouddn.com/NAS_Stable_Test%E6%A1%86%E6%9E%B6%E5%9B%BE.png">
-<meta property="og:image" content="http://ow0mgad6r.bkt.clouddn.com/NAS_Stable_Test%E8%AF%BB%E5%86%99%E6%B5%81%E7%A8%8B%E5%9B%BE.png">
-<meta property="og:updated_time" content="2018-11-03T17:07:41.150Z">
+<meta property="og:image" content="http://cdn.tony-yin.site/nas.jpg">
+<meta property="og:image" content="http://cdn.tony-yin.site/NAS_Stable_Test%E6%A1%86%E6%9E%B6%E5%9B%BE.png">
+<meta property="og:image" content="http://cdn.tony-yin.site/NAS_Stable_Test%E8%AF%BB%E5%86%99%E6%B5%81%E7%A8%8B%E5%9B%BE.png">
+<meta property="og:updated_time" content="2018-12-13T16:40:24.449Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="基于Python的NAS稳定性测试框架">
 <meta name="twitter:description" content="最近公司有个集群一直在跑着，领导想要测测它上面NAS服务的稳定性，也就是看看正常持续的读写会不会导致NAS服务异常，这个其实通过fio或者cosbench这类的工具测试起来很容易，但是这样一是没有挑战性，二是比较机械，可扩展性低。比如并行测试、进程保护和异常通知等等这些是机械地运用工具测试所做不到的，所以我们尝试做了一套基于NAS稳定性测试的框架。">
-<meta name="twitter:image" content="http://ow0mgad6r.bkt.clouddn.com/nas.jpg">
+<meta name="twitter:image" content="http://cdn.tony-yin.site/nas.jpg">
   
     <link rel="alternative" href="/atom.xml" title="Tony&#39;s blog" type="application/atom+xml">
   
@@ -323,16 +323,16 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <center><img src="http://ow0mgad6r.bkt.clouddn.com/nas.jpg" alt="NAS Stable Test"></center>
+        <center><img src="http://cdn.tony-yin.site/nas.jpg" alt="NAS Stable Test"></center>
 
 <p>最近公司有个集群一直在跑着，领导想要测测它上面<code>NAS</code>服务的稳定性，也就是看看正常持续的读写会不会导致<code>NAS</code>服务异常，这个其实通过<code>fio</code>或者<code>cosbench</code>这类的工具测试起来很容易，但是这样一是没有挑战性，二是比较机械，可扩展性低。比如并行测试、进程保护和异常通知等等这些是机械地运用工具测试所做不到的，所以我们尝试做了一套基于<code>NAS</code>稳定性测试的框架。</p>
 <a id="more"></a>
 <h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>整个测试框架打包和发布都是通过RPM的方式，方便测试人员一键部署。部署之后测试工作由<code>supervisor</code>管理，实时监控后台进程的运行状态，发生异常时可以进行重启等自动化操作。所有读写操作都是通过<code>python</code> 连接NAS服务，无需做任何挂载工作。主要测试工作是通过<code>celery</code>实现任务调度，支持并行多个NAS服务的读写测试，<code>broker</code>和<code>backend store</code>都采用了<code>rabbitmq</code>。后端注册了<code>register</code>、<code>nfs</code>、<code>cifs</code>和<code>ftp</code>四个<code>job</code>，定时每<code>10</code>分钟执行一次，设置最大开启<code>worker</code>数为<code>5</code>个。<code>Job</code>注册进消息队列中后，<code>celery worker</code>会自动去消费，针对服务器中不同的<code>NAS</code>服务进行读写操作，每个任务的执行结果最后都会记录在日志中，出了异常通过邮件通知管理员。</p>
 <h2 id="系统架构"><a href="#系统架构" class="headerlink" title="系统架构"></a>系统架构</h2><p>整个项目的框架图如下：</p>
-<center><img src="http://ow0mgad6r.bkt.clouddn.com/NAS_Stable_Test%E6%A1%86%E6%9E%B6%E5%9B%BE.png" alt="Nas_Stable_Test架构图"></center>
+<center><img src="http://cdn.tony-yin.site/NAS_Stable_Test%E6%A1%86%E6%9E%B6%E5%9B%BE.png" alt="Nas_Stable_Test架构图"></center>
 
 <h2 id="NAS服务读写流程"><a href="#NAS服务读写流程" class="headerlink" title="NAS服务读写流程"></a>NAS服务读写流程</h2><p>由于每个<code>NAS</code>服务的测试方式是一致的，所以下面就以单个<code>NAS</code>服务的流程来介绍。首先<code>client</code>端向<code>server</code>的<code>NAS</code>服务端口发起连接，<code>server</code>端接收到<code>client</code>端的请求后建立连接。<code>Client</code>在<code>/tmp</code>目录下生成固定大小<code>1G</code>的文件，并且记录该文件的<code>MD5</code>值，然后将该文件上传至远端NAS服务目录（即对<code>NAS</code>服务进行写操作），上传完成后将该文件从本地删除。接着对之前上传至<code>NAS</code>服务目录的文件进行下载（即对<code>NAS</code>服务进行读操作），下载完成后再次记录文件<code>MD5</code>值，并删除掉远端<code>NAS</code>服务目录对应的文件。最后对两次记录的<code>MD5</code>值进行比较，判断上传和下载的文件是否一致，并将比较结果记录在日志中，再次删除本地下载的文件。<code>NAS</code>服务读写流程图如下：</p>
-<center><img src="http://ow0mgad6r.bkt.clouddn.com/NAS_Stable_Test%E8%AF%BB%E5%86%99%E6%B5%81%E7%A8%8B%E5%9B%BE.png" alt="Nas_Stable_Test流程图"></center>
+<center><img src="http://cdn.tony-yin.site/NAS_Stable_Test%E8%AF%BB%E5%86%99%E6%B5%81%E7%A8%8B%E5%9B%BE.png" alt="Nas_Stable_Test流程图"></center>
 
 <h2 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h2><h3 id="安装libnfs"><a href="#安装libnfs" class="headerlink" title="安装libnfs"></a>安装libnfs</h3><p>通过<code>pip</code>安装：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install libnfs</span><br></pre></td></tr></table></figure>
@@ -378,7 +378,7 @@
         <p><span>本文标题:</span><a href="/2018/04/08/python_nas_stable_test/">基于Python的NAS稳定性测试框架</a></p>
         <p><span>文章作者:</span><a href="/" title="访问 Tony 的个人博客">Tony</a></p>
         <p><span>发布时间:</span>2018年04月08日 - 13时07分</p>
-        <p><span>最后更新:</span>2018年11月04日 - 01时07分</p>
+        <p><span>最后更新:</span>2018年12月14日 - 00时40分</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2018/04/08/python_nas_stable_test/" title="基于Python的NAS稳定性测试框架">https://tony-yin.github.io/2018/04/08/python_nas_stable_test/</a>
             <span class="copy-path" data-clipboard-text="原文: https://tony-yin.github.io/2018/04/08/python_nas_stable_test/　　作者: Tony" title=""></span>

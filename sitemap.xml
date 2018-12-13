@@ -2,338 +2,338 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>https://tony-yin.github.io/2018/11/05/How-To-Avoid-Cronjob-Duplicate-Running/</loc>
-    
-    <lastmod>2018-11-05T17:33:14.605Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>https://tony-yin.github.io/2018/10/29/Why-Crontab-Not-Work/</loc>
     
-    <lastmod>2018-11-04T12:07:55.086Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://tony-yin.github.io/2018/06/20/Block-device-persistent-name-and-multipath/</loc>
-    
-    <lastmod>2018-11-04T12:07:50.311Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://tony-yin.github.io/2017/10/02/Batch-Create-And-Delete-Disk-Partition-Script/</loc>
-    
-    <lastmod>2018-11-04T12:07:42.699Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://tony-yin.github.io/2017/11/08/Ceph-RGW/</loc>
-    
-    <lastmod>2018-11-03T17:07:41.151Z</lastmod>
+    <lastmod>2018-12-13T16:40:24.465Z</lastmod>
     
   </url>
   
   <url>
     <loc>https://tony-yin.github.io/2018/01/10/scp-and-ssh/</loc>
     
-    <lastmod>2018-11-03T17:07:41.151Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://tony-yin.github.io/2018/05/20/Ctdb-Rados-2/</loc>
-    
-    <lastmod>2018-11-03T17:07:41.151Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://tony-yin.github.io/2017/10/31/RBD-Mount-NFS/</loc>
-    
-    <lastmod>2018-11-03T17:07:41.151Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://tony-yin.github.io/2018/01/28/RBD-HA-2/</loc>
-    
-    <lastmod>2018-11-03T17:07:41.151Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://tony-yin.github.io/2018/02/01/Daily-Article-Vol2/</loc>
-    
-    <lastmod>2018-11-03T17:07:41.151Z</lastmod>
+    <lastmod>2018-12-13T16:40:24.464Z</lastmod>
     
   </url>
   
   <url>
     <loc>https://tony-yin.github.io/2017/11/26/read-python-automation/</loc>
     
-    <lastmod>2018-11-03T17:07:41.151Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://tony-yin.github.io/2017/12/10/Into-Withe-Night/</loc>
-    
-    <lastmod>2018-11-03T17:07:41.151Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://tony-yin.github.io/2017/09/10/oracle_install/</loc>
-    
-    <lastmod>2018-11-03T17:07:41.151Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://tony-yin.github.io/2018/03/09/Hardware-Test-Tool/</loc>
-    
-    <lastmod>2018-11-03T17:07:41.151Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://tony-yin.github.io/2017/10/10/Enable-OSD-Profile-Script/</loc>
-    
-    <lastmod>2018-11-03T17:07:41.151Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://tony-yin.github.io/2017/09/10/Disk-pull-and-plug-record/</loc>
-    
-    <lastmod>2018-11-03T17:07:41.151Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://tony-yin.github.io/2018/05/02/Django_CAS_Token_Solution/</loc>
-    
-    <lastmod>2018-11-03T17:07:41.151Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://tony-yin.github.io/2017/09/10/Python-Oracle/</loc>
-    
-    <lastmod>2018-11-03T17:07:41.150Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://tony-yin.github.io/2018/04/01/Daily_Article_Vol4/</loc>
-    
-    <lastmod>2018-11-03T17:07:41.150Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://tony-yin.github.io/2017/12/08/Filesystem-Bug-Fix/</loc>
-    
-    <lastmod>2018-11-03T17:07:41.150Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://tony-yin.github.io/2018/07/01/Daily-Article-Vol7/</loc>
-    
-    <lastmod>2018-11-03T17:07:41.150Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://tony-yin.github.io/2018/06/01/Daily-Article-Vol6/</loc>
-    
-    <lastmod>2018-11-03T17:07:41.150Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://tony-yin.github.io/2017/09/21/How-To-Forge-Product/</loc>
-    
-    <lastmod>2018-11-03T17:07:41.150Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://tony-yin.github.io/2018/05/01/Daily-Article-Vol5/</loc>
-    
-    <lastmod>2018-11-03T17:07:41.150Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://tony-yin.github.io/2018/03/01/Daily-Article-Vol3/</loc>
-    
-    <lastmod>2018-11-03T17:07:41.150Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://tony-yin.github.io/2017/11/14/LVM-Space-Expansion/</loc>
-    
-    <lastmod>2018-11-03T17:07:41.150Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://tony-yin.github.io/2017/12/17/Linux-Filesystem/</loc>
-    
-    <lastmod>2018-11-03T17:07:41.150Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://tony-yin.github.io/2017/09/10/Linux-Udev/</loc>
-    
-    <lastmod>2018-11-03T17:07:41.150Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://tony-yin.github.io/2018/05/12/Megaraid_Location/</loc>
-    
-    <lastmod>2018-11-03T17:07:41.150Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://tony-yin.github.io/2017/09/09/Moodle-Local-Plugin/</loc>
-    
-    <lastmod>2018-11-03T17:07:41.150Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://tony-yin.github.io/2017/09/27/OSD-Create-And-Delete/</loc>
-    
-    <lastmod>2018-11-03T17:07:41.150Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://tony-yin.github.io/2017/09/18/PHP-Excel/</loc>
-    
-    <lastmod>2018-11-03T17:07:41.150Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://tony-yin.github.io/2017/12/21/Everything-is-a-file/</loc>
-    
-    <lastmod>2018-11-03T17:07:41.150Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://tony-yin.github.io/2017/10/10/Python-Profiler/</loc>
-    
-    <lastmod>2018-11-03T17:07:41.150Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://tony-yin.github.io/2018/06/03/Python-Snack-Best-Practice/</loc>
-    
-    <lastmod>2018-11-03T17:07:41.150Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://tony-yin.github.io/2018/01/01/Daily-Article-2017/</loc>
-    
-    <lastmod>2018-11-03T17:07:41.150Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://tony-yin.github.io/2017/12/07/RBD-HA/</loc>
-    
-    <lastmod>2018-11-03T17:07:41.150Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://tony-yin.github.io/2018/04/20/Ctdb-Rados-All-Banned/</loc>
-    
-    <lastmod>2018-11-03T17:07:41.150Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://tony-yin.github.io/2018/01/05/RaidCardToolUtils/</loc>
-    
-    <lastmod>2018-11-03T17:07:41.150Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://tony-yin.github.io/2017/11/30/Cephx-practice/</loc>
-    
-    <lastmod>2018-11-03T17:07:41.150Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://tony-yin.github.io/2017/11/19/hexo-theme-shadow/</loc>
-    
-    <lastmod>2018-11-03T17:07:41.150Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://tony-yin.github.io/2017/09/10/network-down-notification/</loc>
-    
-    <lastmod>2018-11-03T17:07:41.150Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://tony-yin.github.io/2017/11/08/Ceph-NFS-Ganesha/</loc>
-    
-    <lastmod>2018-11-03T17:07:41.150Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://tony-yin.github.io/2018/04/08/python_nas_stable_test/</loc>
-    
-    <lastmod>2018-11-03T17:07:41.150Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://tony-yin.github.io/2017/11/26/read-ceph-cookbook/</loc>
-    
-    <lastmod>2018-11-03T17:07:41.150Z</lastmod>
+    <lastmod>2018-12-13T16:40:24.463Z</lastmod>
     
   </url>
   
   <url>
     <loc>https://tony-yin.github.io/2017/11/26/read-ceph-guide/</loc>
     
-    <lastmod>2018-11-03T17:07:41.150Z</lastmod>
+    <lastmod>2018-12-13T16:40:24.461Z</lastmod>
     
   </url>
   
   <url>
-    <loc>https://tony-yin.github.io/2017/11/14/Ceph-Compile/</loc>
+    <loc>https://tony-yin.github.io/2017/11/26/read-ceph-cookbook/</loc>
     
-    <lastmod>2018-11-03T17:07:41.150Z</lastmod>
+    <lastmod>2018-12-13T16:40:24.460Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://tony-yin.github.io/2017/10/31/RBD-Mount-NFS/</loc>
+    
+    <lastmod>2018-12-13T16:40:24.459Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://tony-yin.github.io/2017/12/07/RBD-HA/</loc>
+    
+    <lastmod>2018-12-13T16:40:24.458Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://tony-yin.github.io/2018/01/28/RBD-HA-2/</loc>
+    
+    <lastmod>2018-12-13T16:40:24.456Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://tony-yin.github.io/2018/01/05/RaidCardToolUtils/</loc>
+    
+    <lastmod>2018-12-13T16:40:24.455Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://tony-yin.github.io/2018/06/03/Python-Snack-Best-Practice/</loc>
+    
+    <lastmod>2018-12-13T16:40:24.453Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://tony-yin.github.io/2017/10/10/Python-Profiler/</loc>
+    
+    <lastmod>2018-12-13T16:40:24.452Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://tony-yin.github.io/2017/09/10/Python-Oracle/</loc>
+    
+    <lastmod>2018-12-13T16:40:24.451Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://tony-yin.github.io/2018/04/08/python_nas_stable_test/</loc>
+    
+    <lastmod>2018-12-13T16:40:24.449Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://tony-yin.github.io/2017/09/18/PHP-Excel/</loc>
+    
+    <lastmod>2018-12-13T16:40:24.448Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://tony-yin.github.io/2017/09/27/OSD-Create-And-Delete/</loc>
+    
+    <lastmod>2018-12-13T16:40:24.447Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://tony-yin.github.io/2017/09/10/oracle_install/</loc>
+    
+    <lastmod>2018-12-13T16:40:24.445Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://tony-yin.github.io/2017/09/10/network-down-notification/</loc>
+    
+    <lastmod>2018-12-13T16:40:24.444Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://tony-yin.github.io/2017/09/09/Moodle-Local-Plugin/</loc>
+    
+    <lastmod>2018-12-13T16:40:24.443Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://tony-yin.github.io/2018/05/12/Megaraid_Location/</loc>
+    
+    <lastmod>2018-12-13T16:40:24.442Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://tony-yin.github.io/2017/11/14/LVM-Space-Expansion/</loc>
+    
+    <lastmod>2018-12-13T16:40:24.441Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://tony-yin.github.io/2017/09/10/Linux-Udev/</loc>
+    
+    <lastmod>2018-12-13T16:40:24.439Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://tony-yin.github.io/2017/12/17/Linux-Filesystem/</loc>
+    
+    <lastmod>2018-12-13T16:40:24.438Z</lastmod>
     
   </url>
   
   <url>
     <loc>https://tony-yin.github.io/2017/09/28/JS-Object-Null/</loc>
     
-    <lastmod>2018-11-03T17:07:41.150Z</lastmod>
+    <lastmod>2018-12-13T16:40:24.437Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://tony-yin.github.io/2017/12/10/Into-Withe-Night/</loc>
+    
+    <lastmod>2018-12-13T16:40:24.436Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://tony-yin.github.io/2017/09/21/How-To-Forge-Product/</loc>
+    
+    <lastmod>2018-12-13T16:40:24.435Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://tony-yin.github.io/2018/11/05/How-To-Avoid-Cronjob-Duplicate-Running/</loc>
+    
+    <lastmod>2018-12-13T16:40:24.434Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://tony-yin.github.io/2017/11/19/hexo-theme-shadow/</loc>
+    
+    <lastmod>2018-12-13T16:40:24.432Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://tony-yin.github.io/2018/03/09/Hardware-Test-Tool/</loc>
+    
+    <lastmod>2018-12-13T16:40:24.431Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://tony-yin.github.io/2017/12/08/Filesystem-Bug-Fix/</loc>
+    
+    <lastmod>2018-12-13T16:40:24.430Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://tony-yin.github.io/2017/12/21/Everything-is-a-file/</loc>
+    
+    <lastmod>2018-12-13T16:40:24.429Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://tony-yin.github.io/2017/10/10/Enable-OSD-Profile-Script/</loc>
+    
+    <lastmod>2018-12-13T16:40:24.428Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://tony-yin.github.io/2018/05/02/Django_CAS_Token_Solution/</loc>
+    
+    <lastmod>2018-12-13T16:40:24.427Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://tony-yin.github.io/2017/09/10/Disk-pull-and-plug-record/</loc>
+    
+    <lastmod>2018-12-13T16:40:24.425Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://tony-yin.github.io/2018/07/01/Daily-Article-Vol7/</loc>
+    
+    <lastmod>2018-12-13T16:40:24.424Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://tony-yin.github.io/2018/06/01/Daily-Article-Vol6/</loc>
+    
+    <lastmod>2018-12-13T16:40:24.423Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://tony-yin.github.io/2018/05/01/Daily-Article-Vol5/</loc>
+    
+    <lastmod>2018-12-13T16:40:24.422Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://tony-yin.github.io/2018/04/01/Daily_Article_Vol4/</loc>
+    
+    <lastmod>2018-12-13T16:40:24.421Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://tony-yin.github.io/2018/03/01/Daily-Article-Vol3/</loc>
+    
+    <lastmod>2018-12-13T16:40:24.420Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://tony-yin.github.io/2018/02/01/Daily-Article-Vol2/</loc>
+    
+    <lastmod>2018-12-13T16:40:24.419Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://tony-yin.github.io/2018/01/01/Daily-Article-2017/</loc>
+    
+    <lastmod>2018-12-13T16:40:24.418Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://tony-yin.github.io/2018/04/20/Ctdb-Rados-All-Banned/</loc>
+    
+    <lastmod>2018-12-13T16:40:24.416Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://tony-yin.github.io/2018/05/20/Ctdb-Rados-2/</loc>
+    
+    <lastmod>2018-12-13T16:40:24.415Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://tony-yin.github.io/2017/11/30/Cephx-practice/</loc>
+    
+    <lastmod>2018-12-13T16:40:24.414Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://tony-yin.github.io/2017/11/08/Ceph-RGW/</loc>
+    
+    <lastmod>2018-12-13T16:40:24.412Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://tony-yin.github.io/2017/11/08/Ceph-NFS-Ganesha/</loc>
+    
+    <lastmod>2018-12-13T16:40:24.411Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://tony-yin.github.io/2017/11/14/Ceph-Compile/</loc>
+    
+    <lastmod>2018-12-13T16:40:24.409Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://tony-yin.github.io/2018/06/20/Block-device-persistent-name-and-multipath/</loc>
+    
+    <lastmod>2018-12-13T16:40:24.408Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://tony-yin.github.io/2017/10/02/Batch-Create-And-Delete-Disk-Partition-Script/</loc>
+    
+    <lastmod>2018-12-13T16:40:24.407Z</lastmod>
     
   </url>
   

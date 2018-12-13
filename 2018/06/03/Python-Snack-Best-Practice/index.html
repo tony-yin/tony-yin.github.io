@@ -17,13 +17,13 @@
 <meta property="og:site_name" content="Tony&#39;s blog">
 <meta property="og:description" content="了解linux的人应该听说过Newt，Newt是一个为RedHat安装程序而设计的基于文本的窗口开发工具，它是由c语言编写并不依赖X包，linux下的dialog和whiptail都是基于它。而我们今天讨论的snack则是Newt提供的python接口，redhat的系统都自带这个模块，本文就如何使用snack制作伪终端页面展开讲解，并配合代码展示实现效果。">
 <meta property="og:locale" content="default">
-<meta property="og:image" content="http://ow0mgad6r.bkt.clouddn.com/python_snack.jpg">
-<meta property="og:image" content="http://ow0mgad6r.bkt.clouddn.com/deploy_console.gif">
-<meta property="og:updated_time" content="2018-11-03T17:07:41.150Z">
+<meta property="og:image" content="http://cdn.tony-yin.site/python_snack.jpg">
+<meta property="og:image" content="http://cdn.tony-yin.site/deploy_console.gif">
+<meta property="og:updated_time" content="2018-12-13T16:40:24.453Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Python Snack 最佳实践">
 <meta name="twitter:description" content="了解linux的人应该听说过Newt，Newt是一个为RedHat安装程序而设计的基于文本的窗口开发工具，它是由c语言编写并不依赖X包，linux下的dialog和whiptail都是基于它。而我们今天讨论的snack则是Newt提供的python接口，redhat的系统都自带这个模块，本文就如何使用snack制作伪终端页面展开讲解，并配合代码展示实现效果。">
-<meta name="twitter:image" content="http://ow0mgad6r.bkt.clouddn.com/python_snack.jpg">
+<meta name="twitter:image" content="http://cdn.tony-yin.site/python_snack.jpg">
   
     <link rel="alternative" href="/atom.xml" title="Tony&#39;s blog" type="application/atom+xml">
   
@@ -322,13 +322,13 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <center><img src="http://ow0mgad6r.bkt.clouddn.com/python_snack.jpg" alt="python snack"></center>
+        <center><img src="http://cdn.tony-yin.site/python_snack.jpg" alt="python snack"></center>
 
 <p>  了解<code>linux</code>的人应该听说过<code>Newt</code>，<code>Newt</code>是一个为<code>RedHat</code>安装程序而设计的基于文本的窗口开发工具，它是由<code>c</code>语言编写并不依赖<code>X</code>包，<code>linux</code>下的<code>dialog</code>和<code>whiptail</code>都是基于它。而我们今天讨论的<code>snack</code>则是<code>Newt</code>提供的<code>python</code>接口，<code>redhat</code>的系统都自带这个模块，本文就如何使用<code>snack</code>制作伪终端页面展开讲解，并配合代码展示实现效果。</p>
 <a id="more"></a>
 <h2 id="用餐介绍"><a href="#用餐介绍" class="headerlink" title="用餐介绍"></a>用餐介绍</h2><p>为啥说是最佳实践呢？因为我使用<code>snack</code>的过程中，上网查阅相关资料，发现有关信息甚少。偶尔几篇文章都是处于<code>API</code>或者<code>Demo</code>的级别，并且讲的都不全，更别说高级扩展功能了。我正好工作需要给我们的一个系统做一个终端部署控制台<code>UI</code>，所以我就使用了<code>python snack</code>来实现，期间不断新需求，不断迭代，从基本页面到增删改查，再到校验、再到配置导入、再到进度条等等，不断的迭代开发让我对<code>snack</code>不断地加深认知，它支持的或不支持的我都想办法一一解决，所以在这把我这段时间的收货进行总结并分享给需要的人。</p>
 <h2 id="上菜单"><a href="#上菜单" class="headerlink" title="上菜单"></a>上菜单</h2><p>本文实践的需求是做一个部署控制台工具，该工具主要分为三个阶段：基础配置、高级配置和部署进度。基础配置页面需要我们创建一些主机，填写一些主机的信息，比如<code>IP</code>、<code>Hostname</code>和<code>Password</code>，然后高级配置我们也需要创建一些主机，不过我们可以复用基础设置的主机，所以我们的工具要支持在高级配置中导入基础配置的功能，在高级配置中我们还有一个全局配置，也就是不限于单个主机的配置（其中具体部署原理和是非，我就不多展开赘述，这不是本文的重点）。最后就是进度条页面，我们可以展示部署的过程阶段和相关时间信息。</p>
-<center><img src="http://ow0mgad6r.bkt.clouddn.com/deploy_console.gif" alt="deploy console"></center>
+<center><img src="http://cdn.tony-yin.site/deploy_console.gif" alt="deploy console"></center>
 
 <blockquote>
 <p>项目地址：<a href="https://github.com/tony-yin/Best-practice-of-python-snack" target="_blank" rel="noopener">https://github.com/tony-yin/Best-practice-of-python-snack</a></p>
@@ -422,7 +422,7 @@
         <p><span>本文标题:</span><a href="/2018/06/03/Python-Snack-Best-Practice/">Python Snack 最佳实践</a></p>
         <p><span>文章作者:</span><a href="/" title="访问 Tony 的个人博客">Tony</a></p>
         <p><span>发布时间:</span>2018年06月03日 - 13时07分</p>
-        <p><span>最后更新:</span>2018年11月04日 - 01时07分</p>
+        <p><span>最后更新:</span>2018年12月14日 - 00时40分</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2018/06/03/Python-Snack-Best-Practice/" title="Python Snack 最佳实践">https://tony-yin.github.io/2018/06/03/Python-Snack-Best-Practice/</a>
             <span class="copy-path" data-clipboard-text="原文: https://tony-yin.github.io/2018/06/03/Python-Snack-Best-Practice/　　作者: Tony" title=""></span>

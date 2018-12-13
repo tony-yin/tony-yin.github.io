@@ -17,12 +17,12 @@
 <meta property="og:site_name" content="Tony&#39;s blog">
 <meta property="og:description" content="自从Jewel版本，nfs-ganesha开始支持ceph，并且把对接点选择了rados。Ganesha支持两种方式将Ceph导出为NFS，一种通过RGW，一种通过CephFS，通过FSAL模块 连接到RGW或者CephFS， 其中，FSAL_RGW调用librgw2将NFS协议转义为S3协议再通过RGW存入到Ceph中，FSAL_CEPH 调用libcephfs1将NFS转义为Cephfs协">
 <meta property="og:locale" content="default">
-<meta property="og:image" content="http://ow0mgad6r.bkt.clouddn.com/ganesha-600x450.png">
-<meta property="og:updated_time" content="2018-11-03T17:07:41.150Z">
+<meta property="og:image" content="http://cdn.tony-yin.site/ganesha-600x450.png">
+<meta property="og:updated_time" content="2018-12-13T16:40:24.411Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="通过ganesha-nfs导出Ceph为NFS（Luminous）">
 <meta name="twitter:description" content="自从Jewel版本，nfs-ganesha开始支持ceph，并且把对接点选择了rados。Ganesha支持两种方式将Ceph导出为NFS，一种通过RGW，一种通过CephFS，通过FSAL模块 连接到RGW或者CephFS， 其中，FSAL_RGW调用librgw2将NFS协议转义为S3协议再通过RGW存入到Ceph中，FSAL_CEPH 调用libcephfs1将NFS转义为Cephfs协">
-<meta name="twitter:image" content="http://ow0mgad6r.bkt.clouddn.com/ganesha-600x450.png">
+<meta name="twitter:image" content="http://cdn.tony-yin.site/ganesha-600x450.png">
   
     <link rel="alternative" href="/atom.xml" title="Tony&#39;s blog" type="application/atom+xml">
   
@@ -321,7 +321,7 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <center><img src="http://ow0mgad6r.bkt.clouddn.com/ganesha-600x450.png" alt="ganesha"></center>
+        <center><img src="http://cdn.tony-yin.site/ganesha-600x450.png" alt="ganesha"></center>
 
 <p>自从<code>Jewel</code>版本，<code>nfs-ganesha</code>开始支持<code>ceph</code>，并且把对接点选择了<code>rados</code>。<code>Ganesha</code>支持两种方式将<code>Ceph</code>导出为<code>NFS</code>，一种通过<code>RGW</code>，一种通过<code>CephFS</code>，通过<code>FSAL</code>模块 连接到<code>RGW</code>或者<code>CephFS</code>， 其中，<code>FSAL_RGW</code>调用<code>librgw2</code>将<code>NFS</code>协议转义为<code>S3</code>协议再通过<code>RGW</code>存入到<code>Ceph</code>中，<code>FSAL_CEPH</code> 调用<code>libcephfs1</code>将<code>NFS</code>转义为<code>Cephfs</code>协议再存入到<code>Ceph</code> 中。所以需要额外安装这两个包。</p>
 <p>本文就<code>Luminous</code>版本的<code>ceph</code>基于<code>ganesha</code>导出<code>nfs</code>部署，并且测试一下<code>rgw</code>和<code>cephfs</code>的性能。<a href="http://www.xuxiaopang.com/2017/03/27/ganesha-nfs-deploy/#more" target="_blank" rel="noopener">@徐小胖</a>已经就<code>jewel</code>版本的过程进行了大致的讲解，我这边主要分享一下我遇到他文章没提到的和<code>Luminous</code>场景导致的问题。</p>
@@ -367,7 +367,7 @@
 <p>其实直接<code>clone</code>实时的代码这是不合理的，因为你不知道他什么时候会更新。正确的方式是我们应该找到稳定的<code>release</code>版本，<code>nfs-ganesha</code>也有提供<a href="https://github.com/nfs-ganesha/nfs-ganesha/releases" target="_blank" rel="noopener">一系列的release</a>，而我们通过查看<code>2.5 tree</code>上面的<code>commit</code>信息，可以知道<code>RGW</code>的改动是介于<code>2.5.3</code>和<code>2.5.4</code>之间的，所以我们下载<code>2.5.3</code>较为合适，下载地址在<a href="https://github.com/nfs-ganesha/nfs-ganesha/releases/tag/V2.5.3" target="_blank" rel="noopener">这里</a>。</p>
 <p>这边还需要注意一个问题，这边<code>release</code>包下载下来你会发现<code>libntrirpc</code>这个文件夹没有内容，出现这个问题是因为<code>libntrirpc</code>对应的也是一个<code>git</code>仓库，我们需要去<a href="https://github.com/nfs-ganesha/nfs-ganesha/tree/next/src" target="_blank" rel="noopener">ntrirpc</a>手动克隆，然后通过<code>nfs-ganesha</code>的目录发现对<code>ntrirpc</code>的版本要求是<code>fadcbde</code>（这些都是上<code>github</code>可以看到的），我们需要做的就是在下载下来的<code>ntrirpc</code>目录下切到<code>fadcbde</code>这个<code>commit</code>上，并把当前的内容拷贝到<code>nfs-ganesha</code>的<code>libntrirpc</code>目录下。</p>
 <p>实在搞不定的童鞋，我提供一个我克隆的<code>nfs-ganesha</code>的代码包，你们可以对比一下，这个我是可以成功部署的</p>
-<p>附：我的<code>nfs-ganesha</code><a href="http://ovv1r40we.bkt.clouddn.com/nfs-ganesha.tar.gz" target="_blank" rel="noopener">下载地址</a></p>
+<p>附：我的<code>nfs-ganesha</code><a href="http://share.tony-yin.site/nfs-ganesha.tar.gz" target="_blank" rel="noopener">下载地址</a></p>
 <h2 id="编译"><a href="#编译" class="headerlink" title="编译"></a>编译</h2><p>编译<code>nfs-ganesha</code>， <strong>注意打开对应的模块：</strong></p>
 <ul>
 <li>如果需要生成<code>FSAL_RGW</code>模块，则在编译选项中添加： <code>-DUSE_FSAL_RGW=ON</code></li>
@@ -412,7 +412,7 @@
         <p><span>本文标题:</span><a href="/2017/11/08/Ceph-NFS-Ganesha/">通过ganesha-nfs导出Ceph为NFS（Luminous）</a></p>
         <p><span>文章作者:</span><a href="/" title="访问 Tony 的个人博客">Tony</a></p>
         <p><span>发布时间:</span>2017年11月08日 - 23时15分</p>
-        <p><span>最后更新:</span>2018年11月04日 - 01时07分</p>
+        <p><span>最后更新:</span>2018年12月14日 - 00时40分</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2017/11/08/Ceph-NFS-Ganesha/" title="通过ganesha-nfs导出Ceph为NFS（Luminous）">https://tony-yin.github.io/2017/11/08/Ceph-NFS-Ganesha/</a>
             <span class="copy-path" data-clipboard-text="原文: https://tony-yin.github.io/2017/11/08/Ceph-NFS-Ganesha/　　作者: Tony" title=""></span>
