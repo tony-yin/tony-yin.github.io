@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  <meta name="baidu-site-verification" content="L6Lm9d5Crl">
+  
+  
+  
+  
+  <title>ES告警详解之ElastAlert | Tony&#39;s blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="今天聊聊ES的告警，X-Pack提供了报警组件Alert，但是这个功能是需要付费，在寻求其他方案的时候，发现了ElastAlert，可以说这是一款为ES量身定制的告警组件，能够完美替代Alert提供的所有功能。今天就ElastAlert强大的告警功能和笔者实践过程中遇到的一些问题进行分享。   概述ElastAlert是基于python2开发的一个告警框架，它主要有以下特点：  成熟，Github">
+<meta name="keywords" content="Elasticsearch,Monitor">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ES告警详解之ElastAlert">
+<meta property="og:url" content="https://tony-yin.github.io/2018/11/01/ES-ElastAlert/index.html">
+<meta property="og:site_name" content="Tony&#39;s blog">
+<meta property="og:description" content="今天聊聊ES的告警，X-Pack提供了报警组件Alert，但是这个功能是需要付费，在寻求其他方案的时候，发现了ElastAlert，可以说这是一款为ES量身定制的告警组件，能够完美替代Alert提供的所有功能。今天就ElastAlert强大的告警功能和笔者实践过程中遇到的一些问题进行分享。   概述ElastAlert是基于python2开发的一个告警框架，它主要有以下特点：  成熟，Github">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="http://cdn.tony-yin.site/alert.png">
+<meta property="og:updated_time" content="2018-12-16T17:11:12.122Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="ES告警详解之ElastAlert">
+<meta name="twitter:description" content="今天聊聊ES的告警，X-Pack提供了报警组件Alert，但是这个功能是需要付费，在寻求其他方案的时候，发现了ElastAlert，可以说这是一款为ES量身定制的告警组件，能够完美替代Alert提供的所有功能。今天就ElastAlert强大的告警功能和笔者实践过程中遇到的一些问题进行分享。   概述ElastAlert是基于python2开发的一个告警框架，它主要有以下特点：  成熟，Github">
+<meta name="twitter:image" content="http://cdn.tony-yin.site/alert.png">
+  
+    <link rel="alternative" href="/atom.xml" title="Tony&#39;s blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/img/favicon.png">
+  
+  
+  <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  
+  
+      <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  
+  <!-- 加载特效 -->
+    <script src="/js/pace.js"></script>
+    <link href="/css/pace/pace-theme-flash.css" rel="stylesheet">
+  <script>
+      var yiliaConfig = {
+          fancybox: true,
+          animate: true,
+          isHome: false,
+          isPost: true,
+          isArchive: false,
+          isTag: false,
+          isCategory: false,
+          open_in_new: false
+      }
+  </script>
+</head></html>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+        <a href="/" class="profilepic">
+            
+            <img src="/img/tony.jpg" class="js-avatar">
+            
+        </a>
+        <hgroup>
+          <h1 class="header-author"><a href="/">Tony</a></h1>
+        </hgroup>
+        
+        
+            <form>
+	        <input type="text" class="st-default-search-input search" id="local-search-input" placeholder="搜索一下" autocomplete="off">
+            </form>
+            <div id="local-search-result"></div>
+        
+        
+            <script type="text/javascript">
+                (function() {
+                    'use strict';
+                    function getMatchData(keyword, data) {
+                        var matchData = [];
+                        for(var i =0;i<data.length;i++){
+                            if(data[i].title.toLowerCase().indexOf(keyword)>=0) 
+                                matchData.push(data[i])
+                        }
+                        return matchData;
+                    }
+                    var $input = $('#local-search-input');
+                    var $resultContent = $('#local-search-result');
+                    $input.keyup(function(){
+                        $.ajax({
+                            url: '/search.json',
+                            dataType: "json",
+                            success: function( json ) {
+                                var str='<ul class=\"search-result-list\">';                
+                                var keyword = $input.val().trim().toLowerCase();
+                                $resultContent.innerHTML = "";
+                                if ($input.val().trim().length <= 0) {
+                                    $resultContent.empty();
+                                    $('#switch-area').show();
+                                    return;
+                                }
+                                var results = getMatchData(keyword, json);
+                                if(results.length === 0){
+                                    $resultContent.empty();
+                                    $('#switch-area').show();
+                                    return;
+                                } 
+                                for(var i =0; i<results.length; i++){
+                                    str += "<li><a href='"+ results[i].url +"' class='search-result-title'>"+ results[i].title +"</a></li>";
+                                }
+                                str += "</ul>";
+                                $resultContent.empty();
+                                $resultContent.append(str);
+                                $('#switch-area').hide();
+                            }
+                        });
+                    });
+                })();
+            </script>
+        
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                        <div class="icon-wrap icon-me hide" data-idx="3">
+                            <div class="user"></div>
+                            <div class="shoulder"></div>
+                        </div>
+                        
+                    </div>
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                        <li>关于我</li>
+                        
+                    </ul>
+                </div>
+            </div>
+        
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/archives/">所有文章</a></li>
+                        
+                            <li><a href="/categories/tech">技术文章</a></li>
+                        
+                            <li><a href="/tags/Ceph">Ceph修炼之路</a></li>
+                        
+                            <li><a href="/categories/summary">感悟总结</a></li>
+                        
+                            <li><a href="/categories/read">阅读翻译</a></li>
+                        
+                            <li><a href="/categories/life">生活随笔</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fl github" target="_blank" href="https://github.com/tony-yin" title="github">github</a>
+                            
+                                <a class="fl weibo" target="_blank" href="https://weibo.com/3832044210/profile?rightmod=1&wvr=6&mod=personinfo" title="weibo">weibo</a>
+                            
+                                <a class="fl segmentfault" target="_blank" href="https://segmentfault.com/u/qzuser_57fb1d5db527e" title="segmentfault">segmentfault</a>
+                            
+                        </ul>
+			
+                    </nav>
+                </section>
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <a href="/tags/Bugfix/" style="font-size: 10px;">Bugfix</a> <a href="/tags/CAS/" style="font-size: 10px;">CAS</a> <a href="/tags/Ceph/" style="font-size: 20px;">Ceph</a> <a href="/tags/Cephx/" style="font-size: 10px;">Cephx</a> <a href="/tags/Console/" style="font-size: 10px;">Console</a> <a href="/tags/Cronjob/" style="font-size: 10px;">Cronjob</a> <a href="/tags/Crontab/" style="font-size: 10px;">Crontab</a> <a href="/tags/Ctdb/" style="font-size: 11.43px;">Ctdb</a> <a href="/tags/Daily-Article/" style="font-size: 15.71px;">Daily-Article</a> <a href="/tags/Disk/" style="font-size: 12.86px;">Disk</a> <a href="/tags/Django/" style="font-size: 10px;">Django</a> <a href="/tags/Elasticsearch/" style="font-size: 11.43px;">Elasticsearch</a> <a href="/tags/Filesystem/" style="font-size: 11.43px;">Filesystem</a> <a href="/tags/HA/" style="font-size: 12.86px;">HA</a> <a href="/tags/Javascript/" style="font-size: 10px;">Javascript</a> <a href="/tags/Keepalived/" style="font-size: 11.43px;">Keepalived</a> <a href="/tags/LVM/" style="font-size: 10px;">LVM</a> <a href="/tags/Linux/" style="font-size: 17.14px;">Linux</a> <a href="/tags/Luminous/" style="font-size: 10px;">Luminous</a> <a href="/tags/Megaraid/" style="font-size: 10px;">Megaraid</a> <a href="/tags/Monitor/" style="font-size: 11.43px;">Monitor</a> <a href="/tags/Moodle/" style="font-size: 10px;">Moodle</a> <a href="/tags/NAS/" style="font-size: 10px;">NAS</a> <a href="/tags/NFS/" style="font-size: 12.86px;">NFS</a> <a href="/tags/NFS-Ganesha/" style="font-size: 10px;">NFS-Ganesha</a> <a href="/tags/Network/" style="font-size: 10px;">Network</a> <a href="/tags/Notification/" style="font-size: 10px;">Notification</a> <a href="/tags/OSD/" style="font-size: 12.86px;">OSD</a> <a href="/tags/Oracle/" style="font-size: 11.43px;">Oracle</a> <a href="/tags/Oracle-11g-R2/" style="font-size: 10px;">Oracle 11g R2</a> <a href="/tags/Oracle-Linux/" style="font-size: 10px;">Oracle Linux</a> <a href="/tags/PHP/" style="font-size: 11.43px;">PHP</a> <a href="/tags/PHPExcel/" style="font-size: 10px;">PHPExcel</a> <a href="/tags/Partition/" style="font-size: 10px;">Partition</a> <a href="/tags/Profile/" style="font-size: 11.43px;">Profile</a> <a href="/tags/Python/" style="font-size: 14.29px;">Python</a> <a href="/tags/RBD/" style="font-size: 12.86px;">RBD</a> <a href="/tags/RGW/" style="font-size: 10px;">RGW</a> <a href="/tags/Rados/" style="font-size: 10px;">Rados</a> <a href="/tags/Raidcard/" style="font-size: 10px;">Raidcard</a> <a href="/tags/Read/" style="font-size: 18.57px;">Read</a> <a href="/tags/Script/" style="font-size: 12.86px;">Script</a> <a href="/tags/Snack/" style="font-size: 10px;">Snack</a> <a href="/tags/Test/" style="font-size: 10px;">Test</a> <a href="/tags/Udev/" style="font-size: 11.43px;">Udev</a> <a href="/tags/产品/" style="font-size: 10px;">产品</a> <a href="/tags/博客/" style="font-size: 10px;">博客</a> <a href="/tags/性能优化/" style="font-size: 10px;">性能优化</a> <a href="/tags/编译/" style="font-size: 10px;">编译</a>
+                    </div>
+                </section>
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="https://greenlightt.github.io">redgo的博客</a>
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.xuxiaopang.com">徐小胖的博客</a>
+                    
+                    </div>
+                </section>
+                
+                
+                
+                <section class="switch-part switch-part4">
+                
+                    <div id="js-aboutme">江苏南京，熟悉Python/PHP，目前研究Ceph分布式存储，邮箱：1241484989@qq.com</div>
+                </section>
+                
+            </div>
+        </div>
+    </header>
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">Tony</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                
+                    <img src="/img/tony.jpg" class="js-avatar">
+                
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">Tony</a></h1>
+            </hgroup>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/archives/">所有文章</a></li>
+                
+                    <li><a href="/categories/tech">技术文章</a></li>
+                
+                    <li><a href="/tags/Ceph">Ceph修炼之路</a></li>
+                
+                    <li><a href="/categories/summary">感悟总结</a></li>
+                
+                    <li><a href="/categories/read">阅读翻译</a></li>
+                
+                    <li><a href="/categories/life">生活随笔</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a class="github" target="_blank" href="https://github.com/tony-yin" title="github">github</a>
+                    
+                        <a class="weibo" target="_blank" href="https://weibo.com/3832044210/profile?rightmod=1&wvr=6&mod=personinfo" title="weibo">weibo</a>
+                    
+                        <a class="segmentfault" target="_blank" href="https://segmentfault.com/u/qzuser_57fb1d5db527e" title="segmentfault">segmentfault</a>
+                    
+                </div>
+            </nav>
+        </header>                
+    </div>
+</nav>
+
+      <div class="body-wrap"><article id="post-ES-ElastAlert" class="article article-type-post" itemscope="" itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/11/01/ES-ElastAlert/" class="article-date">
+      <time datetime="2018-11-01T05:07:06.000Z" itemprop="datePublished">2018-11-01</time>
+</a>
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      ES告警详解之ElastAlert
+    </h1>
+  
+
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/tech/">tech</a>
+    </div>
+
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Elasticsearch/">Elasticsearch</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Monitor/">Monitor</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>今天聊聊<code>ES</code>的告警，<code>X-Pack</code>提供了报警组件<code>Alert</code>，但是这个功能是需要付费，在寻求其他方案的时候，发现了<code>ElastAlert</code>，可以说这是一款为<code>ES</code>量身定制的告警组件，能够完美替代<code>Alert</code>提供的所有功能。今天就<code>ElastAlert</code>强大的告警功能和笔者实践过程中遇到的一些问题进行分享。</p>
+<center><img src="http://cdn.tony-yin.site/alert.png" alt="alert"></center>
+
+<h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p><code>ElastAlert</code>是基于<code>python2</code>开发的一个告警框架，它主要有以下特点：</p>
+<ul>
+<li>成熟，<a href="https://github.com/Yelp/elastalert" target="_blank" rel="noopener">Github</a>上已有<code>5k+ star</code></li>
+<li>开源，<a href="https://elastalert.readthedocs.io/en/latest/index.html" target="_blank" rel="noopener">文档</a>很全面</li>
+<li>开发语言为<code>python</code>，研究和扩展源码较为容易</li>
+<li>告警规则丰富</li>
+<li>告警方式丰富</li>
+<li><code>SMTP</code>以每个告警为单位，相对独立</li>
+</ul>
+<p>网上已经有了相当多的基础介绍文章，但是笔者发现大多数文章的内容都是过时的，甚至官方文档经常还会展示一些弃用配置；还有虎头蛇尾的通病，往往不全面，经常对一些关键性的细节不提及；再者一些地方解释地不够清晰，导致歧义。笔者在搭建和测试过程中同时借鉴多篇文章，然后在反复尝试中最后才成功，这其中失败了很多次，浪费了很多时间，所以这篇文章借鉴了上面提到的种种问题，保证本文的全面性、细节性以及具体性。</p>
+<h2 id="软件环境"><a href="#软件环境" class="headerlink" title="软件环境"></a>软件环境</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Centos7</span><br><span class="line">Elasticsearch 6.4.2</span><br><span class="line">Kibana 6.4.2</span><br></pre></td></tr></table></figure>
+<h2 id="ElastAlert安装"><a href="#ElastAlert安装" class="headerlink" title="ElastAlert安装"></a>ElastAlert安装</h2><p>安装较为简单，但为了不虎头蛇尾还是做一个完整的步骤介绍：</p>
+<h3 id="克隆代码"><a href="#克隆代码" class="headerlink" title="克隆代码"></a>克隆代码</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> git <span class="built_in">clone</span> https://github.com/Yelp/elastalert.git</span></span><br></pre></td></tr></table></figure>
+<h3 id="安装依赖"><a href="#安装依赖" class="headerlink" title="安装依赖"></a>安装依赖</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> <span class="built_in">cd</span> elastalert</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> python setup.py install</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> pip install -r requirements.txt</span></span><br></pre></td></tr></table></figure>
+<h3 id="整体配置"><a href="#整体配置" class="headerlink" title="整体配置"></a>整体配置</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> cp config.yaml.example config.yaml    // 根据模板生成配置文件</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> vim config.yaml   // 修改配置</span></span><br></pre></td></tr></table></figure>
+<p>主要修改几个必需的选项，比如<code>rules_folder</code>、<code>es_host</code>、<code>es_port</code>等，那些非必需没有特殊需求就不用更改了：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 用来加载rule的目录，默认是example_rules</span></span><br><span class="line">rules_folder: example_rules</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 用来设置定时向elasticsearch发送请求</span></span><br><span class="line">run_every:</span><br><span class="line">  minutes: 1</span><br><span class="line">  </span><br><span class="line"><span class="meta">#</span><span class="bash"> 用来设置请求里时间字段的范围</span></span><br><span class="line">buffer_time:</span><br><span class="line">  minutes: 15</span><br><span class="line">  </span><br><span class="line"><span class="meta">#</span><span class="bash"> elasticsearch的host地址</span></span><br><span class="line">es_host: 192.168.232.191</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> elasticsearch 对应的端口号</span></span><br><span class="line">es_port: 9200</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 可选的，es url前缀</span></span><br><span class="line"><span class="meta">#</span><span class="bash">es_url_prefix：elasticsearch</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 可选的，查询es的方式，默认是GET</span></span><br><span class="line"><span class="meta">#</span><span class="bash">es_send_get_body_as：GET</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 可选的，选择是否用SSL连接es，<span class="literal">true</span>或者<span class="literal">false</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash">use_ssl: True</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">可选的，是否验证TLS证书，设置为<span class="literal">true</span>或者<span class="literal">false</span>，默认为- <span class="literal">true</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash">verify_certs: True</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> es认证的username和password</span></span><br><span class="line"><span class="meta">#</span><span class="bash">es_username: someusername</span></span><br><span class="line"><span class="meta">#</span><span class="bash">es_password: somepassword</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> elastalert产生的日志在elasticsearch中的创建的索引</span></span><br><span class="line">writeback_index: elastalert_status</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 失败重试的时间限制</span></span><br><span class="line">alert_time_limit:</span><br><span class="line">  days: 2</span><br></pre></td></tr></table></figure>
+<p>详情请参考文档：<a href="http://elastalert.readthedocs.io/en/latest/ruletypes.html#rule-configuration-cheat-sheet" target="_blank" rel="noopener">http://elastalert.readthedocs.io/en/latest/ruletypes.html#rule-configuration-cheat-sheet</a></p>
+<h3 id="创建ElastAlert索引"><a href="#创建ElastAlert索引" class="headerlink" title="创建ElastAlert索引"></a>创建ElastAlert索引</h3><p>可以在<code>/usr/bin/</code>目录下看到以下四个命令：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> ll /usr/bin/elastalert*</span></span><br><span class="line">-rwxr-xr-x 1 root root 399 Nov 20 16:39 /usr/bin/elastalert</span><br><span class="line">-rwxr-xr-x 1 root root 425 Nov 20 16:39 /usr/bin/elastalert-create-index</span><br><span class="line">-rwxr-xr-x 1 root root 433 Nov 20 16:39 /usr/bin/elastalert-rule-from-kibana</span><br><span class="line">-rwxr-xr-x 1 root root 419 Nov 20 16:39 /usr/bin/elastalert-test-rule</span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>elastalert-create-index</code>会创建一个索引，<code>ElastAlert</code> 会把执行记录存放到这个索引中，默认情况下，索引名叫 <code>elastalert_status</code>。其中有<code>4</code>个<code>_type</code>，都有自己的<code>@timestamp</code> 字段，所以同样也可以用<code>kibana</code>来查看这个索引的日志记录情况。</li>
+<li><code>elastalert-rule-from-kibana</code>从<code>Kibana3</code>已保存的仪表盘中读取<code>Filtering</code> 设置，帮助生成<code>config.yaml</code>里的配置。不过注意，它只会读取 <code>filtering</code>，不包括<code>queries</code>。</li>
+<li><code>elastalert-test-rule</code>测试自定义配置中的<code>rule</code>设置。</li>
+</ul>
+<p>执行<code>elastalert-create-index</code>命令在<code>ES</code>创建索引，这不是必须的步骤，但是强烈建议创建。因为对于审计和测试很有用，并且重启<code>ES</code>不影响计数和发送<code>alert</code>.</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> elastalert-create-index</span></span><br></pre></td></tr></table></figure>
+<p>具体参见文档： <a href="http://elastalert.readthedocs.io/en/latest/running_elastalert.html#setting-up-elasticsearch" target="_blank" rel="noopener">setting-up-elasticsearch</a></p>
+<h2 id="Rule配置"><a href="#Rule配置" class="headerlink" title="Rule配置"></a>Rule配置</h2><p><code>rule</code>配置算是<code>ElastAlert</code>最核心的功能了，支持<code>11</code>种告警规则，就不一一介绍了，选用一个最为普遍使用的告警规则<code>frequency</code>，告警方式也选用最普遍的<code>email</code>。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br></pre></td><td class="code"><pre><span class="line"># Alert when the rate of events exceeds a threshold</span><br><span class="line"></span><br><span class="line"># (Optional)</span><br><span class="line"># Elasticsearch host</span><br><span class="line">es_host: 192.168.232.191</span><br><span class="line"></span><br><span class="line"># (Optional)</span><br><span class="line"># Elasticsearch port</span><br><span class="line">es_port: 9200</span><br><span class="line"></span><br><span class="line"># (OptionaL) Connect with SSL to Elasticsearch</span><br><span class="line">#use_ssl: True</span><br><span class="line"></span><br><span class="line"># (Optional) basic-auth username and password for Elasticsearch</span><br><span class="line">#es_username: someusername</span><br><span class="line">#es_password: somepassword</span><br><span class="line"></span><br><span class="line"># (Required)</span><br><span class="line"># Rule name, must be unique</span><br><span class="line">name: Example frequency rule</span><br><span class="line"></span><br><span class="line"># (Required)</span><br><span class="line"># Type of alert.</span><br><span class="line"># the frequency rule type alerts when num_events events occur with timeframe time</span><br><span class="line">type: frequency</span><br><span class="line"></span><br><span class="line"># (Required)</span><br><span class="line"># Index to search, wildcard supported</span><br><span class="line">index: metricbeat-*</span><br><span class="line"></span><br><span class="line"># (Required, frequency specific)</span><br><span class="line"># Alert when this many documents matching the query occur within a timeframe</span><br><span class="line">num_events: 5</span><br><span class="line"></span><br><span class="line"># (Required, frequency specific)</span><br><span class="line"># num_events must occur within this amount of time to trigger an alert</span><br><span class="line">timeframe:</span><br><span class="line">  hours: 4</span><br><span class="line"></span><br><span class="line"># (Required)</span><br><span class="line"># A list of Elasticsearch filters used for find events</span><br><span class="line"># These filters are joined with AND and nested in a filtered query</span><br><span class="line"># For more info: http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/query-dsl.html</span><br><span class="line">filter:</span><br><span class="line">- query_string:</span><br><span class="line">    query: &quot;system.process.cpu.total.pct: &gt;10%&quot;     // field支持嵌套</span><br><span class="line"></span><br><span class="line">smtp_host: smtp.163.com</span><br><span class="line">smtp_port: 25</span><br><span class="line">smtp_auth_file: /opt/elastalert/smtp_auth.yaml</span><br><span class="line">#回复给那个邮箱</span><br><span class="line">email_reply_to: xxx@163.com</span><br><span class="line">##从哪个邮箱发送</span><br><span class="line">from_addr: xxx@163.com</span><br><span class="line"># (Required)</span><br><span class="line"># The alert is use when a match is found</span><br><span class="line">alert:</span><br><span class="line">- &quot;email&quot;</span><br><span class="line"></span><br><span class="line"># (required, email specific)</span><br><span class="line"># a list of email addresses to send alerts to</span><br><span class="line">email:</span><br><span class="line">- &quot;yyy@qq.com&quot;</span><br></pre></td></tr></table></figure>
+<p>上述配置表示选择<code>metricbeat</code>作为告警索引，在<code>4</code>小时内将匹配过滤条件，当<code>CPU</code>使用百分比的值为<code>10%</code>超过<code>5</code>次后，即满足告警条件，然后发送邮件。</p>
+<h2 id="邮件配置"><a href="#邮件配置" class="headerlink" title="邮件配置"></a>邮件配置</h2><p>上述配置中已经展示了一部分邮件配置，主要有<code>smtp host</code>、<code>smtp port</code>、<code>from addr</code>和<code>to_addr</code>等。这里笔者选择一个网易<code>163</code>的邮箱作为发送邮箱，一个<code>QQ</code>邮箱作为接收邮件进行测试，所以<code>smpt host</code>应该为<code>smtp.163.com</code>。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">smtp_host: smtp.163.com</span><br><span class="line">smtp_port: 25</span><br><span class="line">smtp_auth_file: /opt/elastalert/smtp_auth.yaml</span><br><span class="line"><span class="meta">#</span><span class="bash">回复给那个邮箱</span></span><br><span class="line">email_reply_to: xxx@163.com</span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">#从哪个邮箱发送</span></span></span><br><span class="line">from_addr: xxx@163.com</span><br><span class="line"><span class="meta">#</span><span class="bash"> (Required)</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> The alert is use when a match is found</span></span><br><span class="line">alert:</span><br><span class="line">- "email"</span><br><span class="line"><span class="meta">#</span><span class="bash"> (required, email specific)</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> a list of email addresses to send alerts to</span></span><br><span class="line">email:</span><br><span class="line">- "yyy@qq.com"</span><br></pre></td></tr></table></figure>
+<p>还有一个<code>smtp_auth.yaml</code>文件，这个里面记录了发送邮箱的账号和密码，<code>163</code>邮箱有授权码机制，所以密码处应该填写授权码（没有的话则需要开启）。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">发送邮件的邮箱</span></span><br><span class="line">user: xxx@163.com</span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">#不是邮箱密码，是设置的POP3密码</span></span></span><br><span class="line">password: xxx</span><br></pre></td></tr></table></figure>
+<h2 id="高级配置"><a href="#高级配置" class="headerlink" title="高级配置"></a>高级配置</h2><h3 id="避免重复告警"><a href="#避免重复告警" class="headerlink" title="避免重复告警"></a>避免重复告警</h3><p>避免一定时间段中重复告警，可以配置<code>realert</code>和<code>exponential_realert</code>这两个选项：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"># 5分钟内相同的报警不会重复发送</span><br><span class="line">realert:</span><br><span class="line">  minutes: 5</span><br><span class="line"></span><br><span class="line"># 指数级扩大 realert 时间，中间如果有报警，</span><br><span class="line"># 则按照5-&gt;10-&gt;20-&gt;40-&gt;60不断增大报警时间到制定的最大时间，</span><br><span class="line"># 如果之后报警减少，则会慢慢恢复原始realert时间</span><br><span class="line">exponential_realert:</span><br><span class="line">  hours: 1</span><br></pre></td></tr></table></figure>
+<h3 id="聚合相同告警"><a href="#聚合相同告警" class="headerlink" title="聚合相同告警"></a>聚合相同告警</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"># 根据报警的内，将相同的报警安装 name 来聚合</span><br><span class="line">aggregation_key: name</span><br><span class="line"></span><br><span class="line"># 聚合报警的内容，只展示 name 与 message</span><br><span class="line">summary_table_fields:</span><br><span class="line">  - name</span><br><span class="line">  - message</span><br></pre></td></tr></table></figure>
+<h3 id="告警内容格式化"><a href="#告警内容格式化" class="headerlink" title="告警内容格式化"></a>告警内容格式化</h3><p>可以自定义告警内容，内部是使用<code>Python</code>的<code>format</code>来实现的。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">alert_subject: &quot;Error &#123;&#125; @&#123;&#125;&quot;</span><br><span class="line">alert_subject_args:</span><br><span class="line">  - name</span><br><span class="line">  - &quot;@timestamp&quot;</span><br><span class="line"></span><br><span class="line">alert_text_type: alert_text_only</span><br><span class="line">alert_text: |</span><br><span class="line">  ### Error frequency exceeds</span><br><span class="line">  &gt; Name: &#123;&#125;</span><br><span class="line">  &gt; Message: &#123;&#125;</span><br><span class="line">  &gt; Host: &#123;&#125; (&#123;&#125;)</span><br><span class="line">alert_text_args:</span><br><span class="line">  - name</span><br><span class="line">  - message</span><br><span class="line">  - hostname</span><br><span class="line">  - host</span><br></pre></td></tr></table></figure>
+<p>当然还有更多高级配置，详情请参考文档。</p>
+<h2 id="测试Rule"><a href="#测试Rule" class="headerlink" title="测试Rule"></a>测试Rule</h2><p>可以在运行<code>rule</code>之前先通过<code>elastalert-test-rule</code>命令来测试一下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ elastalert-test-rule ~/elastalert/example_rules/example_frequency.yaml</span><br></pre></td></tr></table></figure>
+<p>详情参考文档：<a href="http://elastalert.readthedocs.io/en/latest/running_elastalert.html#testing-your-rule" target="_blank" rel="noopener">http://elastalert.readthedocs.io/en/latest/running_elastalert.html#testing-your-rule</a></p>
+<h2 id="运行Rule"><a href="#运行Rule" class="headerlink" title="运行Rule"></a>运行Rule</h2><p>启动<code>elastalert</code>服务，监听<code>es</code>，这里加了<code>--rule example_frequency.yaml</code>表示只运行<code>example_frequency.yaml</code>这一个<code>rule</code>文件，如果不加该选项则会运行<code>rules_folder</code>下所有<code>rule</code>文件，上面配置中的<code>rules_folder</code>为默认的<code>example_rules</code>。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ python -m elastalert.elastalert --verbose --rule example_frequency.yaml</span><br></pre></td></tr></table></figure>
+<p>为了让服务后台运行并且可以达到守护进程的效果，在生产环境中笔者建议使用<code>supervisor</code>管理。</p>
+<h2 id="其他Rule"><a href="#其他Rule" class="headerlink" title="其他Rule"></a>其他Rule</h2><ul>
+<li><code>any</code>：只要有匹配就报警；</li>
+<li><code>blacklist</code>：<code>compare_key</code>字段的内容匹配上<code>blacklist</code>数组里任意内容；</li>
+<li><code>whitelist</code>：<code>compare_key</code>字段的内容一个都没能匹配上<code>whitelist</code>数组里内容；</li>
+<li><code>change</code>：在相同<code>query_key</code>条件下，<code>compare_key</code>字段的内容，在 <code>timeframe</code>范围内 发送变化；</li>
+<li><code>frequency</code>：在相同<code>query_key</code>条件下，<code>timeframe</code> 范围内有<code>num_events</code>个被过滤出 来的异常；</li>
+<li><code>spike</code>：在相同<code>query_key</code>条件下，前后两个<code>timeframe</code>范围内数据量相差比例超过<code>spike_height</code>。其中可以通过<code>spike_type</code>设置具体涨跌方向是- <code>up</code>、<code>down</code>、<code>both</code>。还可以通过<code>threshold_ref</code>设置要求上一个周期数据量的下限，<code>threshold_cur</code>设置要求当前周期数据量的下限，如果数据量不到下限，也不触发；</li>
+<li><code>flatline</code>：<code>timeframe</code>范围内，数据量小于<code>threshold</code>阈值；</li>
+<li><code>new_term</code>：fields字段新出现之前<code>terms_window_size</code>(默认<code>30</code>天)范围内最多的<code>terms_size</code>(默认<code>50</code>)个结果以外的数据；</li>
+<li><code>cardinality</code>：在相同 <code>query_key</code>条件下，<code>timeframe</code>范围内<code>cardinality_field</code>的值超过 <code>max_cardinality</code>或者低于<code>min_cardinality</code></li>
+</ul>
+<p>摘自：<a href="https://segmentfault.com/a/1190000008227486" target="_blank" rel="noopener">ElastAlert介绍和安装－1</a><br>详细请参考文档：<a href="https://elastalert.readthedocs.io/en/latest/ruletypes.html#rule-types" target="_blank" rel="noopener">https://elastalert.readthedocs.io/en/latest/ruletypes.html#rule-types</a></p>
+<h2 id="其他告警方式"><a href="#其他告警方式" class="headerlink" title="其他告警方式"></a>其他告警方式</h2><p>除了<code>email</code>，还有<code>jira</code>、<code>webhook</code>等内置告警方式，由于笔者没有实践，就不一一赘述了。</p>
+<p>第三方的微信和钉钉：</p>
+<ul>
+<li>微信：<a href="https://github.com/anjia0532/elastalert-wechat-plugin" target="_blank" rel="noopener">https://github.com/anjia0532/elastalert-wechat-plugin</a></li>
+<li>钉钉：<a href="https://github.com/xuyaoqiang/elastalert-dingtalk-plugin" target="_blank" rel="noopener">https://github.com/xuyaoqiang/elastalert-dingtalk-plugin</a></li>
+</ul>
+<p>也可以根据文档自己实现：<a href="https://elastalert.readthedocs.io/en/latest/recipes/adding_alerts.html" target="_blank" rel="noopener">https://elastalert.readthedocs.io/en/latest/recipes/adding_alerts.html</a></p>
+<h2 id="elastalert-kibana-plugin"><a href="#elastalert-kibana-plugin" class="headerlink" title="elastalert-kibana-plugin"></a>elastalert-kibana-plugin</h2><p><code>elastalert-kibana-plugin</code>是围绕<code>elastalert</code>做的一个<code>kibana</code>展示插件，可以在<code>kibana</code>上创建、编辑和删除告警，但是说实话这个插件还不是很好用，首先配置就有点麻烦，其次展示效果并不友好，提供配置<code>rule</code>的方式太专业化了，对小白或者一般用户来说要求稍高。</p>
+<h3 id="下载安装包"><a href="#下载安装包" class="headerlink" title="下载安装包"></a>下载安装包</h3><p>下载<code>6.4.2</code>的<code>release</code>安装包</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> wget https://github.com/bitsensor/elastalert-kibana-plugin/releases/download/1.0.1/elastalert-kibana-plugin-1.0.1-6.4.2.zip</span></span><br></pre></td></tr></table></figure>
+<h3 id="本地安装插件"><a href="#本地安装插件" class="headerlink" title="本地安装插件"></a>本地安装插件</h3><p><code>Kibana</code>插件本地安装</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> /usr/share/kibana/bin/kibana-plugin install file:///root/elastalert-kibana-plugin-1.0.1-6.4.2.zip</span></span><br></pre></td></tr></table></figure>
+<p>本地安装前面需要加上<code>file://</code>，否则会默认为在线资源去解析<code>url</code>并下载</p>
+<p><strong>Unix：</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo bin/elasticsearch-plugin install file:///path/to/plugin.zip</span><br></pre></td></tr></table></figure>
+<p><strong>Windows：</strong></p>
+<p>假定需要安装的插件本地地址为<code>C:\path\to\plugin.zip</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ bin\elasticsearch-plugin install file:///C:/path/to/plugin.zip</span><br></pre></td></tr></table></figure>
+<h3 id="安装Server"><a href="#安装Server" class="headerlink" title="安装Server"></a>安装Server</h3><p>上面安装的只是<code>kibana</code>的一个展示插件，插件内部并没有集成<code>server</code>，所以还需要再安装一个<code>server</code>，笔者之前因为没有做这一步，一直卡着，页面显示报错<code>502 Bad Gateway</code>，关键是官方文档也没说清楚一定要装这个。。</p>
+<h4 id="克隆仓库"><a href="#克隆仓库" class="headerlink" title="克隆仓库"></a>克隆仓库</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> git <span class="built_in">clone</span> https://github.com/bitsensor/elastalert.git elastalert-server</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> <span class="built_in">cd</span> elastalert-server</span></span><br></pre></td></tr></table></figure>
+<p>这边我们先不用官网说的<code>docker</code>运行的方式，先用本地<code>npm</code>起服务的方式运行。</p>
+<h4 id="下载指定版本的npm"><a href="#下载指定版本的npm" class="headerlink" title="下载指定版本的npm"></a>下载指定版本的<code>npm</code></h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ nvm install &quot;$(cat .nvmrc)&quot;</span><br></pre></td></tr></table></figure>
+<h4 id="安装依赖-1"><a href="#安装依赖-1" class="headerlink" title="安装依赖"></a>安装依赖</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm install</span><br></pre></td></tr></table></figure>
+<h4 id="修改配置"><a href="#修改配置" class="headerlink" title="修改配置"></a>修改配置</h4><p>这一步很重要，因为很多地方没有说的很清楚，包括<code>docker</code>运行方式在这一块也没说清楚。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ vim config/config.json</span><br></pre></td></tr></table></figure>
+<p>默认的配置需要修改，尤其是<code>elastalertPath</code>和<code>rulesPath</code>中的<code>path</code>选项</p>
+<p><code>elastalertPath</code>表示的是我们最初安装的<code>elastalert</code>仓库的目录，也就是说<code>elastalert-kibana-plugin</code>运行需要三个仓库，分别是<code>elastalert</code>、<code>elastalert-kibana-plugin</code>、和<code>elastalert-server</code>，分别对应的是后端代码、前端代码、<code>webserver</code>，这也就是笔者之前提到的安装提到的安装麻烦所在了；</p>
+<p>其次<code>rulesPath</code>中<code>path</code>选项表示运用<code>elastalert-kibana-plugin</code>插件创建告警后<code>rule</code>文件存放的目录，上面笔者在<code>elastalert</code>配置的<code>rules_folder</code>为<code>example_rules</code>，这里配置的<code>path</code>为<code>rules</code>，主要是因为<code>elastalert-server</code>目录下用的是这个，笔者也在<code>elastalert</code>项目中创建了个<code>rules</code>的目录，并将<code>rules_folder</code>配置进行同步，这个看个人喜好自定义即可。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;appName&quot;: &quot;elastalert-server&quot;,</span><br><span class="line">  &quot;port&quot;: 3030,</span><br><span class="line">  &quot;elastalertPath&quot;: &quot;/root/elastalert&quot;,</span><br><span class="line">  &quot;verbose&quot;: false,</span><br><span class="line">  &quot;es_debug&quot;: false,</span><br><span class="line">  &quot;debug&quot;: false,</span><br><span class="line">  &quot;rulesPath&quot;: &#123;</span><br><span class="line">    &quot;relative&quot;: true,</span><br><span class="line">    &quot;path&quot;: &quot;/rules&quot;</span><br><span class="line">  &#125;,</span><br><span class="line">  &quot;templatesPath&quot;: &#123;</span><br><span class="line">    &quot;relative&quot;: true,</span><br><span class="line">    &quot;path&quot;: &quot;/rule_templates&quot;</span><br><span class="line">  &#125;,</span><br><span class="line">  &quot;es_host&quot;: &quot;192.168.232.191&quot;,</span><br><span class="line">  &quot;es_port&quot;: 9200,</span><br><span class="line">  &quot;writeback_index&quot;: &quot;elastalert_status&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="起服务"><a href="#起服务" class="headerlink" title="起服务"></a>起服务</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm start</span><br></pre></td></tr></table></figure>
+<h4 id="容器方式"><a href="#容器方式" class="headerlink" title="容器方式"></a>容器方式</h4><p>官网提供的命令依旧是很模糊，很多同学直接运行了，也没报错，但是也没正常运行，这是因为跟上面一样，下面这些目录都要对应修改，具体参考上面配置文件即可，最重要的还是要明白整体架构，三个项目各自的作用，知道原理就一目了然了，但不得不说如果官方文档描述地详细一点，大家也许会更容易地搞成功。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">docker run -d -p 3030:3030 \</span><br><span class="line">    -v `pwd`/config/elastalert.yaml:/opt/elastalert/config.yaml \</span><br><span class="line">    -v `pwd`/config/config.json:/opt/elastalert-server/config/config.json \</span><br><span class="line">    -v `pwd`/rules:/opt/elastalert/rules \</span><br><span class="line">    -v `pwd`/rule_templates:/opt/elastalert/rule_templates \</span><br><span class="line">    --net=&quot;host&quot; \</span><br><span class="line">    --name elastalert bitsensor/elastalert:latest</span><br></pre></td></tr></table></figure>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>本文从<code>elastalert</code>的安装讲起，接着涉猎<code>rule</code>配置、<code>email</code>配置等环节，然后通过测试和运行来对<code>rule</code>文件进行验证，最后再详细介绍了<code>elastalert-kibana-plugin</code>的安装和用法。</p>
+<p>总的来说，<code>elastalert</code>围绕<code>es</code>所提供的告警功能是很强大的，文中提供的案例只是冰山一角，大家感兴趣的可以多看看官方文档，<code>elastalert</code>的官方文档还是很全的。</p>
+<p>至于<code>elastalert-kibana-plugin</code>这个插件，笔者认为一般般，配置过程稍显麻烦，其次功能很弱，跟后端手动修改配置文件没什么两样，也没有同名校验这些机制，相比而言，<code>sentinl</code>的<code>UI</code>就显得简单美观了，请听下回分解。</p>
+<h2 id="refer"><a href="#refer" class="headerlink" title="refer"></a>refer</h2><ol>
+<li><a href="https://www.freebuf.com/articles/web/160254.html" target="_blank" rel="noopener">ElastAlert监控日志告警Web攻击行为</a></li>
+<li><a href="https://blog.xizhibei.me/2017/11/19/alerting-with-elastalert/" target="_blank" rel="noopener">ElastAlert：『Hi，咱服务挂了』</a></li>
+<li><a href="https://segmentfault.com/a/1190000008227486" target="_blank" rel="noopener">ElastAlert介绍和安装－1</a></li>
+<li><a href="https://www.jianshu.com/p/f82812e0a743" target="_blank" rel="noopener">elastalert的简单运用</a></li>
+<li><a href="https://anjia0532.github.io/2017/02/14/elasticsearch-elastalert/#&amp;gid=1&amp;pid=1" target="_blank" rel="noopener">ElastAlert 基于Elasticsearch的监控告警</a></li>
+<li><a href="https://my.oschina.net/qixiaobo025/blog/1932752" target="_blank" rel="noopener">elastAlert之kibana的插件使用</a></li>
+<li><a href="https://www.elastic.co/guide/cn/kibana/current/installing_plugins.html" target="_blank" rel="noopener">Install plugins</a></li>
+<li><a href="https://www.elastic.co/guide/en/elasticsearch/plugins/current/plugin-management-custom-url.html" target="_blank" rel="noopener">plugin management custom url</a></li>
+</ol>
+
+      
+
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2018/11/01/ES-ElastAlert/">ES告警详解之ElastAlert</a></p>
+        <p><span>文章作者:</span><a href="/" title="访问 Tony 的个人博客">Tony</a></p>
+        <p><span>发布时间:</span>2018年11月01日 - 13时07分</p>
+        <p><span>最后更新:</span>2018年12月17日 - 01时11分</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2018/11/01/ES-ElastAlert/" title="ES告警详解之ElastAlert">https://tony-yin.github.io/2018/11/01/ES-ElastAlert/</a>
+            <span class="copy-path" data-clipboard-text="原文: https://tony-yin.github.io/2018/11/01/ES-ElastAlert/　　作者: Tony" title=""></span>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/cn/" title="中国大陆 (CC BY-NC-SA 3.0 CN)" target="_blank">"署名-非商用-相同方式共享 3.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+<nav id="article-nav">
+  
+    <a href="/2018/11/05/How-To-Avoid-Cronjob-Duplicate-Running/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption"><</strong>
+      <div class="article-nav-title">
+        
+          如何避免 Cronjob 重复运行
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/10/29/Why-Crontab-Not-Work/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">为什么 crontab 不执行</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#概述"><span class="toc-number">1.</span> <span class="toc-text">概述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#软件环境"><span class="toc-number">2.</span> <span class="toc-text">软件环境</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ElastAlert安装"><span class="toc-number">3.</span> <span class="toc-text">ElastAlert安装</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#克隆代码"><span class="toc-number">3.1.</span> <span class="toc-text">克隆代码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#安装依赖"><span class="toc-number">3.2.</span> <span class="toc-text">安装依赖</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#整体配置"><span class="toc-number">3.3.</span> <span class="toc-text">整体配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#创建ElastAlert索引"><span class="toc-number">3.4.</span> <span class="toc-text">创建ElastAlert索引</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Rule配置"><span class="toc-number">4.</span> <span class="toc-text">Rule配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#邮件配置"><span class="toc-number">5.</span> <span class="toc-text">邮件配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#高级配置"><span class="toc-number">6.</span> <span class="toc-text">高级配置</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#避免重复告警"><span class="toc-number">6.1.</span> <span class="toc-text">避免重复告警</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#聚合相同告警"><span class="toc-number">6.2.</span> <span class="toc-text">聚合相同告警</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#告警内容格式化"><span class="toc-number">6.3.</span> <span class="toc-text">告警内容格式化</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#测试Rule"><span class="toc-number">7.</span> <span class="toc-text">测试Rule</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#运行Rule"><span class="toc-number">8.</span> <span class="toc-text">运行Rule</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#其他Rule"><span class="toc-number">9.</span> <span class="toc-text">其他Rule</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#其他告警方式"><span class="toc-number">10.</span> <span class="toc-text">其他告警方式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#elastalert-kibana-plugin"><span class="toc-number">11.</span> <span class="toc-text">elastalert-kibana-plugin</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#下载安装包"><span class="toc-number">11.1.</span> <span class="toc-text">下载安装包</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#本地安装插件"><span class="toc-number">11.2.</span> <span class="toc-text">本地安装插件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#安装Server"><span class="toc-number">11.3.</span> <span class="toc-text">安装Server</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#克隆仓库"><span class="toc-number">11.3.1.</span> <span class="toc-text">克隆仓库</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#下载指定版本的npm"><span class="toc-number">11.3.2.</span> <span class="toc-text">下载指定版本的npm</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#安装依赖-1"><span class="toc-number">11.3.3.</span> <span class="toc-text">安装依赖</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#修改配置"><span class="toc-number">11.3.4.</span> <span class="toc-text">修改配置</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#起服务"><span class="toc-number">11.3.5.</span> <span class="toc-text">起服务</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#容器方式"><span class="toc-number">11.3.6.</span> <span class="toc-text">容器方式</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-number">12.</span> <span class="toc-text">总结</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#refer"><span class="toc-number">13.</span> <span class="toc-text">refer</span></a></li></ol>
+</div>
+<style>
+    .left-col .switch-btn {
+        display: none;
+    }
+    .left-col .switch-area {
+        display: none;
+    }
+</style>
+<input type="button" id="tocButton" value="隐藏目录" title="点击按钮隐藏或者显示文章目录">
+<script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script>
+    var valueHide = "隐藏目录";
+    var valueShow = "显示目录";
+    if ($(".left-col").is(":hidden")) {
+        $("#tocButton").attr("value", valueShow);
+    }
+    $("#tocButton").click(function() {
+        if ($("#toc").is(":hidden")) {
+            $("#tocButton").attr("value", valueHide);
+            $("#toc").slideDown(320);
+            $(".switch-btn, .switch-area").fadeOut(300);
+        }
+        else {
+            $("#tocButton").attr("value", valueShow);
+            $("#toc").slideUp(350);
+            $(".switch-btn, .switch-area").fadeIn(500);
+        }
+    })
+    if ($(".toc").length < 1) {
+        $("#toc, #tocButton").hide();
+        $(".switch-btn, .switch-area").show();
+    }
+</script>
+
+
+
+
+
+<div class="bdsharebuttonbox">
+	<a href="#" class="fx fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+	<a href="#" class="fx fa-weixin bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+	<a href="#" class="fx fa-qq bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a>
+	<a href="#" class="fx fa-facebook-official bds_fbook" data-cmd="fbook" title="分享到Facebook"></a>
+	<a href="#" class="fx fa-twitter bds_twi" data-cmd="twi" title="分享到Twitter"></a>
+	<a href="#" class="fx fa-linkedin bds_linkedin" data-cmd="linkedin" title="分享到linkedin"></a>
+	<a href="#" class="fx fa-files-o bds_copy" data-cmd="copy" title="分享到复制网址"></a>
+</div>
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"2","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='/static/api/js/share.js?cdnversion=' + ~ (-new Date() / 36e5)];</script>
+
+
+
+
+    
+        
+    <div id="cyReward" role="cylabs" data-use="reward" style="text-align:center;margin-top:50px"></div>
+
+
+<section class="changyan" id="comments">
+  <!--<div id="uyan_frame"></div>-->
+  <div id="SOHUCS"></div>
+  <script charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/changyan.js"></script>
+  <script type="text/javascript">
+    window.changyan.api.config({
+      appid: 'cytncUiAO',
+      conf: 'prod_50cb4de09ef44034f63977dcfcfa1e4b'
+    });
+  </script>
+</section>
+
+    <script type="text/javascript" charset="utf-8" src="https://changyan.itc.cn/js/lib/jquery.js"></script>
+    <script type="text/javascript" charset="utf-8" src="https://changyan.sohu.com/js/changyan.labs.https.js?appid=cytncUiAO"></script>
+
+
+
+    
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/2018/11/05/How-To-Avoid-Cronjob-Duplicate-Running/" title="上一篇: 如何避免 Cronjob 重复运行">
+                <i class="fa fa-angle-left"></i>
+            </a>
+        
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+        
+            <a href="/2018/10/29/Why-Crontab-Not-Work/" title="下一篇: 为什么 crontab 不执行">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2018/12/01/ES-Sentinl/">ES告警详解之Sentinl</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/11/05/How-To-Avoid-Cronjob-Duplicate-Running/">如何避免 Cronjob 重复运行</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/11/01/ES-ElastAlert/">ES告警详解之ElastAlert</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/10/29/Why-Crontab-Not-Work/">为什么 crontab 不执行</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/01/Daily-Article-Vol7/">Daily Article Vol7(2018/6/1 ~ 2018/6/30)</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/20/Block-device-persistent-name-and-multipath/">块设备持久化命名和多路径</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/03/Python-Snack-Best-Practice/">Python Snack 最佳实践</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/01/Daily-Article-Vol6/">Daily Article Vol6(2018/5/1 ~ 2018/5/31)</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/20/Ctdb-Rados-2/">Ctdb Rados（二）：多场景断网高可用</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/12/Megaraid_Location/">Megaraid 磁盘定位</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/02/Django_CAS_Token_Solution/">Django CAS Token 解决方案</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/01/Daily-Article-Vol5/">Daily Article Vol 5 - (2018/4/1 ~ 2018/4/30)</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/20/Ctdb-Rados-All-Banned/">Ctdb Rados方式导致All Banned的问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/08/python_nas_stable_test/">基于Python的NAS稳定性测试框架</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/01/Daily_Article_Vol4/">Daily Article Vol 4 - (2018/3/1 ~ 2018/3/31)</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/03/09/Hardware-Test-Tool/">硬件环境测试环境模拟</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/03/01/Daily-Article-Vol3/">Daily Article Vol 3 - (2018/2/1 ~ 2018/2/28)</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/02/01/Daily-Article-Vol2/">Daily Article Vol 2 - (2018/1/1 ~ 2018/1/31)</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/28/RBD-HA-2/">实现RBD导出NFS高可用（二）：提供多虚拟IP访问</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/10/scp-and-ssh/">scp 免交互式和 ssh 免交互式脚本</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/05/RaidCardToolUtils/">利用Raid卡工具获取逻辑盘是否为SSD</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/01/Daily-Article-2017/">Daily Article Vol 1 - (2017/11/1 ~ 2017/12/31)</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/21/Everything-is-a-file/">译：一切皆文件</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/17/Linux-Filesystem/">译：Linux 文件系统介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/10/Into-Withe-Night/">阅读感悟：《白夜行》</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/08/Filesystem-Bug-Fix/">故障修复：文件系统导致OSD启动失败</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/07/RBD-HA/">通过 Keepalived 实现 Ceph RBD 的高可用</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/30/Cephx-practice/">Cephx 实战演练</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/26/read-ceph-cookbook/">阅读感悟：《Ceph Cookbook》</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/26/read-ceph-guide/">阅读感悟：《Ceph分布式存储学习指南》</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/26/read-python-automation/">阅读感悟：《Python编程快速上手---让繁琐工作自动化》</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/19/hexo-theme-shadow/">博客主题 shadow</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/14/LVM-Space-Expansion/">LVM动态扩展</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/14/Ceph-Compile/">Ceph 编译（Giant版本）</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/08/Ceph-NFS-Ganesha/">通过ganesha-nfs导出Ceph为NFS（Luminous）</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/08/Ceph-RGW/">RGW 安装和创建</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/31/RBD-Mount-NFS/">使用NFS挂载RBD</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/10/Python-Profiler/">Python Profiler</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/10/Enable-OSD-Profile-Script/">启用OSD性能剖析脚本</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/02/Batch-Create-And-Delete-Disk-Partition-Script/">批量创建和删除磁盘分区脚本</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/28/JS-Object-Null/">JS判断对象是否为空</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/27/OSD-Create-And-Delete/">OSD创建和删除全过程</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/21/How-To-Forge-Product/">如何打造一个好的产品</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/18/PHP-Excel/">PHP-Excel 开发解决方案</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/10/Disk-pull-and-plug-record/">磁盘反复拔插记录</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/10/Linux-Udev/">Linux Udev</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/10/network-down-notification/">Network Down Notification</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/10/Python-Oracle/">Python操作Oracle</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/10/oracle_install/">Oracle Linux And Oracle Database 11g R2 Intsallation</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/09/Moodle-Local-Plugin/">Moodle Local插件</a></li></ul>
+    <script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+    <script>
+        $(".post-list").addClass("toc-article");
+        // $(".post-list-item a").attr("target","_blank");
+        $("#post-nav-button > a:nth-child(2)").click(function() {
+            $(".fa-bars, .fa-times").toggle();
+            $(".post-list").toggle(300);
+            if ($(".toc").length > 0) {
+                $("#toc, #tocButton").toggle(200, function() {
+                    if ($(".switch-area").is(":visible")) {
+                        $("#toc, .switch-btn, .switch-area").toggle();
+                        $("#tocButton").attr("value", valueHide);
+                        }
+                    })
+            }
+            else {
+                $(".switch-btn, .switch-area").fadeToggle(300);
+            }
+        })
+    </script>
+
+
+
+
+    <script>
+        
+    </script>
+
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                &copy; 2018 Tony
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank">Hexo &nbsp;&nbsp;</a><a href="https://github.com/tony-yin/hexo-theme-shadow" target="_blank">Shadow</a> by tony
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style="display:none">
+                        <span id="site-visit">极客到访数: 
+                            <span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>, </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style="display:none">
+                        <span id="page-visit">本页阅读量: 
+                            <span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+
+    </div>
+    <script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script src="/js/main.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var backgroundnum = 4;
+            var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+            $("#mobile-nav").css({"background-image": backgroundimg,"background-size": "cover","background-position": "center"});
+            $(".left-col").css({"background-image": backgroundimg,"background-size": "cover","background-position": "center"});
+        })
+    </script>
+
+
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'xxxxx', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+
+	<script>
+	var _hmt = _hmt || [];
+	(function() {
+	  var hm = document.createElement("script");
+	  hm.src = "//hm.baidu.com/hm.js?xxxxxx";
+	  var s = document.getElementsByTagName("script")[0]; 
+	  s.parentNode.insertBefore(hm, s);
+	})();
+	</script>
+
+
+
+<div class="scroll" id="scroll">
+    <a href="#"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    $(document).ready(function() {
+        if ($("#comments").length < 1) {
+            $("#scroll > a:nth-child(2)").hide();
+        };
+    })
+</script>
+
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+  <script language="javascript">
+    $(function() {
+        $("a[title]").each(function() {
+            var a = $(this);
+            var title = a.attr('title');
+            if (title == undefined || title == "") return;
+            a.data('title', title).removeAttr('title').hover(
+            function() {
+                var offset = a.offset();
+                $("<div id=\"anchortitlecontainer\"></div>").appendTo($("body")).html(title).css({
+                    top: offset.top - a.outerHeight() - 15,
+                    left: offset.left + a.outerWidth()/2 + 1
+                }).fadeIn(function() {
+                    var pop = $(this);
+                    setTimeout(function() {
+                        pop.remove();
+                    }, pop.text().length * 800);
+                });
+            }, function() {
+                $("#anchortitlecontainer").remove();
+            });
+        });
+    });
+</script>
+
+
+  </div>
+</body>
+</html>

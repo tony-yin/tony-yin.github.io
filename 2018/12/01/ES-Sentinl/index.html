@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  <meta name="baidu-site-verification" content="L6Lm9d5Crl">
+  
+  
+  
+  
+  <title>ES告警详解之Sentinl | Tony&#39;s blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="上一篇文章详细讲解了ElastAlert这款告警组件，今天我们聊聊另一个ES开源告警组件Sentinl。   概述sentinl是基于javascript开发的kibana插件，拥有告警和报表两大功能，分别作为X-Pack 的Alert和Reporting的替代品，即插即用，它将前端UI、webserver和告警逻辑代码都集成在一个项目中，这一点要比上篇文章提到同为kibana插件的elastal">
+<meta name="keywords" content="Elasticsearch,Monitor">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ES告警详解之Sentinl">
+<meta property="og:url" content="https://tony-yin.github.io/2018/12/01/ES-Sentinl/index.html">
+<meta property="og:site_name" content="Tony&#39;s blog">
+<meta property="og:description" content="上一篇文章详细讲解了ElastAlert这款告警组件，今天我们聊聊另一个ES开源告警组件Sentinl。   概述sentinl是基于javascript开发的kibana插件，拥有告警和报表两大功能，分别作为X-Pack 的Alert和Reporting的替代品，即插即用，它将前端UI、webserver和告警逻辑代码都集成在一个项目中，这一点要比上篇文章提到同为kibana插件的elastal">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="http://cdn.tony-yin.site/sentinl.png">
+<meta property="og:image" content="http://cdn.tony-yin.site/puppeteer_execute.png">
+<meta property="og:image" content="http://cdn.tony-yin.site/puppeteer_permission.PNG">
+<meta property="og:image" content="http://cdn.tony-yin.site/load_url_error.PNG">
+<meta property="og:image" content="http://cdn.tony-yin.site/eacces_error.PNG">
+<meta property="og:updated_time" content="2018-12-16T17:11:12.120Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="ES告警详解之Sentinl">
+<meta name="twitter:description" content="上一篇文章详细讲解了ElastAlert这款告警组件，今天我们聊聊另一个ES开源告警组件Sentinl。   概述sentinl是基于javascript开发的kibana插件，拥有告警和报表两大功能，分别作为X-Pack 的Alert和Reporting的替代品，即插即用，它将前端UI、webserver和告警逻辑代码都集成在一个项目中，这一点要比上篇文章提到同为kibana插件的elastal">
+<meta name="twitter:image" content="http://cdn.tony-yin.site/sentinl.png">
+  
+    <link rel="alternative" href="/atom.xml" title="Tony&#39;s blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/img/favicon.png">
+  
+  
+  <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  
+  
+      <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  
+  <!-- 加载特效 -->
+    <script src="/js/pace.js"></script>
+    <link href="/css/pace/pace-theme-flash.css" rel="stylesheet">
+  <script>
+      var yiliaConfig = {
+          fancybox: true,
+          animate: true,
+          isHome: false,
+          isPost: true,
+          isArchive: false,
+          isTag: false,
+          isCategory: false,
+          open_in_new: false
+      }
+  </script>
+</head></html>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+        <a href="/" class="profilepic">
+            
+            <img src="/img/tony.jpg" class="js-avatar">
+            
+        </a>
+        <hgroup>
+          <h1 class="header-author"><a href="/">Tony</a></h1>
+        </hgroup>
+        
+        
+            <form>
+	        <input type="text" class="st-default-search-input search" id="local-search-input" placeholder="搜索一下" autocomplete="off">
+            </form>
+            <div id="local-search-result"></div>
+        
+        
+            <script type="text/javascript">
+                (function() {
+                    'use strict';
+                    function getMatchData(keyword, data) {
+                        var matchData = [];
+                        for(var i =0;i<data.length;i++){
+                            if(data[i].title.toLowerCase().indexOf(keyword)>=0) 
+                                matchData.push(data[i])
+                        }
+                        return matchData;
+                    }
+                    var $input = $('#local-search-input');
+                    var $resultContent = $('#local-search-result');
+                    $input.keyup(function(){
+                        $.ajax({
+                            url: '/search.json',
+                            dataType: "json",
+                            success: function( json ) {
+                                var str='<ul class=\"search-result-list\">';                
+                                var keyword = $input.val().trim().toLowerCase();
+                                $resultContent.innerHTML = "";
+                                if ($input.val().trim().length <= 0) {
+                                    $resultContent.empty();
+                                    $('#switch-area').show();
+                                    return;
+                                }
+                                var results = getMatchData(keyword, json);
+                                if(results.length === 0){
+                                    $resultContent.empty();
+                                    $('#switch-area').show();
+                                    return;
+                                } 
+                                for(var i =0; i<results.length; i++){
+                                    str += "<li><a href='"+ results[i].url +"' class='search-result-title'>"+ results[i].title +"</a></li>";
+                                }
+                                str += "</ul>";
+                                $resultContent.empty();
+                                $resultContent.append(str);
+                                $('#switch-area').hide();
+                            }
+                        });
+                    });
+                })();
+            </script>
+        
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                        <div class="icon-wrap icon-me hide" data-idx="3">
+                            <div class="user"></div>
+                            <div class="shoulder"></div>
+                        </div>
+                        
+                    </div>
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                        <li>关于我</li>
+                        
+                    </ul>
+                </div>
+            </div>
+        
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/archives/">所有文章</a></li>
+                        
+                            <li><a href="/categories/tech">技术文章</a></li>
+                        
+                            <li><a href="/tags/Ceph">Ceph修炼之路</a></li>
+                        
+                            <li><a href="/categories/summary">感悟总结</a></li>
+                        
+                            <li><a href="/categories/read">阅读翻译</a></li>
+                        
+                            <li><a href="/categories/life">生活随笔</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fl github" target="_blank" href="https://github.com/tony-yin" title="github">github</a>
+                            
+                                <a class="fl weibo" target="_blank" href="https://weibo.com/3832044210/profile?rightmod=1&wvr=6&mod=personinfo" title="weibo">weibo</a>
+                            
+                                <a class="fl segmentfault" target="_blank" href="https://segmentfault.com/u/qzuser_57fb1d5db527e" title="segmentfault">segmentfault</a>
+                            
+                        </ul>
+			
+                    </nav>
+                </section>
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <a href="/tags/Bugfix/" style="font-size: 10px;">Bugfix</a> <a href="/tags/CAS/" style="font-size: 10px;">CAS</a> <a href="/tags/Ceph/" style="font-size: 20px;">Ceph</a> <a href="/tags/Cephx/" style="font-size: 10px;">Cephx</a> <a href="/tags/Console/" style="font-size: 10px;">Console</a> <a href="/tags/Cronjob/" style="font-size: 10px;">Cronjob</a> <a href="/tags/Crontab/" style="font-size: 10px;">Crontab</a> <a href="/tags/Ctdb/" style="font-size: 11.43px;">Ctdb</a> <a href="/tags/Daily-Article/" style="font-size: 15.71px;">Daily-Article</a> <a href="/tags/Disk/" style="font-size: 12.86px;">Disk</a> <a href="/tags/Django/" style="font-size: 10px;">Django</a> <a href="/tags/Elasticsearch/" style="font-size: 11.43px;">Elasticsearch</a> <a href="/tags/Filesystem/" style="font-size: 11.43px;">Filesystem</a> <a href="/tags/HA/" style="font-size: 12.86px;">HA</a> <a href="/tags/Javascript/" style="font-size: 10px;">Javascript</a> <a href="/tags/Keepalived/" style="font-size: 11.43px;">Keepalived</a> <a href="/tags/LVM/" style="font-size: 10px;">LVM</a> <a href="/tags/Linux/" style="font-size: 17.14px;">Linux</a> <a href="/tags/Luminous/" style="font-size: 10px;">Luminous</a> <a href="/tags/Megaraid/" style="font-size: 10px;">Megaraid</a> <a href="/tags/Monitor/" style="font-size: 11.43px;">Monitor</a> <a href="/tags/Moodle/" style="font-size: 10px;">Moodle</a> <a href="/tags/NAS/" style="font-size: 10px;">NAS</a> <a href="/tags/NFS/" style="font-size: 12.86px;">NFS</a> <a href="/tags/NFS-Ganesha/" style="font-size: 10px;">NFS-Ganesha</a> <a href="/tags/Network/" style="font-size: 10px;">Network</a> <a href="/tags/Notification/" style="font-size: 10px;">Notification</a> <a href="/tags/OSD/" style="font-size: 12.86px;">OSD</a> <a href="/tags/Oracle/" style="font-size: 11.43px;">Oracle</a> <a href="/tags/Oracle-11g-R2/" style="font-size: 10px;">Oracle 11g R2</a> <a href="/tags/Oracle-Linux/" style="font-size: 10px;">Oracle Linux</a> <a href="/tags/PHP/" style="font-size: 11.43px;">PHP</a> <a href="/tags/PHPExcel/" style="font-size: 10px;">PHPExcel</a> <a href="/tags/Partition/" style="font-size: 10px;">Partition</a> <a href="/tags/Profile/" style="font-size: 11.43px;">Profile</a> <a href="/tags/Python/" style="font-size: 14.29px;">Python</a> <a href="/tags/RBD/" style="font-size: 12.86px;">RBD</a> <a href="/tags/RGW/" style="font-size: 10px;">RGW</a> <a href="/tags/Rados/" style="font-size: 10px;">Rados</a> <a href="/tags/Raidcard/" style="font-size: 10px;">Raidcard</a> <a href="/tags/Read/" style="font-size: 18.57px;">Read</a> <a href="/tags/Script/" style="font-size: 12.86px;">Script</a> <a href="/tags/Snack/" style="font-size: 10px;">Snack</a> <a href="/tags/Test/" style="font-size: 10px;">Test</a> <a href="/tags/Udev/" style="font-size: 11.43px;">Udev</a> <a href="/tags/产品/" style="font-size: 10px;">产品</a> <a href="/tags/博客/" style="font-size: 10px;">博客</a> <a href="/tags/性能优化/" style="font-size: 10px;">性能优化</a> <a href="/tags/编译/" style="font-size: 10px;">编译</a>
+                    </div>
+                </section>
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="https://greenlightt.github.io">redgo的博客</a>
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.xuxiaopang.com">徐小胖的博客</a>
+                    
+                    </div>
+                </section>
+                
+                
+                
+                <section class="switch-part switch-part4">
+                
+                    <div id="js-aboutme">江苏南京，熟悉Python/PHP，目前研究Ceph分布式存储，邮箱：1241484989@qq.com</div>
+                </section>
+                
+            </div>
+        </div>
+    </header>
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">Tony</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                
+                    <img src="/img/tony.jpg" class="js-avatar">
+                
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">Tony</a></h1>
+            </hgroup>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/archives/">所有文章</a></li>
+                
+                    <li><a href="/categories/tech">技术文章</a></li>
+                
+                    <li><a href="/tags/Ceph">Ceph修炼之路</a></li>
+                
+                    <li><a href="/categories/summary">感悟总结</a></li>
+                
+                    <li><a href="/categories/read">阅读翻译</a></li>
+                
+                    <li><a href="/categories/life">生活随笔</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a class="github" target="_blank" href="https://github.com/tony-yin" title="github">github</a>
+                    
+                        <a class="weibo" target="_blank" href="https://weibo.com/3832044210/profile?rightmod=1&wvr=6&mod=personinfo" title="weibo">weibo</a>
+                    
+                        <a class="segmentfault" target="_blank" href="https://segmentfault.com/u/qzuser_57fb1d5db527e" title="segmentfault">segmentfault</a>
+                    
+                </div>
+            </nav>
+        </header>                
+    </div>
+</nav>
+
+      <div class="body-wrap"><article id="post-ES-Sentinl" class="article article-type-post" itemscope="" itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/12/01/ES-Sentinl/" class="article-date">
+      <time datetime="2018-12-01T05:07:06.000Z" itemprop="datePublished">2018-12-01</time>
+</a>
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      ES告警详解之Sentinl
+    </h1>
+  
+
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/tech/">tech</a>
+    </div>
+
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Elasticsearch/">Elasticsearch</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Monitor/">Monitor</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>上一篇文章详细讲解了<code>ElastAlert</code>这款告警组件，今天我们聊聊另一个<code>ES</code>开源告警组件<code>Sentinl</code>。</p>
+<center><img src="http://cdn.tony-yin.site/sentinl.png" alt="sentinl"></center>
+
+<h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p><code>sentinl</code>是基于<code>javascript</code>开发的<code>kibana</code>插件，拥有告警和报表两大功能，分别作为<code>X-Pack</code> 的<code>Alert</code>和<code>Reporting</code>的替代品，即插即用，它将前端<code>UI</code>、<code>webserver</code>和告警逻辑代码都集成在一个项目中，这一点要比上篇文章提到同为<code>kibana</code>插件的<code>elastalert-kibana-plugin</code>要强大不少，并且可以说<code>sentinl</code>的<code>UI</code>无论是美观程度还是操作友好程度都完全秒杀<code>elastalert-kibana-plugin</code>。说了这么多是不是<code>sentinl</code>就很完美呢？请看下文慢慢讲述。</p>
+<h2 id="软件环境"><a href="#软件环境" class="headerlink" title="软件环境"></a>软件环境</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">elasticsearch: 6.4.2</span><br><span class="line">kibana: 6.4.2</span><br><span class="line">sentinl: 6.4.2</span><br></pre></td></tr></table></figure>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p>安装环节很简单，只需要进行通用的<code>kibana</code>安装插件的方式安装即可。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> /usr/share/kibana/bin/kibana-plugin install https://github.com/sirensolutions/sentinl/releases/download/tag-6.4.2-0/sentinl-v6.4.2.zip</span></span><br></pre></td></tr></table></figure>
+<p>安装完成以后，重启<code>kibana</code>服务即可在<code>kibana</code>页面上看到<code>sentinl</code>。</p>
+<h2 id="Alert配置"><a href="#Alert配置" class="headerlink" title="Alert配置"></a>Alert配置</h2><p>告警配置环节其实也很简单，因为<code>sentinl</code>大部分配置都是通过<code>UI</code>创建告警的时候配置的，需要手动配置的地方并不多，只有告警方式相关的。</p>
+<p>和上节一样，众多告警方式我们就选择最普遍的邮件告警进行讲解</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> vim /etc/kibana/kibana.yml</span></span><br></pre></td></tr></table></figure>
+<p>在文件最下方添加以下配置：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">sentinl:</span><br><span class="line">  settings:</span><br><span class="line">    email:</span><br><span class="line">      active: true          // 开启email方式</span><br><span class="line">      host: 'smtp.163.com'  // smtp server</span><br><span class="line">      user: 'xxx@163.com'   // 发送邮箱账号</span><br><span class="line">      password: 'xxx'       //发送邮箱客户端授权码或密码</span><br><span class="line">      timeout: 10000        // 连接smtp server的最大timeout</span><br></pre></td></tr></table></figure>
+<p>配置完成需要重启<code>kibana</code>服务才可以生效。这里需要注意的是<code>host</code>、<code>user</code>和<code>password</code>三个选项，<code>host</code>表示<code>smtp</code>主机地址，<code>user</code>表示发送邮箱的账号，<code>password</code>表示客户端授权码，如果没有授权码才是密码。</p>
+<p>如果这样配置了，还是无法发送邮件成功，可以通过查看<code>kibana</code>的日志定位原因，大部分情况都是由于<code>smtp server</code>连接失败导致，可以通过本地邮件客户端进行测试：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> mailx -S smtp=&lt;smtp-server-address&gt; -r &lt;from-address&gt; -s &lt;subject&gt; -v &lt;to-address&gt; &lt; body.txt</span></span><br></pre></td></tr></table></figure>
+<h2 id="Report配置"><a href="#Report配置" class="headerlink" title="Report配置"></a>Report配置</h2><p><code>sentinl</code>除了提供告警功能，还提供了一个类似<code>X-Pack Reporting</code>的报表功能。</p>
+<p>同样这个功能需要开启和配置，不得不说这个功能和相关文档还是存在着不少的问题，比如尽管文档声称默认<code>engine</code>是<code>horseman</code>，但是现在默认的是<code>puppeteer</code>。 </p>
+<h3 id="问题1"><a href="#问题1" class="headerlink" title="问题1"></a>问题1</h3><p>官方文档提供的<a href="https://sentinl.readthedocs.io/en/latest/Config-Example/" target="_blank" rel="noopener">配置例子</a>是这样的:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">sentinl:</span><br><span class="line">  settings:</span><br><span class="line">    report:</span><br><span class="line">      active: true</span><br><span class="line">      executable_path: '/usr/bin/chromium' # path to Chrome v59+ or Chromium v59+</span><br></pre></td></tr></table></figure>
+<p><code>chromium</code>环境中不存在的话，手动下载后同步配置中对应的路径：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">sentinl:</span><br><span class="line">  settings:</span><br><span class="line">    active: true</span><br><span class="line">      engine: 'puppeteer'</span><br><span class="line">      executable_path: '/usr/bin/chromium-browser'</span><br></pre></td></tr></table></figure>
+<p>运用上述配置会有以下报错：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Option &quot;report.executable_path&quot; was deprecated. The path is handled automatically!</span><br></pre></td></tr></table></figure>
+<p>报错中显示<code>executable_path</code>这个选项已经被弃用，这个路径会被自动解析，一脸懵逼，文档中丝毫没提及。。。</p>
+<h2 id="问题2"><a href="#问题2" class="headerlink" title="问题2"></a>问题2</h2><p>当时笔者也很奇怪，如何自动解析？如何知晓<code>chromium</code>的路径呢？这个下面再讲，然后就先注释掉该选项配置：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">sentinl:</span><br><span class="line">  settings:</span><br><span class="line">    active: true</span><br><span class="line">      engine: &apos;puppeteer&apos;</span><br><span class="line">      # executable_path: &apos;/usr/bin/chromium-browser&apos;</span><br></pre></td></tr></table></figure>
+<p>页面换了个报错：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ActionError: report action: execute: run &apos;puppeteer&apos; report: puppeteer work</span><br></pre></td></tr></table></figure>
+<p>如下图所示：</p>
+<center><img src="http://cdn.tony-yin.site/puppeteer_execute.png" alt="error1"></center>
+
+<p>这个时候笔者就通过关键字谷歌搜索，发现<code>sentinl</code>里面有一个<a href="https://github.com/sirensolutions/sentinl/issues/535" target="_blank" rel="noopener">issue 535</a>，里面提到查看日志里面是否存在类似下面信息：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">....</span><br><span class="line">server    log   [07:52:27.332] [info][Sentinl][init] Chrome bin found at: /media/trex/safe1/Development/siren/kibi-internal/plugins/sentinl/node_modules/puppeteer/.local-chromium/linux-564778/chrome-linux/chrome</span><br><span class="line">...</span><br><span class="line">server    log   [07:52:27.428] [info][Sentinl][init] PhantomJS bin found at: /media/trex/safe1/Development/siren/kibi-internal/plugins/sentinl/phantomjs/phantomjs-2.1.1-linux-x86_64/bin/phantomjs</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+<p>笔者去日志里面查了查，还真发现类似信息：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;&quot;type&quot;:&quot;log&quot;,&quot;@timestamp&quot;:&quot;2018-11-23T10:27:44Z&quot;,&quot;tags&quot;:[&quot;error&quot;,&quot;Sentinl&quot;,&quot;init&quot;],&quot;pid&quot;:8219,&quot;message&quot;:&quot;setting puppeteer report engine: Error: user has no permissions to make file executable: /usr/share/kibana/plugins/sentinl/node_modules/puppeteer/.local-chromium/linux-564778/chrome-linux/chrome&quot;&#125;</span><br></pre></td></tr></table></figure>
+<p>如下图所示</p>
+<p><img src="http://cdn.tony-yin.site/puppeteer_permission.PNG" alt="puppeteer permission"></p>
+<p>这就是为什么可以自动解析<code>chrome</code>路径了，因为<code>sentinl</code>内置了<code>chrome</code>，所以<code>sentinl</code>默认解析的是其内置<code>chrome</code>路径而非其他第三方下载的，所以文档中的<code>/usr/bin/chromium</code>也有点误导的感觉。</p>
+<p>这一段日志提示<code>chrome</code>没有执行权限，于是查看权限：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> ll /usr/share/kibana/plugins/sentinl/node_modules/puppeteer/.<span class="built_in">local</span>-chromium/linux-564778/chrome-linux/chrome</span></span><br><span class="line">-rw-r--r-- 1 root root 206915904 Nov 22 10:16 /usr/share/kibana/plugins/sentinl/node_modules/puppeteer/.local-chromium/linux-564778/chrome-linux/chrome</span><br></pre></td></tr></table></figure>
+<p>果然是不存在执行权限，然后手动添加权限：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ chmod +x /usr/share/kibana/plugins/sentinl/node_modules/puppeteer/.local-chromium/linux-564778/chrome-linux/chrome</span><br></pre></td></tr></table></figure>
+<h3 id="问题3"><a href="#问题3" class="headerlink" title="问题3"></a>问题3</h3><p>更改之后这个报错没有了，但是又有了新的报错（真是醉了）：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Failed to load url</span><br></pre></td></tr></table></figure>
+<p>如下图所示</p>
+<p><img src="http://cdn.tony-yin.site/load_url_error.PNG" alt="load url error"></p>
+<p>然后继续谷歌大法，在 <a href="https://github.com/sirensolutions/sentinl/issues/495" target="_blank" rel="noopener">issue 495</a> 中看到了相关信息：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">for the error &quot;Failed to load url&quot; I just replaced the action&apos;s url with a valide link from a chosen dashboard</span><br></pre></td></tr></table></figure>
+<p>于是返回告警配置界面，发现有一个<code>url</code>选项，笔者也没填（因为当时也不知道这个<code>url</code>是干嘛的）。结合上面这哥们描述的，该<code>url</code>应该是<code>kibana</code>上面<code>dashbord</code>模块中某个已经存在的<code>dashbord</code>的链接，然后根据该<code>dashbord</code>生成报表。</p>
+<p>于是手动创建了一个<code>dashbord</code>，然后将该<code>dashbord</code>的<code>url</code>更新至配置中的<code>url</code>。</p>
+<h3 id="问题4"><a href="#问题4" class="headerlink" title="问题4"></a>问题4</h3><p>这次没报错了，<code>report</code>也发送到了指定邮箱，但是<code>report</code>是空的，这是因为新创建的<code>dashbord</code>并没有导入任何可视化图表，所以将<code>url</code>切换成了已经存在可视化图表的<code>dashbord</code>的<code>url</code>，这下可以发现发送的<code>report</code>是存在图表的。</p>
+<p>结合之前<code>monitoring</code>的了解，突然想到这个<code>url</code>可能不是<code>dashbord</code>直接显示的<code>url</code>，而应该是通过<code>share</code>功能提供的<code>link</code>。</p>
+<h3 id="问题5"><a href="#问题5" class="headerlink" title="问题5"></a>问题5</h3><p>上面<code>engine</code>选择<code>puppeteer</code>，笔者又尝试将<code>engine</code>切换成<code>horseman</code>：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">sentinl:</span><br><span class="line">  settings:</span><br><span class="line">    report:</span><br><span class="line">      active: true</span><br><span class="line">      engine: &apos;horseman&apos;</span><br></pre></td></tr></table></figure>
+<p>换了<code>engine</code>，依然报错不停：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ActionError: report action: execute: run &apos;horseman&apos; report: spawn EACCES</span><br></pre></td></tr></table></figure>
+<p>如下图所示</p>
+<p><img src="http://cdn.tony-yin.site/eacces_error.PNG" alt="eacces error"></p>
+<p>其实这个问题，上文提到的 <a href="https://github.com/sirensolutions/sentinl/issues/535" target="_blank" rel="noopener">issue 535</a> 中也给出了答案，<code>horseman engine</code>依赖的是<code>phantomjs</code>库，<code>puppeteer</code>依赖的是<code>chrome</code>库，问题<code>2</code>是<code>chrome</code>缺少可执行权限，而<code>spawn EACCES</code>这样的关键字则表示<code>phantomjs</code>库无法使用，根据上文<code>chrome</code>的路径笔者找到<code>phantomjs</code>的路径并检查权限：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> ll /usr/share/kibana/plugins/sentinl/node_modules/phantomjs-prebuilt/bin/phantomjs </span></span><br><span class="line">-rw-r--r-- 1 root root 1050 Nov 22 10:15 /usr/share/kibana/plugins/sentinl/node_modules/phantomjs-prebuilt/bin/phantomjs</span><br></pre></td></tr></table></figure>
+<p>发现<code>phantomjs</code>也缺少可执行权限，添加权限：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> chmod +x /usr/share/kibana/plugins/sentinl/node_modules/phantomjs-prebuilt/bin/phantomjs</span></span><br></pre></td></tr></table></figure>
+<p>但是<code>UI</code>上还是有相同的报错，只能继续查看日志，发现报错：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;"type":"log","@timestamp":"2018-11-22T02:27:28Z","tags":["info","Sentinl","init"],"pid":21134,"message":"PhantomJS bin found at: /usr/share/kibana/plugins/sentinl/phantomjs/phantomjs-2.1.1-linux-x86_64/bin/phantomjs"&#125;</span><br></pre></td></tr></table></figure>
+<p>原来<code>sentinl</code>解析库不是上面<code>node_modules</code>目录的那个路径，而是在<code>phantomjs</code>这个目录下，查看权限情况：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> ls -lh /usr/share/kibana/plugins/sentinl/phantomjs/phantomjs-2.1.1-linux-x86_64/bin/phantomjs</span></span><br><span class="line">-rw-r--r-- 1 root root 65M Nov 22 10:15 /usr/share/kibana/plugins/sentinl/phantomjs/phantomjs-2.1.1-linux-x86_64/bin/phantomjs</span><br></pre></td></tr></table></figure>
+<p>果然还是缺少执行权限，添加权限：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> chmod +x /usr/share/kibana/plugins/sentinl/phantomjs/phantomjs-2.1.1-linux-x86_64/bin/phantomjs</span></span><br></pre></td></tr></table></figure>
+<p>终于不报错了。。。</p>
+<h3 id="官方回应"><a href="#官方回应" class="headerlink" title="官方回应"></a>官方回应</h3><p>这一系列问题，笔者也给<code>sentinl</code>提了 <a href="https://github.com/sirensolutions/sentinl/issues/619" target="_blank" rel="noopener">issue</a>，作者也表示了这个权限问题之后会通过脚本等方式自动处理，然后表示<a href="https://sentinl.readthedocs.io/en/docs/Config-Example/" target="_blank" rel="noopener">这个文档</a>没有同步更新，可以看<a href="https://sentinl.readthedocs.io/en/latest/" target="_blank" rel="noopener">最新同步文档</a>。</p>
+<h2 id="Sentinl-amp-ElastAlert"><a href="#Sentinl-amp-ElastAlert" class="headerlink" title="Sentinl &amp; ElastAlert"></a>Sentinl &amp; ElastAlert</h2><p>与<code>elastalert</code>相比较，就告警功能而言的话，如果要求不高，推荐使用<code>sentinl</code>，因为安装容易并且配置简单；但如果有复杂的告警场景或独立的告警方式，那推荐选择<code>elastalert</code>。</p>
+<p>整理一个对比表格，想必这样看起来更直观：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">比较</th>
+<th style="text-align:center">Sentinl</th>
+<th style="text-align:center">ElastAlert</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">安装</td>
+<td style="text-align:center">简单</td>
+<td style="text-align:center">一般复杂</td>
+</tr>
+<tr>
+<td style="text-align:center">配置</td>
+<td style="text-align:center">简单</td>
+<td style="text-align:center">一般复杂</td>
+</tr>
+<tr>
+<td style="text-align:center">UI</td>
+<td style="text-align:center">简单美观</td>
+<td style="text-align:center">不友好</td>
+</tr>
+<tr>
+<td style="text-align:center">告警规则数量</td>
+<td style="text-align:center">1个</td>
+<td style="text-align:center">11个</td>
+</tr>
+<tr>
+<td style="text-align:center">告警方式数量</td>
+<td style="text-align:center">6个</td>
+<td style="text-align:center">11个</td>
+</tr>
+<tr>
+<td style="text-align:center">告警方式隔离</td>
+<td style="text-align:center">不独立</td>
+<td style="text-align:center">独立</td>
+</tr>
+<tr>
+<td style="text-align:center">开发语言</td>
+<td style="text-align:center">javascript</td>
+<td style="text-align:center">python</td>
+</tr>
+<tr>
+<td style="text-align:center">后端配置透明度</td>
+<td style="text-align:center">不透明</td>
+<td style="text-align:center">透明</td>
+</tr>
+<tr>
+<td style="text-align:center">成熟度</td>
+<td style="text-align:center">700+ star</td>
+<td style="text-align:center">5000+ start</td>
+</tr>
+<tr>
+<td style="text-align:center">开发者数量</td>
+<td style="text-align:center">28</td>
+<td style="text-align:center">160</td>
+</tr>
+<tr>
+<td style="text-align:center">commit数</td>
+<td style="text-align:center">1500+</td>
+<td style="text-align:center">1800+</td>
+</tr>
+<tr>
+<td style="text-align:center">开发周期</td>
+<td style="text-align:center">2016/08</td>
+<td style="text-align:center">2015/11</td>
+</tr>
+</tbody>
+</table>
+<p>根据上述表格，我们可以看出各有各的优势，<code>sentinl</code>更加偏向于集成进<code>kibana</code>的一种页面展示插件，而<code>elastalert</code>则是更偏向与后端告警功能的打磨。单从告警功能来看，<code>elastalert</code>看起来更强大一些，但是<code>sentinl</code>也有它的优势，<code>UI</code>非常地棒，其次还支持<code>report</code>功能，虽然现在还存在很多问题，但相信之后肯定越来越好，而且目前通过开发者数量和代码提交量可以看出有后来居上的感觉。就笔者而言，喜爱<code>sentinl</code>的<code>UI</code>,喜爱<code>elastalert</code>的告警<code>rule</code>。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p><code>sentinl</code>作为一个开源组件，提供了<code>X-Pack</code>两款收费组件：<code>Alert</code>和<code>Reporting</code>的替代功能，着实不错，告警功能配置简单、页面美观、操作友好；但是<code>Report</code>功能就显得问题较多，并且生成的报表也有很多瑕疵。希望之后可以不断优化和强大吧！</p>
+
+      
+
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2018/12/01/ES-Sentinl/">ES告警详解之Sentinl</a></p>
+        <p><span>文章作者:</span><a href="/" title="访问 Tony 的个人博客">Tony</a></p>
+        <p><span>发布时间:</span>2018年12月01日 - 13时07分</p>
+        <p><span>最后更新:</span>2018年12月17日 - 01时11分</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2018/12/01/ES-Sentinl/" title="ES告警详解之Sentinl">https://tony-yin.github.io/2018/12/01/ES-Sentinl/</a>
+            <span class="copy-path" data-clipboard-text="原文: https://tony-yin.github.io/2018/12/01/ES-Sentinl/　　作者: Tony" title=""></span>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/cn/" title="中国大陆 (CC BY-NC-SA 3.0 CN)" target="_blank">"署名-非商用-相同方式共享 3.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+<nav id="article-nav">
+  
+  
+    <a href="/2018/11/05/How-To-Avoid-Cronjob-Duplicate-Running/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">如何避免 Cronjob 重复运行</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#概述"><span class="toc-number">1.</span> <span class="toc-text">概述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#软件环境"><span class="toc-number">2.</span> <span class="toc-text">软件环境</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#安装"><span class="toc-number">3.</span> <span class="toc-text">安装</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Alert配置"><span class="toc-number">4.</span> <span class="toc-text">Alert配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Report配置"><span class="toc-number">5.</span> <span class="toc-text">Report配置</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#问题1"><span class="toc-number">5.1.</span> <span class="toc-text">问题1</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#问题2"><span class="toc-number">6.</span> <span class="toc-text">问题2</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#问题3"><span class="toc-number">6.1.</span> <span class="toc-text">问题3</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#问题4"><span class="toc-number">6.2.</span> <span class="toc-text">问题4</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#问题5"><span class="toc-number">6.3.</span> <span class="toc-text">问题5</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#官方回应"><span class="toc-number">6.4.</span> <span class="toc-text">官方回应</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Sentinl-amp-ElastAlert"><span class="toc-number">7.</span> <span class="toc-text">Sentinl &amp; ElastAlert</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-number">8.</span> <span class="toc-text">总结</span></a></li></ol>
+</div>
+<style>
+    .left-col .switch-btn {
+        display: none;
+    }
+    .left-col .switch-area {
+        display: none;
+    }
+</style>
+<input type="button" id="tocButton" value="隐藏目录" title="点击按钮隐藏或者显示文章目录">
+<script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script>
+    var valueHide = "隐藏目录";
+    var valueShow = "显示目录";
+    if ($(".left-col").is(":hidden")) {
+        $("#tocButton").attr("value", valueShow);
+    }
+    $("#tocButton").click(function() {
+        if ($("#toc").is(":hidden")) {
+            $("#tocButton").attr("value", valueHide);
+            $("#toc").slideDown(320);
+            $(".switch-btn, .switch-area").fadeOut(300);
+        }
+        else {
+            $("#tocButton").attr("value", valueShow);
+            $("#toc").slideUp(350);
+            $(".switch-btn, .switch-area").fadeIn(500);
+        }
+    })
+    if ($(".toc").length < 1) {
+        $("#toc, #tocButton").hide();
+        $(".switch-btn, .switch-area").show();
+    }
+</script>
+
+
+
+
+
+<div class="bdsharebuttonbox">
+	<a href="#" class="fx fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+	<a href="#" class="fx fa-weixin bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+	<a href="#" class="fx fa-qq bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a>
+	<a href="#" class="fx fa-facebook-official bds_fbook" data-cmd="fbook" title="分享到Facebook"></a>
+	<a href="#" class="fx fa-twitter bds_twi" data-cmd="twi" title="分享到Twitter"></a>
+	<a href="#" class="fx fa-linkedin bds_linkedin" data-cmd="linkedin" title="分享到linkedin"></a>
+	<a href="#" class="fx fa-files-o bds_copy" data-cmd="copy" title="分享到复制网址"></a>
+</div>
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"2","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='/static/api/js/share.js?cdnversion=' + ~ (-new Date() / 36e5)];</script>
+
+
+
+
+    
+        
+    <div id="cyReward" role="cylabs" data-use="reward" style="text-align:center;margin-top:50px"></div>
+
+
+<section class="changyan" id="comments">
+  <!--<div id="uyan_frame"></div>-->
+  <div id="SOHUCS"></div>
+  <script charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/changyan.js"></script>
+  <script type="text/javascript">
+    window.changyan.api.config({
+      appid: 'cytncUiAO',
+      conf: 'prod_50cb4de09ef44034f63977dcfcfa1e4b'
+    });
+  </script>
+</section>
+
+    <script type="text/javascript" charset="utf-8" src="https://changyan.itc.cn/js/lib/jquery.js"></script>
+    <script type="text/javascript" charset="utf-8" src="https://changyan.sohu.com/js/changyan.labs.https.js?appid=cytncUiAO"></script>
+
+
+
+    
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/" title="回到主页"><i class="fa fa-home"></i></a>
+        
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+        
+            <a href="/2018/11/05/How-To-Avoid-Cronjob-Duplicate-Running/" title="下一篇: 如何避免 Cronjob 重复运行">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2018/12/01/ES-Sentinl/">ES告警详解之Sentinl</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/11/05/How-To-Avoid-Cronjob-Duplicate-Running/">如何避免 Cronjob 重复运行</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/11/01/ES-ElastAlert/">ES告警详解之ElastAlert</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/10/29/Why-Crontab-Not-Work/">为什么 crontab 不执行</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/01/Daily-Article-Vol7/">Daily Article Vol7(2018/6/1 ~ 2018/6/30)</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/20/Block-device-persistent-name-and-multipath/">块设备持久化命名和多路径</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/03/Python-Snack-Best-Practice/">Python Snack 最佳实践</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/01/Daily-Article-Vol6/">Daily Article Vol6(2018/5/1 ~ 2018/5/31)</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/20/Ctdb-Rados-2/">Ctdb Rados（二）：多场景断网高可用</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/12/Megaraid_Location/">Megaraid 磁盘定位</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/02/Django_CAS_Token_Solution/">Django CAS Token 解决方案</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/01/Daily-Article-Vol5/">Daily Article Vol 5 - (2018/4/1 ~ 2018/4/30)</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/20/Ctdb-Rados-All-Banned/">Ctdb Rados方式导致All Banned的问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/08/python_nas_stable_test/">基于Python的NAS稳定性测试框架</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/01/Daily_Article_Vol4/">Daily Article Vol 4 - (2018/3/1 ~ 2018/3/31)</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/03/09/Hardware-Test-Tool/">硬件环境测试环境模拟</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/03/01/Daily-Article-Vol3/">Daily Article Vol 3 - (2018/2/1 ~ 2018/2/28)</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/02/01/Daily-Article-Vol2/">Daily Article Vol 2 - (2018/1/1 ~ 2018/1/31)</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/28/RBD-HA-2/">实现RBD导出NFS高可用（二）：提供多虚拟IP访问</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/10/scp-and-ssh/">scp 免交互式和 ssh 免交互式脚本</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/05/RaidCardToolUtils/">利用Raid卡工具获取逻辑盘是否为SSD</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/01/Daily-Article-2017/">Daily Article Vol 1 - (2017/11/1 ~ 2017/12/31)</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/21/Everything-is-a-file/">译：一切皆文件</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/17/Linux-Filesystem/">译：Linux 文件系统介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/10/Into-Withe-Night/">阅读感悟：《白夜行》</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/08/Filesystem-Bug-Fix/">故障修复：文件系统导致OSD启动失败</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/07/RBD-HA/">通过 Keepalived 实现 Ceph RBD 的高可用</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/30/Cephx-practice/">Cephx 实战演练</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/26/read-ceph-cookbook/">阅读感悟：《Ceph Cookbook》</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/26/read-ceph-guide/">阅读感悟：《Ceph分布式存储学习指南》</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/26/read-python-automation/">阅读感悟：《Python编程快速上手---让繁琐工作自动化》</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/19/hexo-theme-shadow/">博客主题 shadow</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/14/LVM-Space-Expansion/">LVM动态扩展</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/14/Ceph-Compile/">Ceph 编译（Giant版本）</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/08/Ceph-NFS-Ganesha/">通过ganesha-nfs导出Ceph为NFS（Luminous）</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/08/Ceph-RGW/">RGW 安装和创建</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/31/RBD-Mount-NFS/">使用NFS挂载RBD</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/10/Python-Profiler/">Python Profiler</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/10/Enable-OSD-Profile-Script/">启用OSD性能剖析脚本</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/02/Batch-Create-And-Delete-Disk-Partition-Script/">批量创建和删除磁盘分区脚本</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/28/JS-Object-Null/">JS判断对象是否为空</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/27/OSD-Create-And-Delete/">OSD创建和删除全过程</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/21/How-To-Forge-Product/">如何打造一个好的产品</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/18/PHP-Excel/">PHP-Excel 开发解决方案</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/10/Disk-pull-and-plug-record/">磁盘反复拔插记录</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/10/Linux-Udev/">Linux Udev</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/10/network-down-notification/">Network Down Notification</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/10/Python-Oracle/">Python操作Oracle</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/10/oracle_install/">Oracle Linux And Oracle Database 11g R2 Intsallation</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/09/Moodle-Local-Plugin/">Moodle Local插件</a></li></ul>
+    <script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+    <script>
+        $(".post-list").addClass("toc-article");
+        // $(".post-list-item a").attr("target","_blank");
+        $("#post-nav-button > a:nth-child(2)").click(function() {
+            $(".fa-bars, .fa-times").toggle();
+            $(".post-list").toggle(300);
+            if ($(".toc").length > 0) {
+                $("#toc, #tocButton").toggle(200, function() {
+                    if ($(".switch-area").is(":visible")) {
+                        $("#toc, .switch-btn, .switch-area").toggle();
+                        $("#tocButton").attr("value", valueHide);
+                        }
+                    })
+            }
+            else {
+                $(".switch-btn, .switch-area").fadeToggle(300);
+            }
+        })
+    </script>
+
+
+
+
+    <script>
+        
+    </script>
+
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                &copy; 2018 Tony
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank">Hexo &nbsp;&nbsp;</a><a href="https://github.com/tony-yin/hexo-theme-shadow" target="_blank">Shadow</a> by tony
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style="display:none">
+                        <span id="site-visit">极客到访数: 
+                            <span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>, </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style="display:none">
+                        <span id="page-visit">本页阅读量: 
+                            <span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+
+    </div>
+    <script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script src="/js/main.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var backgroundnum = 4;
+            var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+            $("#mobile-nav").css({"background-image": backgroundimg,"background-size": "cover","background-position": "center"});
+            $(".left-col").css({"background-image": backgroundimg,"background-size": "cover","background-position": "center"});
+        })
+    </script>
+
+
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'xxxxx', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+
+	<script>
+	var _hmt = _hmt || [];
+	(function() {
+	  var hm = document.createElement("script");
+	  hm.src = "//hm.baidu.com/hm.js?xxxxxx";
+	  var s = document.getElementsByTagName("script")[0]; 
+	  s.parentNode.insertBefore(hm, s);
+	})();
+	</script>
+
+
+
+<div class="scroll" id="scroll">
+    <a href="#"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    $(document).ready(function() {
+        if ($("#comments").length < 1) {
+            $("#scroll > a:nth-child(2)").hide();
+        };
+    })
+</script>
+
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+  <script language="javascript">
+    $(function() {
+        $("a[title]").each(function() {
+            var a = $(this);
+            var title = a.attr('title');
+            if (title == undefined || title == "") return;
+            a.data('title', title).removeAttr('title').hover(
+            function() {
+                var offset = a.offset();
+                $("<div id=\"anchortitlecontainer\"></div>").appendTo($("body")).html(title).css({
+                    top: offset.top - a.outerHeight() - 15,
+                    left: offset.left + a.outerWidth()/2 + 1
+                }).fadeIn(function() {
+                    var pop = $(this);
+                    setTimeout(function() {
+                        pop.remove();
+                    }, pop.text().length * 800);
+                });
+            }, function() {
+                $("#anchortitlecontainer").remove();
+            });
+        });
+    });
+</script>
+
+
+  </div>
+</body>
+</html>
