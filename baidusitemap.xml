@@ -4,12 +4,12 @@
 
     
   <url>
-    <loc>https://tony-yin.github.io/2018/12/01/ES-Sentinl/</loc>
-    <lastmod>2018-12-17T04:26:43.105Z</lastmod>
+    <loc>https://tony-yin.github.io/2018/11/15/ES-ElastAlert/</loc>
+    <lastmod>2018-12-17T04:41:01.407Z</lastmod>
     <data>
         <display>
-        <title>ES告警详解之Sentinl</title>
-        <pubTime>2018-12-01T05:07:06.000Z</pubTime>
+        <title>ES告警详解之ElastAlert</title>
+        <pubTime>2018-11-15T05:07:06.000Z</pubTime>
         
         <tag>Elasticsearch</tag>
          
@@ -26,12 +26,58 @@
 
     
   <url>
-    <loc>https://tony-yin.github.io/2018/11/01/ES-ElastAlert/</loc>
-    <lastmod>2018-12-17T04:26:22.698Z</lastmod>
+    <loc>https://tony-yin.github.io/2018/05/02/Django_CAS_Token_Solution/</loc>
+    <lastmod>2018-12-17T04:37:27.341Z</lastmod>
     <data>
         <display>
-        <title>ES告警详解之ElastAlert</title>
-        <pubTime>2018-11-01T05:07:06.000Z</pubTime>
+        <title>Django CAS Token 解决方案</title>
+        <pubTime>2018-05-02T05:07:06.000Z</pubTime>
+        
+        <tag>Django</tag>
+         
+        <tag>CAS</tag>
+         
+         
+           
+             
+              <breadCrumb title="tech" url="https://tony-yin.github.io/categories/tech/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://tony-yin.github.io/2018/12/10/Centos7-GPT/</loc>
+    <lastmod>2018-12-17T04:35:36.549Z</lastmod>
+    <data>
+        <display>
+        <title>Centos7系统安装设置gpt分区</title>
+        <pubTime>2018-12-10T05:07:06.000Z</pubTime>
+        
+        <tag>Disk</tag>
+         
+        <tag>Partition</tag>
+         
+        <tag>Linux</tag>
+         
+         
+           
+             
+              <breadCrumb title="tech" url="https://tony-yin.github.io/categories/tech/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://tony-yin.github.io/2018/12/01/ES-Sentinl/</loc>
+    <lastmod>2018-12-17T04:26:43.105Z</lastmod>
+    <data>
+        <display>
+        <title>ES告警详解之Sentinl</title>
+        <pubTime>2018-12-01T05:07:06.000Z</pubTime>
         
         <tag>Elasticsearch</tag>
          
@@ -523,9 +569,9 @@
         
         <tag>Ceph</tag>
          
-        <tag>Udev</tag>
-         
         <tag>Linux</tag>
+         
+        <tag>Udev</tag>
          
          
            
@@ -754,28 +800,6 @@
 
     
   <url>
-    <loc>https://tony-yin.github.io/2018/05/02/Django_CAS_Token_Solution/</loc>
-    <lastmod>2018-12-13T16:40:24.427Z</lastmod>
-    <data>
-        <display>
-        <title>Django CAS Token 解决方案</title>
-        <pubTime>2018-05-02T05:07:06.000Z</pubTime>
-        
-        <tag>Django</tag>
-         
-        <tag>CAS</tag>
-         
-         
-           
-             
-              <breadCrumb title="tech" url="https://tony-yin.github.io/categories/tech/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
     <loc>https://tony-yin.github.io/2017/09/10/Disk-pull-and-plug-record/</loc>
     <lastmod>2018-12-13T16:40:24.425Z</lastmod>
     <data>
@@ -787,11 +811,11 @@
          
         <tag>Disk</tag>
          
+        <tag>Linux</tag>
+         
         <tag>OSD</tag>
          
         <tag>Udev</tag>
-         
-        <tag>Linux</tag>
          
          
            
