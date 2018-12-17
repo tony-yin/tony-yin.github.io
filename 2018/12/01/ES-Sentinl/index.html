@@ -9,23 +9,23 @@
   
   <title>ES告警详解之Sentinl | Tony&#39;s blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="上一篇文章详细讲解了ElastAlert这款告警组件，今天我们聊聊另一个ES开源告警组件Sentinl。   概述sentinl是基于javascript开发的kibana插件，拥有告警和报表两大功能，分别作为X-Pack 的Alert和Reporting的替代品，即插即用，它将前端UI、webserver和告警逻辑代码都集成在一个项目中，这一点要比上篇文章提到同为kibana插件的elastal">
+  <meta name="description" content="上一篇文章详细讲解了ElastAlert这款告警组件，今天我们聊聊另一个ES开源告警组件Sentinl。">
 <meta name="keywords" content="Elasticsearch,Monitor">
 <meta property="og:type" content="article">
 <meta property="og:title" content="ES告警详解之Sentinl">
 <meta property="og:url" content="https://tony-yin.github.io/2018/12/01/ES-Sentinl/index.html">
 <meta property="og:site_name" content="Tony&#39;s blog">
-<meta property="og:description" content="上一篇文章详细讲解了ElastAlert这款告警组件，今天我们聊聊另一个ES开源告警组件Sentinl。   概述sentinl是基于javascript开发的kibana插件，拥有告警和报表两大功能，分别作为X-Pack 的Alert和Reporting的替代品，即插即用，它将前端UI、webserver和告警逻辑代码都集成在一个项目中，这一点要比上篇文章提到同为kibana插件的elastal">
+<meta property="og:description" content="上一篇文章详细讲解了ElastAlert这款告警组件，今天我们聊聊另一个ES开源告警组件Sentinl。">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="http://cdn.tony-yin.site/sentinl.png">
 <meta property="og:image" content="http://cdn.tony-yin.site/puppeteer_execute.png">
 <meta property="og:image" content="http://cdn.tony-yin.site/puppeteer_permission.PNG">
 <meta property="og:image" content="http://cdn.tony-yin.site/load_url_error.PNG">
 <meta property="og:image" content="http://cdn.tony-yin.site/eacces_error.PNG">
-<meta property="og:updated_time" content="2018-12-16T17:11:12.120Z">
+<meta property="og:updated_time" content="2018-12-17T04:26:43.105Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="ES告警详解之Sentinl">
-<meta name="twitter:description" content="上一篇文章详细讲解了ElastAlert这款告警组件，今天我们聊聊另一个ES开源告警组件Sentinl。   概述sentinl是基于javascript开发的kibana插件，拥有告警和报表两大功能，分别作为X-Pack 的Alert和Reporting的替代品，即插即用，它将前端UI、webserver和告警逻辑代码都集成在一个项目中，这一点要比上篇文章提到同为kibana插件的elastal">
+<meta name="twitter:description" content="上一篇文章详细讲解了ElastAlert这款告警组件，今天我们聊聊另一个ES开源告警组件Sentinl。">
 <meta name="twitter:image" content="http://cdn.tony-yin.site/sentinl.png">
   
     <link rel="alternative" href="/atom.xml" title="Tony&#39;s blog" type="application/atom+xml">
@@ -325,9 +325,10 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p>上一篇文章详细讲解了<code>ElastAlert</code>这款告警组件，今天我们聊聊另一个<code>ES</code>开源告警组件<code>Sentinl</code>。</p>
-<center><img src="http://cdn.tony-yin.site/sentinl.png" alt="sentinl"></center>
+        <center><img src="http://cdn.tony-yin.site/sentinl.png" alt="sentinl"></center>
 
+<p>上一篇文章详细讲解了<code>ElastAlert</code>这款告警组件，今天我们聊聊另一个<code>ES</code>开源告警组件<code>Sentinl</code>。</p>
+<a id="more"></a>
 <h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p><code>sentinl</code>是基于<code>javascript</code>开发的<code>kibana</code>插件，拥有告警和报表两大功能，分别作为<code>X-Pack</code> 的<code>Alert</code>和<code>Reporting</code>的替代品，即插即用，它将前端<code>UI</code>、<code>webserver</code>和告警逻辑代码都集成在一个项目中，这一点要比上篇文章提到同为<code>kibana</code>插件的<code>elastalert-kibana-plugin</code>要强大不少，并且可以说<code>sentinl</code>的<code>UI</code>无论是美观程度还是操作友好程度都完全秒杀<code>elastalert-kibana-plugin</code>。说了这么多是不是<code>sentinl</code>就很完美呢？请看下文慢慢讲述。</p>
 <h2 id="软件环境"><a href="#软件环境" class="headerlink" title="软件环境"></a>软件环境</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">elasticsearch: 6.4.2</span><br><span class="line">kibana: 6.4.2</span><br><span class="line">sentinl: 6.4.2</span><br></pre></td></tr></table></figure>
 <h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p>安装环节很简单，只需要进行通用的<code>kibana</code>安装插件的方式安装即可。</p>
@@ -483,7 +484,7 @@
         <p><span>本文标题:</span><a href="/2018/12/01/ES-Sentinl/">ES告警详解之Sentinl</a></p>
         <p><span>文章作者:</span><a href="/" title="访问 Tony 的个人博客">Tony</a></p>
         <p><span>发布时间:</span>2018年12月01日 - 13时07分</p>
-        <p><span>最后更新:</span>2018年12月17日 - 01时11分</p>
+        <p><span>最后更新:</span>2018年12月17日 - 12时26分</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2018/12/01/ES-Sentinl/" title="ES告警详解之Sentinl">https://tony-yin.github.io/2018/12/01/ES-Sentinl/</a>
             <span class="copy-path" data-clipboard-text="原文: https://tony-yin.github.io/2018/12/01/ES-Sentinl/　　作者: Tony" title=""></span>
