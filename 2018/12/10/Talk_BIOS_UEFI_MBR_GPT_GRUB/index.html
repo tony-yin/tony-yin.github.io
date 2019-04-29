@@ -30,8 +30,8 @@
 <meta property="og:image" content="http://cdn.tony-yin.site/uefi_no_support.png">
 <meta property="og:image" content="http://cdn.tony-yin.site/bios_force_uefi.png">
 <meta property="og:image" content="http://cdn.tony-yin.site/grub-loader.jpg">
-<meta property="og:image" content="http://cdn.tony-yin.site/grub_location.svg">
-<meta property="og:updated_time" content="2019-04-29T08:20:28.504Z">
+<meta property="og:image" content="http://cdn.tony-yin.site/grub_location.png">
+<meta property="og:updated_time" content="2019-04-29T08:34:45.825Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="聊聊 BIOS、UEFI、MBR、GPT、GRUB……">
 <meta name="twitter:description" content="最近一直在搞Linux系统启动方面的事情，频繁地接触到BIOS、UEFI、MBR、GPT、GRUB等诸多概念，一下子有些混淆不清，本文就这些概念进行总结，尽量通过容易理解的表达进行讲解，对这些概念有一个清楚的认识。">
@@ -429,7 +429,7 @@
 <p>如图：第一个选项和最后一个选项是选择不同的操作系统；第一个选项和第二个选项是选择不同的内核配置。</p>
 <h3 id="GRUB位置"><a href="#GRUB位置" class="headerlink" title="GRUB位置"></a>GRUB位置</h3><p>其启动代码（<code>boot.img</code>）直接安装在<code>MBR</code>中，然后执行<code>GRUB</code>内核镜像（<code>core.img</code>），最后从<code>/boot/grub</code>中读取配置和其他功能代码。</p>
 <p><code>BIOS</code>引导方式中，<code>MBR</code>分区表和<code>GPT</code>分区表的<a href="https://en.wikipedia.org/wiki/BIOS_boot_partition" target="_blank" rel="noopener">GRUB引导文件所放分区不同</a>：</p>
-<center><img src="http://cdn.tony-yin.site/grub_location.svg" alt="grub location"></center>
+<center><img src="http://cdn.tony-yin.site/grub_location.png" alt="grub location"></center>
 
 <p>如图，<code>GRUB</code>的执行顺序为<code>boot.img</code> –&gt; <code>core.img</code> –&gt; <code>/boot/grub/</code>。</p>
 <ul>
@@ -467,7 +467,7 @@
         <p><span>本文标题:</span><a href="/2018/12/10/Talk_BIOS_UEFI_MBR_GPT_GRUB/">聊聊 BIOS、UEFI、MBR、GPT、GRUB……</a></p>
         <p><span>文章作者:</span><a href="/" title="访问 Tony 的个人博客">Tony</a></p>
         <p><span>发布时间:</span>2018年12月10日 - 13时07分</p>
-        <p><span>最后更新:</span>2019年04月29日 - 16时20分</p>
+        <p><span>最后更新:</span>2019年04月29日 - 16时34分</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2018/12/10/Talk_BIOS_UEFI_MBR_GPT_GRUB/" title="聊聊 BIOS、UEFI、MBR、GPT、GRUB……">https://tony-yin.github.io/2018/12/10/Talk_BIOS_UEFI_MBR_GPT_GRUB/</a>
             <span class="copy-path" data-clipboard-text="原文: https://tony-yin.github.io/2018/12/10/Talk_BIOS_UEFI_MBR_GPT_GRUB/　　作者: Tony" title=""></span>
