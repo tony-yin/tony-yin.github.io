@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  <meta name="baidu-site-verification" content="L6Lm9d5Crl">
+  
+  
+  
+  
+  <title>利用软 RAID 实现系统盘高可用 | Tony&#39;s blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="一套完善的系统理论上是不应该存在任何的单点故障，但是系统盘往往被人所忽略，而系统盘又恰恰是最重要的一个点。本文主要讲解如何利用软RAID实现系统盘高可用，并且实现自动换盘、自动告警和自动恢复。">
+<meta name="keywords" content="Ceph,Disk,HA,RAID">
+<meta property="og:type" content="article">
+<meta property="og:title" content="利用软 RAID 实现系统盘高可用">
+<meta property="og:url" content="https://tony-yin.github.io/2019/03/10/ssd_ha/index.html">
+<meta property="og:site_name" content="Tony&#39;s blog">
+<meta property="og:description" content="一套完善的系统理论上是不应该存在任何的单点故障，但是系统盘往往被人所忽略，而系统盘又恰恰是最重要的一个点。本文主要讲解如何利用软RAID实现系统盘高可用，并且实现自动换盘、自动告警和自动恢复。">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="http://cdn.tony-yin.site/ssd_ha.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/tony-yin/Picture-Lib/master/lib/load_uefi.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/tony-yin/Picture-Lib/master/lib/uefi_partition.png">
+<meta property="og:updated_time" content="2019-05-04T16:46:24.984Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="利用软 RAID 实现系统盘高可用">
+<meta name="twitter:description" content="一套完善的系统理论上是不应该存在任何的单点故障，但是系统盘往往被人所忽略，而系统盘又恰恰是最重要的一个点。本文主要讲解如何利用软RAID实现系统盘高可用，并且实现自动换盘、自动告警和自动恢复。">
+<meta name="twitter:image" content="http://cdn.tony-yin.site/ssd_ha.png">
+  
+    <link rel="alternative" href="/atom.xml" title="Tony&#39;s blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/img/favicon.png">
+  
+  
+  <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  
+  
+      <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  
+  <!-- 加载特效 -->
+    <script src="/js/pace.js"></script>
+    <link href="/css/pace/pace-theme-flash.css" rel="stylesheet">
+  <script>
+      var yiliaConfig = {
+          fancybox: true,
+          animate: true,
+          isHome: false,
+          isPost: true,
+          isArchive: false,
+          isTag: false,
+          isCategory: false,
+          open_in_new: false
+      }
+  </script>
+</head></html>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+        <a href="/" class="profilepic">
+            
+            <img src="/img/tony.jpg" class="js-avatar">
+            
+        </a>
+        <hgroup>
+          <h1 class="header-author"><a href="/">Tony</a></h1>
+        </hgroup>
+        
+        
+            <form>
+	        <input type="text" class="st-default-search-input search" id="local-search-input" placeholder="搜索一下" autocomplete="off">
+            </form>
+            <div id="local-search-result"></div>
+        
+        
+            <script type="text/javascript">
+                (function() {
+                    'use strict';
+                    function getMatchData(keyword, data) {
+                        var matchData = [];
+                        for(var i =0;i<data.length;i++){
+                            if(data[i].title.toLowerCase().indexOf(keyword)>=0) 
+                                matchData.push(data[i])
+                        }
+                        return matchData;
+                    }
+                    var $input = $('#local-search-input');
+                    var $resultContent = $('#local-search-result');
+                    $input.keyup(function(){
+                        $.ajax({
+                            url: '/search.json',
+                            dataType: "json",
+                            success: function( json ) {
+                                var str='<ul class=\"search-result-list\">';                
+                                var keyword = $input.val().trim().toLowerCase();
+                                $resultContent.innerHTML = "";
+                                if ($input.val().trim().length <= 0) {
+                                    $resultContent.empty();
+                                    $('#switch-area').show();
+                                    return;
+                                }
+                                var results = getMatchData(keyword, json);
+                                if(results.length === 0){
+                                    $resultContent.empty();
+                                    $('#switch-area').show();
+                                    return;
+                                } 
+                                for(var i =0; i<results.length; i++){
+                                    str += "<li><a href='"+ results[i].url +"' class='search-result-title'>"+ results[i].title +"</a></li>";
+                                }
+                                str += "</ul>";
+                                $resultContent.empty();
+                                $resultContent.append(str);
+                                $('#switch-area').hide();
+                            }
+                        });
+                    });
+                })();
+            </script>
+        
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                        <div class="icon-wrap icon-me hide" data-idx="3">
+                            <div class="user"></div>
+                            <div class="shoulder"></div>
+                        </div>
+                        
+                    </div>
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                        <li>关于我</li>
+                        
+                    </ul>
+                </div>
+            </div>
+        
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/archives/">所有文章</a></li>
+                        
+                            <li><a href="/categories/tech">技术文章</a></li>
+                        
+                            <li><a href="/tags/Ceph">Ceph修炼之路</a></li>
+                        
+                            <li><a href="/categories/summary">感悟总结</a></li>
+                        
+                            <li><a href="/categories/read">阅读翻译</a></li>
+                        
+                            <li><a href="/categories/life">生活随笔</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fl github" target="_blank" href="https://github.com/tony-yin" title="github">github</a>
+                            
+                                <a class="fl weibo" target="_blank" href="https://weibo.com/3832044210/profile?rightmod=1&wvr=6&mod=personinfo" title="weibo">weibo</a>
+                            
+                                <a class="fl segmentfault" target="_blank" href="https://segmentfault.com/u/qzuser_57fb1d5db527e" title="segmentfault">segmentfault</a>
+                            
+                        </ul>
+			
+                    </nav>
+                </section>
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <a href="/tags/BIOS/" style="font-size: 10px;">BIOS</a> <a href="/tags/Bugfix/" style="font-size: 10px;">Bugfix</a> <a href="/tags/CAS/" style="font-size: 10px;">CAS</a> <a href="/tags/Ceph/" style="font-size: 20px;">Ceph</a> <a href="/tags/Cephx/" style="font-size: 10px;">Cephx</a> <a href="/tags/Console/" style="font-size: 10px;">Console</a> <a href="/tags/Cronjob/" style="font-size: 10px;">Cronjob</a> <a href="/tags/Crontab/" style="font-size: 10px;">Crontab</a> <a href="/tags/Ctdb/" style="font-size: 11.25px;">Ctdb</a> <a href="/tags/Daily-Article/" style="font-size: 17.5px;">Daily-Article</a> <a href="/tags/Disk/" style="font-size: 16.25px;">Disk</a> <a href="/tags/Django/" style="font-size: 10px;">Django</a> <a href="/tags/Elasticsearch/" style="font-size: 11.25px;">Elasticsearch</a> <a href="/tags/Filesystem/" style="font-size: 11.25px;">Filesystem</a> <a href="/tags/GPT/" style="font-size: 10px;">GPT</a> <a href="/tags/GRUB/" style="font-size: 10px;">GRUB</a> <a href="/tags/HA/" style="font-size: 13.75px;">HA</a> <a href="/tags/Javascript/" style="font-size: 10px;">Javascript</a> <a href="/tags/Keepalived/" style="font-size: 11.25px;">Keepalived</a> <a href="/tags/LVM/" style="font-size: 10px;">LVM</a> <a href="/tags/Linux/" style="font-size: 18.75px;">Linux</a> <a href="/tags/Luminous/" style="font-size: 10px;">Luminous</a> <a href="/tags/MBR/" style="font-size: 10px;">MBR</a> <a href="/tags/Megaraid/" style="font-size: 10px;">Megaraid</a> <a href="/tags/Monitor/" style="font-size: 11.25px;">Monitor</a> <a href="/tags/Moodle/" style="font-size: 10px;">Moodle</a> <a href="/tags/NAS/" style="font-size: 10px;">NAS</a> <a href="/tags/NFS/" style="font-size: 12.5px;">NFS</a> <a href="/tags/NFS-Ganesha/" style="font-size: 10px;">NFS-Ganesha</a> <a href="/tags/Network/" style="font-size: 10px;">Network</a> <a href="/tags/Notification/" style="font-size: 10px;">Notification</a> <a href="/tags/OSD/" style="font-size: 12.5px;">OSD</a> <a href="/tags/Oracle/" style="font-size: 11.25px;">Oracle</a> <a href="/tags/Oracle-11g-R2/" style="font-size: 10px;">Oracle 11g R2</a> <a href="/tags/Oracle-Linux/" style="font-size: 10px;">Oracle Linux</a> <a href="/tags/PHP/" style="font-size: 11.25px;">PHP</a> <a href="/tags/PHPExcel/" style="font-size: 10px;">PHPExcel</a> <a href="/tags/Partition/" style="font-size: 11.25px;">Partition</a> <a href="/tags/Profile/" style="font-size: 11.25px;">Profile</a> <a href="/tags/Python/" style="font-size: 15px;">Python</a> <a href="/tags/RAID/" style="font-size: 11.25px;">RAID</a> <a href="/tags/RBD/" style="font-size: 12.5px;">RBD</a> <a href="/tags/RGW/" style="font-size: 10px;">RGW</a> <a href="/tags/Rados/" style="font-size: 10px;">Rados</a> <a href="/tags/Raidcard/" style="font-size: 10px;">Raidcard</a> <a href="/tags/Read/" style="font-size: 18.75px;">Read</a> <a href="/tags/Script/" style="font-size: 12.5px;">Script</a> <a href="/tags/Snack/" style="font-size: 10px;">Snack</a> <a href="/tags/Test/" style="font-size: 10px;">Test</a> <a href="/tags/UEFI/" style="font-size: 10px;">UEFI</a> <a href="/tags/Udev/" style="font-size: 11.25px;">Udev</a> <a href="/tags/产品/" style="font-size: 10px;">产品</a> <a href="/tags/博客/" style="font-size: 10px;">博客</a> <a href="/tags/性能优化/" style="font-size: 10px;">性能优化</a> <a href="/tags/编译/" style="font-size: 10px;">编译</a>
+                    </div>
+                </section>
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="https://greenlightt.github.io">redgo的博客</a>
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.xuxiaopang.com">徐小胖的博客</a>
+                    
+                    </div>
+                </section>
+                
+                
+                
+                <section class="switch-part switch-part4">
+                
+                    <div id="js-aboutme">江苏南京，熟悉Python/PHP，目前研究Ceph分布式存储，邮箱：1241484989@qq.com</div>
+                </section>
+                
+            </div>
+        </div>
+    </header>
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">Tony</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                
+                    <img src="/img/tony.jpg" class="js-avatar">
+                
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">Tony</a></h1>
+            </hgroup>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/archives/">所有文章</a></li>
+                
+                    <li><a href="/categories/tech">技术文章</a></li>
+                
+                    <li><a href="/tags/Ceph">Ceph修炼之路</a></li>
+                
+                    <li><a href="/categories/summary">感悟总结</a></li>
+                
+                    <li><a href="/categories/read">阅读翻译</a></li>
+                
+                    <li><a href="/categories/life">生活随笔</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a class="github" target="_blank" href="https://github.com/tony-yin" title="github">github</a>
+                    
+                        <a class="weibo" target="_blank" href="https://weibo.com/3832044210/profile?rightmod=1&wvr=6&mod=personinfo" title="weibo">weibo</a>
+                    
+                        <a class="segmentfault" target="_blank" href="https://segmentfault.com/u/qzuser_57fb1d5db527e" title="segmentfault">segmentfault</a>
+                    
+                </div>
+            </nav>
+        </header>                
+    </div>
+</nav>
+
+      <div class="body-wrap"><article id="post-ssd_ha" class="article article-type-post" itemscope="" itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2019/03/10/ssd_ha/" class="article-date">
+      <time datetime="2019-03-10T05:07:06.000Z" itemprop="datePublished">2019-03-10</time>
+</a>
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      利用软 RAID 实现系统盘高可用
+    </h1>
+  
+
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/tech/">tech</a>
+    </div>
+
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Ceph/">Ceph</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Disk/">Disk</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/HA/">HA</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/RAID/">RAID</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <center><img src="http://cdn.tony-yin.site/ssd_ha.png" alt="HA RAID"></center>
+
+<p>一套完善的系统理论上是不应该存在任何的单点故障，但是系统盘往往被人所忽略，而系统盘又恰恰是最重要的一个点。本文主要讲解如何利用软<code>RAID</code>实现系统盘高可用，并且实现自动换盘、自动告警和自动恢复。</p>
+<a id="more"></a>
+<h2 id="系统盘组成"><a href="#系统盘组成" class="headerlink" title="系统盘组成"></a>系统盘组成</h2><p>所有挂载点全部采用<code>RAID1</code>方式保证数据冗余，即使其中一块盘损坏，也不会影响操作系统的正常运行，只需要替换一块新盘，即可重新进行数据同步。</p>
+<table><br>    <tr><br>        <th>Mount point</th><th>Raid</th><th>容量</th><br>    </tr><br>    <tr><br>        <td><br>        /<br>        </td><br>        <td><br>        Raid1<br>        </td><br>        <td><br>        100 GB<br>        </td><br>    </tr><br>    <br>    <tr><br>        <td><br>        /boot<br>        </td><br>        <td><br>        Raid1<br>        </td><br>        <td><br>        512 MB<br>        </td><br>    </tr><br>    <tr><br>        <td><br>        /boot/efi<br>        </td><br>        <td><br>        Raid1<br>        </td><br>        <td><br>        200 MB<br>        </td><br>    </tr><br>        <tr><br>        <td><br>        swap<br>        </td><br>        <td><br>        Raid1<br>        </td><br>        <td><br>        50 GB<br>        </td><br>    </tr><br>        <br>        <tr><br>        <td><br>        /var/log<br>        </td><br>        <td><br>        Raid1<br>        </td><br>        <td><br>        50 GB<br>        </td><br>    </tr><br></table>
+
+
+<h2 id="系统盘软-RAID-配置"><a href="#系统盘软-RAID-配置" class="headerlink" title="系统盘软 RAID 配置"></a>系统盘软 RAID 配置</h2><p>进入引导页面，选择<code>UEFI</code>安装方式，因为传统的<code>BIOS</code>方式在容量和分区上都存在限制，具体请阅读<a href="https://tecadmin.net/copy-a-gpt-partition-table-to-new-disk/" target="_blank" rel="noopener">【聊聊 BIOS、UEFI、MBR、GPT、GRUB……】</a>。</p>
+<center><img src="https://raw.githubusercontent.com/tony-yin/Picture-Lib/master/lib/load_uefi.png" alt="load uefi"></center>
+
+<p>配置软<code>raid</code>阶段，<code>UEFI</code>存在一个<code>ESP</code>（<code>EFI system partition</code>）， 即<code>/boot/efi</code>分区，<code>RAID</code>等级设置为<code>raid1</code>。</p>
+<center><img src="https://raw.githubusercontent.com/tony-yin/Picture-Lib/master/lib/uefi_partition.png" alt="uefi partition"></center>
+
+<p>其他的挂载点也都选择<code>RAID1</code>即可。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">sda             8:0    0 447.1G  0 disk</span><br><span class="line">├─sda4          8:4    0   201M  0 part</span><br><span class="line">│ └─md123       9:123  0   201M  0 raid1 /boot/efi</span><br><span class="line">├─sda2          8:2    0  50.1G  0 part</span><br><span class="line">│ └─md127       9:127  0  50.1G  0 raid1 [SWAP]</span><br><span class="line">├─sda5          8:5    0    50G  0 part</span><br><span class="line">│ └─md124       9:124  0    50G  0 raid1 /var/log</span><br><span class="line">├─sda3          8:3    0   513M  0 part</span><br><span class="line">│ └─md126       9:126  0 512.4M  0 raid1 /boot</span><br><span class="line">├─sda1          8:1    0  100.1G  0 part</span><br><span class="line">  └─md125       9:125  0    100G  0 raid1 /</span><br><span class="line">sdb             8:0    0 447.1G  0 disk</span><br><span class="line">├─sdb4          8:4    0   201M  0 part</span><br><span class="line">│ └─md123       9:123  0   201M  0 raid1 /boot/efi</span><br><span class="line">├─sdb2          8:2    0  50.1G  0 part</span><br><span class="line">│ └─md127       9:127  0  50.1G  0 raid1 [SWAP]</span><br><span class="line">├─sdb5          8:5    0    50G  0 part</span><br><span class="line">│ └─md124       9:124  0    50G  0 raid1 /var/log</span><br><span class="line">├─sdb3          8:3    0   513M  0 part</span><br><span class="line">│ └─md126       9:126  0 512.4M  0 raid1 /boot</span><br><span class="line">├─sdb1          8:1    0  100.1G  0 part</span><br><span class="line">  └─md125       9:125  0    100G  0 raid1 /</span><br></pre></td></tr></table></figure>
+<h2 id="换盘流程"><a href="#换盘流程" class="headerlink" title="换盘流程"></a>换盘流程</h2><p>以系统盘为<code>sda</code>和<code>sdb</code>，并且<code>sdb</code>为更换的硬盘为例。</p>
+<h3 id="拔盘-amp-插盘"><a href="#拔盘-amp-插盘" class="headerlink" title="拔盘 &amp; 插盘"></a>拔盘 &amp; 插盘</h3><p>因为所有挂载点都是<code>RAID1</code>，软<code>RAID</code>中拥有数据冗余的阵列是允许其中一块盘丢失的，所以不会存在磁盘占用的问题，进而不会导致磁盘乱序的问题。所以可以直接热插拔换盘。</p>
+<h3 id="克隆磁盘分区表信息"><a href="#克隆磁盘分区表信息" class="headerlink" title="克隆磁盘分区表信息"></a>克隆磁盘分区表信息</h3><p>新插入的<code>sdb</code>理论上是没有分区的，需要将<code>sda</code>上面的分区完完全全的克隆过来。<code>gpt</code>磁盘分区表的磁盘应该采用<code>parted</code>或<code>sgdisk</code>工具。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># 将sda的分区信息克隆到sdb上</span><br><span class="line">sgdisk -R /dev/sdb /dev/sda</span><br><span class="line">sleep 5</span><br></pre></td></tr></table></figure>
+<p>最好<code>sleep</code>几秒，因为它克隆后底层同步工作并没有立即完成。</p>
+<h3 id="生成新的GUID"><a href="#生成新的GUID" class="headerlink" title="生成新的GUID"></a>生成新的GUID</h3><p>克隆分区信息后，为<code>sdb</code>生成新的<code>GUID</code>，否则会因为克隆分区表导致<code>sdb</code>和<code>sda</code>的<code>GUID</code>一样。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sgdisk -G /dev/sdb</span><br></pre></td></tr></table></figure>
+<h3 id="内核重新加载分区表"><a href="#内核重新加载分区表" class="headerlink" title="内核重新加载分区表"></a>内核重新加载分区表</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">partprobe /dev/sdb</span><br></pre></td></tr></table></figure>
+<h3 id="复制引导程序"><a href="#复制引导程序" class="headerlink" title="复制引导程序"></a>复制引导程序</h3><p><strong>注意：</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">这一步非常关键，可以说这是所有流程中最关键并且最容易忽略的一个步骤。因为软RAID数据冗余，并不会对操作系统引导程序有效，即RAID1不会对BIOS中的MBR做冗余，也不会对UEFI中的ESP分区做冗余。这里说的不冗余是指软RAID不会对其做数据冗余，需要另外做冗余。</span><br></pre></td></tr></table></figure>
+<p>如果引导方式是传统的<code>bios</code>，则需要复制<code>MBR</code>，即硬盘的前<code>512</code>字节。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@ ~]# dd if=/dev/sda of=/dev/sdb bs=512 count=1</span><br></pre></td></tr></table></figure>
+<p>需要注意的是，我们这里采用了<code>UEFI</code>的引导方式，跟<code>BIOS</code>是完全不一样的，所以如果同样拷贝硬盘的前<code>512</code>字节是不会生效的。<code>UEFI</code>的引导程序在<code>ESP</code>中，需要复制整个<code>ESP</code>分区。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@ ~]# dd if=/dev/sda of=/dev/sdb</span><br></pre></td></tr></table></figure>
+<p>你以为这就结束了吗？</p>
+<p><code>UEFI</code>引导方式仅仅复制<code>ESP</code>分区还不够，还需要将系统盘添加到启动项中。因为当一块磁盘拔了再插上后，<strong>原先这块盘就会从启动项中移除</strong>，插盘后需要将新盘再添加到启动项中。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@ ~]# efibootmgr -c -g -d /dev/sdb -p 1 -L &quot;Centos #2&quot; -l &apos;\EFI\centos\grubx64.efi&apos;</span><br></pre></td></tr></table></figure>
+<p>想对<code>efibootmgr</code>有更深入了解，可以阅读：</p>
+<ul>
+<li><a href="https://wiki.gentoo.org/wiki/Efibootmgr" target="_blank" rel="noopener">Efibootmgr wiki</a></li>
+<li><a href="https://www.cnblogs.com/pipci/p/8862292.html" target="_blank" rel="noopener">用efibootmgr管理UEFI启动项，添加丢失的启动项</a></li>
+</ul>
+<h3 id="数据同步"><a href="#数据同步" class="headerlink" title="数据同步"></a>数据同步</h3><p>将替换的磁盘的分区对应加入<code>RAID1</code>中，这样就可以将<code>sda</code>中的数据同步至<code>sdb</code>中，同步完成后，所有阵列又将拥有数据冗余的效果。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[root@ ~]# mdadm /dev/md123 -a /dev/sdb4</span><br><span class="line">[root@ ~]# mdadm /dev/md124 -a /dev/sdb5</span><br><span class="line">[root@ ~]# mdadm /dev/md125 -a /dev/sdb1</span><br><span class="line">[root@ ~]# mdadm /dev/md126 -a /dev/sdb3</span><br><span class="line">[root@ ~]# mdadm /dev/md127 -a /dev/sdb2</span><br></pre></td></tr></table></figure>
+<h3 id="同步配置文件"><a href="#同步配置文件" class="headerlink" title="同步配置文件"></a>同步配置文件</h3><p>每次修改软<code>RAID</code>后，都要实时更新配置文件，方便查看<code>RAID</code>配置或利用配置文件重新组装阵列。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@ ~]# mdadm -Ds &gt; /etc/mdadm.conf</span><br></pre></td></tr></table></figure>
+<h3 id="获取进度值"><a href="#获取进度值" class="headerlink" title="获取进度值"></a>获取进度值</h3><p>通过查看<code>/proc/mdstat</code>查看<code>RAID</code>当前信息，如果存在数据同步，会有<code>recovery</code>的字样，并且<code>[1/2]</code>表示还未同步，<code>[_U]</code>表示前面一个设备不是活跃状态，后一个设备为活跃状态。所以<code>recovery</code>同行的进度值并不是整体<code>RAID</code>同步进度值，只是当前的<code>RAID</code>的进度，所有阵列的同步进度值可以通过 <code>Finish Blocks / All Blocks</code>来计算。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">[root@ ~]# cat /proc/mdstat</span><br><span class="line">Personalities : [raid0] [raid1]</span><br><span class="line">md123 : active raid1 sdb4[1] sda4[0]</span><br><span class="line">      205760 blocks super 1.0 [1/2] [_U]</span><br><span class="line">      bitmap: 0/1 pages [0KB], 65536KB chunk</span><br><span class="line"></span><br><span class="line">md124 : active raid1 sda5[0] sdb5[1]</span><br><span class="line">      20971520 blocks super 1.2 [1/2] [_U]</span><br><span class="line">      bitmap: 1/1 pages [4KB], 65536KB chunk</span><br><span class="line"></span><br><span class="line">md125 : active raid1 sda1[0] sdb1[1]</span><br><span class="line">      83886080 blocks 64K chunks 2 near-copies [1/2] [_U] [=======&gt;........]  recovery = 35.6% (29863444/83886080) finish=0.1min speed=93472K/sec</span><br><span class="line">      bitmap: 1/1 pages [4KB], 65536KB chunk</span><br><span class="line"></span><br><span class="line">md126 : active raid1 sdb3[1] sda3[0]</span><br><span class="line">      524736 blocks super 1.2 [1/2] [_U]</span><br><span class="line">      bitmap: 0/1 pages [0KB], 65536KB chunk</span><br><span class="line"></span><br><span class="line">md127 : active raid1 sda2[0] sdb2[1]</span><br><span class="line">      104923136 blocks super 1.2 [1/2] [_U]</span><br><span class="line">      bitmap: 1/1 pages [4KB], 65536KB chunk</span><br><span class="line"></span><br><span class="line">unused devices: &lt;none&gt;</span><br></pre></td></tr></table></figure>
+<h2 id="监控-amp-告警"><a href="#监控-amp-告警" class="headerlink" title="监控 &amp; 告警"></a>监控 &amp; 告警</h2><p>要达到对系统盘更好的维护，监控和告警是必不可少的。</p>
+<h3 id="磁盘健康告警"><a href="#磁盘健康告警" class="headerlink" title="磁盘健康告警"></a>磁盘健康告警</h3><p>可以通过<code>smartctl</code>工具获取磁盘健康状态，不同型号的磁盘获取到的健康信息可能会不一致，如果磁盘状态健康，一般会返回<code>PASSED</code>或<code>OK</code>，如果状态不健康，直接调用邮件接口即可。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[root@ ~]# smartctl -H /dev/sda</span><br><span class="line">smartctl 6.2 2017-02-27 r4394 [x86_64-linux-4.14.78-201.1.el7.x86_64] (local build)</span><br><span class="line">Copyright (C) 2002-13, Bruce Allen, Christian Franke, www.smartmontools.org</span><br><span class="line"></span><br><span class="line">=== START OF READ SMART DATA SECTION ===</span><br><span class="line">SMART STATUS RETURN: incomplete response, ATA output registers missing</span><br><span class="line">SMART overall-health self-assessment test result: PASSED</span><br><span class="line">Warning: This result is based on an Attribute check.</span><br></pre></td></tr></table></figure>
+<h3 id="磁盘拔插告警"><a href="#磁盘拔插告警" class="headerlink" title="磁盘拔插告警"></a>磁盘拔插告警</h3><p>通过<code>udev</code>的机制，编写<code>add</code>和<code>remove</code>两个<code>action</code>的<code>rules</code>文件即可监听磁盘拔出或插入的事件，然后调用告警接口即可。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@ ~]# cat /etc/udev/rules.d/50-ssd-monitor.rules</span><br><span class="line">KERNEL==&quot;sd[a-z]+$&quot;, ACTION==&quot;remove&quot;, SUBSYSTEM==&quot;block&quot;, RUN+=&quot;/usr/bin/python /usr/lib/python2.7/site-packages/disk_watcher/os_disk.py %k pullout&quot;</span><br><span class="line">KERNEL==&quot;sd[a-z]+$&quot;, ACTION==&quot;add&quot;, SUBSYSTEM==&quot;block&quot;, RUN+=&quot;/usr/bin/python /usr/lib/python2.7/site-packages/disk_watcher/os_disk.py %k insert&quot;</span><br></pre></td></tr></table></figure>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>本文主要介绍了如何利用软<code>RAID</code>实现系统盘高可用，在其中一块系统盘损坏后如何换盘并数据同步做了详细描述，同时也对监控告警做了讲解。总体来说，整个流水线基本上覆盖到了，具体细节部分还需多实践。</p>
+<h2 id="Refer"><a href="#Refer" class="headerlink" title="Refer"></a>Refer</h2><ol>
+<li><a href="https://tecadmin.net/copy-a-gpt-partition-table-to-new-disk/" target="_blank" rel="noopener">How To Copy a GPT Partition Table to Another Disk using sgdisk</a></li>
+<li><a href="https://support.huawei.com/enterprise/zh/knowledge/EKB1000033953" target="_blank" rel="noopener">SuSE的软Raid中一块硬盘坏掉后的修复方法</a></li>
+<li><a href="https://askubuntu.com/questions/660023/how-to-install-ubuntu-14-04-16-04-64-bit-with-a-dual-boot-raid-1-partition-on-an" target="_blank" rel="noopener">How to install Ubuntu 14.04/16.04 64-bit with a dual-boot RAID 1 partition on an UEFI/GPT system?</a></li>
+<li><a href="http://dev.bizo.com/2012/07/mdadm-device-or-resource-busy.html" target="_blank" rel="noopener">mdadm: device or resource busy</a></li>
+<li><a href="http://ilinuxkernel.com/?p=958#comment-76766" target="_blank" rel="noopener">Linux硬盘盘符分配</a></li>
+<li><a href="https://implement.pt/2018/08/uefi-via-software-raid-with-mdadm-ubuntu-16-04/" target="_blank" rel="noopener">UEFI via software RAID with mdadm in Ubuntu 16.04</a></li>
+<li><a href="https://unix.stackexchange.com/questions/320103/whats-the-difference-between-creating-mdadm-array-using-partitions-or-the-whole" target="_blank" rel="noopener">What’s the difference between creating mdadm array using partitions or the whole disks directly</a></li>
+<li><a href="https://djlab.com/2014/03/xenserver-6-2-with-software-raid/#comments" target="_blank" rel="noopener">XenServer 6.2 with Software RAID</a></li>
+<li><a href="https://askubuntu.com/questions/380447/uefi-boot-fails-when-cloning-image-to-new-machine" target="_blank" rel="noopener">UEFI boot fails when cloning image to new machine</a></li>
+<li><a href="https://unix.stackexchange.com/questions/230349/how-to-correctly-install-grub-on-a-soft-raid-1" target="_blank" rel="noopener">How to correctly install GRUB on a soft RAID 1?</a></li>
+<li><a href="https://unix.stackexchange.com/questions/83787/how-to-boot-after-raid-failure-software-raid" target="_blank" rel="noopener">How to boot after RAID failure (software RAID)?</a></li>
+<li><a href="https://serverfault.com/questions/483141/mdadm-raid-1-grub-only-on-sda" target="_blank" rel="noopener">mdadm raid 1 grub only on sda</a></li>
+<li><a href="https://askubuntu.com/questions/66637/can-the-efi-system-partition-be-raided" target="_blank" rel="noopener">Can the EFI system partition be RAIDed?</a></li>
+<li><a href="https://unix.stackexchange.com/questions/69214/partitioning-efi-machine-with-two-ssd-disks-in-mirror" target="_blank" rel="noopener">Partitioning EFI machine with two SSD disks in mirror</a></li>
+</ol>
+
+      
+
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2019/03/10/ssd_ha/">利用软 RAID 实现系统盘高可用</a></p>
+        <p><span>文章作者:</span><a href="/" title="访问 Tony 的个人博客">Tony</a></p>
+        <p><span>发布时间:</span>2019年03月10日 - 13时07分</p>
+        <p><span>最后更新:</span>2019年05月05日 - 00时46分</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2019/03/10/ssd_ha/" title="利用软 RAID 实现系统盘高可用">https://tony-yin.github.io/2019/03/10/ssd_ha/</a>
+            <span class="copy-path" data-clipboard-text="原文: https://tony-yin.github.io/2019/03/10/ssd_ha/　　作者: Tony" title=""></span>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/cn/" title="中国大陆 (CC BY-NC-SA 3.0 CN)" target="_blank">"署名-非商用-相同方式共享 3.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+<nav id="article-nav">
+  
+  
+    <a href="/2019/02/10/software_raid/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">软 RAID 详解</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#系统盘组成"><span class="toc-number">1.</span> <span class="toc-text">系统盘组成</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#系统盘软-RAID-配置"><span class="toc-number">2.</span> <span class="toc-text">系统盘软 RAID 配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#换盘流程"><span class="toc-number">3.</span> <span class="toc-text">换盘流程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#拔盘-amp-插盘"><span class="toc-number">3.1.</span> <span class="toc-text">拔盘 &amp; 插盘</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#克隆磁盘分区表信息"><span class="toc-number">3.2.</span> <span class="toc-text">克隆磁盘分区表信息</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#生成新的GUID"><span class="toc-number">3.3.</span> <span class="toc-text">生成新的GUID</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#内核重新加载分区表"><span class="toc-number">3.4.</span> <span class="toc-text">内核重新加载分区表</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#复制引导程序"><span class="toc-number">3.5.</span> <span class="toc-text">复制引导程序</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#数据同步"><span class="toc-number">3.6.</span> <span class="toc-text">数据同步</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#同步配置文件"><span class="toc-number">3.7.</span> <span class="toc-text">同步配置文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#获取进度值"><span class="toc-number">3.8.</span> <span class="toc-text">获取进度值</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#监控-amp-告警"><span class="toc-number">4.</span> <span class="toc-text">监控 &amp; 告警</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#磁盘健康告警"><span class="toc-number">4.1.</span> <span class="toc-text">磁盘健康告警</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#磁盘拔插告警"><span class="toc-number">4.2.</span> <span class="toc-text">磁盘拔插告警</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-number">5.</span> <span class="toc-text">总结</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Refer"><span class="toc-number">6.</span> <span class="toc-text">Refer</span></a></li></ol>
+</div>
+<style>
+    .left-col .switch-btn {
+        display: none;
+    }
+    .left-col .switch-area {
+        display: none;
+    }
+</style>
+<input type="button" id="tocButton" value="隐藏目录" title="点击按钮隐藏或者显示文章目录">
+<script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script>
+    var valueHide = "隐藏目录";
+    var valueShow = "显示目录";
+    if ($(".left-col").is(":hidden")) {
+        $("#tocButton").attr("value", valueShow);
+    }
+    $("#tocButton").click(function() {
+        if ($("#toc").is(":hidden")) {
+            $("#tocButton").attr("value", valueHide);
+            $("#toc").slideDown(320);
+            $(".switch-btn, .switch-area").fadeOut(300);
+        }
+        else {
+            $("#tocButton").attr("value", valueShow);
+            $("#toc").slideUp(350);
+            $(".switch-btn, .switch-area").fadeIn(500);
+        }
+    })
+    if ($(".toc").length < 1) {
+        $("#toc, #tocButton").hide();
+        $(".switch-btn, .switch-area").show();
+    }
+</script>
+
+
+
+
+
+<div class="bdsharebuttonbox">
+	<a href="#" class="fx fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+	<a href="#" class="fx fa-weixin bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+	<a href="#" class="fx fa-qq bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a>
+	<a href="#" class="fx fa-facebook-official bds_fbook" data-cmd="fbook" title="分享到Facebook"></a>
+	<a href="#" class="fx fa-twitter bds_twi" data-cmd="twi" title="分享到Twitter"></a>
+	<a href="#" class="fx fa-linkedin bds_linkedin" data-cmd="linkedin" title="分享到linkedin"></a>
+	<a href="#" class="fx fa-files-o bds_copy" data-cmd="copy" title="分享到复制网址"></a>
+</div>
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"2","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='/static/api/js/share.js?cdnversion=' + ~ (-new Date() / 36e5)];</script>
+
+
+
+
+    
+        
+    <div id="cyReward" role="cylabs" data-use="reward" style="text-align:center;margin-top:50px"></div>
+
+
+<section class="changyan" id="comments">
+  <!--<div id="uyan_frame"></div>-->
+  <div id="SOHUCS"></div>
+  <script charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/changyan.js"></script>
+  <script type="text/javascript">
+    window.changyan.api.config({
+      appid: 'cytncUiAO',
+      conf: 'prod_50cb4de09ef44034f63977dcfcfa1e4b'
+    });
+  </script>
+</section>
+
+    <script type="text/javascript" charset="utf-8" src="https://changyan.itc.cn/js/lib/jquery.js"></script>
+    <script type="text/javascript" charset="utf-8" src="https://changyan.sohu.com/js/changyan.labs.https.js?appid=cytncUiAO"></script>
+
+
+
+    
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/" title="回到主页"><i class="fa fa-home"></i></a>
+        
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+        
+            <a href="/2019/02/10/software_raid/" title="下一篇: 软 RAID 详解">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2019/03/10/ssd_ha/">利用软 RAID 实现系统盘高可用</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/02/10/software_raid/">软 RAID 详解</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/10/Talk_BIOS_UEFI_MBR_GPT_GRUB/">聊聊 BIOS、UEFI、MBR、GPT、GRUB……</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/12/10/Centos7-GPT/">Centos7系统安装设置gpt分区</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/12/01/ES-Sentinl/">ES告警详解之Sentinl</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/11/15/ES-ElastAlert/">ES告警详解之ElastAlert</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/11/05/How-To-Avoid-Cronjob-Duplicate-Running/">如何避免 Cronjob 重复运行</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/10/29/Why-Crontab-Not-Work/">为什么 crontab 不执行</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/01/Daily-Article-Vol7/">Daily Article Vol7(2018/6/1 ~ 2018/6/30)</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/20/Block-device-persistent-name-and-multipath/">块设备持久化命名和多路径</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/03/Python-Snack-Best-Practice/">Python Snack 最佳实践</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/01/Daily-Article-Vol6/">Daily Article Vol6(2018/5/1 ~ 2018/5/31)</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/20/Ctdb-Rados-2/">Ctdb Rados（二）：多场景断网高可用</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/12/Megaraid_Location/">Megaraid 磁盘定位</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/02/Django_CAS_Token_Solution/">Django CAS Token 解决方案</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/01/Daily-Article-Vol5/">Daily Article Vol 5 - (2018/4/1 ~ 2018/4/30)</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/20/Ctdb-Rados-All-Banned/">Ctdb Rados方式导致All Banned的问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/08/python_nas_stable_test/">基于Python的NAS稳定性测试框架</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/01/Daily_Article_Vol4/">Daily Article Vol 4 - (2018/3/1 ~ 2018/3/31)</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/03/09/Hardware-Test-Tool/">硬件环境测试环境模拟</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/03/01/Daily-Article-Vol3/">Daily Article Vol 3 - (2018/2/1 ~ 2018/2/28)</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/02/01/Daily-Article-Vol2/">Daily Article Vol 2 - (2018/1/1 ~ 2018/1/31)</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/28/RBD-HA-2/">实现RBD导出NFS高可用（二）：提供多虚拟IP访问</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/10/scp-and-ssh/">scp 免交互式和 ssh 免交互式脚本</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/05/RaidCardToolUtils/">利用Raid卡工具获取逻辑盘是否为SSD</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/01/Daily-Article-2017/">Daily Article Vol 1 - (2017/11/1 ~ 2017/12/31)</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/21/Everything-is-a-file/">译：一切皆文件</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/17/Linux-Filesystem/">译：Linux 文件系统介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/10/Into-Withe-Night/">阅读感悟：《白夜行》</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/08/Filesystem-Bug-Fix/">故障修复：文件系统导致OSD启动失败</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/07/RBD-HA/">通过 Keepalived 实现 Ceph RBD 的高可用</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/30/Cephx-practice/">Cephx 实战演练</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/26/read-ceph-cookbook/">阅读感悟：《Ceph Cookbook》</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/26/read-ceph-guide/">阅读感悟：《Ceph分布式存储学习指南》</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/26/read-python-automation/">阅读感悟：《Python编程快速上手---让繁琐工作自动化》</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/19/hexo-theme-shadow/">博客主题 shadow</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/14/LVM-Space-Expansion/">LVM动态扩展</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/14/Ceph-Compile/">Ceph 编译（Giant版本）</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/08/Ceph-NFS-Ganesha/">通过ganesha-nfs导出Ceph为NFS（Luminous）</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/08/Ceph-RGW/">RGW 安装和创建</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/31/RBD-Mount-NFS/">使用NFS挂载RBD</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/10/Python-Profiler/">Python Profiler</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/10/Enable-OSD-Profile-Script/">启用OSD性能剖析脚本</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/02/Batch-Create-And-Delete-Disk-Partition-Script/">批量创建和删除磁盘分区脚本</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/28/JS-Object-Null/">JS判断对象是否为空</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/27/OSD-Create-And-Delete/">OSD创建和删除全过程</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/21/How-To-Forge-Product/">如何打造一个好的产品</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/18/PHP-Excel/">PHP-Excel 开发解决方案</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/10/Disk-pull-and-plug-record/">磁盘反复拔插记录</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/10/Linux-Udev/">Linux Udev</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/10/network-down-notification/">Network Down Notification</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/10/Python-Oracle/">Python操作Oracle</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/10/oracle_install/">Oracle Linux And Oracle Database 11g R2 Intsallation</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/09/Moodle-Local-Plugin/">Moodle Local插件</a></li></ul>
+    <script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+    <script>
+        $(".post-list").addClass("toc-article");
+        // $(".post-list-item a").attr("target","_blank");
+        $("#post-nav-button > a:nth-child(2)").click(function() {
+            $(".fa-bars, .fa-times").toggle();
+            $(".post-list").toggle(300);
+            if ($(".toc").length > 0) {
+                $("#toc, #tocButton").toggle(200, function() {
+                    if ($(".switch-area").is(":visible")) {
+                        $("#toc, .switch-btn, .switch-area").toggle();
+                        $("#tocButton").attr("value", valueHide);
+                        }
+                    })
+            }
+            else {
+                $(".switch-btn, .switch-area").fadeToggle(300);
+            }
+        })
+    </script>
+
+
+
+
+    <script>
+        
+    </script>
+
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                &copy; 2019 Tony
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank">Hexo &nbsp;&nbsp;</a><a href="https://github.com/tony-yin/hexo-theme-shadow" target="_blank">Shadow</a> by tony
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style="display:none">
+                        <span id="site-visit">极客到访数: 
+                            <span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>, </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style="display:none">
+                        <span id="page-visit">本页阅读量: 
+                            <span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+
+    </div>
+    <script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script src="/js/main.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var backgroundnum = 4;
+            var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+            $("#mobile-nav").css({"background-image": backgroundimg,"background-size": "cover","background-position": "center"});
+            $(".left-col").css({"background-image": backgroundimg,"background-size": "cover","background-position": "center"});
+        })
+    </script>
+
+
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'xxxxx', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+
+	<script>
+	var _hmt = _hmt || [];
+	(function() {
+	  var hm = document.createElement("script");
+	  hm.src = "//hm.baidu.com/hm.js?xxxxxx";
+	  var s = document.getElementsByTagName("script")[0]; 
+	  s.parentNode.insertBefore(hm, s);
+	})();
+	</script>
+
+
+
+<div class="scroll" id="scroll">
+    <a href="#"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    $(document).ready(function() {
+        if ($("#comments").length < 1) {
+            $("#scroll > a:nth-child(2)").hide();
+        };
+    })
+</script>
+
+
+<script async src="https://cdn.jsdelivr.net/gh/sukkaw/busuanzi@2.3/bsz.pure.mini.js">
+</script>
+
+  <script language="javascript">
+    $(function() {
+        $("a[title]").each(function() {
+            var a = $(this);
+            var title = a.attr('title');
+            if (title == undefined || title == "") return;
+            a.data('title', title).removeAttr('title').hover(
+            function() {
+                var offset = a.offset();
+                $("<div id=\"anchortitlecontainer\"></div>").appendTo($("body")).html(title).css({
+                    top: offset.top - a.outerHeight() - 15,
+                    left: offset.left + a.outerWidth()/2 + 1
+                }).fadeIn(function() {
+                    var pop = $(this);
+                    setTimeout(function() {
+                        pop.remove();
+                    }, pop.text().length * 800);
+                });
+            }, function() {
+                $("#anchortitlecontainer").remove();
+            });
+        });
+    });
+</script>
+
+
+  </div>
+</body>
+</html>

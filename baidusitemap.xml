@@ -4,6 +4,56 @@
 
     
   <url>
+    <loc>https://tony-yin.github.io/2019/03/10/ssd_ha/</loc>
+    <lastmod>2019-05-04T16:46:24.984Z</lastmod>
+    <data>
+        <display>
+        <title>利用软 RAID 实现系统盘高可用</title>
+        <pubTime>2019-03-10T05:07:06.000Z</pubTime>
+        
+        <tag>Ceph</tag>
+         
+        <tag>Disk</tag>
+         
+        <tag>HA</tag>
+         
+        <tag>RAID</tag>
+         
+         
+           
+             
+              <breadCrumb title="tech" url="https://tony-yin.github.io/categories/tech/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://tony-yin.github.io/2019/02/10/software_raid/</loc>
+    <lastmod>2019-05-04T16:46:11.228Z</lastmod>
+    <data>
+        <display>
+        <title>软 RAID 详解</title>
+        <pubTime>2019-02-10T05:07:06.000Z</pubTime>
+        
+        <tag>Ceph</tag>
+         
+        <tag>Disk</tag>
+         
+        <tag>RAID</tag>
+         
+         
+           
+             
+              <breadCrumb title="tech" url="https://tony-yin.github.io/categories/tech/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>https://tony-yin.github.io/2019/01/10/Talk_BIOS_UEFI_MBR_GPT_GRUB/</loc>
     <lastmod>2019-04-29T08:38:44.638Z</lastmod>
     <data>
