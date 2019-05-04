@@ -20,7 +20,7 @@
 <meta property="og:image" content="http://cdn.tony-yin.site/ssd_ha.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/tony-yin/Picture-Lib/master/lib/load_uefi.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/tony-yin/Picture-Lib/master/lib/uefi_partition.png">
-<meta property="og:updated_time" content="2019-05-04T16:52:03.344Z">
+<meta property="og:updated_time" content="2019-05-04T17:03:05.465Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="利用软 RAID 实现系统盘高可用">
 <meta name="twitter:description" content="一套完善的系统理论上是不应该存在任何的单点故障，但是系统盘往往被人所忽略，而系统盘又恰恰是最重要的一个点。本文主要讲解如何利用软RAID实现系统盘高可用，并且实现自动换盘、自动告警和自动恢复。">
@@ -328,9 +328,42 @@
 <p>一套完善的系统理论上是不应该存在任何的单点故障，但是系统盘往往被人所忽略，而系统盘又恰恰是最重要的一个点。本文主要讲解如何利用软<code>RAID</code>实现系统盘高可用，并且实现自动换盘、自动告警和自动恢复。</p>
 <a id="more"></a>
 <h2 id="系统盘组成"><a href="#系统盘组成" class="headerlink" title="系统盘组成"></a>系统盘组成</h2><p>所有挂载点全部采用<code>RAID1</code>方式保证数据冗余，即使其中一块盘损坏，也不会影响操作系统的正常运行，只需要替换一块新盘，即可重新进行数据同步。</p>
-<table><br>    <tr><br>        <th>Mount point</th><th>Raid</th><th>容量</th><br>    </tr><br>    <tr><br>        <td><br>        /<br>        </td><br>        <td><br>        Raid1<br>        </td><br>        <td><br>        100 GB<br>        </td><br>    </tr><br>    <br>    <tr><br>        <td><br>        /boot<br>        </td><br>        <td><br>        Raid1<br>        </td><br>        <td><br>        512 MB<br>        </td><br>    </tr><br>    <tr><br>        <td><br>        /boot/efi<br>        </td><br>        <td><br>        Raid1<br>        </td><br>        <td><br>        200 MB<br>        </td><br>    </tr><br>        <tr><br>        <td><br>        swap<br>        </td><br>        <td><br>        Raid1<br>        </td><br>        <td><br>        50 GB<br>        </td><br>    </tr><br>        <br>        <tr><br>        <td><br>        /var/log<br>        </td><br>        <td><br>        Raid1<br>        </td><br>        <td><br>        50 GB<br>        </td><br>    </tr><br></table>
-
-
+<table>
+<thead>
+<tr>
+<th style="text-align:center">Mount Point</th>
+<th style="text-align:center">Raid</th>
+<th style="text-align:center">Size</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">/</td>
+<td style="text-align:center">Raid1</td>
+<td style="text-align:center">100 GB</td>
+</tr>
+<tr>
+<td style="text-align:center">/boot</td>
+<td style="text-align:center">Raid1</td>
+<td style="text-align:center">512 MB</td>
+</tr>
+<tr>
+<td style="text-align:center">/boot/efi</td>
+<td style="text-align:center">Raid1</td>
+<td style="text-align:center">200 MB</td>
+</tr>
+<tr>
+<td style="text-align:center">swap</td>
+<td style="text-align:center">Raid1</td>
+<td style="text-align:center">50 GB</td>
+</tr>
+<tr>
+<td style="text-align:center">/var/log</td>
+<td style="text-align:center">Raid1</td>
+<td style="text-align:center">50 GB</td>
+</tr>
+</tbody>
+</table>
 <h2 id="系统盘软-RAID-配置"><a href="#系统盘软-RAID-配置" class="headerlink" title="系统盘软 RAID 配置"></a>系统盘软 RAID 配置</h2><p>进入引导页面，选择<code>UEFI</code>安装方式，因为传统的<code>BIOS</code>方式在容量和分区上都存在限制，具体请阅读<a href="https://tecadmin.net/copy-a-gpt-partition-table-to-new-disk/" target="_blank" rel="noopener">【聊聊 BIOS、UEFI、MBR、GPT、GRUB……】</a>。</p>
 <center><img src="https://raw.githubusercontent.com/tony-yin/Picture-Lib/master/lib/load_uefi.png" alt="load uefi"></center>
 
@@ -401,7 +434,7 @@
         <p><span>本文标题:</span><a href="/2019/03/10/ssd_ha/">利用软 RAID 实现系统盘高可用</a></p>
         <p><span>文章作者:</span><a href="/" title="访问 Tony 的个人博客">Tony</a></p>
         <p><span>发布时间:</span>2019年03月10日 - 13时07分</p>
-        <p><span>最后更新:</span>2019年05月05日 - 00时52分</p>
+        <p><span>最后更新:</span>2019年05月05日 - 01时03分</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2019/03/10/ssd_ha/" title="利用软 RAID 实现系统盘高可用">https://tony-yin.github.io/2019/03/10/ssd_ha/</a>
             <span class="copy-path" data-clipboard-text="原文: https://tony-yin.github.io/2019/03/10/ssd_ha/　　作者: Tony" title=""></span>

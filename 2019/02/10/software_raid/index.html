@@ -20,7 +20,7 @@
 <meta property="og:image" content="http://cdn.tony-yin.site/raid.png">
 <meta property="og:image" content="http://cdn.tony-yin.site/raid_models.jpg">
 <meta property="og:image" content="http://cdn.tony-yin.site/raid_advantages.png">
-<meta property="og:updated_time" content="2019-05-04T16:51:54.324Z">
+<meta property="og:updated_time" content="2019-05-04T17:00:46.898Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="软 RAID 详解">
 <meta name="twitter:description" content="这篇文章聊聊软RAID。">
@@ -372,8 +372,44 @@
 <p>总的来说，硬<code>RAID</code>功能上是完爆软<code>RAID</code>的，但是硬<code>RAID</code>比较昂贵，一般的<code>RAID</code>都需要几千元。企业级的核心应用推荐采用硬<code>RAID</code>的方案，花钱解决一切烦恼。而一些不是特别核心的应用或者个人推荐采用软<code>RAID</code>，软<code>RAID</code>目前大部分操作系统都支持，并且对基础的<code>RAID</code>的功能支持的也不错，能够满足大部分需求，最关键的还是不要钱！！！</p>
 <h2 id="mdadm"><a href="#mdadm" class="headerlink" title="mdadm"></a>mdadm</h2><p><code>mdadm</code>是<code>Linux</code>操作系统上开源的软<code>RAID</code>用户层管理工具，允许用户创建和管理软<code>RAID</code>磁盘阵列。</p>
 <p>目前，<code>mdadm</code>支持大部分常见的阵列类型，如<code>JBOD</code>、<code>RAID0</code>、<code>RAID1</code>、<code>RAID4</code>、<code>RAID5</code>、<code>RAID6</code>、<code>MULTIPATH</code>、<code>RAID10</code>等，创建和管理<code>RAID</code>也十分的方便，同时，<code>mdadm</code>使用非常灵活，磁盘或者分区都可以作为<code>RAID</code>的成员盘来创建软<code>RAID</code>。主要有<code>7</code>种使用模式：</p>
-<table><br>    <tr><br>        <th>模式名字</th><th>主要功能</th><th><br>    </th></tr><br>    <tr><br>        <td><br>        Create<br>        </td><br>        <td><br>        使用空闲的设备创建一个新的阵列，每个设备具有元数据块<br>        </td><br>    </tr><br>        <tr><br>        <td><br>        Assemble<br>        </td><br>        <td><br>        将原来属于一个阵列的每个块设备组装为阵列<br>        </td><br>    </tr><br>        <tr><br>        <td><br>        Build<br>        </td><br>        <td><br>        创建或组装不需要元数据的阵列，每个设备没有元数据块<br>        </td><br>    </tr><br>        <tr><br>        <td><br>        Manage<br>        </td><br>        <td><br>        管理已经存储阵列中的设备，比如增加热备磁盘或者设置某个磁盘失效，然后从阵列中删除这个磁盘<br>        </td><br>    </tr><br>        <tr><br>        <td><br>        Misc<br>        </td><br>        <td><br>        报告或者修改阵列中相关设备的信息，比如查询阵列或者设备的状态信息<br>        </td><br>    </tr><br>        <tr><br>        <td><br>        Grow<br>        </td><br>        <td><br>        改变阵列中每个设备被使用的容量或阵列中的设备的数目<br>        </td><br>    </tr><br>        <tr><br>        <td><br>        Create<br>        </td><br>        <td><br>        使用空闲的设备创建一个新的阵列，每个设备具有元数据块<br>        </td><br>    </tr><br>        <tr><br>        <td><br>        Monitor<br>        </td><br>        <td><br>        监控一个或多个阵列，上报指定的事件<br>        </td><br>    </tr><br></table>
-
+<table>
+<thead>
+<tr>
+<th style="text-align:center">模式名字</th>
+<th style="text-align:center">主要功能</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">Create</td>
+<td style="text-align:center">使用空闲的设备创建一个新的阵列，每个设备具有元数据块</td>
+</tr>
+<tr>
+<td style="text-align:center">Assemble</td>
+<td style="text-align:center">将原来属于一个阵列的每个块设备组装为阵列</td>
+</tr>
+<tr>
+<td style="text-align:center">Build</td>
+<td style="text-align:center">创建或组装不需要元数据的阵列，每个设备没有元数据块</td>
+</tr>
+<tr>
+<td style="text-align:center">Manage</td>
+<td style="text-align:center">管理已经存储阵列中的设备，比如增加热备磁盘或者设置某个磁盘失效，然后从阵列中删除这个磁盘</td>
+</tr>
+<tr>
+<td style="text-align:center">Misc</td>
+<td style="text-align:center">报告或者修改阵列中相关设备的信息，比如查询阵列或者设备的状态信息</td>
+</tr>
+<tr>
+<td style="text-align:center">Grow</td>
+<td style="text-align:center">改变阵列中每个设备被使用的容量或阵列中的设备的数目</td>
+</tr>
+<tr>
+<td style="text-align:center">Monitor</td>
+<td style="text-align:center">监控一个或多个阵列，上报指定的事件</td>
+</tr>
+</tbody>
+</table>
 <h3 id="创建阵列"><a href="#创建阵列" class="headerlink" title="创建阵列"></a>创建阵列</h3><p><code>mdadm</code>使用<code>--create</code>(或其缩写<code>-C</code>)参数来创建新的阵列，并且将一些重要阵列的标识信息作为元数据可以写在每一个底层设备的指定区间。<code>--level</code>(或者其缩写<code>-l</code>)表示阵列的<code>RAID</code>级别，<code>--chunk</code>(或者其缩写<code>-c</code>)表示每个条带单元的大小，以<code>KB</code>为单位，默认为<code>64KB</code>，条带单元的大小配置对不同负载下的阵列读写性能有很大影响。<code>--raid-devices</code>(或者其缩写<code>-n</code>)表示阵列中活跃的设备个数，而<code>--spare-devices</code>(或者其缩写<code>-x</code>)表示阵列中热备盘的个数，一旦阵列中的某个磁盘失效，<code>MD</code>内核驱动程序自动用将热备磁盘加入到阵列，然后重构丢失磁盘上的数据到热备磁盘上。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">创建RAID0：</span><br><span class="line">mdadm --create /dev/md0 --level=0 --chunk=32 --raid-devices=3 /dev/sd[i-k]1</span><br><span class="line">创建RAID1：</span><br><span class="line">mdadm -C /dev/md0 -l1 -c128 -n2 -x1 /dev/sd[i-k]1</span><br><span class="line">创建RAID5：</span><br><span class="line">mdadm -C /dev/md0 -l5 -n5 /dev/sd[c-g] -x1 /dev/sdb </span><br><span class="line">创建RAID6：</span><br><span class="line">mdadm -C /dev/md0 -l6 -n5 /dev/sd[c-g] -x2 /dev/sdb /dev/sdh</span><br><span class="line">创建RAID10：</span><br><span class="line">mdadm -C /dev/md0 -l10 -n6 /dev/sd[b-g] -x1 /dev/sdh</span><br></pre></td></tr></table></figure>
 <p>如果一个块设备元数据中含有其他旧阵列信息，这时候会需要交互式命令确认<code>yes/no</code>，如果想自动化，通过管道符的方式即可：</p>
@@ -469,7 +505,7 @@
         <p><span>本文标题:</span><a href="/2019/02/10/software_raid/">软 RAID 详解</a></p>
         <p><span>文章作者:</span><a href="/" title="访问 Tony 的个人博客">Tony</a></p>
         <p><span>发布时间:</span>2019年02月10日 - 13时07分</p>
-        <p><span>最后更新:</span>2019年05月05日 - 00时51分</p>
+        <p><span>最后更新:</span>2019年05月05日 - 01时00分</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2019/02/10/software_raid/" title="软 RAID 详解">https://tony-yin.github.io/2019/02/10/software_raid/</a>
             <span class="copy-path" data-clipboard-text="原文: https://tony-yin.github.io/2019/02/10/software_raid/　　作者: Tony" title=""></span>
