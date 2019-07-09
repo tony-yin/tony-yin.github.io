@@ -4,14 +4,14 @@
 
     
   <url>
-    <loc>https://tony-yin.github.io/2019/04/20/Redfish_Introduction/</loc>
-    <lastmod>2019-07-09T10:17:11.185Z</lastmod>
+    <loc>https://tony-yin.github.io/2019/04/10/Supermicro_IPMI_license_reverse/</loc>
+    <lastmod>2019-07-09T10:21:20.958Z</lastmod>
     <data>
         <display>
-        <title>Redfish 详解</title>
-        <pubTime>2019-04-20T05:07:06.000Z</pubTime>
+        <title>Supermicro IPMI License 反向破解</title>
+        <pubTime>2019-04-10T05:07:06.000Z</pubTime>
         
-        <tag>Redfish</tag>
+        <tag>IPMI</tag>
          
          
            
@@ -24,14 +24,14 @@
 
     
   <url>
-    <loc>https://tony-yin.github.io/2019/04/10/Supermicro_IPMI_license_reverse/</loc>
-    <lastmod>2019-07-09T10:17:11.174Z</lastmod>
+    <loc>https://tony-yin.github.io/2019/04/20/Redfish_Introduction/</loc>
+    <lastmod>2019-07-09T10:17:11.185Z</lastmod>
     <data>
         <display>
-        <title>Supermicro IPMI License 反向破解</title>
-        <pubTime>2019-04-10T05:07:06.000Z</pubTime>
+        <title>Redfish 详解</title>
+        <pubTime>2019-04-20T05:07:06.000Z</pubTime>
         
-        <tag>IPMI</tag>
+        <tag>Redfish</tag>
          
          
            

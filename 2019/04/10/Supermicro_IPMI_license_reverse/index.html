@@ -9,11 +9,13 @@
   
   <title>Supermicro IPMI License 反向破解 | Tony&#39;s blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="keywords" content="IPMI">
+  <meta name="description" content="调研redfish时，发现supermicro IPMI由于license没激活导致该功能使用不了，于是找厂商询问，得到的答复居然是他们也没有这个license，并且表示这个license需要另外付费购买，所以一般情况下也没有客户购买。笔者心里不禁MMP，按道理来说，购买服务器已经付过费了，不应该连基本功能都用不了。一方面让厂商向总部购买license，另一方面想办法搞到一个license先用">
+<meta name="keywords" content="IPMI">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Supermicro IPMI License 反向破解">
 <meta property="og:url" content="https://tony-yin.github.io/2019/04/10/Supermicro_IPMI_license_reverse/index.html">
 <meta property="og:site_name" content="Tony&#39;s blog">
+<meta property="og:description" content="调研redfish时，发现supermicro IPMI由于license没激活导致该功能使用不了，于是找厂商询问，得到的答复居然是他们也没有这个license，并且表示这个license需要另外付费购买，所以一般情况下也没有客户购买。笔者心里不禁MMP，按道理来说，购买服务器已经付过费了，不应该连基本功能都用不了。一方面让厂商向总部购买license，另一方面想办法搞到一个license先用">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="http://cdn.tony-yin.site/reverse.png">
 <meta property="og:image" content="http://cdn.tony-yin.site/generate_license.jpg">
@@ -26,9 +28,10 @@
 <meta property="og:image" content="http://cdn.tony-yin.site/IPMI_cgi_file.jpg">
 <meta property="og:image" content="http://cdn.tony-yin.site/IPMI_so_file.jpg">
 <meta property="og:image" content="http://cdn.tony-yin.site/IPMI_secret_key.jpg">
-<meta property="og:updated_time" content="2019-07-09T10:17:11.174Z">
+<meta property="og:updated_time" content="2019-07-09T10:21:20.958Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Supermicro IPMI License 反向破解">
+<meta name="twitter:description" content="调研redfish时，发现supermicro IPMI由于license没激活导致该功能使用不了，于是找厂商询问，得到的答复居然是他们也没有这个license，并且表示这个license需要另外付费购买，所以一般情况下也没有客户购买。笔者心里不禁MMP，按道理来说，购买服务器已经付过费了，不应该连基本功能都用不了。一方面让厂商向总部购买license，另一方面想办法搞到一个license先用">
 <meta name="twitter:image" content="http://cdn.tony-yin.site/reverse.png">
   
     <link rel="alternative" href="/atom.xml" title="Tony&#39;s blog" type="application/atom+xml">
@@ -330,8 +333,8 @@
           
         <center><img src="http://cdn.tony-yin.site/reverse.png" alt="reverse"></center>
 
-<a id="more"></a>
 <p>调研<code>redfish</code>时，发现<code>supermicro IPMI</code>由于<code>license</code>没激活导致该功能使用不了，于是找厂商询问，得到的答复居然是他们也没有这个<code>license</code>，并且表示这个<code>license</code>需要另外付费购买，所以一般情况下也没有客户购买。笔者心里不禁<code>MMP</code>，按道理来说，购买服务器已经付过费了，不应该连基本功能都用不了。一方面让厂商向总部购买<code>license</code>，另一方面想办法搞到一个<code>license</code>先用起来，毕竟笔者只是用于调研，并不一定以后就会用到这个<code>license</code>，甚至这款服务器。本文主要分享一下笔者破解超威服务器<code>IPMI license</code>的方法和过程。</p>
+<a id="more"></a>
 <h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p><code>IPMI</code>是一种远程管理服务器的机制，嵌入到一个芯片中，该芯片与操作系统可访问的典型资源分离。它允许远程管理服务器，即使关闭了它。当您的服务器没有响应，您不想或无法亲自到那里进行故障排除时，它非常有用。你甚至可以通过<code>IPMI</code>安装操作系统，启动服务器，甚至进入<code>BIOS</code>。</p>
 <p>本文大部分参考<a href="https://peterkleissner.com/2018/05/27/reverse-engineering-supermicro-ipmi/" target="_blank" rel="noopener">Peter分享</a>，在此基础之上进行翻译、完善、实践和优化。感谢<code>Peter</code>的分享和推特上耐心的回复。大家有兴趣深入的，可进入<a href="https://peterkleissner.com/2018/05/27/reverse-engineering-supermicro-ipmi/" target="_blank" rel="noopener">原文</a>详细阅读。</p>
 <h2 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h2><p>破解了<code>license</code>的生成算法，<strong>基于<code>MAC</code>地址，做<code>SHA1</code>，<code>SECRET KEY</code>为<code>85 44 E3 B4 7E CA 58 F9 58 30 43 F8</code>。</strong></p>
@@ -409,7 +412,7 @@
         <p><span>本文标题:</span><a href="/2019/04/10/Supermicro_IPMI_license_reverse/">Supermicro IPMI License 反向破解</a></p>
         <p><span>文章作者:</span><a href="/" title="访问 Tony 的个人博客">Tony</a></p>
         <p><span>发布时间:</span>2019年04月10日 - 13时07分</p>
-        <p><span>最后更新:</span>2019年07月09日 - 18时17分</p>
+        <p><span>最后更新:</span>2019年07月09日 - 18时21分</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2019/04/10/Supermicro_IPMI_license_reverse/" title="Supermicro IPMI License 反向破解">https://tony-yin.github.io/2019/04/10/Supermicro_IPMI_license_reverse/</a>
             <span class="copy-path" data-clipboard-text="原文: https://tony-yin.github.io/2019/04/10/Supermicro_IPMI_license_reverse/　　作者: Tony" title=""></span>
