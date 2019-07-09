@@ -4,6 +4,46 @@
 
     
   <url>
+    <loc>https://tony-yin.github.io/2019/04/20/Redfish_Introduction/</loc>
+    <lastmod>2019-07-09T10:17:11.185Z</lastmod>
+    <data>
+        <display>
+        <title>Redfish 详解</title>
+        <pubTime>2019-04-20T05:07:06.000Z</pubTime>
+        
+        <tag>Redfish</tag>
+         
+         
+           
+             
+              <breadCrumb title="tech" url="https://tony-yin.github.io/categories/tech/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://tony-yin.github.io/2019/04/10/Supermicro_IPMI_license_reverse/</loc>
+    <lastmod>2019-07-09T10:17:11.174Z</lastmod>
+    <data>
+        <display>
+        <title>Supermicro IPMI License 反向破解</title>
+        <pubTime>2019-04-10T05:07:06.000Z</pubTime>
+        
+        <tag>IPMI</tag>
+         
+         
+           
+             
+              <breadCrumb title="tech" url="https://tony-yin.github.io/categories/tech/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>https://tony-yin.github.io/2019/06/20/Best-Practice-Of-Xshell/</loc>
     <lastmod>2019-06-24T02:20:14.685Z</lastmod>
     <data>
