@@ -4,6 +4,26 @@
 
     
   <url>
+    <loc>https://tony-yin.github.io/2019/05/15/Etcd_Service_HA/</loc>
+    <lastmod>2019-07-11T11:11:12.335Z</lastmod>
+    <data>
+        <display>
+        <title>利用 etcd 进行 leader 选举实现服务高可用</title>
+        <pubTime>2019-05-15T05:07:06.000Z</pubTime>
+        
+        <tag>Etcd</tag>
+         
+         
+           
+             
+              <breadCrumb title="tech" url="https://tony-yin.github.io/categories/tech/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>https://tony-yin.github.io/2019/04/10/Supermicro_IPMI_license_reverse/</loc>
     <lastmod>2019-07-09T10:21:20.958Z</lastmod>
     <data>

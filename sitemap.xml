@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://tony-yin.github.io/2019/05/15/Etcd_Service_HA/</loc>
+    
+    <lastmod>2019-07-11T11:11:12.335Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://tony-yin.github.io/2019/04/10/Supermicro_IPMI_license_reverse/</loc>
     
     <lastmod>2019-07-09T10:21:20.958Z</lastmod>
