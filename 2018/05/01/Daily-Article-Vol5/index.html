@@ -475,6 +475,24 @@ ip</code>、<code>FC</code>等等，而这些技术也很新，文档不多，�
 
 
     
+        <section id="comments">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script>
+    var gitalk = new Gitalk({
+        clientID: '',
+        clientSecret: '',
+        id: window.location.pathname,
+        repo: 'tony-yin.github.io',
+        owner: 'tony-yin',
+        admin: 'tony-yin',
+        distractionFreeMode: 'true'
+    })
+    gitalk.render('comments')
+</script>
+</section>
+
+    
 
 
 
@@ -512,32 +530,6 @@ ip</code>、<code>FC</code>等等，而这些技术也很新，文档不多，�
             }
         })
     </script>
-
-
-
-
-     <div id="gitalk-container"></div>
-    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
-
-<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
-
- <script type="text/javascript">
-      var gitalk = new Gitalk({
-        clientID: 'decf0505b15487f01731',
-        clientSecret: '73beae168fb65f79ef7ebdc4c7f42eb2ecffde0c',
-        repo: 'tony-yin.github.io',
-        owner: 'tony-yin',
-        admin: [&#39;tony-yin&#39;],
-        id: location.pathname,
-        labels: [&#39;Gitalk&#39;],
-        perPage: 15,
-        pagerDirection: 'last',
-        createIssueManually: true,
-        distractionFreeMode: false
-      })
-
-      gitalk.render('gitalk-container')
-     </script>
 
 
 
