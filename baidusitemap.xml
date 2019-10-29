@@ -4,6 +4,50 @@
 
     
   <url>
+    <loc>https://tony-yin.github.io/2019/09/20/Postgresql-Pgpool-FAQ/</loc>
+    <lastmod>2019-10-29T06:24:58.001Z</lastmod>
+    <data>
+        <display>
+        <title>Postgresql & Pgpool FAQ</title>
+        <pubTime>2019-09-20T05:07:06.000Z</pubTime>
+        
+        <tag>Postgresql</tag>
+         
+        <tag>Pgpool</tag>
+         
+         
+           
+             
+              <breadCrumb title="tech" url="https://tony-yin.github.io/categories/tech/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://tony-yin.github.io/2019/10/25/Pgpool-Connection-Revise/</loc>
+    <lastmod>2019-10-29T06:24:47.073Z</lastmod>
+    <data>
+        <display>
+        <title>Pgpool数据库连接调优和参数解读</title>
+        <pubTime>2019-10-25T05:07:06.000Z</pubTime>
+        
+        <tag>Postgresql</tag>
+         
+        <tag>Pgpool</tag>
+         
+         
+           
+             
+              <breadCrumb title="tech" url="https://tony-yin.github.io/categories/tech/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>https://tony-yin.github.io/2019/05/15/Etcd_Service_HA/</loc>
     <lastmod>2019-07-11T11:28:43.763Z</lastmod>
     <data>

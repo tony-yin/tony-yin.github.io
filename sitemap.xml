@@ -2,6 +2,20 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://tony-yin.github.io/2019/09/20/Postgresql-Pgpool-FAQ/</loc>
+    
+    <lastmod>2019-10-29T06:24:58.001Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://tony-yin.github.io/2019/10/25/Pgpool-Connection-Revise/</loc>
+    
+    <lastmod>2019-10-29T06:24:47.073Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://tony-yin.github.io/2019/05/15/Etcd_Service_HA/</loc>
     
     <lastmod>2019-07-11T11:28:43.763Z</lastmod>

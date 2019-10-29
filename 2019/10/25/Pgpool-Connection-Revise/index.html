@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  <meta name="baidu-site-verification" content="L6Lm9d5Crl">
+  
+  
+  
+  
+  <title>Pgpool数据库连接调优和参数解读 | Tony&#39;s blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="本文分享一次数据库连接调优的经历，并对pgpool一系列生命周期配置参数进行解读。">
+<meta name="keywords" content="Postgresql,Pgpool">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Pgpool数据库连接调优和参数解读">
+<meta property="og:url" content="https://tony-yin.github.io/2019/10/25/Pgpool-Connection-Revise/index.html">
+<meta property="og:site_name" content="Tony&#39;s blog">
+<meta property="og:description" content="本文分享一次数据库连接调优的经历，并对pgpool一系列生命周期配置参数进行解读。">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="http://cdn.tony-yin.site/postgres3.png">
+<meta property="og:updated_time" content="2019-10-29T06:24:47.073Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Pgpool数据库连接调优和参数解读">
+<meta name="twitter:description" content="本文分享一次数据库连接调优的经历，并对pgpool一系列生命周期配置参数进行解读。">
+<meta name="twitter:image" content="http://cdn.tony-yin.site/postgres3.png">
+  
+    <link rel="alternative" href="/atom.xml" title="Tony&#39;s blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/img/favicon.png">
+  
+  
+  <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  
+  
+      <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  
+  <!-- 加载特效 -->
+    <script src="/js/pace.js"></script>
+    <link href="/css/pace/pace-theme-flash.css" rel="stylesheet">
+  <script>
+      var yiliaConfig = {
+          fancybox: true,
+          animate: true,
+          isHome: false,
+          isPost: true,
+          isArchive: false,
+          isTag: false,
+          isCategory: false,
+          open_in_new: false
+      }
+  </script>
+</head></html>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+        <a href="/" class="profilepic">
+            
+            <img src="/img/tony.jpg" class="js-avatar">
+            
+        </a>
+        <hgroup>
+          <h1 class="header-author"><a href="/">Tony</a></h1>
+        </hgroup>
+        
+        
+            <form>
+	        <input type="text" class="st-default-search-input search" id="local-search-input" placeholder="搜索一下" autocomplete="off">
+            </form>
+            <div id="local-search-result"></div>
+        
+        
+            <script type="text/javascript">
+                (function() {
+                    'use strict';
+                    function getMatchData(keyword, data) {
+                        var matchData = [];
+                        for(var i =0;i<data.length;i++){
+                            if(data[i].title.toLowerCase().indexOf(keyword)>=0) 
+                                matchData.push(data[i])
+                        }
+                        return matchData;
+                    }
+                    var $input = $('#local-search-input');
+                    var $resultContent = $('#local-search-result');
+                    $input.keyup(function(){
+                        $.ajax({
+                            url: '/search.json',
+                            dataType: "json",
+                            success: function( json ) {
+                                var str='<ul class=\"search-result-list\">';                
+                                var keyword = $input.val().trim().toLowerCase();
+                                $resultContent.innerHTML = "";
+                                if ($input.val().trim().length <= 0) {
+                                    $resultContent.empty();
+                                    $('#switch-area').show();
+                                    return;
+                                }
+                                var results = getMatchData(keyword, json);
+                                if(results.length === 0){
+                                    $resultContent.empty();
+                                    $('#switch-area').show();
+                                    return;
+                                } 
+                                for(var i =0; i<results.length; i++){
+                                    str += "<li><a href='"+ results[i].url +"' class='search-result-title'>"+ results[i].title +"</a></li>";
+                                }
+                                str += "</ul>";
+                                $resultContent.empty();
+                                $resultContent.append(str);
+                                $('#switch-area').hide();
+                            }
+                        });
+                    });
+                })();
+            </script>
+        
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                        <div class="icon-wrap icon-me hide" data-idx="3">
+                            <div class="user"></div>
+                            <div class="shoulder"></div>
+                        </div>
+                        
+                    </div>
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                        <li>关于我</li>
+                        
+                    </ul>
+                </div>
+            </div>
+        
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/archives/">所有文章</a></li>
+                        
+                            <li><a href="/categories/tech">技术文章</a></li>
+                        
+                            <li><a href="/tags/Ceph">ceph相关</a></li>
+                        
+                            <li><a href="/categories/summary">感悟总结</a></li>
+                        
+                            <li><a href="/categories/read">阅读翻译</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fl github" target="_blank" href="https://github.com/tony-yin" title="github">github</a>
+                            
+                                <a class="fl weibo" target="_blank" href="https://weibo.com/3832044210/profile?rightmod=1&wvr=6&mod=personinfo" title="weibo">weibo</a>
+                            
+                                <a class="fl segmentfault" target="_blank" href="https://segmentfault.com/u/qzuser_57fb1d5db527e" title="segmentfault">segmentfault</a>
+                            
+                        </ul>
+			
+                    </nav>
+                </section>
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <a href="/tags/BIOS/" style="font-size: 10px;">BIOS</a> <a href="/tags/Bugfix/" style="font-size: 10px;">Bugfix</a> <a href="/tags/CAS/" style="font-size: 10px;">CAS</a> <a href="/tags/Ceph/" style="font-size: 20px;">Ceph</a> <a href="/tags/Cephx/" style="font-size: 10px;">Cephx</a> <a href="/tags/Console/" style="font-size: 10px;">Console</a> <a href="/tags/Cronjob/" style="font-size: 10px;">Cronjob</a> <a href="/tags/Crontab/" style="font-size: 10px;">Crontab</a> <a href="/tags/Ctdb/" style="font-size: 11.25px;">Ctdb</a> <a href="/tags/Daily-Article/" style="font-size: 17.5px;">Daily-Article</a> <a href="/tags/Disk/" style="font-size: 16.25px;">Disk</a> <a href="/tags/Django/" style="font-size: 10px;">Django</a> <a href="/tags/Elasticsearch/" style="font-size: 11.25px;">Elasticsearch</a> <a href="/tags/Etcd/" style="font-size: 10px;">Etcd</a> <a href="/tags/Filesystem/" style="font-size: 11.25px;">Filesystem</a> <a href="/tags/GPT/" style="font-size: 10px;">GPT</a> <a href="/tags/GRUB/" style="font-size: 10px;">GRUB</a> <a href="/tags/HA/" style="font-size: 13.75px;">HA</a> <a href="/tags/IPMI/" style="font-size: 10px;">IPMI</a> <a href="/tags/Javascript/" style="font-size: 10px;">Javascript</a> <a href="/tags/Keepalived/" style="font-size: 11.25px;">Keepalived</a> <a href="/tags/LVM/" style="font-size: 10px;">LVM</a> <a href="/tags/Linux/" style="font-size: 18.75px;">Linux</a> <a href="/tags/Luminous/" style="font-size: 10px;">Luminous</a> <a href="/tags/MBR/" style="font-size: 10px;">MBR</a> <a href="/tags/Megaraid/" style="font-size: 10px;">Megaraid</a> <a href="/tags/Monitor/" style="font-size: 11.25px;">Monitor</a> <a href="/tags/Moodle/" style="font-size: 10px;">Moodle</a> <a href="/tags/NAS/" style="font-size: 10px;">NAS</a> <a href="/tags/NFS/" style="font-size: 12.5px;">NFS</a> <a href="/tags/NFS-Ganesha/" style="font-size: 10px;">NFS-Ganesha</a> <a href="/tags/Network/" style="font-size: 10px;">Network</a> <a href="/tags/Notification/" style="font-size: 10px;">Notification</a> <a href="/tags/OSD/" style="font-size: 12.5px;">OSD</a> <a href="/tags/Oracle/" style="font-size: 11.25px;">Oracle</a> <a href="/tags/Oracle-11g-R2/" style="font-size: 10px;">Oracle 11g R2</a> <a href="/tags/Oracle-Linux/" style="font-size: 10px;">Oracle Linux</a> <a href="/tags/PHP/" style="font-size: 11.25px;">PHP</a> <a href="/tags/PHPExcel/" style="font-size: 10px;">PHPExcel</a> <a href="/tags/Partition/" style="font-size: 11.25px;">Partition</a> <a href="/tags/Pgpool/" style="font-size: 11.25px;">Pgpool</a> <a href="/tags/Postgresql/" style="font-size: 11.25px;">Postgresql</a> <a href="/tags/Profile/" style="font-size: 11.25px;">Profile</a> <a href="/tags/Python/" style="font-size: 15px;">Python</a> <a href="/tags/RAID/" style="font-size: 11.25px;">RAID</a> <a href="/tags/RBD/" style="font-size: 12.5px;">RBD</a> <a href="/tags/RGW/" style="font-size: 10px;">RGW</a> <a href="/tags/Rados/" style="font-size: 10px;">Rados</a> <a href="/tags/Raidcard/" style="font-size: 10px;">Raidcard</a> <a href="/tags/Read/" style="font-size: 18.75px;">Read</a> <a href="/tags/Redfish/" style="font-size: 10px;">Redfish</a> <a href="/tags/Script/" style="font-size: 12.5px;">Script</a> <a href="/tags/Snack/" style="font-size: 10px;">Snack</a> <a href="/tags/Test/" style="font-size: 10px;">Test</a> <a href="/tags/UEFI/" style="font-size: 10px;">UEFI</a> <a href="/tags/Udev/" style="font-size: 11.25px;">Udev</a> <a href="/tags/Xshell/" style="font-size: 10px;">Xshell</a> <a href="/tags/产品/" style="font-size: 10px;">产品</a> <a href="/tags/博客/" style="font-size: 10px;">博客</a> <a href="/tags/性能优化/" style="font-size: 10px;">性能优化</a> <a href="/tags/编译/" style="font-size: 10px;">编译</a>
+                    </div>
+                </section>
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="https://greenlightt.github.io">redgo的博客</a>
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.xuxiaopang.com">徐小胖的博客</a>
+                    
+                    </div>
+                </section>
+                
+                
+                
+                <section class="switch-part switch-part4">
+                
+                    <div id="js-aboutme">江苏南京，熟悉Python、分布式、高可用等技术栈，目前从事Ceph分布式存储相关工作，邮箱：1241484989@qq.com</div>
+                </section>
+                
+            </div>
+        </div>
+    </header>
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">Tony</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                
+                    <img src="/img/tony.jpg" class="js-avatar">
+                
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">Tony</a></h1>
+            </hgroup>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/archives/">所有文章</a></li>
+                
+                    <li><a href="/categories/tech">技术文章</a></li>
+                
+                    <li><a href="/tags/Ceph">ceph相关</a></li>
+                
+                    <li><a href="/categories/summary">感悟总结</a></li>
+                
+                    <li><a href="/categories/read">阅读翻译</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a class="github" target="_blank" href="https://github.com/tony-yin" title="github">github</a>
+                    
+                        <a class="weibo" target="_blank" href="https://weibo.com/3832044210/profile?rightmod=1&wvr=6&mod=personinfo" title="weibo">weibo</a>
+                    
+                        <a class="segmentfault" target="_blank" href="https://segmentfault.com/u/qzuser_57fb1d5db527e" title="segmentfault">segmentfault</a>
+                    
+                </div>
+            </nav>
+        </header>                
+    </div>
+</nav>
+
+      <div class="body-wrap"><article id="post-Pgpool-Connection-Revise" class="article article-type-post" itemscope="" itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2019/10/25/Pgpool-Connection-Revise/" class="article-date">
+      <time datetime="2019-10-25T05:07:06.000Z" itemprop="datePublished">2019-10-25</time>
+</a>
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Pgpool数据库连接调优和参数解读
+    </h1>
+  
+
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/tech/">tech</a>
+    </div>
+
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Pgpool/">Pgpool</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Postgresql/">Postgresql</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <center><img src="http://cdn.tony-yin.site/postgres3.png" alt="pgpool"></center>
+
+<p>本文分享一次数据库连接调优的经历，并对<code>pgpool</code>一系列生命周期配置参数进行解读。</p>
+<a id="more"></a>
+<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>测试发现数据库读写有时候会短时间卡顿，经过定位，发现数据库<code>VIP</code>未发生漂移，服务端口正常，数据库（<code>pgpool</code>）连接数已到达上限，所以判断是数据库连接数过多导致之后的短时间访问阻塞。</p>
+<h2 id="Django数据库连接处理"><a href="#Django数据库连接处理" class="headerlink" title="Django数据库连接处理"></a>Django数据库连接处理</h2><p>由于建立数据库连接最多的客户端用的是<code>Django</code>框架，所以先分析一下<code>Django</code>对数据库连接的处理流程。</p>
+<p><code>Django</code>程序接受到请求之后，在第一次访问数据库的时候会创建一个连接，在请求结束时，关闭连接。<code>Django1.6</code>后的版本，提供了数据库持久连接的配置，通过<code>DATABASE</code>配置上添加<code>CONN_MAX_AGE</code>来控制每个连接的最大存活时间。参数的原理就是在每次创建完数据库连接之后，把连接放到一个<code>Theard.local</code>的实例中。在<code>request</code>请求结束时会判断是否超过<code>CONN_MAX_AGE</code>设置这个有效期。每次进行数据库请求的时候其实只是判断<code>local</code>中有没有已存在的连接，有则复用。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">BaseDatabaseWrapper</span><span class="params">(object)</span>:</span>    </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">connect</span><span class="params">(self)</span>:</span>                                                             </span><br><span class="line">        <span class="string">"""Connects to the database. Assumes that the connection is closed."""</span>               <span class="comment"># Reset parameters defining when to close the connection                   </span></span><br><span class="line">        max_age = self.settings_dict[<span class="string">'CONN_MAX_AGE'</span>]                               </span><br><span class="line">        self.close_at = <span class="keyword">None</span> <span class="keyword">if</span> max_age <span class="keyword">is</span> <span class="keyword">None</span> <span class="keyword">else</span> time.time() + max_age</span><br><span class="line">        self.connection = self.get_new_connection(conn_params)</span><br><span class="line">        ......</span><br><span class="line">        ......</span><br><span class="line">                                                                                   </span><br><span class="line">        self.run_on_commit = []           </span><br><span class="line">        </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">close_if_unusable_or_obsolete</span><span class="params">(self)</span>:</span>                                    </span><br><span class="line">        <span class="string">"""                                                                     </span></span><br><span class="line"><span class="string">        Closes the current connection if unrecoverable errors have occurred,    </span></span><br><span class="line"><span class="string">        or if it outlived its maximum age.                                      </span></span><br><span class="line"><span class="string">        """</span>                                                                     </span><br><span class="line">        <span class="keyword">if</span> self.connection <span class="keyword">is</span> <span class="keyword">not</span> <span class="keyword">None</span>:                                         </span><br><span class="line">            <span class="comment"># If the application didn't restore the original autocommit setting,</span></span><br><span class="line">            <span class="comment"># don't take chances, drop the connection.                          </span></span><br><span class="line">            <span class="keyword">if</span> self.get_autocommit() != self.settings_dict[<span class="string">'AUTOCOMMIT'</span>]:       </span><br><span class="line">                self.close()                                                    </span><br><span class="line">                <span class="keyword">return</span>                                                          </span><br><span class="line">                                                                                </span><br><span class="line">            <span class="comment"># If an exception other than DataError or IntegrityError occurred   </span></span><br><span class="line">            <span class="comment"># since the last commit / rollback, check if the connection works.  </span></span><br><span class="line">            <span class="keyword">if</span> self.errors_occurred:                                            </span><br><span class="line">                <span class="keyword">if</span> self.is_usable():                                            </span><br><span class="line">                    self.errors_occurred = <span class="keyword">False</span>                                </span><br><span class="line">                <span class="keyword">else</span>:                                                           </span><br><span class="line">                    self.close()                                                </span><br><span class="line">                    <span class="keyword">return</span>                                                      </span><br><span class="line">                                                                                </span><br><span class="line">            <span class="keyword">if</span> self.close_at <span class="keyword">is</span> <span class="keyword">not</span> <span class="keyword">None</span> <span class="keyword">and</span> time.time() &gt;= self.close_at:      </span><br><span class="line">                self.close()                                                    </span><br><span class="line">                <span class="keyword">return</span></span><br></pre></td></tr></table></figure>
+<p><code>Django</code>是通过<code>HttpResponse</code>来作为请求结束的标准，关闭连接的代码也是在<code>HttpResponseBase</code>这个<code>class</code>中。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">HttpResponseBase</span><span class="params">(six.Iterator)</span>:</span>    </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">close</span><span class="params">(self)</span>:</span>                                                               </span><br><span class="line">        <span class="keyword">for</span> closable <span class="keyword">in</span> self._closable_objects:                                    </span><br><span class="line">            <span class="keyword">try</span>:                                                                   </span><br><span class="line">                closable.close()                                                   </span><br><span class="line">            <span class="keyword">except</span> Exception:  </span><br><span class="line">                <span class="keyword">pass</span> </span><br><span class="line">        self.closed = <span class="keyword">True</span></span><br><span class="line">        <span class="comment"># 请求结束时触发request_finished这个触发器</span></span><br><span class="line">        signals.request_finished.send(sender=self._handler_class)</span><br></pre></td></tr></table></figure>
+<h2 id="定位"><a href="#定位" class="headerlink" title="定位"></a>定位</h2><p>通过上面可以大致了解<code>Django</code>对于数据库连接的处理流程，客户端中并没有设置长连接时间，所以理论上来说每个请求都会在结束时关闭数据库连接，那么为什么数据库端（<code>pgpool</code>）还显示有很多没有关闭的连接呢？</p>
+<p>那无非两种场景：</p>
+<ol>
+<li>程序没有走<code>Response</code>；</li>
+<li>程序走了<code>Response</code>，但是没能关闭掉连接；</li>
+</ol>
+<h3 id="场景1"><a href="#场景1" class="headerlink" title="场景1"></a>场景1</h3><ul>
+<li><p>正常的<code>restful</code>接口最终是返回<code>Response</code>，但是中间代码出错或者抛异常会导致最后没能运行到<code>Response</code>。</p>
+</li>
+<li><p>项目中有很多程序并不是对外暴露的接口，比如后端的一些定时任务，这类程序不会涉及到请求的开始和结束，如果这些任务中涉及<code>DB</code>的操作，<code>Django</code>是不会帮助程序关闭连接的。</p>
+</li>
+</ul>
+<h3 id="场景2"><a href="#场景2" class="headerlink" title="场景2"></a>场景2</h3><p>再谈正常走<code>Response</code>的程序，什么原因会导致连接没能被正常关闭？</p>
+<p>通过上面<code>Django</code>数据库连接处理流程分析，可以知道<code>Django</code>里的数据库连接是放在线程的<code>local()</code> 实例中，当本线程需要一个数据库连接，判断<code>local</code>中是否存在已有连接，有则复用；但是如果采用多线程的方式访问数据库，<code>Django</code>则会创建一条属于当前线程的数据库连接，即每个线程都会创建属于自己的数据库连接，每个线程也只能关闭当前线程的数据库连接。</p>
+<p><strong>所以如果一段程序中，采用了多线程的方式访问<code>DB</code>，最后通过主线程返回<code>Response</code>，主线程是不会关闭其他线程中的数据库连接。</strong></p>
+<h2 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h2><h3 id="客户端"><a href="#客户端" class="headerlink" title="客户端"></a>客户端</h3><ol>
+<li>针对代码异常没有运行到<code>Response</code>的情况，需要添加<code>try-catch</code>，在最终的<code>finally</code>加上返回<code>Response</code>的代码；</li>
+<li>针对非<code>web</code>接口，即最后不走<code>Response</code>的情况，需要在程序最后额外添加关闭数据库连接的代码；</li>
+<li>针对多线程使用数据库的场景，解决方案就是除了主线程的每次工作线程完成一个任务后，就把它相关的数据库连接关掉。</li>
+</ol>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django.db <span class="keyword">import</span> connections</span><br><span class="line"><span class="comment"># 每一个线程都有专属的connections，把本线程名下的所有连接关闭。</span></span><br><span class="line">connections.close_all()</span><br></pre></td></tr></table></figure>
+<h3 id="数据库端"><a href="#数据库端" class="headerlink" title="数据库端"></a>数据库端</h3><p><code>Pgpool</code>配置文件中配置客户端连接空闲最大时间为<code>300</code>秒：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">client_idle_limit = 300    # Client is disconnected after being idle for that many seconds</span><br><span class="line">                           # (even inside an explicit transactions!)</span><br><span class="line">                           # 0 means no disconnection</span><br></pre></td></tr></table></figure>
+<p>该参数表示当一个客户端在执行最后一条查询后如果空闲到了<code>client_idle_limit</code>秒数， 到这个客户端的连接将被断开。这里配置为<code>300</code>秒，防止客户端存在长时间的空闲连接占用连接数。</p>
+<h2 id="Pgpool-子进程状态解读"><a href="#Pgpool-子进程状态解读" class="headerlink" title="Pgpool 子进程状态解读"></a>Pgpool 子进程状态解读</h2><p>查看<code>pgpool</code>连接数和状态：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">[root@host1 ~]# systemctl status pgpool</span><br><span class="line">● pgpool.service - Pgpool-II</span><br><span class="line">   Loaded: loaded (/usr/lib/systemd/system/pgpool.service; enabled; vendor preset: disabled)</span><br><span class="line">   Active: active (running) since Wed 2019-10-23 16:14:42 CST; 5 days ago</span><br><span class="line"> Main PID: 3195664 (pgpool)</span><br><span class="line">   Memory: 163.8M</span><br><span class="line">   CGroup: /system.slice/pgpool.service</span><br><span class="line">           ├─ 2500232 pgpool: test_user test_db 192.168.1.1(39436) idle</span><br><span class="line">           ├─ 2561154 pgpool: wait for connection request</span><br><span class="line">           ├─ 794851 pgpool: test_user test_db 192.168.225.1(17831) idle in transaction</span><br><span class="line">           ......</span><br></pre></td></tr></table></figure>
+<p>连接一般分为以下几种状态：</p>
+<h3 id="客户端连接处于空闲状态"><a href="#客户端连接处于空闲状态" class="headerlink" title="客户端连接处于空闲状态"></a>客户端连接处于空闲状态</h3><p>客户端位于<code>192.168.1.1</code>上，通过<code>test_user</code>用户连接的数据库<code>test_db</code>，并且该连接当前处于<code>idle</code>状态。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">2500232 pgpool: test_user test_db 192.168.1.1(39436) idle</span><br></pre></td></tr></table></figure>
+<h3 id="客户端连接处于事务状态"><a href="#客户端连接处于事务状态" class="headerlink" title="客户端连接处于事务状态"></a>客户端连接处于事务状态</h3><p>客户端位于<code>192.168.1.1</code>上，通过<code>test_user</code>用户连接的数据库<code>test_db</code>，并且该连接当前处于<code>transaction</code>状态。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">794851 pgpool: test_user test_db 192.168.1.1(17831) idle in transaction</span><br></pre></td></tr></table></figure>
+<h3 id="等待连接请求"><a href="#等待连接请求" class="headerlink" title="等待连接请求"></a>等待连接请求</h3><p>当客户端断开连接后，原子进程便会切换成<code>wait</code>状态，等待下一次客户端连接，如果<code>child_life_time</code>配置的时间范围内，没有客户端向这个子进程建立连接，该子进程便会<code>kill</code>掉并重新生成新的子进程。</p>
+<h2 id="Pgpool-生命周期参数解读"><a href="#Pgpool-生命周期参数解读" class="headerlink" title="Pgpool 生命周期参数解读"></a>Pgpool 生命周期参数解读</h2><h3 id="child-life-time"><a href="#child-life-time" class="headerlink" title="child_life_time"></a>child_life_time</h3><p>该参数表示最后一次客户端<strong>断开连接</strong>后，<strong>子进程空闲</strong>持续的最大时间，避免长时间不退出导致内存泄露。客户端断开数据库连接后，子进程切换成<code>wait request</code>状态，如果<code>child_life_time</code>配置的时间范围内，没有客户端与该子进程建立连接，该子进程便会被<code>kill</code>掉并重新生成新的子进程。<code>0</code>表示永远不会退出子进程。</p>
+<h3 id="client-idle-limit"><a href="#client-idle-limit" class="headerlink" title="client_idle_limit"></a>client_idle_limit</h3><p>该参数表示最后一次客户在<strong>连接中</strong>的数据库操作后，<strong>该连接</strong>持续的最大时间。当一个客户端在执行最后一条查询后如果空闲到了<code>client_idle_limit</code>秒数，这个客户端的连接将被<code>pgpool</code>断开。该参数可以防止客户端长时间的空闲连接占用连接数，本文也是通过该参数进行数据库优化。<code>0</code>表示永远不会断开连接。</p>
+<h3 id="child-max-connections"><a href="#child-max-connections" class="headerlink" title="child_max_connections"></a>child_max_connections</h3><p>该参数表示<code>pgpool</code>允许的最大连接数，当<code>pgpool</code>建立的连接数到达<code>child_max_connections</code>配置的数目后，则会优先退出最早的子进程。该参数主要用于并发量大的场景，短时间内触发不到<code>child_life_time</code>和<code>client_idle_limit</code>参数，<code>0</code>表示永远不会退出子进程。</p>
+<h3 id="connection-life-time"><a href="#connection-life-time" class="headerlink" title="connection_life_time"></a>connection_life_time</h3><p>该参数表示<code>pgpool</code>与数据库后端建立连接的最大时间，主要用于缓存，提高数据库性能。<code>0</code>表示永远不会关闭连接。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p><code>Django</code>在大部分情况下会帮助关闭数据库连接，但部分场景，如无<code>Response</code>、程序抛异常、多线程等场景会导致数据库连接无法自动关闭。客户端需要在以上场景下采取对应的解决方案，防止数据库连接堆积。此外，数据库端也需要配置客户端空闲连接最大时间，保证在客户端不关闭连接的情况下能够关闭长时间空闲的数据库连接。</p>
+<h2 id="Refer"><a href="#Refer" class="headerlink" title="Refer"></a>Refer</h2><ol>
+<li><a href="https://www.the5fire.com/reduce-db-conn-with-django-persistent-connection.html" target="_blank" rel="noopener">通过CONN_MAX_AGE优化Django的数据库连接</a></li>
+<li><a href="https://blog.csdn.net/gzlaiyonghao/article/details/82959426" target="_blank" rel="noopener">多线程Django程序耗尽数据库连接的问题</a></li>
+<li><a href="http://www.rainybowe.com/blog/2016/12/20/django%E6%95%B0%E6%8D%AE%E5%BA%93%E8%BF%9E%E6%8E%A5/index.html" target="_blank" rel="noopener">django数据库连接</a></li>
+<li><a href="https://stackoverflow.com/questions/10362032/a-good-pgpool-ii-configuration" target="_blank" rel="noopener">A good PgPool II configuration</a></li>
+<li><a href="https://www.aityp.com/pgpool%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E8%AF%A6%E8%A7%A3/" target="_blank" rel="noopener">pgpool配置文件详解</a></li>
+<li><a href="https://www.jianshu.com/p/f9d6fee05549" target="_blank" rel="noopener">关于PgPool客户端阻塞</a></li>
+</ol>
+
+      
+
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2019/10/25/Pgpool-Connection-Revise/">Pgpool数据库连接调优和参数解读</a></p>
+        <p><span>文章作者:</span><a href="/" title="访问 Tony 的个人博客">Tony</a></p>
+        <p><span>发布时间:</span>2019年10月25日 - 13时07分</p>
+        <p><span>最后更新:</span>2019年10月29日 - 14时24分</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2019/10/25/Pgpool-Connection-Revise/" title="Pgpool数据库连接调优和参数解读">https://tony-yin.github.io/2019/10/25/Pgpool-Connection-Revise/</a>
+            <span class="copy-path" data-clipboard-text="原文: https://tony-yin.github.io/2019/10/25/Pgpool-Connection-Revise/　　作者: Tony" title=""></span>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/cn/" title="中国大陆 (CC BY-NC-SA 3.0 CN)" target="_blank">"署名-非商用-相同方式共享 3.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+<nav id="article-nav">
+  
+  
+    <a href="/2019/09/20/Postgresql-Pgpool-FAQ/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Postgresql &amp; Pgpool FAQ</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#背景"><span class="toc-number">1.</span> <span class="toc-text">背景</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Django数据库连接处理"><span class="toc-number">2.</span> <span class="toc-text">Django数据库连接处理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#定位"><span class="toc-number">3.</span> <span class="toc-text">定位</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#场景1"><span class="toc-number">3.1.</span> <span class="toc-text">场景1</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#场景2"><span class="toc-number">3.2.</span> <span class="toc-text">场景2</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#解决方案"><span class="toc-number">4.</span> <span class="toc-text">解决方案</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#客户端"><span class="toc-number">4.1.</span> <span class="toc-text">客户端</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#数据库端"><span class="toc-number">4.2.</span> <span class="toc-text">数据库端</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Pgpool-子进程状态解读"><span class="toc-number">5.</span> <span class="toc-text">Pgpool 子进程状态解读</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#客户端连接处于空闲状态"><span class="toc-number">5.1.</span> <span class="toc-text">客户端连接处于空闲状态</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#客户端连接处于事务状态"><span class="toc-number">5.2.</span> <span class="toc-text">客户端连接处于事务状态</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#等待连接请求"><span class="toc-number">5.3.</span> <span class="toc-text">等待连接请求</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Pgpool-生命周期参数解读"><span class="toc-number">6.</span> <span class="toc-text">Pgpool 生命周期参数解读</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#child-life-time"><span class="toc-number">6.1.</span> <span class="toc-text">child_life_time</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#client-idle-limit"><span class="toc-number">6.2.</span> <span class="toc-text">client_idle_limit</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#child-max-connections"><span class="toc-number">6.3.</span> <span class="toc-text">child_max_connections</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#connection-life-time"><span class="toc-number">6.4.</span> <span class="toc-text">connection_life_time</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-number">7.</span> <span class="toc-text">总结</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Refer"><span class="toc-number">8.</span> <span class="toc-text">Refer</span></a></li></ol>
+</div>
+<style>
+    .left-col .switch-btn {
+        display: none;
+    }
+    .left-col .switch-area {
+        display: none;
+    }
+</style>
+<input type="button" id="tocButton" value="隐藏目录" title="点击按钮隐藏或者显示文章目录">
+<script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script>
+    var valueHide = "隐藏目录";
+    var valueShow = "显示目录";
+    if ($(".left-col").is(":hidden")) {
+        $("#tocButton").attr("value", valueShow);
+    }
+    $("#tocButton").click(function() {
+        if ($("#toc").is(":hidden")) {
+            $("#tocButton").attr("value", valueHide);
+            $("#toc").slideDown(320);
+            $(".switch-btn, .switch-area").fadeOut(300);
+        }
+        else {
+            $("#tocButton").attr("value", valueShow);
+            $("#toc").slideUp(350);
+            $(".switch-btn, .switch-area").fadeIn(500);
+        }
+    })
+    if ($(".toc").length < 1) {
+        $("#toc, #tocButton").hide();
+        $(".switch-btn, .switch-area").show();
+    }
+</script>
+
+
+
+
+
+<div class="bdsharebuttonbox">
+	<a href="#" class="fx fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+	<a href="#" class="fx fa-weixin bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+	<a href="#" class="fx fa-qq bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a>
+	<a href="#" class="fx fa-facebook-official bds_fbook" data-cmd="fbook" title="分享到Facebook"></a>
+	<a href="#" class="fx fa-twitter bds_twi" data-cmd="twi" title="分享到Twitter"></a>
+	<a href="#" class="fx fa-linkedin bds_linkedin" data-cmd="linkedin" title="分享到linkedin"></a>
+	<a href="#" class="fx fa-files-o bds_copy" data-cmd="copy" title="分享到复制网址"></a>
+</div>
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"2","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='/static/api/js/share.js?cdnversion=' + ~ (-new Date() / 36e5)];</script>
+
+
+
+
+    
+        <section id="comments">
+</section>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+<script>
+require(['https://unpkg.com/gitalk/dist/gitalk.min.js'], function (Gitalk) {
+    var gitalk = new Gitalk({
+        clientID: 'decf0505b15487f01731',
+        clientSecret: '73beae168fb65f79ef7ebdc4c7f42eb2ecffde0c',
+        id: window.location.pathname,
+        repo: 'tony-yin.github.io',
+        owner: 'tony-yin',
+        admin: 'tony-yin',
+        distractionFreeMode: 'true'
+    })
+    gitalk.render('comments')
+})
+</script>
+
+    
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/" title="回到主页"><i class="fa fa-home"></i></a>
+        
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+        
+            <a href="/2019/09/20/Postgresql-Pgpool-FAQ/" title="下一篇: Postgresql &amp; Pgpool FAQ">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2019/10/25/Pgpool-Connection-Revise/">Pgpool数据库连接调优和参数解读</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/09/20/Postgresql-Pgpool-FAQ/">Postgresql & Pgpool FAQ</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/06/20/Best-Practice-Of-Xshell/">玩转 Xshell</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/05/15/Etcd_Service_HA/">利用 etcd 进行 leader 选举实现服务高可用</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/04/20/Redfish_Introduction/">Redfish 详解</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/04/10/Supermicro_IPMI_license_reverse/">Supermicro IPMI License 反向破解</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/03/10/ssd_ha/">利用软 RAID 实现系统盘高可用</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/02/10/software_raid/">软 RAID 详解</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/10/Talk_BIOS_UEFI_MBR_GPT_GRUB/">聊聊 BIOS、UEFI、MBR、GPT、GRUB……</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/12/10/Centos7-GPT/">Centos7系统安装设置gpt分区</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/12/01/ES-Sentinl/">ES告警详解之Sentinl</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/11/15/ES-ElastAlert/">ES告警详解之ElastAlert</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/11/05/How-To-Avoid-Cronjob-Duplicate-Running/">如何避免 Cronjob 重复运行</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/10/29/Why-Crontab-Not-Work/">为什么 crontab 不执行</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/01/Daily-Article-Vol7/">Daily Article Vol7(2018/6/1 ~ 2018/6/30)</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/20/Block-device-persistent-name-and-multipath/">块设备持久化命名和多路径</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/03/Python-Snack-Best-Practice/">Python Snack 最佳实践</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/01/Daily-Article-Vol6/">Daily Article Vol6(2018/5/1 ~ 2018/5/31)</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/20/Ctdb-Rados-2/">Ctdb Rados（二）：多场景断网高可用</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/12/Megaraid_Location/">Megaraid 磁盘定位</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/02/Django_CAS_Token_Solution/">Django CAS Token 解决方案</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/01/Daily-Article-Vol5/">Daily Article Vol 5 - (2018/4/1 ~ 2018/4/30)</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/20/Ctdb-Rados-All-Banned/">Ctdb Rados方式导致All Banned的问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/08/python_nas_stable_test/">基于Python的NAS稳定性测试框架</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/01/Daily_Article_Vol4/">Daily Article Vol 4 - (2018/3/1 ~ 2018/3/31)</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/03/09/Hardware-Test-Tool/">硬件环境测试环境模拟</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/03/01/Daily-Article-Vol3/">Daily Article Vol 3 - (2018/2/1 ~ 2018/2/28)</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/02/01/Daily-Article-Vol2/">Daily Article Vol 2 - (2018/1/1 ~ 2018/1/31)</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/28/RBD-HA-2/">实现RBD导出NFS高可用（二）：提供多虚拟IP访问</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/10/scp-and-ssh/">scp 免交互式和 ssh 免交互式脚本</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/05/RaidCardToolUtils/">利用Raid卡工具获取逻辑盘是否为SSD</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/01/Daily-Article-2017/">Daily Article Vol 1 - (2017/11/1 ~ 2017/12/31)</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/21/Everything-is-a-file/">译：一切皆文件</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/17/Linux-Filesystem/">译：Linux 文件系统介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/10/Into-Withe-Night/">阅读感悟：《白夜行》</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/08/Filesystem-Bug-Fix/">故障修复：文件系统导致OSD启动失败</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/07/RBD-HA/">通过 Keepalived 实现 Ceph RBD 的高可用</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/30/Cephx-practice/">Cephx 实战演练</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/26/read-ceph-cookbook/">阅读感悟：《Ceph Cookbook》</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/26/read-ceph-guide/">阅读感悟：《Ceph分布式存储学习指南》</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/26/read-python-automation/">阅读感悟：《Python编程快速上手---让繁琐工作自动化》</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/19/hexo-theme-shadow/">博客主题 shadow</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/14/LVM-Space-Expansion/">LVM动态扩展</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/14/Ceph-Compile/">Ceph 编译（Giant版本）</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/08/Ceph-NFS-Ganesha/">通过ganesha-nfs导出Ceph为NFS（Luminous）</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/08/Ceph-RGW/">RGW 安装和创建</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/31/RBD-Mount-NFS/">使用NFS挂载RBD</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/10/Python-Profiler/">Python Profiler</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/10/Enable-OSD-Profile-Script/">启用OSD性能剖析脚本</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/02/Batch-Create-And-Delete-Disk-Partition-Script/">批量创建和删除磁盘分区脚本</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/28/JS-Object-Null/">JS判断对象是否为空</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/27/OSD-Create-And-Delete/">OSD创建和删除全过程</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/21/How-To-Forge-Product/">如何打造一个好的产品</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/18/PHP-Excel/">PHP-Excel 开发解决方案</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/10/Disk-pull-and-plug-record/">磁盘反复拔插记录</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/10/Linux-Udev/">Linux Udev</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/10/network-down-notification/">Network Down Notification</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/10/Python-Oracle/">Python操作Oracle</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/10/oracle_install/">Oracle Linux And Oracle Database 11g R2 Intsallation</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/09/Moodle-Local-Plugin/">Moodle Local插件</a></li></ul>
+    <script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+    <script>
+        $(".post-list").addClass("toc-article");
+        // $(".post-list-item a").attr("target","_blank");
+        $("#post-nav-button > a:nth-child(2)").click(function() {
+            $(".fa-bars, .fa-times").toggle();
+            $(".post-list").toggle(300);
+            if ($(".toc").length > 0) {
+                $("#toc, #tocButton").toggle(200, function() {
+                    if ($(".switch-area").is(":visible")) {
+                        $("#toc, .switch-btn, .switch-area").toggle();
+                        $("#tocButton").attr("value", valueHide);
+                        }
+                    })
+            }
+            else {
+                $(".switch-btn, .switch-area").fadeToggle(300);
+            }
+        })
+    </script>
+
+
+
+
+    <script>
+        
+    </script>
+
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                &copy; 2019 Tony
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank">Hexo &nbsp;&nbsp;</a><a href="https://github.com/tony-yin/hexo-theme-shadow" target="_blank">Shadow</a> by tony
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style="display:none">
+                        <span id="site-visit">极客到访数: 
+                            <span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>, </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style="display:none">
+                        <span id="page-visit">本页阅读量: 
+                            <span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+
+    </div>
+    <script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script src="/js/main.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var backgroundnum = 4;
+            var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+            $("#mobile-nav").css({"background-image": backgroundimg,"background-size": "cover","background-position": "center"});
+            $(".left-col").css({"background-image": backgroundimg,"background-size": "cover","background-position": "center"});
+        })
+    </script>
+
+
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'xxxxx', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+
+	<script>
+	var _hmt = _hmt || [];
+	(function() {
+	  var hm = document.createElement("script");
+	  hm.src = "//hm.baidu.com/hm.js?xxxxxx";
+	  var s = document.getElementsByTagName("script")[0]; 
+	  s.parentNode.insertBefore(hm, s);
+	})();
+	</script>
+
+
+
+<div class="scroll" id="scroll">
+    <a href="#"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    $(document).ready(function() {
+        if ($("#comments").length < 1) {
+            $("#scroll > a:nth-child(2)").hide();
+        };
+    })
+</script>
+
+
+<script async src="https://cdn.jsdelivr.net/gh/sukkaw/busuanzi@2.3/bsz.pure.mini.js">
+</script>
+
+  <script language="javascript">
+    $(function() {
+        $("a[title]").each(function() {
+            var a = $(this);
+            var title = a.attr('title');
+            if (title == undefined || title == "") return;
+            a.data('title', title).removeAttr('title').hover(
+            function() {
+                var offset = a.offset();
+                $("<div id=\"anchortitlecontainer\"></div>").appendTo($("body")).html(title).css({
+                    top: offset.top - a.outerHeight() - 15,
+                    left: offset.left + a.outerWidth()/2 + 1
+                }).fadeIn(function() {
+                    var pop = $(this);
+                    setTimeout(function() {
+                        pop.remove();
+                    }, pop.text().length * 800);
+                });
+            }, function() {
+                $("#anchortitlecontainer").remove();
+            });
+        });
+    });
+</script>
+
+
+  </div>
+</body>
+</html>
